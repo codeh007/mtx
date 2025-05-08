@@ -1,9 +1,12 @@
 "use client";
 
+import { useAgent } from "agents/react";
 import { cn } from "mtxuilib/lib/utils";
 
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { memo } from "react";
+import { memo, useState } from "react";
+import { AgentNames } from "../../agent_state/shared";
+import type { ShortVideoAgentState } from "../../agents/shortvideo/shortvideo_agent_state";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { RemotionNextDemo1 } from "../remotion/RemotionNextDemo1";
 
@@ -12,8 +15,6 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
 }) {
   const { children } = props;
 
-  const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-  const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
   return (
     <div className={cn("flex h-full")}>
       {/* 左侧(聊天面板) */}
@@ -25,20 +26,38 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
 });
 
 export const WorkbenchContent = () => {
-  const activeArtiface = useWorkbenchStore((x) => x.activeArtiface);
-  const setActiveArtiface = useWorkbenchStore((x) => x.setActiveArtiface);
+  const assistantState = useWorkbenchStore((x) => x.assistantState);
+  const subAgents = assistantState?.subAgents;
   return (
-    <div className="w-full bg-slate-100">
-      {!activeArtiface && (
-        <div>
-          <RemotionNextDemo1 title={"一些文字333"} />{" "}
-        </div>
+    <div className="w-full">
+      {subAgents?.[AgentNames.shortVideoAg] && (
+        <ShortVideoAgentView agentId={subAgents[AgentNames.shortVideoAg]} />
       )}
-      {(activeArtiface as any) && (
-        <div>
-          <DebugValue data={activeArtiface} />
-        </div>
-      )}
+    </div>
+  );
+};
+
+interface ShortVideoAgentViewProps {
+  agentId: string;
+}
+const ShortVideoAgentView = ({ agentId }: ShortVideoAgentViewProps) => {
+  const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
+
+  const agentUrl = useWorkbenchStore((state) => state.agentUrl);
+  const agentPathPrefix = useWorkbenchStore((state) => state.agentPathPrefix);
+  const isDebug = useWorkbenchStore((state) => state.isDebug);
+
+  const shortVideoAgent = useAgent<ShortVideoAgentState>({
+    agent: AgentNames.shortVideoAg,
+    host: new URL(agentUrl).host,
+    prefix: agentPathPrefix,
+    name: agentId,
+    onStateUpdate: (newState) => setShortVideoAgentState(newState),
+  });
+  return (
+    <div className="w-full h-full">
+      {isDebug && <DebugValue data={shortVideoAgentState} />}
+      <RemotionNextDemo1 title={shortVideoAgentState.video_subject} />
     </div>
   );
 };

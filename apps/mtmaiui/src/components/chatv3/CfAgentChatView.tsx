@@ -14,7 +14,7 @@ import { useToast } from "mtxuilib/ui/use-toast";
 import { useState } from "react";
 import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state/chat_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
-import type { ShortVideoAgentState } from "../../agent_state/shortvideo_agent_state";
+import type { ShortVideoAgentState } from "../../agents/shortvideo/shortvideo_agent_state";
 import type { tools } from "../../agents/tools";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";

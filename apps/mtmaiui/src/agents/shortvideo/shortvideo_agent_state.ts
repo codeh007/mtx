@@ -1,10 +1,22 @@
-import type { LogMessage, MessageRunSchedule, ScheduleMessage } from "./shared";
+import type {
+  AgentStateBase,
+  LogMessage,
+  MessageRunSchedule,
+  ScheduleMessage,
+} from "../../agent_state/shared";
 
-export type ShortVideoAgentState = {
-  // 其他相关 api 断点
+export interface ShortVideoAgentState extends AgentStateBase {
+  // 其他相关 api 端点
   mtmai_api_endpoint: string;
   // 短视频生成相关
   video_subject: string;
+  scenes: ShortVideoScene[];
+}
+
+export type ShortVideoScene = {
+  title: string;
+  description: string;
+  image: string;
 };
 
 export type ShortVideoInMessage = ShortVideoTopicMessage | ShortVideoRunWorkflowMessage;

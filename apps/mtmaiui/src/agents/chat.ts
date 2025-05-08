@@ -12,13 +12,12 @@ import {
   tool,
 } from "ai";
 import { z } from "zod";
-import {
-  AgentNames,
-  type ChatAgentIncomingMessage,
-  type ChatAgentOutgoingMessage,
-  type ChatAgentState,
+import type {
+  ChatAgentIncomingMessage,
+  ChatAgentOutgoingMessage,
+  ChatAgentState,
 } from "../agent_state/chat_agent_state";
-import type { OutgoingMessage } from "../agent_state/shared";
+import { AgentNames, type OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
 import type { ShortVideoAg } from "./shortvideo/shortvideo_agent";
@@ -236,7 +235,7 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
               ...this.state,
               subAgents: {
                 ...this.state.subAgents,
-                [shortVideoAgent.name]: shortAgId,
+                [AgentNames.shortVideoAg]: shortAgId,
               },
             });
             // ! Fixme: 工具调用,应尽可能返回文本

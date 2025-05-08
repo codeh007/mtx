@@ -11,13 +11,10 @@ import {
 } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
 import { connection } from "next/server";
-import type {
-  ShortVideoAgentState,
-  ShortVideoInMessage,
-} from "../../agent_state/shortvideo_agent_state";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
 import { tools } from "../tools";
+import type { ShortVideoAgentState, ShortVideoInMessage } from "./shortvideo_agent_state";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -199,25 +196,25 @@ Input to parse: "${userInput}"`,
     this.notifySchedule(schedule, connection);
   }
 
-  async onTest3(connection: Connection) {
-    this.log("onTest3 启动");
-    // schedule a task to run every 10 seconds
-    // const { id } = await this.schedule("*/20 * * * *", "someTask", { message: "hello" });
+  // async onTest3(connection: Connection) {
+  //   this.log("onTest3 启动");
+  //   // schedule a task to run every 10 seconds
+  //   // const { id } = await this.schedule("*/20 * * * *", "someTask", { message: "hello" });
 
-    // schedule a task to run in 10 seconds
-    const task = await this.schedule(10, "someTask", { message: "hello" });
-    this.setState({
-      schedules: [...this.state.schedules, task],
-    });
-  }
+  //   // schedule a task to run in 10 seconds
+  //   const task = await this.schedule(10, "someTask", { message: "hello" });
+  //   this.setState({
+  //     schedules: [...this.state.schedules, task],
+  //   });
+  // }
 
-  async someTask(params: { message: string }) {
-    this.log("someTask启动", params);
-    this.setState({
-      schedules: this.state.schedules.filter((t) => t.id !== params.id),
-      scheduleFinished: [...this.state.scheduleFinished, params.id],
-    });
-  }
+  // async someTask(params: { message: string }) {
+  //   this.log("someTask启动", params);
+  //   this.setState({
+  //     schedules: this.state.schedules.filter((t) => t.id !== params.id),
+  //     scheduleFinished: [...this.state.scheduleFinished, params.id],
+  //   });
+  // }
 
   async onRunWorkflowShortvideo(connection: Connection, event: any) {
     this.log("onRunWorkflowShortvideo启动");
@@ -250,7 +247,54 @@ Input to parse: "${userInput}"`,
   }
 
   @callable()
-  async onGenShortVideo(query: string) {
-    return { data: "onGenShortVideo fake results" };
+  async onGenShortVideo(topic: string) {
+    // 主标题生成
+    const genTitlePrompt = `你是专业的视频生成助手, 请根据以下内容, 生成一个视频标题, 视频标题需要符合以下要求:
+    1. 适合发布到 tiktok 平台:
+    2. 仅输出标题,不要解释和啰嗦
+
+    <topic>
+    输入内容: ${topic}
+    </topic>
+    `;
+
+    const textResult = await generateText({
+      model: getDefaultModel(this.env),
+      messages: [{ role: "user", content: genTitlePrompt }],
+    });
+
+    this.setState({
+      ...this.state,
+      video_subject: textResult.text,
+    });
+
+    return textResult.text;
+  }
+
+  @callable()
+  async onGenScenes(topic: string) {
+    // 场景生成
+    const genScenesPrompt = `你是专业的视频生成助手, 请根据以下内容, 生成视频场景.
+
+    <要求>
+    1. 适合发布到 tiktok 平台:
+    2. 仅输出场景,不要解释和啰嗦
+    3. 场景需要符合视频标题
+    </要求>
+
+    <topic>
+    ${topic}
+    </topic>
+    <title>
+    视频标题: ${this.state.video_subject}
+    </title>
+
+    `;
+
+    const textResult = await generateText({
+      model: getDefaultModel(this.env),
+      messages: [{ role: "user", content: genScenesPrompt }],
+    });
+    return textResult.text;
   }
 }

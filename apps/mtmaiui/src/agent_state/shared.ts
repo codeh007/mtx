@@ -6,6 +6,18 @@ export const APPROVAL = {
   NO: "No, denied.",
 } as const;
 
+export const AgentNames = {
+  shortVideoAg: "short-video-ag",
+} as const;
+
+export interface AgentStateBase {
+  lastUpdated: number;
+  error?: string;
+  enabledDebug?: boolean;
+  // 子 agent, 让前端可以判断和显示子 agent 视图
+  subAgents: Record<string, string>;
+}
+
 export type McpServer = {
   url: string;
   state: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
