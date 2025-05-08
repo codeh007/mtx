@@ -29,7 +29,6 @@ const TenantRouteLazyImport = createFileRoute('/tenant')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const RevedioRouteLazyImport = createFileRoute('/revedio')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
-const RemotiondemoRouteLazyImport = createFileRoute('/remotion_demo')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
@@ -70,7 +69,6 @@ const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const RevedioIndexLazyImport = createFileRoute('/revedio/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
-const RemotiondemoIndexLazyImport = createFileRoute('/remotion_demo/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
@@ -347,14 +345,6 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
 )
 
-const RemotiondemoRouteLazyRoute = RemotiondemoRouteLazyImport.update({
-  id: '/remotion_demo',
-  path: '/remotion_demo',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~remotion_demo/~route.lazy').then((d) => d.Route),
-)
-
 const RecurringRouteLazyRoute = RecurringRouteLazyImport.update({
   id: '/recurring',
   path: '/recurring',
@@ -602,14 +592,6 @@ const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   getParentRoute: () => ResourceRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~index.lazy').then((d) => d.Route),
-)
-
-const RemotiondemoIndexLazyRoute = RemotiondemoIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RemotiondemoRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~remotion_demo/~index.lazy').then((d) => d.Route),
 )
 
 const RecurringIndexLazyRoute = RecurringIndexLazyImport.update({
@@ -1599,13 +1581,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecurringRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/remotion_demo': {
-      id: '/remotion_demo'
-      path: '/remotion_demo'
-      fullPath: '/remotion_demo'
-      preLoaderRoute: typeof RemotiondemoRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/resource': {
       id: '/resource'
       path: '/resource'
@@ -1731,13 +1706,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/recurring/'
       preLoaderRoute: typeof RecurringIndexLazyImport
       parentRoute: typeof RecurringRouteLazyImport
-    }
-    '/remotion_demo/': {
-      id: '/remotion_demo/'
-      path: '/'
-      fullPath: '/remotion_demo/'
-      preLoaderRoute: typeof RemotiondemoIndexLazyImport
-      parentRoute: typeof RemotiondemoRouteLazyImport
     }
     '/resource/': {
       id: '/resource/'
@@ -2730,19 +2698,6 @@ const RecurringRouteLazyRouteChildren: RecurringRouteLazyRouteChildren = {
 const RecurringRouteLazyRouteWithChildren =
   RecurringRouteLazyRoute._addFileChildren(RecurringRouteLazyRouteChildren)
 
-interface RemotiondemoRouteLazyRouteChildren {
-  RemotiondemoIndexLazyRoute: typeof RemotiondemoIndexLazyRoute
-}
-
-const RemotiondemoRouteLazyRouteChildren: RemotiondemoRouteLazyRouteChildren = {
-  RemotiondemoIndexLazyRoute: RemotiondemoIndexLazyRoute,
-}
-
-const RemotiondemoRouteLazyRouteWithChildren =
-  RemotiondemoRouteLazyRoute._addFileChildren(
-    RemotiondemoRouteLazyRouteChildren,
-  )
-
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
 }
@@ -3394,7 +3349,6 @@ export interface FileRoutesByFullPath {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
-  '/remotion_demo': typeof RemotiondemoRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
@@ -3413,7 +3367,6 @@ export interface FileRoutesByFullPath {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
-  '/remotion_demo/': typeof RemotiondemoIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
@@ -3529,7 +3482,6 @@ export interface FileRoutesByTo {
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/proxy': typeof ProxyIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
-  '/remotion_demo': typeof RemotiondemoIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/revedio': typeof RevedioIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
@@ -3603,7 +3555,6 @@ export interface FileRoutesById {
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
-  '/remotion_demo': typeof RemotiondemoRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
@@ -3622,7 +3573,6 @@ export interface FileRoutesById {
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
-  '/remotion_demo/': typeof RemotiondemoIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
@@ -3738,7 +3688,6 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/proxy'
     | '/recurring'
-    | '/remotion_demo'
     | '/resource'
     | '/revedio'
     | '/scheduled-runs'
@@ -3757,7 +3706,6 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
-    | '/remotion_demo/'
     | '/resource/'
     | '/revedio/'
     | '/scheduled-runs/'
@@ -3872,7 +3820,6 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/proxy'
     | '/recurring'
-    | '/remotion_demo'
     | '/resource'
     | '/revedio'
     | '/scheduled-runs'
@@ -3944,7 +3891,6 @@ export interface FileRouteTypes {
     | '/platform-account'
     | '/proxy'
     | '/recurring'
-    | '/remotion_demo'
     | '/resource'
     | '/revedio'
     | '/scheduled-runs'
@@ -3963,7 +3909,6 @@ export interface FileRouteTypes {
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
-    | '/remotion_demo/'
     | '/resource/'
     | '/revedio/'
     | '/scheduled-runs/'
@@ -4078,7 +4023,6 @@ export interface RootRouteChildren {
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
-  RemotiondemoRouteLazyRoute: typeof RemotiondemoRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   RevedioRouteLazyRoute: typeof RevedioRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
@@ -4105,7 +4049,6 @@ const rootRouteChildren: RootRouteChildren = {
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
-  RemotiondemoRouteLazyRoute: RemotiondemoRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   RevedioRouteLazyRoute: RevedioRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
@@ -4144,7 +4087,6 @@ export const routeTree = rootRoute
         "/platform-account",
         "/proxy",
         "/recurring",
-        "/remotion_demo",
         "/resource",
         "/revedio",
         "/scheduled-runs",
@@ -4228,12 +4170,6 @@ export const routeTree = rootRoute
       "filePath": "~recurring/~route.lazy.tsx",
       "children": [
         "/recurring/"
-      ]
-    },
-    "/remotion_demo": {
-      "filePath": "~remotion_demo/~route.lazy.tsx",
-      "children": [
-        "/remotion_demo/"
       ]
     },
     "/resource": {
@@ -4326,10 +4262,6 @@ export const routeTree = rootRoute
     "/recurring/": {
       "filePath": "~recurring/~index.lazy.tsx",
       "parent": "/recurring"
-    },
-    "/remotion_demo/": {
-      "filePath": "~remotion_demo/~index.lazy.tsx",
-      "parent": "/remotion_demo"
     },
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",

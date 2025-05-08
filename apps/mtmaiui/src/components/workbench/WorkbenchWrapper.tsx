@@ -12,7 +12,7 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
   const { children } = props;
 
   const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
-  const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
+  const setOpenWorkbench = useWorkbenchStore((x) => x.setOpenWorkbench);
   return (
     <div
       className={cn("relative w-full h-full overflow-hidden caret-lime-100", {
@@ -30,14 +30,13 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
         className="absolute inset-0 z-workbench"
       >
         <div className="w-full h-full overflow-auto">{children}</div>
+        <div>todo right panel</div>
       </motion.div>
     </div>
   );
 });
 
-export const WorkbenchHeader = memo(function WorkbenchHeader(
-  props: PropsWithChildren,
-) {
+export const WorkbenchHeader = memo(function WorkbenchHeader(props: PropsWithChildren) {
   const { children } = props;
 
   return (
@@ -56,9 +55,7 @@ export const WorkbenchHeader = memo(function WorkbenchHeader(
   );
 });
 
-export const WorkbenchContent = memo(function WorkbenchContent(
-  props: PropsWithChildren,
-) {
+export const WorkbenchContent = memo(function WorkbenchContent(props: PropsWithChildren) {
   const { children } = props;
   return <div className="w-full">{children}</div>;
 });

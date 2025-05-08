@@ -10,11 +10,8 @@ interface ViewProps extends HTMLMotionProps<"div"> {
 
 export const WorkbenchView = memo(({ children, ...props }: ViewProps) => {
   return (
-    <motion.div
-      className="absolute inset-0"
-      transition={viewTransition}
-      {...props}
-    >
+    <motion.div className="absolute inset-0" transition={viewTransition} {...props}>
+      WorkbenchView
       {children}
     </motion.div>
   );
