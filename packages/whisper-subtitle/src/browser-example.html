@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语音转字幕</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+        }
+        #result {
+            white-space: pre-wrap;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>语音转字幕</h1>
+        <div class="input-group">
+            <label for="apiKey">OpenAI API Key:</label>
+            <input type="password" id="apiKey" placeholder="输入你的 OpenAI API Key">
+        </div>
+        <div class="input-group">
+            <label for="audioFile">选择音频文件:</label>
+            <input type="file" id="audioFile" accept="audio/*">
+        </div>
+        <button id="generateBtn" disabled>生成字幕</button>
+        <div id="result"></div>
+    </div>
+
+    <script type="module">
+        import { WhisperSubtitle } from './index.js';
+
+        const apiKeyInput = document.getElementById('apiKey');
+        const audioFileInput = document.getElementById('audioFile');
+        const generateBtn = document.getElementById('generateBtn');
+        const resultDiv = document.getElementById('result');
+
+        // 检查输入是否完整
+        function checkInputs() {
+            generateBtn.disabled = !apiKeyInput.value || !audioFileInput.files.length;
+        }
+
+        apiKeyInput.addEventListener('input', checkInputs);
+        audioFileInput.addEventListener('change', checkInputs);
+
+        generateBtn.addEventListener('click', async () => {
+            try {
+                generateBtn.disabled = true;
+                resultDiv.textContent = '处理中...';
+
+                const subtitleGenerator = new WhisperSubtitle({
+                    apiKey: apiKeyInput.value,
+                    language: 'zh'
+                });
+
+                const audioFile = audioFileInput.files[0];
+                const srtContent = await subtitleGenerator.generateSubtitle(audioFile);
+                
+                resultDiv.textContent = srtContent;
+            } catch (error) {
+                resultDiv.textContent = `错误: ${error.message}`;
+            } finally {
+                generateBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,25 @@
+{
+  "name": "@mtx/whisper-subtitle",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "@ffmpeg/util": "^0.12.1",
+    "openai": "^4.28.0",
+    "srt-parser-2": "^1.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  }
+}

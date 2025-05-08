@@ -53,29 +53,50 @@ export async function generateAudioViaGet(text, voice = "alloy") {
     voice: voice,
   });
   const url = `https://text.pollinations.ai/${encodedText}?${params.toString()}`;
-  // const response = await fetch(url);
-
-  // if (!response.ok) {
-  //   const errorText = await response.text();
-  //   throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-  // }
-
-  // if (response.headers.get("Content-Type")?.includes("audio/mpeg")) {
-  //   const audioBlob = await response.blob();
-  //   const audioUrl = URL.createObjectURL(audioBlob);
-
-  //   // Example: Play the audio
-  //   const audio = new Audio(audioUrl);
-  //   audio.play();
-  //   console.log("Audio generated and playing.");
-  // } else {
-  //   const errorText = await response.text();
-  //   console.error("Expected audio, received:", response.headers.get("Content-Type"), errorText);
-  //   throw new Error("API did not return audio content.");
-  // }
-  // 仅返回网址即可
+  // 仅返回网址即可, 因为使用相同网址可以直接下载这个音频文件
   return url;
 }
 
-// --- Usage ---
-// generateAudioGet("This audio comes from a GET request.", "shimmer");
+/**
+ * 生成字幕(srt格式)
+ * @param base64AudioData 音频数据
+ * @param audioFormat 音频格式: mp3, m4a, wav, webm
+ * @returns 字幕
+ */
+export async function generateSrt(base64AudioData: string, audioFormat: string) {
+  const url = "https://text.pollinations.ai/openai";
+  const payload = {
+    model: "openai-audio",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "请根据音频生成字幕, 返回srt格式" },
+          {
+            type: "input_audio",
+            input_audio: {
+              data: base64AudioData,
+              format: audioFormat,
+            },
+          },
+        ],
+      },
+    ],
+    // Optional: Add parameters like 'language'
+  };
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+  }
+  const result: any = await response.json();
+  const transcription = result?.choices?.[0]?.message?.content;
+  // console.log("Transcription:", transcription);
+  return transcription;
+}

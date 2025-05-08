@@ -73,6 +73,8 @@ export const UserFAB = () => {
             <DropdownMenuSeparator />
             <AdminFABDropdownMenuContent />
             <DropdownMenuSeparator />
+            <TestingMenuContent />
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>Team</DropdownMenuItem>
               <DropdownMenuSub>
@@ -113,9 +115,7 @@ const UserFABDropdownMenuContent = () => {
         <DropdownMenuGroup key={item.title}>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              {item.icon && (
-                <IconX name={item.icon} className="size-5 m-0 p-0" />
-              )}
+              {item.icon && <IconX name={item.icon} className="size-5 m-0 p-0" />}
               <span className="text-lg font-semibold">{item.title}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -175,6 +175,49 @@ const AdminFABDropdownMenuContent = () => {
               }}
             >
               清理数据库表
+            </DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuPortal>
+      </DropdownMenuSub>
+    </DropdownMenuGroup>
+  );
+};
+
+const TestingMenuContent = () => {
+  const toast = useToast();
+  const adminReleaseConn = useMutation({
+    ...adminReleaseConnMutation(),
+    onSuccess: () => {
+      toast.toast({
+        title: "释放数据库连接成功",
+      });
+    },
+  });
+
+  return (
+    <DropdownMenuGroup>
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger>临时测试</DropdownMenuSubTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem
+              onClick={async () => {
+                const url = "https://text.pollinations.ai/openai";
+                const payload = {
+                  model: "openai-audio",
+                  messages: [{ role: "user", content: "你好" }],
+                  voice: "alloy",
+                };
+                const response = await fetch(url, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(payload),
+                });
+                const data = await response.text();
+                console.log(data);
+              }}
+            >
+              测试1
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>

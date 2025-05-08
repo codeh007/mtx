@@ -1,24 +1,34 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { unstable_callable as callable } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
-import { generateId, generateObject } from "ai";
+import {
+  type StreamTextOnFinishCallback,
+  type ToolSet,
+  createDataStreamResponse,
+  generateId,
+  generateObject,
+  streamText,
+} from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
+import type { SceneSchema } from "mtremotion/types/schema";
 import { z } from "zod";
 import { genImage } from "../../agent_utils/text2image";
-import { generateAudioViaGet } from "../../agent_utils/tts";
+import { generateAudioViaGet, generateSrt } from "../../agent_utils/tts";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
+import { tools } from "../tools";
 import type { ShortVideoAgentState, ShortVideoInMessage } from "./shortvideo_agent_state";
-
-const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
 export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   initialState = {
-    mtmai_api_endpoint: mcpServerUrl,
+    mtmai_api_endpoint: "https://colab-7860.yuepa8.com/sse",
     video_subject: "",
     mainSence: {
       title: "",
       subScenes: [],
+      fps: 30,
+      width: 1080,
+      height: 1920,
     },
     videoMeta: {
       fps: 30,
@@ -48,62 +58,39 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     }
   }
 
-  // async onChatMessage(
-  //   onFinish: StreamTextOnFinishCallback<ToolSet>,
-  //   options?: { abortSignal?: AbortSignal },
-  // ) {
-  //   this.log("(onChatMessage)开始");
-  //   const mcpClient = await experimental_createMCPClient({
-  //     transport: {
-  //       type: "sse",
-  //       url: mcpServerUrl,
-  //     },
-  //   });
-  //   try {
-  //     const model = getDefaultModel(this.env);
-  //     const lastestMessage = this.messages?.[this.messages.length - 1];
-  //     const userInput = lastestMessage?.content;
-  //     this.log("userInput", userInput);
-  //     if (userInput?.startsWith("/test1")) {
-  //       this.log("onTest1");
-  //       await this.onTest1();
-  //     } else if (userInput?.startsWith("/test2")) {
-  //       this.log("onTest2");
-  //       await this.onTest2(connection);
-  //     } else if (userInput?.startsWith("/reset")) {
-  //       this.log("onReset");
-  //       await this.onReset();
-  //     } else {
-  //       this.log("onChatMessage");
-  //       await mcpClient.init();
-  //       const mcptools = await mcpClient.tools();
+  async onChatMessage(
+    onFinish: StreamTextOnFinishCallback<ToolSet>,
+    options?: { abortSignal?: AbortSignal },
+  ) {
+    const model = getDefaultModel(this.env);
+    const lastestMessage = this.messages?.[this.messages.length - 1];
+    const userInput = lastestMessage?.content;
+    const dataStreamResponse = createDataStreamResponse({
+      execute: async (dataStream) => {
+        const result = streamText({
+          model,
+          messages: this.messages,
+          tools: this.getTools(),
+          onFinish: (result) => {
+            onFinish(result);
+          },
+          onError: (error) => {
+            console.log("onStreamText error", error);
+          },
+        });
+        result.mergeIntoDataStream(dataStream);
+      },
+    });
 
-  //       const dataStreamResponse = createDataStreamResponse({
-  //         execute: async (dataStream) => {
-  //           const result = streamText({
-  //             model,
-  //             messages: this.messages,
-  //             tools: { ...tools, ...mcptools },
-  //             onFinish: (result) => {
-  //               onFinish(result);
-  //             },
-  //             onError: (error) => {
-  //               this.handleException(error);
-  //             },
-  //           });
-  //           result.mergeIntoDataStream(dataStream);
-  //         },
-  //       });
-  //       return dataStreamResponse;
-  //     }
-  //   } catch (error) {
-  //     this.handleException(error);
-  //   } finally {
-  //     await mcpClient.close();
-  //     this.log("对话结束, mcpClient closed");
-  //   }
-  // }
+    return dataStreamResponse;
+  }
 
+  getTools() {
+    return { ...tools, ...this.toolGenShortVideo() };
+  }
+  toolGenShortVideo() {
+    return {};
+  }
   async onTest1() {
     const model = getDefaultModel(this.env);
     try {
@@ -248,6 +235,7 @@ Input to parse: "${userInput}"`,
       await this.stepGenTopic(topic);
       await this.stepGenShortVideoScript(topic);
       await this.stepGenSpeech(topic);
+      await this.stepGenSrt();
       await this.stepGenScence(topic);
 
       return "视频生成成功";
@@ -303,10 +291,49 @@ Input to parse: "${userInput}"`,
   }
   @callable()
   async stepGenSpeech(topic: string) {
-    const speechResult = await generateAudioViaGet(topic);
+    // 生成解说语音解说
+    const genSpeechPrompt = `你是专业的视频生成助手, 请根据以下内容, 生成一个视频解说语音, 视频解说语音需要符合以下要求:
+    1. 适合发布到 tiktok 平台:
+    2. 仅输出语音,不要解释和啰嗦
+
+    <topic>
+    视频主题: ${topic}
+    </topic>
+    <剧本>
+    视频脚本: ${this.state.video_script}
+    </剧本>
+    `;
+
+    const speechText = await generateText({
+      model: getDefaultModel(this.env),
+      messages: [{ role: "user", content: genSpeechPrompt }],
+    });
+
+    const speechResult = await generateAudioViaGet(speechText.text);
     this.setState({
       ...this.state,
       speechUrl: speechResult,
+    });
+  }
+  @callable()
+  async stepGenSrt() {
+    // 语音解说字幕
+    if (!this.state.speechUrl) {
+      throw new Error("语音解说不存在");
+    }
+    const audioResponse = await fetch(this.state.speechUrl);
+    const audioBytes = await audioResponse.arrayBuffer();
+    if (!audioBytes.byteLength) {
+      throw new Error("语音解说音频不正确");
+    }
+
+    const audioFormat = "mp3";
+    const audioBase64 = Buffer.from(audioBytes).toString("base64");
+    const srt = await generateSrt(audioBase64, audioFormat);
+
+    this.setState({
+      ...this.state,
+      srt,
     });
   }
   @callable()
@@ -352,7 +379,7 @@ Input to parse: "${userInput}"`,
         messages: [{ role: "user", content: genScenesPrompt }],
       });
 
-      const scenes: z.infer<typeof ShortVideoScencesSchema> = [];
+      const scenes: z.infer<typeof SceneSchema>[] = [];
       for (const scene of objResult.object) {
         const imageResult = await genImage(scene.imageGeneratePrompt);
         scenes.push({

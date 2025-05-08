@@ -1,4 +1,4 @@
-import type { MainSenceSchema } from "mtremotion/types/constants";
+import type { MainSenceSchema } from "mtremotion/types/schema";
 import type { z } from "zod";
 import type {
   AgentStateBase,
@@ -15,6 +15,9 @@ export interface ShortVideoAgentState extends AgentStateBase {
   video_script?: string;
   speechUrl?: string;
   mainSence: z.infer<typeof MainSenceSchema>;
+  // 字幕
+  srt?: string;
+  // 视频元数据
   videoMeta: {
     fps: number;
     width: number;

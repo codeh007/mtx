@@ -2,7 +2,8 @@ import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
 import { Audio } from "remotion";
 import type { z } from "zod";
-import type { MainSenceSchema } from "../../types/constants";
+import { Subtitles } from "../../components/Subtitles";
+import type { MainSenceSchema } from "../../types/schema";
 import { NextLogoSence } from "./NextLogoSence";
 import { TextFade } from "./TextFade";
 loadFont("normal", {
@@ -12,7 +13,7 @@ loadFont("normal", {
 export const MainSence = (props: z.infer<typeof MainSenceSchema>) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { title, subScenes, speechUrl } = props;
+  const { title, subScenes, speechUrl, bgmUrl, subtitles } = props;
   if (!subScenes || subScenes.length === 0) {
     return (
       <>
@@ -66,10 +67,28 @@ export const MainSence = (props: z.infer<typeof MainSenceSchema>) => {
         );
       })}
 
-      {/* 解说 */}
-      {speechUrl && (
+      {/* 人声解说 */}
+      {/* {speechUrl && ( */}
+      <Sequence from={0} durationInFrames={1000}>
+        <Audio
+          src={
+            "https://text.pollinations.ai/%E5%8B%87%E6%95%A2%E6%88%98%E6%96%97?model=openai-audio&voice=alloy"
+          }
+        />
+      </Sequence>
+      {/* )} */}
+
+      {/* 背景音乐 */}
+      {bgmUrl && (
         <Sequence from={0}>
-          <Audio src={speechUrl} />
+          <Audio src={bgmUrl} />
+        </Sequence>
+      )}
+
+      {/* 字幕 */}
+      {subtitles && (
+        <Sequence from={0}>
+          <Subtitles />
         </Sequence>
       )}
     </AbsoluteFill>

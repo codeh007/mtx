@@ -1,7 +1,7 @@
 import type { RenderMediaOnLambdaOutput } from "@remotion/lambda/client";
 import type { z } from "zod";
 import type { ApiResponse } from "../helpers/api-response";
-import type { MainSenceSchema } from "../types/constants";
+import type { MainSenceSchema } from "../types/schema";
 import type { ProgressRequest, ProgressResponse, RenderRequest } from "../types/schema";
 
 const makeRequest = async <Res>(endpoint: string, body: unknown): Promise<Res> => {

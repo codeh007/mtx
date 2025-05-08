@@ -1,20 +1,18 @@
 import { Composition } from "remotion";
-import {
-  COMP_NAME,
-  DURATION_IN_FRAMES,
-  VIDEO_FPS,
-  VIDEO_HEIGHT,
-  VIDEO_WIDTH,
-  defaultMyCompProps,
-} from "../types/constants";
-import { MainSence } from "./MyComp/Main";
+// import {
+//   COMP_NAME,
+//   DURATION_IN_FRAMES,
+//   VIDEO_FPS,
+//   VIDEO_HEIGHT,
+//   VIDEO_WIDTH,
+//   defaultMyCompProps,
+// } from "../types/schema";
 import { NextLogo } from "./MyComp/NextLogo";
-import { SingleImageSence } from "./MyComp/SingleImageSence";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      <Composition
+      {/* <Composition
         id={COMP_NAME}
         component={MainSence}
         durationInFrames={DURATION_IN_FRAMES}
@@ -22,7 +20,7 @@ export const RemotionRoot: React.FC = () => {
         width={VIDEO_WIDTH}
         height={VIDEO_HEIGHT}
         defaultProps={defaultMyCompProps}
-      />
+      /> */}
       <Composition
         id="NextLogo"
         component={NextLogo}
@@ -34,7 +32,7 @@ export const RemotionRoot: React.FC = () => {
           outProgress: 0,
         }}
       />
-      <Composition
+      {/* <Composition
         id="SingleImageSence"
         component={SingleImageSence}
         durationInFrames={300}
@@ -45,7 +43,7 @@ export const RemotionRoot: React.FC = () => {
           image: "https://picsum.photos/200/300",
           title: "场景: SingleImageSence",
         }}
-      />
+      /> */}
     </>
   );
 };

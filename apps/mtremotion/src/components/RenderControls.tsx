@@ -1,6 +1,6 @@
 import type { z } from "zod";
 import { useRendering } from "../helpers/use-rendering";
-import { COMP_NAME, type MainSenceSchema } from "../types/constants";
+import type { MainSenceSchema } from "../types/schema";
 import { AlignEnd } from "./AlignEnd";
 import { Button } from "./Button";
 import { InputContainer } from "./Container";
@@ -15,7 +15,7 @@ export const RenderControls: React.FC<{
   setText: React.Dispatch<React.SetStateAction<string>>;
   inputProps: z.infer<typeof MainSenceSchema>;
 }> = ({ text, setText, inputProps }) => {
-  const { renderMedia, state, undo } = useRendering(COMP_NAME, inputProps);
+  const { renderMedia, state, undo } = useRendering("MyComp", inputProps);
 
   return (
     <InputContainer>
