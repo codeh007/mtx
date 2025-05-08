@@ -10,6 +10,7 @@ import {
 import { Main } from "./MyComp/Main";
 import { NextLogo } from "./MyComp/NextLogo";
 import { Sence2 } from "./Sence2/Sence2";
+import { SingleImageSence } from "./SingleImageSence/SingleImageSence";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -44,6 +45,18 @@ export const RemotionRoot: React.FC = () => {
         defaultProps={{
           title: "场景2",
           subtitle: "练习",
+        }}
+      />
+      <Composition
+        id="SingleImageSence"
+        component={SingleImageSence}
+        durationInFrames={300}
+        fps={30}
+        width={VIDEO_WIDTH}
+        height={VIDEO_HEIGHT}
+        defaultProps={{
+          image: "https://picsum.photos/200/300",
+          title: "场景: SingleImageSence",
         }}
       />
     </>
