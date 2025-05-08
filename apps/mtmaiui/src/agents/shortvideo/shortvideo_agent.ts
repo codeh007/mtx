@@ -1,27 +1,14 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { unstable_callable as callable } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
-import {
-  type StreamTextOnFinishCallback,
-  type ToolSet,
-  createDataStreamResponse,
-  generateId,
-  generateObject,
-  streamText,
-} from "ai";
+import { generateId, generateObject } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
-import { connection } from "next/server";
 import { z } from "zod";
 import { genImage } from "../../agent_utils/text2image";
 import { generateAudioViaGet } from "../../agent_utils/tts";
 import { getDefaultModel } from "../../components/cloudflare-agents/model";
 import { ChatAgentBase } from "../ChatAgentBase";
-import { tools } from "../tools";
-import type {
-  ShortVideoAgentState,
-  ShortVideoInMessage,
-  ShortVideoScencesSchema,
-} from "./shortvideo_agent_state";
+import type { ShortVideoAgentState, ShortVideoInMessage } from "./shortvideo_agent_state";
 
 const mcpServerUrl = "https://colab-7860.yuepa8.com/sse";
 
@@ -29,11 +16,14 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   initialState = {
     mtmai_api_endpoint: mcpServerUrl,
     video_subject: "",
-    // schedules: [],
-    // scheduleFinished: [] as Schedule<string>[],
     mainSence: {
       title: "",
       subScenes: [],
+    },
+    videoMeta: {
+      fps: 30,
+      width: 1080,
+      height: 1920,
     },
   } satisfies ShortVideoAgentState;
 
@@ -58,61 +48,61 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     }
   }
 
-  async onChatMessage(
-    onFinish: StreamTextOnFinishCallback<ToolSet>,
-    options?: { abortSignal?: AbortSignal },
-  ) {
-    this.log("(onChatMessage)开始");
-    const mcpClient = await experimental_createMCPClient({
-      transport: {
-        type: "sse",
-        url: mcpServerUrl,
-      },
-    });
-    try {
-      const model = getDefaultModel(this.env);
-      const lastestMessage = this.messages?.[this.messages.length - 1];
-      const userInput = lastestMessage?.content;
-      this.log("userInput", userInput);
-      if (userInput?.startsWith("/test1")) {
-        this.log("onTest1");
-        await this.onTest1();
-      } else if (userInput?.startsWith("/test2")) {
-        this.log("onTest2");
-        await this.onTest2(connection);
-      } else if (userInput?.startsWith("/reset")) {
-        this.log("onReset");
-        await this.onReset();
-      } else {
-        this.log("onChatMessage");
-        await mcpClient.init();
-        const mcptools = await mcpClient.tools();
+  // async onChatMessage(
+  //   onFinish: StreamTextOnFinishCallback<ToolSet>,
+  //   options?: { abortSignal?: AbortSignal },
+  // ) {
+  //   this.log("(onChatMessage)开始");
+  //   const mcpClient = await experimental_createMCPClient({
+  //     transport: {
+  //       type: "sse",
+  //       url: mcpServerUrl,
+  //     },
+  //   });
+  //   try {
+  //     const model = getDefaultModel(this.env);
+  //     const lastestMessage = this.messages?.[this.messages.length - 1];
+  //     const userInput = lastestMessage?.content;
+  //     this.log("userInput", userInput);
+  //     if (userInput?.startsWith("/test1")) {
+  //       this.log("onTest1");
+  //       await this.onTest1();
+  //     } else if (userInput?.startsWith("/test2")) {
+  //       this.log("onTest2");
+  //       await this.onTest2(connection);
+  //     } else if (userInput?.startsWith("/reset")) {
+  //       this.log("onReset");
+  //       await this.onReset();
+  //     } else {
+  //       this.log("onChatMessage");
+  //       await mcpClient.init();
+  //       const mcptools = await mcpClient.tools();
 
-        const dataStreamResponse = createDataStreamResponse({
-          execute: async (dataStream) => {
-            const result = streamText({
-              model,
-              messages: this.messages,
-              tools: { ...tools, ...mcptools },
-              onFinish: (result) => {
-                onFinish(result);
-              },
-              onError: (error) => {
-                this.handleException(error);
-              },
-            });
-            result.mergeIntoDataStream(dataStream);
-          },
-        });
-        return dataStreamResponse;
-      }
-    } catch (error) {
-      this.handleException(error);
-    } finally {
-      await mcpClient.close();
-      this.log("对话结束, mcpClient closed");
-    }
-  }
+  //       const dataStreamResponse = createDataStreamResponse({
+  //         execute: async (dataStream) => {
+  //           const result = streamText({
+  //             model,
+  //             messages: this.messages,
+  //             tools: { ...tools, ...mcptools },
+  //             onFinish: (result) => {
+  //               onFinish(result);
+  //             },
+  //             onError: (error) => {
+  //               this.handleException(error);
+  //             },
+  //           });
+  //           result.mergeIntoDataStream(dataStream);
+  //         },
+  //       });
+  //       return dataStreamResponse;
+  //     }
+  //   } catch (error) {
+  //     this.handleException(error);
+  //   } finally {
+  //     await mcpClient.close();
+  //     this.log("对话结束, mcpClient closed");
+  //   }
+  // }
 
   async onTest1() {
     const model = getDefaultModel(this.env);
@@ -257,6 +247,7 @@ Input to parse: "${userInput}"`,
     try {
       await this.stepGenTopic(topic);
       await this.stepGenShortVideoScript(topic);
+      await this.stepGenSpeech(topic);
       await this.stepGenScence(topic);
 
       return "视频生成成功";
@@ -311,11 +302,11 @@ Input to parse: "${userInput}"`,
     });
   }
   @callable()
-  async stepGenAudio(topic: string) {
-    const audioResult = await generateAudioViaGet(topic);
+  async stepGenSpeech(topic: string) {
+    const speechResult = await generateAudioViaGet(topic);
     this.setState({
       ...this.state,
-      audioUrl: audioResult,
+      speechUrl: speechResult,
     });
   }
   @callable()

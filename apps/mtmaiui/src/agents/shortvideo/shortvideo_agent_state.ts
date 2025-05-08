@@ -11,9 +11,9 @@ export interface ShortVideoAgentState extends AgentStateBase {
   // 其他相关 api 端点
   mtmai_api_endpoint: string;
   // 短视频生成相关
-  video_subject: string;
-  video_script: string;
-  audioUrl: string;
+  video_subject?: string;
+  video_script?: string;
+  speechUrl?: string;
   mainSence: z.infer<typeof MainSenceSchema>;
   videoMeta: {
     fps: number;
