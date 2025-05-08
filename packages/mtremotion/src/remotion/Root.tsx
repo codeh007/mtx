@@ -6,10 +6,10 @@ import {
   VIDEO_HEIGHT,
   VIDEO_WIDTH,
   defaultMyCompProps,
-} from "../../types/constants";
-import { Sence2 } from "./Comp2/Sence2";
+} from "../types/constants";
 import { Main } from "./MyComp/Main";
 import { NextLogo } from "./MyComp/NextLogo";
+import { Sence2 } from "./Sence2/Sence2";
 
 export const RemotionRoot: React.FC = () => {
   return (
