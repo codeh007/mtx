@@ -1,10 +1,11 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
 import { getAgentByName } from "agents";
+import { unstable_callable as callable } from "agents";
 import {
   type DataStreamWriter,
   type Message,
   type StreamTextOnFinishCallback,
-  ToolSet,
+  type ToolSet,
   createDataStreamResponse,
   generateId,
   streamText,
@@ -19,45 +20,23 @@ import type {
 import type { OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
+import type { ShortVideoAg } from "./shortvideo/shortvideo_agent";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
 import type { WorkerAgent } from "./worker_agent";
-
-const callCoderAgent = tool({
-  description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
-  parameters: z.object({
-    prompt: z.string().describe("The prompt to send to the coder agent"),
-  }),
-  execute: async ({ prompt }, options) => {
-    try {
-      // const result = await callAgentRunner(this.state.agentRunnerUrl, {
-      //   app_name: "root",
-      //   user_id: "user",
-      //   session_id: sessionId,
-      //   new_message: {
-      //     role: "user",
-      //     parts: [{ text: prompt }],
-      //   },
-      //   streaming: false,
-      // });
-      // console.log("callCoderAgent result", result);
-    } catch (error) {
-      //   console.error("Error calling coder agent", error);
-      //   return `Error calling coder agent: ${error}`;
-    }
-  },
-});
 
 export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   initialState: ChatAgentState = {
     chatViewType: "full",
     participants: [],
     lastUpdated: 0,
+    shortVideoAgentID: "",
+
+    //临时
+    shortVideoData: "shortVideoData",
   };
 
-  onStart(): void | Promise<void> {
-    // console.log("chat onStart");
-  }
+  onStart(): void | Promise<void> {}
   onConnect(connection: Connection, ctx: ConnectionContext) {
     this.setState({
       ...this.state,
@@ -75,79 +54,70 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
 
   async onMessage(connection: Connection, message: string): Promise<void> {
     const event = JSON.parse(message) as ChatAgentIncomingMessage;
-
-    if (event.type === "new_chat_participant") {
-      this.setState({
-        ...this.state,
-        participants: [...this.state.participants, event.data.agentName],
-      });
-      this.broadcast(
-        JSON.stringify({
-          type: "new_chat_participant",
-          data: { agentName: event.data.agentName || "unknown" },
-        } satisfies ChatAgentOutgoingMessage),
-      );
-    } else {
-      super.onMessage(connection, message);
+    switch (event.type) {
+      //未起作用
+      case "new_chat_participant":
+        this.setState({
+          ...this.state,
+          participants: [...this.state.participants, event.data.agentName],
+        });
+        this.broadcast(
+          JSON.stringify({
+            type: "new_chat_participant",
+            data: { agentName: event.data.agentName || "unknown" },
+          } satisfies ChatAgentOutgoingMessage),
+        );
+        break;
+      default:
+        super.onMessage(connection, message);
     }
   }
 
   async onChatMessage(onFinish: StreamTextOnFinishCallback<ToolSet>) {
     const model = getDefaultModel(this.env);
-    const sessionId = this.name;
-
+    // const sessionId = this.name;
     const lastestMessage = this.messages?.[this.messages.length - 1];
     const userInput = lastestMessage?.content;
-
-    if (userInput?.startsWith("/test1")) {
-      // lastestMessage.content = lastestMessage.content.slice(4);
-      // await this.onDemoRun2(lastestMessage, dataStream, onFinish);
-      this.log("test1");
-
-      const workerAgent = await getAgentByName<Env, WorkerAgent>(this.env.WorkerAgent, "default");
-      // const id = this.env.WorkerAgent.idFromName("default");
-      // const workerAgent = this.env.WorkerAgent.get(id);
-
-      if (!workerAgent) {
-        // throw new Error("Worker agent not found");
-        this.handleException(new Error("Worker agent not found"));
-      }
-      workerAgent.log("log message from worker agent");
-      await workerAgent.callAdkAgent("shortvideo_agent", {
-        role: "user",
-        parts: [
-          {
-            type: "text",
-            text: "call adk agent example",
+    const dataStreamResponse = createDataStreamResponse({
+      execute: async (dataStream) => {
+        const result = streamText({
+          model,
+          messages: this.messages,
+          tools: this.getTools(),
+          onFinish: (result) => {
+            onFinish(result);
           },
-        ],
-      });
-    } else {
-      // cloudflare agents 的 streamText 的实现
-      const dataStreamResponse = createDataStreamResponse({
-        execute: async (dataStream) => {
-          const result = streamText({
-            model,
-            messages: this.messages,
-            tools: { ...tools, callCoderAgent },
-            onFinish: (result) => {
-              console.log("onStreamText result", result);
-              onFinish(result);
-            },
-            onError: (error) => {
-              console.log("onStreamText error", error);
-            },
-          });
-          result.mergeIntoDataStream(dataStream);
-        },
-      });
+          onError: (error) => {
+            console.log("onStreamText error", error);
+          },
+        });
+        result.mergeIntoDataStream(dataStream);
+      },
+    });
 
-      return dataStreamResponse;
-    }
+    return dataStreamResponse;
   }
   onStateUpdate(state, source: "server" | Connection) {
-    console.log(`${source} state updated`, state);
+    // console.log(`${source} state updated`, state);
   }
+
+  getTools() {
+    return { ...tools, ...this.toolGenShortVideo() };
+  }
+
+  @callable()
+  async search1(query: string) {
+    // Uses Vector store results filtered by Metadata limited
+    // To this agent
+    // const results = await searchMenusByAgent(query, this.name);
+    // return results.map((result) => result.metadata.restaurantName);
+    return { data: "searchRestaurants fake results" };
+  }
+  @callable()
+  async callWorkflow1(query: string) {
+    return { data: "callWorkflow1 fake results" };
+  }
+
   async onTask(payload: unknown, schedule: Schedule<string>) {
     // 提示: 当到时间运行新任务时, 会先进入这个函数.
     //      这个函数, 应该实际运行 任务载荷,
@@ -246,6 +216,31 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       providerMetadata: {},
     });
   }
+
+  toolGenShortVideo() {
+    return {
+      toolGenShortVideo: tool({
+        description: "生成短视频",
+        parameters: z.object({
+          topic: z.string().describe("短视频主题"),
+        }),
+        execute: async ({ topic }) => {
+          const shortAgId = this.state.shortVideoAgentID;
+          if (!shortAgId) {
+            throw new Error("短视频Agent未启动");
+          }
+          const shortVideoAgent = await getAgentByName<Env, ShortVideoAg>(
+            this.env.ShortVideoAg,
+            shortAgId,
+          );
+          // shortVideoAgent.fetch()
+          const result = await shortVideoAgent.onGenShortVideo(topic);
+          return result;
+        },
+      }),
+    };
+  }
+
   async onCallAdk(newMessage: Message) {
     const adkEndpoint = "http://localhost:7860/run_sse_v2";
     const postData = {
@@ -318,5 +313,27 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       }
     }
     return streamAdkMessages();
+  }
+
+  // 演示, 直接调用另外一个 agent
+  async demoCallAgent() {
+    const workerAgent = await getAgentByName<Env, WorkerAgent>(this.env.WorkerAgent, "default");
+    // const id = this.env.WorkerAgent.idFromName("default");
+    // const workerAgent = this.env.WorkerAgent.get(id);
+
+    if (!workerAgent) {
+      // throw new Error("Worker agent not found");
+      this.handleException(new Error("Worker agent not found"));
+    }
+    workerAgent.log("log message from worker agent");
+    await workerAgent.callAdkAgent("shortvideo_agent", {
+      role: "user",
+      parts: [
+        {
+          type: "text",
+          text: "call adk agent example",
+        },
+      ],
+    });
   }
 }

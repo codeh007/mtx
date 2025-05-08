@@ -1,4 +1,5 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
+import { unstable_callable as callable } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import {
   type StreamTextOnFinishCallback,
@@ -24,8 +25,8 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   initialState = {
     mtmai_api_endpoint: mcpServerUrl,
     video_subject: "",
-    schedules: [],
-    scheduleFinished: [] as Schedule<string>[],
+    // schedules: [],
+    // scheduleFinished: [] as Schedule<string>[],
   } satisfies ShortVideoAgentState;
 
   onStart(): void | Promise<void> {}
@@ -40,9 +41,6 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
     switch (eventType) {
       case "shortvideo_topic":
         console.log("shortvideo_topic", event);
-        break;
-      case "event_test2":
-        await this.onTest2(connection);
         break;
       case "run_workflow_shortvideo":
         await this.onRunWorkflowShortvideo(connection, event);
@@ -249,5 +247,10 @@ Input to parse: "${userInput}"`,
 
   async onReset() {
     //TODO: 重置状态
+  }
+
+  @callable()
+  async onGenShortVideo(query: string) {
+    return { data: "onGenShortVideo fake results" };
   }
 }

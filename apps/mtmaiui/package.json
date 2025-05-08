@@ -40,7 +40,6 @@
     "dev:browser": "bun src/browser.ts",
     "revideo:serve": "revideo serve --projectFile ./src/revedio/project.ts",
     "revideo:editor": "revideo editor --projectFile ./src/revedio/project.ts",
-
     "remotion": "remotionb studio",
     "render": "remotionb render"
   },
@@ -89,8 +88,6 @@
     }
   },
   "dependencies": {
-    "mtravideolib": "*",
-    "mtremotion": "*",
     "@ai-sdk/google": "^1.2.11",
     "@ai-sdk/openai": "^1.1.5",
     "@cloudflare/workers-oauth-provider": "^0.0.2",
@@ -114,7 +111,7 @@
     "@tanstack/router-devtools": "^1.112.0",
     "@tanstack/router-plugin": "^1.112.0",
     "@tanstack/start": "^1.116.2",
-    "agents": "^0.0.76",
+    "agents": "^0.0.79",
     "ai": "^4.3.13",
     "date-fns": "^4.1.0",
     "embla-carousel-autoplay": "^8.5.2",
@@ -124,12 +121,15 @@
     "genkit": "^1.6.2",
     "get-port": "^7.1.0",
     "hono": "^4.7.4",
+    "hono-agents": "^0.0.69",
     "isbot": "^5.1.17",
     "localforage": "^1.10.0",
     "lucide-react": "^0.476.0",
     "mcp-remote": "^0.0.22",
     "mimetext": "^3.0.27",
     "mtmaiapi": "*",
+    "mtravideolib": "*",
+    "mtremotion": "*",
     "mtxuilib": "*",
     "next": "^15.3.1",
     "next-themes": "^0.4.4",
@@ -150,7 +150,6 @@
     "tailwindcss-animate": "^1.0.7",
     "unenv": "^1.10.0",
     "vaul": "^1.1.2",
-
     "workers-ai-provider": "^0.3.0",
     "zod": "^3.24.3"
   },

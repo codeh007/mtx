@@ -1,9 +1,11 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { unstable_scheduleSchema } from "agents/schedule";
-import { tool } from "ai";
+import { generateId, tool } from "ai";
 import { z } from "zod";
 
+import { getAgentByName } from "agents";
 import type { Chat } from "./chat";
+import type { WorkerAgent } from "./worker_agent";
 
 export const agentContext = new AsyncLocalStorage<Chat>();
 
@@ -137,4 +139,71 @@ export const executions = {
     console.log(`Getting weather information for ${city}`);
     return `The weather in ${city} is sunny`;
   },
+};
+
+// 未起作用
+export const callCoderAgentTool = tool({
+  description: "调用具有 python 编程能力的Agent, 用来解决复杂问题",
+  parameters: z.object({
+    prompt: z.string().describe("The prompt to send to the coder agent"),
+  }),
+  execute: async ({ prompt }, options) => {
+    try {
+      // const result = await callAgentRunner(this.state.agentRunnerUrl, {
+      //   app_name: "root",
+      //   user_id: "user",
+      //   session_id: sessionId,
+      //   new_message: {
+      //     role: "user",
+      //     parts: [{ text: prompt }],
+      //   },
+      //   streaming: false,
+      // });
+      // console.log("callCoderAgent result", result);
+    } catch (error) {
+      //   console.error("Error calling coder agent", error);
+      //   return `Error calling coder agent: ${error}`;
+    }
+  },
+});
+
+export const demoToolCheckState = tool({
+  description: "检查当前状态",
+  parameters: z.object({}),
+  execute: async () => {
+    return "当前状态检查完成";
+  },
+});
+
+export const agentToolShortVideo = (chatAgent: Chat) => {
+  return tool({
+    description: "生成短视频",
+    parameters: z.object({
+      topic: z.string().describe("短视频主题"),
+    }),
+    execute: async ({ topic }) => {
+      const state = await chatAgent.getState();
+
+      // 更新chat 的状态
+      const shortAgId = state.shortVideoAgentID;
+      if (!shortAgId) {
+        await chatAgent.setState({
+          ...state,
+          shortVideoAgentID: generateId(),
+        });
+      }
+
+      // 调用短视频Agent
+      const workerAgent = await getAgentByName<Env, WorkerAgent>(
+        process.env.WorkerAgent!,
+        "default",
+      );
+
+      //
+      // if (!state.shortVideoAgentID) {
+      //   throw new Error("短视频Agent未启动");
+      // }
+      return "短视频成功生成, 下载地址: https://www.baidu.com/my-short-video.mp4";
+    },
+  });
 };

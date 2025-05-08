@@ -5,6 +5,7 @@ export type ChatAgentState = {
   participants: string[];
   lastUpdated: number;
   error?: string;
+  shortVideoAgentID: string;
 };
 
 export type ChatAgentIncomingMessage = {

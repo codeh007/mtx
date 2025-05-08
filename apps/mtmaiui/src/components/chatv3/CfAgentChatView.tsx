@@ -14,6 +14,7 @@ import { useToast } from "mtxuilib/ui/use-toast";
 import { useState } from "react";
 import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state/chat_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
+import type { ShortVideoAgentState } from "../../agent_state/shortvideo_agent_state";
 import type { tools } from "../../agents/tools";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Input } from "../cloudflare-agents/components/input/Input";
@@ -32,9 +33,19 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const agentState = useChatAgentStore((x) => x.agentState);
+  const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
   const setAgentState = useChatAgentStore((x) => x.setAgentState);
 
   const toast = useToast();
+
+  //临时测试
+  const shortVideoAgent = useAgent<ShortVideoAgentState>({
+    agent: "short-video-ag",
+    host: host,
+    prefix: prefix,
+    name: "default",
+    onStateUpdate: (newState) => setShortVideoAgentState(newState),
+  });
 
   const agent = useAgent<ChatAgentState>({
     agent: agentName,
@@ -99,22 +110,42 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     maxSteps: 5,
   });
 
-  const handleInputSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleInputSubmit = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       const inputValue = (e.target as HTMLInputElement).value;
-      if (inputValue.startsWith("/test1")) {
-        setInput("");
-      } else if (inputValue.startsWith("/")) {
-        // 调试: 直接发送事件
-        setInput("");
-        agent.send(
-          JSON.stringify({
-            type: inputValue.slice(1),
-            data: {},
-          }),
-        );
+
+      const command = inputValue.toLowerCase().trim();
+      setInput("");
+      if (inputValue.startsWith("/")) {
+        switch (command) {
+          case "/test1":
+            break;
+          case "/search1": {
+            const result = await agent.call("search1", ["test"]);
+            console.log("search1 result", result);
+            break;
+          }
+          case "/genshortvideo": {
+            const result = await shortVideoAgent.call("onGenShortVideo", ["test"]);
+            console.log("genShortVideo result", result);
+            break;
+          }
+
+          default: {
+            // 事件名称
+            const eventType = inputValue.slice(1);
+            agent.send(
+              JSON.stringify({
+                type: eventType,
+                data: {},
+              }),
+            );
+            break;
+          }
+        }
       } else {
+        // 普通聊天消息
         handleAgentSubmit(e as unknown as React.FormEvent);
       }
     }

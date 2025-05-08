@@ -30,9 +30,6 @@ function RouteComponent() {
           host={new URL(agentUrl).host}
           prefix={agentPathPrefix}
         />
-        {/* <WorkerAgentView /> */}
-
-        {/* <RemotionNextDemo1 title={"一些文字333"} /> */}
       </WorkbenchWrapper>
     </ChatAgentProvider>
   );
