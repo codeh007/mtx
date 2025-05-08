@@ -90,9 +90,9 @@ jobs:
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  deploy_vercel:
+  deploy_vercel_gomtm_cli:
     # needs: [release]
-    timeout-minutes: 20
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
@@ -122,7 +122,7 @@ jobs:
       
       - name: deploy to vercel (gomtm-cli)
         run: |
-          gomtm vc_gomtm --enable-vercel-deploy=true --sub-package packages/gomtm-cli
+          gomtm vc_gomtm --enable-vercel-deploy=true --sub-package packages/gomtm
       - name: deploy to vercel (mtmaiui)
         run: |
           gomtm vc_gomtm --enable-vercel-deploy=true --sub-package apps/mtmaiui

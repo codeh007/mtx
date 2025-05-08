@@ -17,7 +17,9 @@
     "build": "echo hello"
   },
   "dependencies": {
-    "next": "^15"
+    "next": "^15",
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
     "@types/node": "^22",
