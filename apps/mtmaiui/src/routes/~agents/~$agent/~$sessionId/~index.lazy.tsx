@@ -1,8 +1,8 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { CfAgentChatView } from "../../../../components/chatv3/CfAgentChatView";
 import { ChatAgentProvider } from "../../../../components/chatv3/agentStore";
+import { RemotionNextDemo1 } from "../../../../components/remotion/RemotionNextDemo1";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
-import { WorkerAgentView } from "../../WorkerAgentView";
 
 export const Route = createLazyFileRoute("/agents/$agent/$sessionId/")({
   component: RouteComponent,
@@ -21,7 +21,8 @@ function RouteComponent() {
           host={new URL(agentUrl).host}
           prefix={agentPathPrefix}
         />
-        <WorkerAgentView />
+        {/* <WorkerAgentView /> */}
+        <RemotionNextDemo1 title={"一些文字333"} />
       </ChatAgentProvider>
     </div>
   );
