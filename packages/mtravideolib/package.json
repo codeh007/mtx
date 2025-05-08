@@ -81,7 +81,7 @@
     "dev": "vite --host 0.0.0.0",
     "build--": "tsc && vite build",
     "build:lib": "tsc && vite build --config vite.config.lib.ts",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly--": "npm run build:lib"
   },
   "dependencies": {
     "@revideo/2d": "0.10.4",
