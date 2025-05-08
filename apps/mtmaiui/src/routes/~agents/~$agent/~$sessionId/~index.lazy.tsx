@@ -1,8 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { CfAgentChatView } from "../../../../components/chatv3/CfAgentChatView";
-import { ChatAgentProvider } from "../../../../components/chatv3/agentStore";
-// import { RemotionNextDemo1 } from "../../../../components/remotion/RemotionNextDemo1";
 import { WorkbenchWrapper } from "../../../../components/workbench/WorkbenchWrapper";
 import { useWorkbenchStore } from "../../../../stores/workbrench.store";
 
@@ -22,15 +20,13 @@ function RouteComponent() {
   }, [setOpenWorkbench]);
 
   return (
-    <ChatAgentProvider>
-      <WorkbenchWrapper>
-        <CfAgentChatView
-          agentName={agent}
-          agentId={sessionId}
-          host={new URL(agentUrl).host}
-          prefix={agentPathPrefix}
-        />
-      </WorkbenchWrapper>
-    </ChatAgentProvider>
+    <WorkbenchWrapper>
+      <CfAgentChatView
+        agentName={agent}
+        agentId={sessionId}
+        host={new URL(agentUrl).host}
+        prefix={agentPathPrefix}
+      />
+    </WorkbenchWrapper>
   );
 }

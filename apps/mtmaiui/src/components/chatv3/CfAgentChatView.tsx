@@ -16,9 +16,9 @@ import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state
 import { APPROVAL } from "../../agent_state/shared";
 import type { ShortVideoAgentState } from "../../agent_state/shortvideo_agent_state";
 import type { tools } from "../../agents/tools";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Input } from "../cloudflare-agents/components/input/Input";
-import { useChatAgentStore } from "./agentStore";
 
 const toolsRequiringConfirmation: (keyof typeof tools)[] = ["getWeatherInformation"];
 
@@ -32,9 +32,9 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   const [showDebug, setShowDebug] = useState(false);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
-  const agentState = useChatAgentStore((x) => x.agentState);
+  const agentState = useWorkbenchStore((x) => x.assistantState);
   const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
-  const setAgentState = useChatAgentStore((x) => x.setAgentState);
+  const setAgentState = useWorkbenchStore((x) => x.setAssistantState);
 
   const toast = useToast();
 
@@ -178,7 +178,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           </div>
 
           <div className="flex-1">
-            <h2 className="font-semibold text-base">AI Chat Agent</h2>
+            <h2 className="font-semibold text-base">Assisant Agent</h2>
           </div>
 
           <div className="flex items-center gap-2 mr-2">

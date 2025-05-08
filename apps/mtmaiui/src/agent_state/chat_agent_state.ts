@@ -1,12 +1,17 @@
 import type { LogMessage, MessageRunSchedule, ScheduleMessage } from "./shared";
 
-export type ChatAgentState = {
-  chatViewType: "full" | "mini";
-  participants: string[];
+export const AgentNames = {
+  shortVideoAg: "short-video-ag",
+} as const;
+
+export interface AgentStateBase {
   lastUpdated: number;
   error?: string;
-  shortVideoAgentID: string;
-};
+  enabledDebug?: boolean;
+  // 子 agent, 让前端可以判断和显示子 agent 视图
+  subAgents: Record<string, string>;
+}
+export interface ChatAgentState extends AgentStateBase {}
 
 export type ChatAgentIncomingMessage = {
   type: "new_chat_participant";

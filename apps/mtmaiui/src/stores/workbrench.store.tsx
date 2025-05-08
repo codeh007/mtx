@@ -30,6 +30,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
+import type { ChatAgentState } from "../agent_state/chat_agent_state";
 import { parseEventStream } from "../agent_utils/agent_utils";
 import data from "../data/ig_settings_xiaoto33.json";
 import { useTenant, useTenantId } from "../hooks/useAuth";
@@ -83,8 +84,13 @@ export interface WorkbrenchState extends WorkbenchProps {
   openRightPanel?: boolean;
   setOpenRightPanel: (openRightPanel: boolean) => void;
 
+  //似乎没用了.
   activeArtiface: unknown;
   setActiveArtiface: (activeArtiface: unknown) => void;
+
+  // assisantState
+  assistantState: ChatAgentState;
+  setAssistantState: (assistantState: ChatAgentState) => void;
 
   isOpenWorkbenchChat: boolean;
   setIsOpenWorkbenchChat: (isOpenWorkbenchChat: boolean) => void;
@@ -345,6 +351,9 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         },
       });
       return response;
+    },
+    setAssistantState: (assistantState) => {
+      set({ assistantState });
     },
 
     ...init,

@@ -4,7 +4,6 @@ import type { RootAgentState } from "mtmaiapi";
 import { useState } from "react";
 import type { OutgoingMessage } from "../../agent_state/shared";
 import { CfAgentChatView } from "../../components/chatv3/CfAgentChatView";
-import { ChatAgentProvider } from "../../components/chatv3/agentStore";
 
 export const Route = createLazyFileRoute("/agents/")({
   component: RouteComponent,
@@ -42,9 +41,7 @@ function RouteComponent() {
     <>
       <div className="flex gap-2">
         <div className="flex-1 w-full">
-          <ChatAgentProvider>
-            <CfAgentChatView agentName="chat" agentId="chat1" />
-          </ChatAgentProvider>
+          <CfAgentChatView agentName="chat" agentId="chat1" />
         </div>
       </div>
     </>

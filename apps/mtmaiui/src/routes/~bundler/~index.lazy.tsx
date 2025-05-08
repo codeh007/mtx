@@ -8,7 +8,8 @@ export const Route = createLazyFileRoute("/bundler/")({
 function RouteComponent() {
   return (
     <div>
-      <ExampleCode />
+      {/* <ExampleCode /> */}
+      ExampleCode
     </div>
   );
 }

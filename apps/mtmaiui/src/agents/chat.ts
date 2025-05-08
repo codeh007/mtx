@@ -12,10 +12,11 @@ import {
   tool,
 } from "ai";
 import { z } from "zod";
-import type {
-  ChatAgentIncomingMessage,
-  ChatAgentOutgoingMessage,
-  ChatAgentState,
+import {
+  AgentNames,
+  type ChatAgentIncomingMessage,
+  type ChatAgentOutgoingMessage,
+  type ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
@@ -27,13 +28,9 @@ import type { WorkerAgent } from "./worker_agent";
 
 export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   initialState: ChatAgentState = {
-    chatViewType: "full",
-    participants: [],
     lastUpdated: 0,
-    shortVideoAgentID: "",
-
-    //临时
-    shortVideoData: "shortVideoData",
+    subAgents: {},
+    enabledDebug: true,
   };
 
   onStart(): void | Promise<void> {}
@@ -219,23 +216,36 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
 
   toolGenShortVideo() {
     return {
-      toolGenShortVideo: tool({
+      genShortVideo: tool({
         description: "生成短视频",
         parameters: z.object({
           topic: z.string().describe("短视频主题"),
         }),
         execute: async ({ topic }) => {
-          const shortAgId = this.state.shortVideoAgentID;
-          if (!shortAgId) {
-            throw new Error("短视频Agent未启动");
+          try {
+            let shortAgId = this.state.subAgents?.[AgentNames.shortVideoAg];
+            if (!shortAgId) {
+              shortAgId = generateId();
+            }
+            const shortVideoAgent = await getAgentByName<Env, ShortVideoAg>(
+              this.env.ShortVideoAg,
+              shortAgId,
+            );
+
+            this.setState({
+              ...this.state,
+              subAgents: {
+                ...this.state.subAgents,
+                [shortVideoAgent.name]: shortAgId,
+              },
+            });
+            // ! Fixme: 工具调用,应尽可能返回文本
+            const result = await shortVideoAgent.onGenShortVideo(topic);
+            return result;
+          } catch (e: any) {
+            console.error("toolGenShortVideo error", e);
+            return `运行出错: ${e.message}, ${e.stack}`;
           }
-          const shortVideoAgent = await getAgentByName<Env, ShortVideoAg>(
-            this.env.ShortVideoAg,
-            shortAgId,
-          );
-          // shortVideoAgent.fetch()
-          const result = await shortVideoAgent.onGenShortVideo(topic);
-          return result;
         },
       }),
     };
