@@ -1,14 +1,14 @@
-import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
+import { fontFamily } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 import { NextLogo } from "../MyComp/NextLogo";
 import { Rings } from "../MyComp/Rings";
 import { TextFade } from "../MyComp/TextFade";
 
-loadFont("normal", {
-  subsets: ["latin"],
-  weights: ["400", "700"],
-});
+// loadFont("normal", {
+//   subsets: ["latin"],
+//   weights: ["400", "700"],
+// });
 
 export const SingleImageSenceSchema = z.object({
   image: z.string(),
@@ -57,6 +57,7 @@ export const SingleImageSence = (props: Props) => {
           >
             {title}
           </h1>
+          <img src={image} alt="video-image" className="w-full h-full" />
         </TextFade>
       </Sequence>
     </AbsoluteFill>
