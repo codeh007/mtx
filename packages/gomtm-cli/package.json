@@ -1,7 +1,7 @@
 {
   "name": "gomtm-cli",
   "private": false,
-  "version": "0.6.357",
+  "version": "0.7.0",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -17,10 +17,10 @@
     "build": "echo hello"
   },
   "dependencies--": {
-    "next": "^15.2",
+    "next": "^15",
     "react": "^19",
     "react-dom": "^19",
-    "zod": "^3.24.3"
+    "zod": "^3.24"
   },
   "devDependencies--": {
     "vite": "^6.2.5",
