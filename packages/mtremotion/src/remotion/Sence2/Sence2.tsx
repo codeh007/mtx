@@ -1,7 +1,5 @@
 import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
-// import type { z } from "zod";
-// import type { CompositionProps } from "../../types/constants";
 import { NextLogo } from "../MyComp/NextLogo";
 import { Rings } from "../MyComp/Rings";
 import { TextFade } from "../MyComp/TextFade";
@@ -10,11 +8,6 @@ loadFont("normal", {
   subsets: ["latin"],
   weights: ["400", "700"],
 });
-
-// interface Sence2Props {
-//   title: string;
-//   subtitle: string;
-// }
 
 // 场景2 练习
 export const Sence2 = () => {
