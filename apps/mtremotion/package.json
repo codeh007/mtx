@@ -13,7 +13,7 @@
   "unpkg": "./dist/index.umd.js",
   "jsdelivr": "./dist/index.umd.js",
   "repository": {
-    "url": "https://github.com/codeh007/mtxuilib"
+    "url": "https://github.com/codeh007/mtremotion"
   },
   "typesVersions": {
     "*": {
@@ -107,7 +107,6 @@
     "@remotion/preload": "^4",
     "@remotion/shapes": "^4",
     "@remotion/tailwind-v4": "^4",
-    "clsx": "^2.1",
     "next": "^15.2",
     "react": "19",
     "react-dom": "19",
@@ -121,7 +120,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/web": "0.0.166",
+    "@types/web": "^0.0.166",
     "autoprefixer": "^10",
     "eslint": "^9",
     "@next/eslint-plugin-next": "^15",
@@ -130,5 +129,8 @@
     "prettier": "^3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "other": {
+    "clsx": "^2.1"
   }
 }
