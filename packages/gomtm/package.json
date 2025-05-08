@@ -1,0 +1,41 @@
+{
+  "name": "gomtm",
+  "private": false,
+  "version": "0.7.1",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["bin", "dist", "src"],
+  "bin": {
+    "gomtm": "./bin/gomtm"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "echo hello"
+  },
+  "dependencies": {
+    "next": "^15"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwind-merge": "^3",
+    "tailwindcss": "^4",
+    "tailwindcss-animate": "^1",
+    "typescript": "^5"
+  },
+  "other": {
+    "styled-jsx": "^5.1.6",
+    "commander": "^12.1.0",
+    "@codemirror/lang-sql": "^6.8.0",
+    "tailwind-scrollbar": "^3.1.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
+    "redaxios": "^0.5.1",
+    "superjson": "^2.2.2",
+    "mtxuilib": "*"
+  }
+}
