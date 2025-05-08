@@ -1,11 +1,6 @@
-import React, { useMemo } from "react";
-import {
-  AbsoluteFill,
-  interpolate,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
+import type React from "react";
+import { useMemo } from "react";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 
 export const TextFade: React.FC<{
   children: React.ReactNode;
