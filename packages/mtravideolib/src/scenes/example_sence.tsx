@@ -1,10 +1,10 @@
 /** @jsxImportSource @revideo/2d/lib */
-import { Rect, makeScene2D } from "@revideo/2d";
+import { type Rect, makeScene2D } from "@revideo/2d";
 import { createRef } from "@revideo/core";
 import { Logo } from "../common/logo";
 
 export default makeScene2D("hello_scene", function* (view) {
-  //   const rect = createRef<Rect>();
+  const rect = createRef<Rect>();
 
   view.add(
     <>

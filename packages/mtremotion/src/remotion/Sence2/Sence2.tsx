@@ -11,7 +11,14 @@ loadFont("normal", {
   subsets: ["latin"],
   weights: ["400", "700"],
 });
-export const Main = ({ title }: z.infer<typeof CompositionProps>) => {
+
+interface Sence2Props {
+  title: string;
+  subtitle: string;
+}
+
+// 场景2 练习
+export const Sence2 = ({ title, subtitle }: Sence2Props) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -29,7 +36,7 @@ export const Main = ({ title }: z.infer<typeof CompositionProps>) => {
   });
 
   return (
-    <AbsoluteFill className="bg-white">
+    <AbsoluteFill className="bg-yellow-500">
       <Sequence durationInFrames={transitionStart + transitionDuration}>
         <Rings outProgress={logoOut} />
         <AbsoluteFill className="justify-center items-center">
@@ -46,6 +53,17 @@ export const Main = ({ title }: z.infer<typeof CompositionProps>) => {
           >
             {title}
           </h1>
+          
+        </TextFade>
+        <TextFade>
+        <h2
+            className="text-[20px]"
+            style={{
+              fontFamily,
+            }}
+          >
+            {subtitle}
+          </h2>
         </TextFade>
       </Sequence>
     </AbsoluteFill>

@@ -1,4 +1,3 @@
-/** @jsxImportSource @revideo/2d/lib */
 import { Circle, Node, type NodeProps, Rect, Txt } from "@revideo/2d/lib/components";
 import { all } from "@revideo/core/lib/flow";
 import { createSignal } from "@revideo/core/lib/signals";

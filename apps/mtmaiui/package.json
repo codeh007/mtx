@@ -39,7 +39,10 @@
     "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts",
     "dev:browser": "bun src/browser.ts",
     "revideo:serve": "revideo serve --projectFile ./src/revedio/project.ts",
-    "revideo:editor": "revideo editor --projectFile ./src/revedio/project.ts"
+    "revideo:editor": "revideo editor --projectFile ./src/revedio/project.ts",
+
+    "remotion": "remotionb studio",
+    "render": "remotionb render"
   },
   "typesVersions": {
     "*": {
@@ -87,6 +90,7 @@
   },
   "dependencies": {
     "mtravideolib": "*",
+    "mtremotion": "*",
     "@ai-sdk/google": "^1.2.11",
     "@ai-sdk/openai": "^1.1.5",
     "@cloudflare/workers-oauth-provider": "^0.0.2",

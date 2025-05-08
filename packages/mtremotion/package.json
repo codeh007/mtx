@@ -1,12 +1,82 @@
 {
-  "name": "my-video",
-  "version": "0.1.0",
-  "private": true,
-  "author": {
-    "name": "Mohit Yadav",
-    "email": "mohit@mohitya.dev",
-    "url": "https://mohitya.dev"
+  "name": "mtremotion",
+  "private": false,
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
   },
+  "type": "module",
+  "files": ["dist"],
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/index.umd.js",
+  "jsdelivr": "./dist/index.umd.js",
+  "repository": {
+    "url": "https://github.com/codeh007/mtxuilib"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*.ts",
+        "src/*.tsx",
+        "src/*/index.ts",
+        "src/*/index.tsx",
+        "dist/*.d.ts",
+        "dist/*",
+        "dist/*/index"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": ["./src/index.ts", "./dist/index.js", "./dist/index.d.ts"],
+      "import": ["./src/index.ts", "./dist/index.js", "./dist/*"]
+    },
+    "./*": {
+      "types": [
+        "./src/*",
+        "./src/*.tsx",
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx",
+        "./dist/*.d.ts",
+        "./dist/*/index.d.ts"
+      ],
+      "import": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*/index.js",
+        "./dist/*.js",
+        "./dist/*"
+      ],
+      "default": [
+        "./src/*",
+        "./src/*.ts",
+        "./src/*.tsx",
+        "./src/*/index.ts",
+        "./src/*/index.tsx",
+        "./dist/*/index.js",
+        "./dist/*.js",
+        "./dist/*"
+      ]
+    },
+    "./styles/globals.css": {
+      "import": ["./src/styles/globals.css", "./dist/styles/globals.css"],
+      "require": ["./src/styles/globals.css", "./dist/styles/globals.css"]
+    },
+    "./styles/*": {
+      "import": ["./src/styles/*", "./dist/styles/*"],
+      "require": ["./src/styles/*", "./dist/styles/*"]
+    }
+  },
+  "description": "Basic project template for Motion Canvas",
+  "author": "motion-canvas",
+  "license": "MIT",
   "dependencies": {
     "@remotion/animated-emoji": "4.0.298",
     "@remotion/animation-utils": "4.0.298",

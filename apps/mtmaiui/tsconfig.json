@@ -45,6 +45,12 @@
     ]
     // "noUncheckedSideEffectImports": true
   },
-  "include": [".next/types/**/*.ts", "src", ".next.dev/types/**/*.ts", "src/type/index.ts"],
+  "include": [
+    ".next/types/**/*.ts",
+    "src",
+    ".next.dev/types/**/*.ts",
+    "src/type/index.ts",
+    "remotion/webpack-override.mjs"
+  ],
   "exclude": ["node_modules", "dist"]
 }
