@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 const Tip: React.FC<{
   title: React.ReactNode;
@@ -10,7 +10,7 @@ const Tip: React.FC<{
       <div className="transition-transform duration-200 ease-in-out p-2.5 group hover:-translate-y-0.5">
         <div className="flex flex-row items-center justify-start">
           <h4 className="my-3 font-bold text-foreground">{title}</h4>
-          <div className="flex-1"></div>
+          <div className="flex-1" />
           <svg
             className="opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100"
             height="1em"
@@ -22,9 +22,7 @@ const Tip: React.FC<{
             />
           </svg>
         </div>
-        <p className="text-sm leading-normal text-subtitle mb-6">
-          {description}
-        </p>
+        <p className="text-sm leading-normal text-subtitle mb-6">{description}</p>
       </div>
     </a>
   );
@@ -37,17 +35,17 @@ export const Tips: React.FC = () => {
         href="https://www.remotion.dev/docs/the-fundamentals"
         title="Learn Remotion"
         description="Learn how to customize this video written in React."
-      ></Tip>
+      />
       <Tip
         href="https://github.com/remotion-dev/template-next-app-dir"
         title="See source"
         description="Visit the GitHub repository for this app."
-      ></Tip>
+      />
       <Tip
         href="https://remotion.dev/discord"
         title="Join the community"
         description="Chat with others builders on Discord."
-      ></Tip>
+      />
     </div>
   );
 };

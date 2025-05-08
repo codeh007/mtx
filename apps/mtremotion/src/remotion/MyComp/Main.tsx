@@ -1,10 +1,10 @@
 import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
 import { AbsoluteFill, Sequence, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import type { z } from "zod";
-import type { CompositionProps } from "../../types/constants";
 import { NextLogo } from "./NextLogo";
 import { Rings } from "./Rings";
 import { TextFade } from "./TextFade";
+import type { CompositionProps } from "../../types/constants";
 
 loadFont("normal", {
   subsets: ["latin"],

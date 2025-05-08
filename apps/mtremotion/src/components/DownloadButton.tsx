@@ -1,5 +1,5 @@
-import React from "react";
-import { State } from "../helpers/use-rendering";
+import type React from "react";
+import type { State } from "../helpers/use-rendering";
 import { Button } from "./Button";
 import { Spacing } from "./Spacing";
 
@@ -30,14 +30,14 @@ export const DownloadButton: React.FC<{
   return (
     <div className="flex">
       <Button secondary onClick={undo}>
-        <UndoIcon></UndoIcon>
+        <UndoIcon />
       </Button>
-      <Spacing></Spacing>
+      <Spacing />
       <a href={state.url}>
         <Button>
           Download video
-          <Spacing></Spacing>
-          <Megabytes sizeInBytes={state.size}></Megabytes>
+          <Spacing />
+          <Megabytes sizeInBytes={state.size} />
         </Button>
       </a>
     </div>

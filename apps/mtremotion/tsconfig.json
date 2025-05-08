@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    // "target": "es5",
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -32,8 +29,5 @@
     ".next/types/**/*.ts",
     "remotion/webpack-override.mjs"
   ],
-  "exclude": [
-    "node_modules",
-    "remotion.config.ts"
-  ]
+  "exclude": ["node_modules", "remotion.config.ts"]
 }

@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
+import { cn } from "mtxuilib/lib/utils";
+import type React from "react";
+import { forwardRef } from "react";
 import { Spacing } from "./Spacing";
 import { Spinner } from "./Spinner";
-import { cn } from "../lib/utils";
 
 const ButtonForward: React.ForwardRefRenderFunction<
   HTMLButtonElement,
@@ -16,19 +17,18 @@ const ButtonForward: React.ForwardRefRenderFunction<
   return (
     <button
       ref={ref}
+      type="button"
       className={cn(
         "border-foreground border rounded-geist bg-foreground text-background px-geist-half font-geist h-10 font-medium transition-all duration-150 ease-in-out inline-flex items-center appearance-none text-sm hover:bg-background hover:text-foreground hover:border-focused-border-color disabled:bg-button-disabled-color disabled:text-disabled-text-color disabled:border-unfocused-border-color disabled:cursor-not-allowed",
-        secondary
-          ? "bg-background text-foreground border-unfocused-border-color"
-          : undefined,
+        secondary ? "bg-background text-foreground border-unfocused-border-color" : undefined,
       )}
       onClick={onClick}
       disabled={disabled}
     >
       {loading && (
         <>
-          <Spinner size={20}></Spinner>
-          <Spacing></Spacing>
+          <Spinner size={20} />
+          <Spacing />
         </>
       )}
       {children}

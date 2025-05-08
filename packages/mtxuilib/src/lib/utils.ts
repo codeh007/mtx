@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { isNumber, isString } from "lodash-es";
+import { isNumber, isString } from "lodash";
 import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -378,15 +378,15 @@ export const getMessageFromCode = (resultCode: string) => {
  * @param {string} jsonStr - 要复制的 JSON 字符串
  */
 
-export const copyClipboard = (obj: any) => {
+export const copyClipboard = (obj: unknown) => {
   if (typeof obj === "object") {
     navigator.clipboard.writeText(JSON.stringify(obj, null, 2));
     return;
   }
-  navigator.clipboard.writeText(obj);
+  navigator.clipboard.writeText(obj as string);
 };
 
-export function isObject(object) {
+export function isObject(object: unknown) {
   return object != null && typeof object === "object";
 }
 
@@ -632,11 +632,11 @@ function _stripIndents(value: string) {
  * @param message
  * @returns
  */
-export async function sha256WithAlphabets(message) {
+export async function sha256WithAlphabets(message: unknown) {
   const buffer =
     typeof message === "object"
       ? new TextEncoder().encode(JSON.stringify(message))
-      : new TextEncoder().encode(message);
+      : new TextEncoder().encode(message as string);
   const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
   // 将哈希值转换为 Base64 编码
   const hashBase64 = btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
@@ -645,16 +645,16 @@ export async function sha256WithAlphabets(message) {
   return alphabetsOnly;
 }
 
-export async function defaultHash(message) {
+export async function defaultHash(message: unknown) {
   const hash = await sha256WithAlphabets(message);
   return hash.slice(0, 16);
 }
 
-export function setLocalStorage(name: string, value, stringify = true) {
+export function setLocalStorage(name: string, value: unknown, stringify = true) {
   if (stringify) {
     localStorage.setItem(name, JSON.stringify(value));
   } else {
-    localStorage.setItem(name, value);
+    localStorage.setItem(name, value as string);
   }
 }
 
@@ -689,9 +689,9 @@ export function camelToDashCase(input: string) {
   return input.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
 }
 
-export function safeJsonStringify(input: any): string {
+export function safeJsonStringify(input: unknown): string {
   if (typeof input === "object" && input !== null) {
     return JSON.stringify(input);
   }
-  return input;
+  return input as string;
 }

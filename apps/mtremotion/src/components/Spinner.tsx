@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
-import { makeRect } from "@remotion/shapes";
 import { translatePath } from "@remotion/paths";
+import { makeRect } from "@remotion/shapes";
+import type React from "react";
+import { useMemo } from "react";
 
 const viewBox = 100;
 const lines = 12;
@@ -38,7 +39,7 @@ export const Spinner: React.FC<{
             key={index}
             d={translated}
             fill="var(--foreground)"
-          ></path>
+          />
         );
       })}
     </svg>

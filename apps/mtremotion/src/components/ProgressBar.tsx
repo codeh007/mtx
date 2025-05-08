@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 
 export const ProgressBar: React.FC<{
   progress: number;
@@ -15,7 +16,7 @@ export const ProgressBar: React.FC<{
         <div
           className="bg-foreground h-2.5 rounded-md transition-all ease-in-out duration-100"
           style={fill}
-        ></div>
+        />
       </div>
     </div>
   );

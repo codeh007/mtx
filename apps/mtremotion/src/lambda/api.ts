@@ -1,17 +1,10 @@
-import { z } from "zod";
 import type { RenderMediaOnLambdaOutput } from "@remotion/lambda/client";
-import {
-  ProgressRequest,
-  ProgressResponse,
-  RenderRequest,
-} from "../../types/schema";
-import { CompositionProps } from "../../types/constants";
-import { ApiResponse } from "../helpers/api-response";
+import type { z } from "zod";
+import type { ApiResponse } from "../helpers/api-response";
+import type { CompositionProps } from "../types/constants";
+import type { ProgressRequest, ProgressResponse, RenderRequest } from "../types/schema";
 
-const makeRequest = async <Res>(
-  endpoint: string,
-  body: unknown,
-): Promise<Res> => {
+const makeRequest = async <Res>(endpoint: string, body: unknown): Promise<Res> => {
   const result = await fetch(endpoint, {
     method: "post",
     body: JSON.stringify(body),
