@@ -3,6 +3,7 @@ export const COMP_NAME = "MyComp";
 
 export const MainSenceSchema = z.object({
   title: z.string(),
+  speechUrl: z.string(),
   subScenes: z.array(
     z.object({
       title: z.string(),
@@ -16,6 +17,7 @@ export const MainSenceSchema = z.object({
 export const defaultMyCompProps: z.infer<typeof MainSenceSchema> = {
   title: "Next.js and Remotion",
   subScenes: [],
+  speechUrl: "",
 };
 
 export const DURATION_IN_FRAMES = 200;

@@ -1,17 +1,18 @@
 import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
-import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
+import { Audio } from "remotion";
 import type { z } from "zod";
 import type { MainSenceSchema } from "../../types/constants";
 import { NextLogoSence } from "./NextLogoSence";
 import { TextFade } from "./TextFade";
-
 loadFont("normal", {
   subsets: ["latin"],
   weights: ["400", "700"],
 });
-export const MainSence = ({ title, subScenes }: z.infer<typeof MainSenceSchema>) => {
+export const MainSence = (props: z.infer<typeof MainSenceSchema>) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  const { title, subScenes, speechUrl } = props;
   if (!subScenes || subScenes.length === 0) {
     return (
       <>
@@ -64,15 +65,13 @@ export const MainSence = ({ title, subScenes }: z.infer<typeof MainSenceSchema>)
           </Sequence>
         );
       })}
+
+      {/* 解说 */}
+      {speechUrl && (
+        <Sequence from={0}>
+          <Audio src={speechUrl} />
+        </Sequence>
+      )}
     </AbsoluteFill>
   );
-};
-
-const Title: React.FC<{ title: string }> = ({ title }) => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 20], [0, 1], {
-    extrapolateRight: "clamp",
-  });
-
-  return <div style={{ opacity, textAlign: "center", fontSize: "7em" }}>{title}</div>;
 };

@@ -366,6 +366,7 @@ Input to parse: "${userInput}"`,
 
       this.setState({
         ...this.state,
+        video_subject: this.state.video_subject,
         mainSence: {
           title: this.state.video_subject,
           subScenes: scenes,
