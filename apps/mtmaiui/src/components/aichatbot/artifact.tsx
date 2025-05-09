@@ -15,6 +15,7 @@ import { ArtifactMessages } from "./artifact-messages";
 import { codeArtifact } from "./artifacts/code/client";
 import { imageArtifact } from "./artifacts/image/client";
 import { sheetArtifact } from "./artifacts/sheet/client";
+import { shortVideoArtifact } from "./artifacts/shortvideo/client";
 import { textArtifact } from "./artifacts/text/client";
 import { useArtifact } from "./hooks/use-artifact";
 import { MultimodalInput } from "./multimodal-input";
@@ -22,7 +23,13 @@ import { Toolbar } from "./toolbar";
 import { VersionFooter } from "./version-footer";
 import type { VisibilityType } from "./visibility-selector";
 
-export const artifactDefinitions = [textArtifact, codeArtifact, imageArtifact, sheetArtifact];
+export const artifactDefinitions = [
+  textArtifact,
+  codeArtifact,
+  imageArtifact,
+  sheetArtifact,
+  shortVideoArtifact,
+];
 export type ArtifactKind = (typeof artifactDefinitions)[number]["kind"];
 
 export interface UIArtifact {

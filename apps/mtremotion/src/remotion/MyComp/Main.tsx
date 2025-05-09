@@ -1,5 +1,5 @@
 import { fontFamily, loadFont } from "@remotion/google-fonts/Inter";
-import { AbsoluteFill, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Sequence, useVideoConfig } from "remotion";
 import { Audio } from "remotion";
 import type { z } from "zod";
 import { Subtitles } from "../../components/Subtitles";
@@ -11,9 +11,9 @@ loadFont("normal", {
   weights: ["400", "700"],
 });
 export const MainSence = (props: z.infer<typeof MainSenceSchema>) => {
-  const frame = useCurrentFrame();
+  // const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const { title, subScenes, speechUrl, bgmUrl, subtitles } = props;
+  const { title, subScenes, bgmUrl, subtitles } = props;
   if (!subScenes || subScenes.length === 0) {
     return (
       <>

@@ -1,10 +1,6 @@
 "use client";
 
-import { startTransition, useMemo, useOptimistic, useState } from "react";
-
-// import { chatModels } from "mtmaiui/lib/ai/models";
 import { cn } from "mtxuilib/lib/utils";
-// import { saveChatModelAsCookie } from '@/app/(chat)/actions';
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -13,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import type { Session } from "next-auth";
+import { startTransition, useMemo, useOptimistic, useState } from "react";
 import { saveChatModelAsCookie } from "../../app/(chat)/actions";
 import { CheckCircleFillIcon, ChevronDownIcon } from "./icons";
 import { entitlementsByUserType } from "./lib/ai/entitlements";
