@@ -1,17 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useWindowSize } from "usehooks-ts";
-
 import { SidebarToggle } from "mtxuilib/mt/sidebar-toggle";
-// import { ModelSelector } from 'mtxu/components/model-selector';
-// import { SidebarToggle } from '@/components/sidebar-toggle';
 import { Button } from "mtxuilib/ui/button";
 import { useSidebar } from "mtxuilib/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import type { Session } from "next-auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { memo } from "react";
+import { useWindowSize } from "usehooks-ts";
 import { PlusIcon, VercelIcon } from "./icons";
 import { ModelSelector } from "./model-selector";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
@@ -45,7 +42,7 @@ function PureChatHeader({
               variant="outline"
               className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
               onClick={() => {
-                router.push("/");
+                router.push("/chat");
                 router.refresh();
               }}
             >

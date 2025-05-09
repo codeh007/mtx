@@ -102,7 +102,6 @@ function PureArtifact({
   useEffect(() => {
     if (documents && documents.length > 0) {
       const mostRecentDocument = documents.at(-1);
-
       if (mostRecentDocument) {
         setDocument(mostRecentDocument);
         setCurrentVersionIndex(documents.length - 1);
@@ -114,6 +113,7 @@ function PureArtifact({
     }
   }, [documents, setArtifact]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     mutateDocuments();
   }, [artifact.status, mutateDocuments]);

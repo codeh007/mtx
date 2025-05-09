@@ -82,7 +82,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
             status={status}
             onSaveContent={onSaveContent}
           />
-          {metadata && metadata.suggestions && metadata.suggestions.length > 0 ? (
+          {metadata?.suggestions && metadata.suggestions.length > 0 ? (
             <div className="md:hidden h-dvh w-12 shrink-0" />
           ) : null}
         </div>
