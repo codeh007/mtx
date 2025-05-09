@@ -73,7 +73,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
 
     return (
       <>
-        <div className="flex flex-row gap-2 w-full bg-slate-400 rounded-lg p-2">
+        <div className="flex flex-row gap-2 w-full bg-slate-100 rounded-lg p-2">
           <Button
             onClick={() => {
               console.log(content);
@@ -82,7 +82,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
             测试1
           </Button>
         </div>
-        <div className="flex flex-row py-8 md:p-20 px-4 bg-slate-300 rounded-lg">
+        <div className="flex flex-row py-8 md:p-20 px-4 ">
           <Editor
             content={content}
             suggestions={metadata ? metadata.suggestions : []}
