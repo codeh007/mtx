@@ -73,7 +73,6 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
     return (
       <>
         <div className="flex flex-row py-8 md:p-20 px-4">
-          短视频1111
           <Editor
             content={content}
             suggestions={metadata ? metadata.suggestions : []}
@@ -120,7 +119,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
     },
     {
       icon: <RedoIcon size={18} />,
-      description: "View Next version",
+      description: "查看下一个版本",
       onClick: ({ handleVersionChange }) => {
         handleVersionChange("next");
       },
@@ -134,7 +133,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
     },
     {
       icon: <CopyIcon size={18} />,
-      description: "Copy to clipboard",
+      description: "复制",
       onClick: ({ content }) => {
         navigator.clipboard.writeText(content);
         toast.success("Copied to clipboard!");
@@ -144,7 +143,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
   toolbar: [
     {
       icon: <PenIcon />,
-      description: "Add final polish",
+      description: "添加最终润色",
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: "user",
@@ -155,7 +154,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
     },
     {
       icon: <MessageIcon />,
-      description: "Request suggestions",
+      description: "请求建议",
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: "user",
