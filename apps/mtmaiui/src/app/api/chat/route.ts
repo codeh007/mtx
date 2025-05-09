@@ -222,7 +222,8 @@ export async function POST(request: Request) {
       return new Response(await streamContext.resumableStream(streamId, () => stream));
     }
     return new Response(stream);
-  } catch (_) {
+  } catch (err: any) {
+    console.error(`Failed to process chat request, error: ${err}`);
     return new Response("An error occurred while processing your request!", {
       status: 500,
     });

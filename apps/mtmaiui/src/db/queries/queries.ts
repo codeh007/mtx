@@ -271,7 +271,7 @@ export async function saveDocument({
       })
       .returning();
   } catch (error) {
-    console.error("Failed to save document in database");
+    console.error(`Failed to save document in database, id: ${id}, error: ${error}`);
     throw error;
   }
 }
