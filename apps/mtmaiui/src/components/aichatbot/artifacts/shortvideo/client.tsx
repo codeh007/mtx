@@ -72,7 +72,7 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
 
     return (
       <>
-        <div className="flex flex-row py-8 md:p-20 px-4">
+        <div className="flex flex-row py-8 md:p-20 px-4 bg-slate-300 rounded-lg">
           <Editor
             content={content}
             suggestions={metadata ? metadata.suggestions : []}
