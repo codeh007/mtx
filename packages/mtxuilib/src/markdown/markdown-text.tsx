@@ -1,9 +1,9 @@
 "use client";
 
-import {
-  MarkdownTextPrimitive,
-  useIsMarkdownCodeBlock,
-} from "@assistant-ui/react-markdown";
+// import {
+//   MarkdownTextPrimitive,
+//   useIsMarkdownCodeBlock,
+// } from "@assistant-ui/react-markdown";
 
 import { memo } from "react";
 import rehypeKatex from "rehype-katex";
@@ -65,61 +65,37 @@ const MarkdownTextImpl = () => {
         h5: ({ node: _node, className, ...props }) => (
           //@ts-ignore
           <h5
-            className={cn(
-              "my-4 text-lg font-semibold first:mt-0 last:mb-0",
-              className,
-            )}
+            className={cn("my-4 text-lg font-semibold first:mt-0 last:mb-0", className)}
             {...props}
           />
         ),
         h6: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <h6
-            className={cn("my-4 font-semibold first:mt-0 last:mb-0", className)}
-            {...props}
-          />
+          <h6 className={cn("my-4 font-semibold first:mt-0 last:mb-0", className)} {...props} />
         ),
         p: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <p
-            className={cn(
-              "mb-5 mt-5 leading-7 first:mt-0 last:mb-0",
-              className,
-            )}
-            {...props}
-          />
+          <p className={cn("mb-5 mt-5 leading-7 first:mt-0 last:mb-0", className)} {...props} />
         ),
         a: ({ node: _node, className, ...props }) => (
           //@ts-ignore
           <a
             target="_blank"
-            className={cn(
-              "text-primary font-medium underline underline-offset-4",
-              className,
-            )}
+            className={cn("text-primary font-medium underline underline-offset-4", className)}
             {...props}
           />
         ),
         blockquote: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <blockquote
-            className={cn("border-l-2 pl-6 italic", className)}
-            {...props}
-          />
+          <blockquote className={cn("border-l-2 pl-6 italic", className)} {...props} />
         ),
         ul: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <ul
-            className={cn("my-5 ml-6 list-disc [&>li]:mt-2", className)}
-            {...props}
-          />
+          <ul className={cn("my-5 ml-6 list-disc [&>li]:mt-2", className)} {...props} />
         ),
         ol: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <ol
-            className={cn("my-5 ml-6 list-decimal [&>li]:mt-2", className)}
-            {...props}
-          />
+          <ol className={cn("my-5 ml-6 list-decimal [&>li]:mt-2", className)} {...props} />
         ),
         hr: ({ node: _node, className, ...props }) => (
           //@ts-ignore
@@ -168,18 +144,12 @@ const MarkdownTextImpl = () => {
         ),
         sup: ({ node: _node, className, ...props }) => (
           //@ts-ignore
-          <sup
-            className={cn("[&>a]:text-xs [&>a]:no-underline", className)}
-            {...props}
-          />
+          <sup className={cn("[&>a]:text-xs [&>a]:no-underline", className)} {...props} />
         ),
         pre: ({ node: _node, className, ...props }) => (
           //@ts-ignore
           <pre
-            className={cn(
-              "overflow-x-auto rounded-b-lg bg-black p-4 text-white",
-              className,
-            )}
+            className={cn("overflow-x-auto rounded-b-lg bg-black p-4 text-white", className)}
             {...props}
           />
         ),
@@ -188,10 +158,7 @@ const MarkdownTextImpl = () => {
           return (
             //@ts-ignore
             <code
-              className={cn(
-                !isCodeBlock && "bg-aui-muted rounded border font-semibold",
-                className,
-              )}
+              className={cn(!isCodeBlock && "bg-aui-muted rounded border font-semibold", className)}
               {...props}
             />
           );

@@ -1,6 +1,6 @@
 "use client";
 
-import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
+// import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
 import { IconX, Icons } from "mtxuilib/icons/icons";
 import { logout } from "mtxuilib/lib/auth/auth_actions";
 import { cn } from "mtxuilib/lib/utils";
@@ -49,7 +49,7 @@ export const UserFAB = () => {
   };
   return (
     <>
-      {openCmdk && <AssistantModal />}
+      {/* {openCmdk && <AssistantModal />} */}
 
       <DropdownMenu open={openDropdown} onOpenChange={setOpenDropdown}>
         <DropdownMenuTrigger asChild>
@@ -113,9 +113,7 @@ const UserFABDropdownMenuContent = () => {
         <DropdownMenuGroup key={item.title}>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              {item.icon && (
-                <IconX name={item.icon} className="size-5 m-0 p-0" />
-              )}
+              {item.icon && <IconX name={item.icon} className="size-5 m-0 p-0" />}
               <span className="text-lg font-semibold">{item.title}</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
