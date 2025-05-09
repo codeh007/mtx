@@ -1,25 +1,28 @@
-import { auth } from '@/app/(auth)/auth';
-import { NextRequest } from 'next/server';
-import { getChatsByUserId } from '@/lib/db/queries';
+import { auth } from "../../../../app/(auth)/auth";
+// import { NextRequest } from 'next/server';
+// import { getChatsByUserId } from '@/lib/db/queries';
+
+// import { auth } from "mtxuilib/lib/auth/auth.js";
+import type { NextRequest } from "next/server";
+import { getChatsByUserId } from "../../../../db/aichatbot-db/queries";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
-  const limit = parseInt(searchParams.get('limit') || '10');
-  const startingAfter = searchParams.get('starting_after');
-  const endingBefore = searchParams.get('ending_before');
+  const limit = Number.parseInt(searchParams.get("limit") || "10");
+  const startingAfter = searchParams.get("starting_after");
+  const endingBefore = searchParams.get("ending_before");
 
   if (startingAfter && endingBefore) {
-    return Response.json(
-      'Only one of starting_after or ending_before can be provided!',
-      { status: 400 },
-    );
+    return Response.json("Only one of starting_after or ending_before can be provided!", {
+      status: 400,
+    });
   }
 
   const session = await auth();
 
   if (!session?.user?.id) {
-    return Response.json('Unauthorized!', { status: 401 });
+    return Response.json("Unauthorized!", { status: 401 });
   }
 
   try {
@@ -32,6 +35,6 @@ export async function GET(request: NextRequest) {
 
     return Response.json(chats);
   } catch (_) {
-    return Response.json('Failed to fetch chats!', { status: 500 });
+    return Response.json("Failed to fetch chats!", { status: 500 });
   }
 }
