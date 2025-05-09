@@ -145,6 +145,7 @@
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.1",
     "redaxios": "^0.5.1",
+    "resumable-stream": "^2.0.0",
     "revideo": "^0.0.0",
     "sonner": "^2.0",
     "superjson": "^2.2.2",
