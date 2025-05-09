@@ -6,6 +6,7 @@ import { Button } from "mtxuilib/ui/button";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { useWindowSize } from "usehooks-ts";
+import type { Document } from "../../db/schema";
 import { useArtifact } from "./hooks/use-artifact";
 import { LoaderIcon } from "./icons";
 import { getDocumentTimestampByIndex } from "./lib/utils";

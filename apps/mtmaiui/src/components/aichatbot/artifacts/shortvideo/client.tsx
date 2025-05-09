@@ -1,5 +1,6 @@
 import { CopyIcon, PenIcon, RedoIcon, UndoIcon } from "lucide-react";
 import { MessageIcon } from "mtxuilib/icons/aichatbot.icons";
+import { Button } from "mtxuilib/ui/button";
 import { toast } from "sonner";
 import type { Suggestion } from "../../../../db/schema";
 import { Artifact } from "../../create-artifact";
@@ -72,6 +73,15 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
 
     return (
       <>
+        <div className="flex flex-row gap-2 w-full bg-slate-400 rounded-lg p-2">
+          <Button
+            onClick={() => {
+              console.log(content);
+            }}
+          >
+            测试1
+          </Button>
+        </div>
         <div className="flex flex-row py-8 md:p-20 px-4 bg-slate-300 rounded-lg">
           <Editor
             content={content}
