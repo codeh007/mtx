@@ -1,5 +1,7 @@
 "use client";
 
+import type { JSONValue } from "ai";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SidebarToggle } from "mtxuilib/mt/sidebar-toggle";
 import { Button } from "mtxuilib/ui/button";
 import { useSidebar } from "mtxuilib/ui/sidebar";
@@ -19,12 +21,14 @@ function PureChatHeader({
   selectedVisibilityType,
   isReadonly,
   session,
+  data,
 }: {
   chatId: string;
   selectedModelId: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
   session: Session;
+  data: JSONValue[] | undefined;
 }) {
   const router = useRouter();
   const { open } = useSidebar();
@@ -34,7 +38,7 @@ function PureChatHeader({
   return (
     <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2">
       <SidebarToggle />
-
+      <DebugValue data={data} />
       {(!open || windowWidth < 768) && (
         <Tooltip>
           <TooltipTrigger asChild>

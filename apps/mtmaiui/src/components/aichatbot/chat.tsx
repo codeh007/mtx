@@ -2,7 +2,6 @@
 
 import { useChat } from "@ai-sdk/react";
 import type { Attachment, UIMessage } from "ai";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { fetcher, generateUUID } from "mtxuilib/lib/utils";
 import type { Session } from "next-auth";
 import { useSearchParams } from "next/navigation";
@@ -116,13 +115,13 @@ export function Chat({
   return (
     <>
       <div className="flex flex-col min-w-0 h-dvh bg-background">
-        <DebugValue data={data} />
         <ChatHeader
           chatId={id}
           selectedModelId={initialChatModel}
           selectedVisibilityType={initialVisibilityType}
           isReadonly={isReadonly}
           session={session}
+          data={data}
         />
 
         <Messages
