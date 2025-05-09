@@ -2,10 +2,10 @@ import { cookies } from "next/headers";
 
 import { generateUUID } from "mtxuilib/lib/utils";
 import { redirect } from "next/navigation";
-import { auth } from "../../(auth)/auth";
 import { Chat } from "../../../components/aichatbot/chat";
 import { DataStreamHandler } from "../../../components/aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../components/aichatbot/lib/ai/models";
+import { auth } from "../../../lib/auth/auth";
 
 export default async function Page() {
   const session = await auth();

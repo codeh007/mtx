@@ -1,5 +1,5 @@
-import { auth } from "../../../../app/(auth)/auth";
 import { getSuggestionsByDocumentId } from "../../../../db/aichatbot-db/queries";
+import { auth } from "../../../../lib/auth/auth";
 // import { getSuggestionsByDocumentId } from '@/lib/db/queries';
 
 export async function GET(request: Request) {

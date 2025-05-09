@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { createUser, getUser } from "../../db/aichatbot-db/queries";
-import { signIn } from "./auth";
+import { signIn } from "../../lib/auth/auth";
 
 const authFormSchema = z.object({
   email: z.string().email(),

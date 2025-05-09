@@ -1,4 +1,3 @@
-import { auth } from "../../../../app/(auth)/auth";
 import type { ArtifactKind } from "../../../../components/aichatbot/artifact";
 // import type { ArtifactKind } from '@/components/artifact';
 import {
@@ -6,6 +5,7 @@ import {
   getDocumentsById,
   saveDocument,
 } from "../../../../db/aichatbot-db/queries";
+import { auth } from "../../../../lib/auth/auth";
 // import {
 //   deleteDocumentsByIdAfterTimestamp,
 //   getDocumentsById,

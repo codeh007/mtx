@@ -2,8 +2,8 @@ import { cookies } from "next/headers";
 
 // import { AppSidebar } from '@/components/app-sidebar';
 import { SidebarInset, SidebarProvider } from "mtxuilib/ui/sidebar";
-import { auth } from "../../(auth)/auth";
 import { AppSidebar } from "../../../components/aichatbot/app-sidebar";
+import { auth } from "../../../lib/auth/auth";
 
 export const experimental_ppr = true;
 

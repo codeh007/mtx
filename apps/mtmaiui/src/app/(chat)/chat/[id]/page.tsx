@@ -1,12 +1,12 @@
 import type { Attachment, UIMessage } from "ai";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { auth } from "../../../(auth)/auth";
 import { Chat } from "../../../../components/aichatbot/chat";
 import { DataStreamHandler } from "../../../../components/aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../components/aichatbot/lib/ai/models";
 import { getChatById, getMessagesByChatId } from "../../../../db/aichatbot-db/queries";
 import type { DBMessage } from "../../../../db/aichatbot-db/schema";
+import { auth } from "../../../../lib/auth/auth";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

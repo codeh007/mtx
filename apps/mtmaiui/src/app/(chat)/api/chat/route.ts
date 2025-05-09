@@ -29,7 +29,6 @@ import { differenceInSeconds } from "date-fns";
 import { generateUUID } from "mtxuilib/lib/utils.";
 import { after } from "next/server";
 import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
-import { type UserType, auth } from "../../../../app/(auth)/auth";
 import { type RequestHints, systemPrompt } from "../../../../components/aichatbot/lib/ai/prompts";
 // import { RequestHints, systemPrompt } from "../../../../components/aichatbot/lib/ai/prompts";
 import { myProvider } from "../../../../components/aichatbot/lib/ai/providers";
@@ -50,6 +49,7 @@ import {
   saveMessages,
 } from "../../../../db/aichatbot-db/queries";
 import type { Chat } from "../../../../db/aichatbot-db/schema";
+import { type UserType, auth } from "../../../../lib/auth/auth";
 import { generateTitleFromUserMessage } from "../../actions";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 

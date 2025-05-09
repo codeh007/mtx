@@ -1,18 +1,13 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-// import { toast } from 'mtxuilib/ui/toast';
-
-// import { AuthForm } from '@/components/auth-form';
-// import { SubmitButton } from '@/components/submit-button';
-
-import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 import { AuthForm } from "../../../components/aichatbot/auth-form";
 import { SubmitButton } from "../../../components/aichatbot/submit-button";
 import { type LoginActionState, login } from "../actions";
-import { toast } from "sonner";
 
 export default function Page() {
   const router = useRouter();

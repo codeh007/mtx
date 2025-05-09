@@ -29,7 +29,15 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: ["icon-library"],
+    // ppr: true,
     // urlImports: ["https://cdn.skypack.dev", "blob:"],
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'avatar.vercel.sh',
+      },
+    ],
   },
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {

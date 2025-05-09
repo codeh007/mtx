@@ -1,18 +1,13 @@
 "use client";
 
+import { SubmitButton } from "mtxuilib/mt/form/ZodForm.jsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-
-// import { AuthForm } from '@/components/auth-form';
-// import { SubmitButton } from '@/components/submit-button';
-
-// import { toast } from '@/components/toast';
-import { useSession } from "next-auth/react";
+import { AuthForm } from "../../../components/aichatbot/auth-form";
 import { toast } from "../../../components/aichatbot/toast";
 import { type RegisterActionState, register } from "../actions";
-import { SubmitButton } from "mtxuilib/mt/form/ZodForm.jsx";
-import { AuthForm } from "../../../components/aichatbot/auth-form";
 
 export default function Page() {
   const router = useRouter();
