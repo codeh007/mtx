@@ -6,6 +6,7 @@ import { imageDocumentHandler } from "../../artifacts/image/server";
 import { sheetDocumentHandler } from "../../artifacts/sheet/server";
 import { textDocumentHandler } from "../../artifacts/text/server";
 import { saveDocument } from "../db/queries";
+import type { Document } from "../db/schema";
 
 export interface SaveDocumentProps {
   id: string;
