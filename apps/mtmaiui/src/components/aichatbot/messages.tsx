@@ -2,6 +2,7 @@ import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { memo } from "react";
 import type { Vote } from "../../db/schema";
 import { Greeting } from "./greeting";
@@ -45,7 +46,7 @@ function PureMessages({
       className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4 relative"
     >
       {messages.length === 0 && <Greeting />}
-
+      <DebugValue data={messages} />
       {messages.map((message, index) => (
         <PreviewMessage
           key={message.id}

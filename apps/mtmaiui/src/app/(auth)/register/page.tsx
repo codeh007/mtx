@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitButton } from "mtxuilib/mt/form/ZodForm.jsx";
+import { Button } from "mtxuilib/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -55,7 +55,7 @@ export default function Page() {
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
-          <SubmitButton isSuccessful={isSuccessful}>Sign Up</SubmitButton>
+          <Button isSuccessful={isSuccessful}>Sign Up</Button>
           <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
             {"Already have an account? "}
             <Link

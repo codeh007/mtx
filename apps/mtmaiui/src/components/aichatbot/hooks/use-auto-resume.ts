@@ -3,7 +3,7 @@
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import { useEffect } from "react";
-import type { DataPart } from "../lib/types";
+import type { DataPart } from "../../../types/aichatbot_types";
 
 export interface UseAutoResumeParams {
   autoResume: boolean;
@@ -20,6 +20,7 @@ export function useAutoResume({
   data,
   setMessages,
 }: UseAutoResumeParams) {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!autoResume) return;
 
