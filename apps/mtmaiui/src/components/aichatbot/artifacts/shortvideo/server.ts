@@ -10,8 +10,14 @@ export const shortVideoHandler = createDocumentHandler<"shortvideo">({
 
     const { fullStream } = streamText({
       model: myProvider.languageModel("artifact-model"),
-      system:
-        "Write about the given topic. Markdown is supported. Use headings wherever appropriate.",
+      system: `你是有十年经验的短视频UP主, 擅长编写各种适合在 tiktok 短视频平台播放的视频脚本.
+**脚本要求**
+1. 脚本需要符合 tiktok 平台的要求, 不要包含任何违法违规内容.
+2. 脚本需要有足够的话题性, 能够吸引用户观看.
+
+
+
+`,
       experimental_transform: smoothStream({ chunking: "word" }),
       prompt: title,
     });

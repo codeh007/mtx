@@ -1,7 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
-import { signIn } from "../../../../../app/(auth)/auth";
-import { isDevelopmentEnvironment } from "../../../../../components/aichatbot/lib/constants";
+import { isDevelopmentEnvironment } from "../../../../components/aichatbot/lib/constants";
+import { signIn } from "../../../../lib/auth/auth";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

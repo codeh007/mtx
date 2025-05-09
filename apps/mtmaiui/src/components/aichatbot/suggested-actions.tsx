@@ -15,9 +15,9 @@ interface SuggestedActionsProps {
 function PureSuggestedActions({ chatId, append, selectedVisibilityType }: SuggestedActionsProps) {
   const suggestedActions = [
     {
-      title: "What are the advantages",
-      label: "of using Next.js?",
-      action: "What are the advantages of using Next.js?",
+      title: "tiktok 短视频脚本",
+      label: "短视频脚本",
+      action: "以 勇往直前 为主题, 编写一个短视频脚本",
     },
     {
       title: "Write code to",
@@ -25,9 +25,9 @@ function PureSuggestedActions({ chatId, append, selectedVisibilityType }: Sugges
       action: `Write code to demonstrate djikstra's algorithm`,
     },
     {
-      title: "Help me write an essay",
-      label: "about silicon valley",
-      action: "Help me write an essay about silicon valley",
+      title: "帮我写一篇关于硅谷的文章",
+      label: "硅谷文章",
+      action: "帮我写一篇关于硅谷的文章",
     },
     {
       title: "What is the weather",
