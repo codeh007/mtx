@@ -3,7 +3,7 @@ import type { UIMessage } from "ai";
 import equal from "fast-deep-equal";
 import { motion } from "framer-motion";
 import { memo } from "react";
-import type { Vote } from "../../db/aichatbot-db/schema";
+import type { Vote } from "../../db/schema";
 import { Greeting } from "./greeting";
 import { useMessages } from "./hooks/use-messages";
 import { PreviewMessage, ThinkingMessage } from "./message";

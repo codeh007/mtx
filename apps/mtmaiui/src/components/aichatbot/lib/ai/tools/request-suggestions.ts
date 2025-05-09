@@ -2,8 +2,8 @@ import { type DataStreamWriter, streamObject, tool } from "ai";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { Session } from "next-auth";
 import { z } from "zod";
-import { getDocumentById, saveSuggestions } from "../../../../../db/aichatbot-db/queries";
-import type { Suggestion } from "../../../../../db/aichatbot-db/schema";
+import { getDocumentById, saveSuggestions } from "../../../../../db/queries/queries";
+import type { Suggestion } from "../../../../../db/schema";
 import { myProvider } from "../providers";
 
 interface RequestSuggestionsProps {

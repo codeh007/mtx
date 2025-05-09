@@ -8,7 +8,7 @@ import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
   updateChatVisiblityById,
-} from "../../db/aichatbot-db/queries";
+} from "../../db/queries/queries";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();

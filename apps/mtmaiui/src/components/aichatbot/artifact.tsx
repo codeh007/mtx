@@ -8,7 +8,7 @@ import { useSidebar } from "mtxuilib/ui/sidebar";
 import { type Dispatch, type SetStateAction, memo, useCallback, useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { useDebounceCallback, useWindowSize } from "usehooks-ts";
-import type { Document, Vote } from "../../db/aichatbot-db/schema";
+import type { Document, Vote } from "../../db/schema";
 import { ArtifactActions } from "./artifact-actions";
 import { ArtifactCloseButton } from "./artifact-close-button";
 import { ArtifactMessages } from "./artifact-messages";

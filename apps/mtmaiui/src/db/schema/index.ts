@@ -7,6 +7,7 @@ export * from "./resources";
 export * from "./suggestion";
 export * from "./user";
 export * from "./vote";
+export * from "./stream";
 
 export * from "./adk_app_states";
 export * from "./adk_events";

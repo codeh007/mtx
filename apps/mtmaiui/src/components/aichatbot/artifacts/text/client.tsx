@@ -1,7 +1,7 @@
 import { CopyIcon, PenIcon, RedoIcon, UndoIcon } from "lucide-react";
 import { MessageIcon } from "mtxuilib/icons/aichatbot.icons";
 import { toast } from "sonner";
-import type { Suggestion } from "../../../../db/aichatbot-db/schema";
+import type { Suggestion } from "../../../../db/schema";
 import { Artifact } from "../../create-artifact";
 import { DiffView } from "../../diffview";
 import { DocumentSkeleton } from "../../document-skeleton";

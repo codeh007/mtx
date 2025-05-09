@@ -4,7 +4,7 @@ import { EditorState, Transaction } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { basicSetup } from "codemirror";
 import { memo, useEffect, useRef } from "react";
-import type { Suggestion } from "../../db/aichatbot-db/schema";
+import type { Suggestion } from "../../db/schema";
 
 type EditorProps = {
   content: string;

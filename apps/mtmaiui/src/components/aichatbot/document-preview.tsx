@@ -4,7 +4,7 @@ import equal from "fast-deep-equal";
 import { cn, fetcher } from "mtxuilib/lib/utils";
 import { type MouseEvent, memo, useCallback, useEffect, useMemo, useRef } from "react";
 import useSWR from "swr";
-import type { Document } from "../../db/aichatbot-db/schema";
+import type { Document } from "../../db/schema";
 import type { ArtifactKind, UIArtifact } from "./artifact";
 import { CodeEditor } from "./code-editor";
 import { DocumentToolCall, DocumentToolResult } from "./document";

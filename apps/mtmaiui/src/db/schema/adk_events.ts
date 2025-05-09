@@ -8,7 +8,6 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-// import { user } from "./user";
 import { adkSessions } from "./adk_sessions";
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({

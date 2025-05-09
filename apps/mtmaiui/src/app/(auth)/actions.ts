@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "../../db/aichatbot-db/queries";
+import { createUser, getUser } from "../../db/queries/queries";
 import { signIn } from "../../lib/auth/auth";
 
 const authFormSchema = z.object({

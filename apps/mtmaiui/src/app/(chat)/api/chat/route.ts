@@ -27,8 +27,8 @@ import {
   getStreamIdsByChatId,
   saveChat,
   saveMessages,
-} from "../../../../db/aichatbot-db/queries";
-import type { Chat } from "../../../../db/aichatbot-db/schema";
+} from "../../../../db/queries/queries";
+import type { Chat } from "../../../../db/schema";
 import { type UserType, auth } from "../../../../lib/auth/auth";
 import { generateTitleFromUserMessage } from "../../actions";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";

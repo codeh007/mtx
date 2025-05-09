@@ -19,7 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import useSWRInfinite from "swr/infinite";
-import type { Chat } from "../../db/aichatbot-db/schema";
+import type { Chat } from "../../db/schema";
 import { LoaderIcon } from "./icons";
 import { ChatItem } from "./sidebar-history-item";
 

@@ -1,4 +1,4 @@
-import { getChatById, getVotesByChatId, voteMessage } from "../../../../db/aichatbot-db/queries";
+import { getChatById, getVotesByChatId, voteMessage } from "../../../../db/queries/queries";
 import { auth } from "../../../../lib/auth/auth";
 
 export async function GET(request: Request) {

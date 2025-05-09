@@ -4,8 +4,8 @@ import { notFound, redirect } from "next/navigation";
 import { Chat } from "../../../../components/aichatbot/chat";
 import { DataStreamHandler } from "../../../../components/aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../components/aichatbot/lib/ai/models";
-import { getChatById, getMessagesByChatId } from "../../../../db/aichatbot-db/queries";
-import type { DBMessage } from "../../../../db/aichatbot-db/schema";
+import { getChatById, getMessagesByChatId } from "../../../../db/queries/queries";
+import type { DBMessage } from "../../../../db/schema";
 import { auth } from "../../../../lib/auth/auth";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {

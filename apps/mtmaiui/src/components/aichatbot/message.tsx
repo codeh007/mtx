@@ -9,7 +9,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { memo, useState } from "react";
-import type { Vote } from "../../db/aichatbot-db/schema";
+import type { Vote } from "../../db/schema";
 import { DocumentToolCall, DocumentToolResult } from "./document";
 import { DocumentPreview } from "./document-preview";
 import { PencilEditIcon, SparklesIcon } from "./icons";

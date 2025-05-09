@@ -5,18 +5,18 @@ import { inputRules } from "prosemirror-inputrules";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { memo, useEffect, useRef } from "react";
-import type { Suggestion } from "../../db/aichatbot-db/schema";
+import type { Suggestion } from "../../db/schema";
+import { documentSchema, handleTransaction, headingRule } from "./lib/editor/config";
 import {
   buildContentFromDocument,
   buildDocumentFromContent,
   createDecorations,
-} from "../editor/functions";
+} from "./lib/editor/functions";
 import {
   projectWithPositions,
   suggestionsPlugin,
   suggestionsPluginKey,
-} from "../editor/suggestions";
-import { documentSchema, handleTransaction, headingRule } from "./lib/editor/config";
+} from "./lib/editor/suggestions";
 
 type EditorProps = {
   content: string;

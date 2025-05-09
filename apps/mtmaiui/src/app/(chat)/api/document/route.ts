@@ -3,7 +3,7 @@ import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
-} from "../../../../db/aichatbot-db/queries";
+} from "../../../../db/queries/queries";
 import { auth } from "../../../../lib/auth/auth";
 
 export async function GET(request: Request) {

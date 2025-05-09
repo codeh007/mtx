@@ -6,7 +6,7 @@ import { chat } from "./chat";
 import { message } from "./message";
 
 export const vote = pgTable(
-  "Vote",
+  "Vote_v2",
   {
     chatId: uuid("chatId")
       .notNull()

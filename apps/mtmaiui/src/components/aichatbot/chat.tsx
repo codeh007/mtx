@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
-import type { Vote } from "../../db/aichatbot-db/schema";
+import type { Vote } from "../../db/schema";
 import { Artifact } from "./artifact";
 import { ChatHeader } from "./chat-header";
 import { useArtifactSelector } from "./hooks/use-artifact";

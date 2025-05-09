@@ -1,6 +1,6 @@
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { ComponentType, Dispatch, ReactNode, SetStateAction } from "react";
-import type { Suggestion } from "../../db/aichatbot-db/schema";
+import type { Suggestion } from "../../db/schema";
 import type { UIArtifact } from "./artifact";
 import type { DataStreamDelta } from "./data-stream-handler";
 

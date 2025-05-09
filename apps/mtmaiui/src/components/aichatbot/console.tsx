@@ -66,6 +66,7 @@ export function Console({ consoleOutputs, setConsoleOutputs }: ConsoleProps) {
     };
   }, [resize, stopResizing]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     consoleEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [consoleOutputs]);

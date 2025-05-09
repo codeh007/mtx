@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { useEffect, useRef } from "react";
-import type { Suggestion } from "../../db/aichatbot-db/schema";
+import type { Suggestion } from "../../db/schema";
 import { type ArtifactKind, artifactDefinitions } from "./artifact";
 import { initialArtifactData, useArtifact } from "./hooks/use-artifact";
 

@@ -11,7 +11,7 @@ import {
 import { SidebarMenuAction, SidebarMenuButton, SidebarMenuItem } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
 import { memo } from "react";
-import type { Chat } from "../../db/aichatbot-db/schema";
+import type { Chat } from "../../db/schema";
 import { useChatVisibility } from "./hooks/use-chat-visibility";
 import {
   CheckCircleFillIcon,
