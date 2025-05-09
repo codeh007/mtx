@@ -1,6 +1,5 @@
 import { getChatById, getVotesByChatId, voteMessage } from "../../../../db/aichatbot-db/queries";
 import { auth } from "../../../../lib/auth/auth";
-// import { getChatById, getVotesByChatId, voteMessage } from '@/lib/db/queries';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

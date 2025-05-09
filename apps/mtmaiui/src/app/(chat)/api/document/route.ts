@@ -1,16 +1,10 @@
 import type { ArtifactKind } from "../../../../components/aichatbot/artifact";
-// import type { ArtifactKind } from '@/components/artifact';
 import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,
   saveDocument,
 } from "../../../../db/aichatbot-db/queries";
 import { auth } from "../../../../lib/auth/auth";
-// import {
-//   deleteDocumentsByIdAfterTimestamp,
-//   getDocumentsById,
-//   saveDocument,
-// } from '@/lib/db/queries';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

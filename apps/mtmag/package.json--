@@ -121,7 +121,6 @@
     "miniflare": "^4.20250416.0",
     "mtxuilib": "*",
     "next": "^15.3.1",
-    "next-themes": "^0.4.4",
     "pg": "^8.14.1",
     "postal-mime": "^2.4.3",
     "postgres": "^3.4.5",

@@ -1,22 +1,3 @@
-// import { type RequestHints, systemPrompt } from "../../../../lib/ai/prompts";
-// import { myProvider } from "../../../../lib/ai/providers";
-// import { createDocument } from "../../../../lib/ai/tools/create-document";
-// import { getWeather } from "../../../../lib/ai/tools/get-weather";
-// import { requestSuggestions } from "../../../../lib/ai/tools/request-suggestions";
-// import { updateDocument } from "../../../../lib/ai/tools/update-document";
-// import { isProductionEnvironment } from "../../../../lib/constants";
-// import {
-//   createStreamId,
-//   deleteChatById,
-//   getChatById,
-//   getMessageCountByUserId,
-//   getMessagesByChatId,
-//   getStreamIdsByChatId,
-//   saveChat,
-//   saveMessages,
-// } from "@/lib/db/queries";
-// import type { Chat } from "@/lib/db/schema";
-// import { generateUUID, getTrailingMessageId } from "@/lib/utils";
 import { geolocation } from "@vercel/functions";
 import {
   appendClientMessage,
@@ -26,11 +7,10 @@ import {
   streamText,
 } from "ai";
 import { differenceInSeconds } from "date-fns";
-import { generateUUID } from "mtxuilib/lib/utils.";
+import { generateUUID } from "mtxuilib/lib/sslib";
 import { after } from "next/server";
 import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
 import { type RequestHints, systemPrompt } from "../../../../components/aichatbot/lib/ai/prompts";
-// import { RequestHints, systemPrompt } from "../../../../components/aichatbot/lib/ai/prompts";
 import { myProvider } from "../../../../components/aichatbot/lib/ai/providers";
 import { createDocument } from "../../../../components/aichatbot/lib/ai/tools/create-document";
 import { getWeather } from "../../../../components/aichatbot/lib/ai/tools/get-weather";
@@ -239,9 +219,8 @@ export async function POST(request: Request) {
 
     if (streamContext) {
       return new Response(await streamContext.resumableStream(streamId, () => stream));
-    } else {
-      return new Response(stream);
     }
+    return new Response(stream);
   } catch (_) {
     return new Response("An error occurred while processing your request!", {
       status: 500,

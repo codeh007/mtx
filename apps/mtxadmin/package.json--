@@ -149,7 +149,6 @@
     "next": "^15.1.7",
     "next-auth": "5.0.0-beta.25",
     "next-nprogress-bar": "^2.4.3",
-    "next-themes": "^0.3.0",
     "octokit": "^4.0",
     "open": "^10.1.0",
     "openai": "^4.56.0",

@@ -12,7 +12,7 @@ import {
 import { toast } from "sonner";
 
 import { javascript } from "@codemirror/lang-javascript";
-import CodeMirror from "@uiw/react-codemirror";
+// import CodeMirror from "@uiw/react-codemirror";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
@@ -96,12 +96,12 @@ function RouteComponent() {
             onSave={handleDocSave}
           /> */}
 
-          <CodeMirror
+          {/* <CodeMirror
             className="h-[300px]"
             value={editorDocument.value}
             extensions={[javascript({ jsx: true })]}
             onChange={onEditorChange}
-          />
+          /> */}
         </div>
       </ZForm>
       <ZFormToolbar form={form} />

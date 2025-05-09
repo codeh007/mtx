@@ -1,10 +1,6 @@
-import { auth } from "../../../../lib/auth/auth";
-// import { NextRequest } from 'next/server';
-// import { getChatsByUserId } from '@/lib/db/queries';
-
-// import { auth } from "mtxuilib/lib/auth/auth.js";
 import type { NextRequest } from "next/server";
 import { getChatsByUserId } from "../../../../db/aichatbot-db/queries";
+import { auth } from "../../../../lib/auth/auth";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
