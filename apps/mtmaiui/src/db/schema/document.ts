@@ -1,6 +1,6 @@
 import type { InferSelectModel } from "drizzle-orm";
 import { pgTable, primaryKey, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { user } from "./user";
+import { user } from "./auth";
 
 export const document = pgTable(
   "Document",

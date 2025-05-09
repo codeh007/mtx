@@ -4,7 +4,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { useTheme } from "next-themes";
 import { parse, unparse } from "papaparse";
 import { memo, useEffect, useMemo, useState } from "react";
-import DataGrid, { textEditor } from "react-data-grid";
+import { DataGrid, textEditor } from "react-data-grid";
 
 import "react-data-grid/lib/styles.css";
 

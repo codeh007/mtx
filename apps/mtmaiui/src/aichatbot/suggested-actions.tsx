@@ -35,6 +35,11 @@ function PureSuggestedActions({ chatId, append, selectedVisibilityType }: Sugges
       label: "in San Francisco?",
       action: "What is the weather in San Francisco?",
     },
+    {
+      title: "纯文本文档生成",
+      label: "纯文本文档生成",
+      action: "帮我写一篇关于硅谷的文章,文档类型是text, 标题和内容你自由发挥",
+    },
   ];
 
   return (

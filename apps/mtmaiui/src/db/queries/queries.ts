@@ -13,6 +13,7 @@ import {
   type DBMessage,
   type Suggestion,
   type User,
+  // type User,
   chat,
   document,
   message,
@@ -172,7 +173,7 @@ export async function getChatById({ id }: { id: string }) {
     const [selectedChat] = await db.select().from(chat).where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
-    console.error("Failed to get chat by id from database");
+    console.error(`Failed to get chat by id from database, id: ${id}`);
     throw error;
   }
 }
@@ -285,7 +286,7 @@ export async function getDocumentsById({ id }: { id: string }) {
 
     return documents;
   } catch (error) {
-    console.error("Failed to get document by id from database");
+    console.error(`Failed to get document by id from database, id: ${error}`);
     throw error;
   }
 }
@@ -300,7 +301,7 @@ export async function getDocumentById({ id }: { id: string }) {
 
     return selectedDocument;
   } catch (error) {
-    console.error("Failed to get document by id from database");
+    console.error(`Failed to get document by id from database, id: ${id}`);
     throw error;
   }
 }

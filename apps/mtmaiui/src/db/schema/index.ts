@@ -5,7 +5,6 @@ export * from "./message";
 export * from "./nodestate";
 export * from "./resources";
 export * from "./suggestion";
-export * from "./user";
 export * from "./vote";
 export * from "./stream";
 
