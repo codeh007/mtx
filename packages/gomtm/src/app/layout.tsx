@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-export const runtime = "edge"; //nodejs
-export const dynamic = "force-dynamic";
+// export const runtime = "edge"; //nodejs
+// export const dynamic = "force-dynamic";
 
 export default async function Layout(props: {
   children: ReactNode;
