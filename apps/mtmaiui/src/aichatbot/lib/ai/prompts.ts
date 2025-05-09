@@ -114,4 +114,10 @@ Improve the following spreadsheet based on the given prompt.
 
 ${currentContent}
 `
-        : "";
+        : type === "shortvideo"
+          ? `\
+Improve the following short video script based on the given prompt.
+
+${currentContent}
+`
+          : "";

@@ -42,6 +42,7 @@ export const shortVideoHandler = createDocumentHandler<"shortvideo">({
     return draftContent;
   },
   onUpdateDocument: async ({ document, description, dataStream }) => {
+    console.log("shortvideoHandler onUpdateDocument", document, description);
     let draftContent = "";
 
     const { fullStream } = streamText({
