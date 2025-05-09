@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { AuthForm } from "../../../components/aichatbot/auth-form";
-import { toast } from "../../../components/aichatbot/toast";
+import { AuthForm } from "../../../aichatbot/auth-form";
+import { toast } from "../../../aichatbot/toast";
 import { type RegisterActionState, register } from "../actions";
 
 export default function Page() {

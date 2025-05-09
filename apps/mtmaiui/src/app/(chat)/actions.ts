@@ -2,8 +2,8 @@
 
 import { type UIMessage, generateText } from "ai";
 import { cookies } from "next/headers";
-import { myProvider } from "../../components/aichatbot/lib/ai/providers";
-import type { VisibilityType } from "../../components/aichatbot/visibility-selector";
+import { myProvider } from "../../aichatbot/lib/ai/providers";
+import type { VisibilityType } from "../../aichatbot/visibility-selector";
 import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,

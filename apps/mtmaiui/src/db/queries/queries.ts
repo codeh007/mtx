@@ -5,8 +5,8 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import { generateUUID } from "mtxuilib/lib/sslib";
-import type { ArtifactKind } from "../../components/aichatbot/artifact";
-import type { VisibilityType } from "../../components/aichatbot/visibility-selector";
+import type { ArtifactKind } from "../../aichatbot/artifact";
+import type { VisibilityType } from "../../aichatbot/visibility-selector";
 import {
   stream,
   type Chat,

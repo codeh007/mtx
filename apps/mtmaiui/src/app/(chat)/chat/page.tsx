@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 
 import { generateUUID } from "mtxuilib/lib/utils";
 import { redirect } from "next/navigation";
-import { Chat } from "../../../components/aichatbot/chat";
-import { DataStreamHandler } from "../../../components/aichatbot/data-stream-handler";
-import { DEFAULT_CHAT_MODEL } from "../../../components/aichatbot/lib/ai/models";
+import { Chat } from "../../../aichatbot/chat";
+import { DataStreamHandler } from "../../../aichatbot/data-stream-handler";
+import { DEFAULT_CHAT_MODEL } from "../../../aichatbot/lib/ai/models";
 import { auth } from "../../../lib/auth/auth";
 
 export default async function Page() {

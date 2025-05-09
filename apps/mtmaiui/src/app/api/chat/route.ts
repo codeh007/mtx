@@ -11,14 +11,14 @@ import { generateUUID } from "mtxuilib/lib/sslib";
 import { after } from "next/server";
 import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
 import { generateTitleFromUserMessage } from "../../(chat)/actions";
-import { type RequestHints, systemPrompt } from "../../../components/aichatbot/lib/ai/prompts";
-import { myProvider } from "../../../components/aichatbot/lib/ai/providers";
-import { createDocument } from "../../../components/aichatbot/lib/ai/tools/create-document";
-import { getWeather } from "../../../components/aichatbot/lib/ai/tools/get-weather";
-import { requestSuggestions } from "../../../components/aichatbot/lib/ai/tools/request-suggestions";
-import { updateDocument } from "../../../components/aichatbot/lib/ai/tools/update-document";
-import { isProductionEnvironment } from "../../../components/aichatbot/lib/constants";
-import { getTrailingMessageId } from "../../../components/aichatbot/lib/utils";
+import { type RequestHints, systemPrompt } from "../../../aichatbot/lib/ai/prompts";
+import { myProvider } from "../../../aichatbot/lib/ai/providers";
+import { createDocument } from "../../../aichatbot/lib/ai/tools/create-document";
+import { getWeather } from "../../../aichatbot/lib/ai/tools/get-weather";
+import { requestSuggestions } from "../../../aichatbot/lib/ai/tools/request-suggestions";
+import { updateDocument } from "../../../aichatbot/lib/ai/tools/update-document";
+import { isProductionEnvironment } from "../../../aichatbot/lib/constants";
+import { getTrailingMessageId } from "../../../aichatbot/lib/utils";
 import {
   createStreamId,
   deleteChatById,

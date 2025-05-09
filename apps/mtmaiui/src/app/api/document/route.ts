@@ -1,4 +1,4 @@
-import type { ArtifactKind } from "../../../components/aichatbot/artifact";
+import type { ArtifactKind } from "../../../aichatbot/artifact";
 import {
   deleteDocumentsByIdAfterTimestamp,
   getDocumentsById,

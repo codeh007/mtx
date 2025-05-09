@@ -1,9 +1,9 @@
 import type { Attachment, UIMessage } from "ai";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
-import { Chat } from "../../../../components/aichatbot/chat";
-import { DataStreamHandler } from "../../../../components/aichatbot/data-stream-handler";
-import { DEFAULT_CHAT_MODEL } from "../../../../components/aichatbot/lib/ai/models";
+import { Chat } from "../../../../aichatbot/chat";
+import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
+import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
 import { getChatById, getMessagesByChatId } from "../../../../db/queries/queries";
 import type { DBMessage } from "../../../../db/schema";
 import { auth } from "../../../../lib/auth/auth";

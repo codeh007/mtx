@@ -3,17 +3,11 @@
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
-import { DiffView } from "../../../components/aichatbot/diffview";
-import { Editor } from "../../../components/aichatbot/editor";
+import { DiffView } from "../../../aichatbot/diffview";
+import { Editor } from "../../../aichatbot/editor";
 import { useTenant } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
@@ -85,25 +79,17 @@ const PostEditView = ({ postId }: PostDetailWithAiProps) => {
   const tenant = useTenant();
 
   const [mode, setMode] = useState<"edit" | "diff">("edit");
-  const postQuery = mtmapi.useSuspenseQuery(
-    "get",
-    "/api/v1/tenants/{tenant}/posts/{post}",
-    {
-      params: {
-        path: {
-          tenant: tenant.metadata.id,
-          post: postId,
-        },
+  const postQuery = mtmapi.useSuspenseQuery("get", "/api/v1/tenants/{tenant}/posts/{post}", {
+    params: {
+      path: {
+        tenant: tenant.metadata.id,
+        post: postId,
       },
     },
-  );
+  });
   const post = postQuery.data;
 
-  const updateMutation = mtmapi.useMutation(
-    "patch",
-    "/api/v1/tenants/{tenant}/posts/{post}",
-    {},
-  );
+  const updateMutation = mtmapi.useMutation("patch", "/api/v1/tenants/{tenant}/posts/{post}", {});
 
   const handleAgentSubmit = useWorkbenchStore((x) => x.handleSubmit);
   const handleSubmit = (values) => {
@@ -119,10 +105,7 @@ const PostEditView = ({ postId }: PostDetailWithAiProps) => {
       },
     });
   };
-  const createArtifact = mtmapi.useMutation(
-    "post",
-    "/api/v1/tenants/{tenant}/artifacts",
-  );
+  const createArtifact = mtmapi.useMutation("post", "/api/v1/tenants/{tenant}/artifacts");
   const handleEdit = (values) => {
     createArtifact.mutate({
       params: {
@@ -178,11 +161,7 @@ const PostEditView = ({ postId }: PostDetailWithAiProps) => {
             )}
           />
         </div>
-        <MtMDEditor
-          mode={mode}
-          content={post.content}
-          saveContent={handleSaveContent}
-        />
+        <MtMDEditor mode={mode} content={post.content} saveContent={handleSaveContent} />
       </ZForm>
     </>
   );

@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { AuthForm } from "../../../components/aichatbot/auth-form";
-import { SubmitButton } from "../../../components/aichatbot/submit-button";
+import { AuthForm } from "../../../aichatbot/auth-form";
+import { SubmitButton } from "../../../aichatbot/submit-button";
 import { type LoginActionState, login } from "../actions";
 
 export default function Page() {

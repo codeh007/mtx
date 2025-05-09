@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from "mtxuilib/ui/sidebar";
 import { cookies } from "next/headers";
 import Script from "next/script";
-import { AppSidebar } from "../../../components/aichatbot/app-sidebar";
+import { AppSidebar } from "../../../aichatbot/app-sidebar";
 import { auth } from "../../../lib/auth/auth";
 
 export const experimental_ppr = true;

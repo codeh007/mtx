@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
-import { isDevelopmentEnvironment } from "../../../../components/aichatbot/lib/constants";
+import { isDevelopmentEnvironment } from "../../../../aichatbot/lib/constants";
 import { signIn } from "../../../../lib/auth/auth";
 
 export async function GET(request: Request) {
