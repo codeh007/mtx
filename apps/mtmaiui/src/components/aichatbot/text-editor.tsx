@@ -5,13 +5,7 @@ import { inputRules } from "prosemirror-inputrules";
 import { EditorState } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
 import { memo, useEffect, useRef } from "react";
-
-import type { Suggestion } from "mtxuilib/db/schema";
-import {
-  documentSchema,
-  handleTransaction,
-  headingRule,
-} from "../editor/config";
+import type { Suggestion } from "../../db/aichatbot-db/schema";
 import {
   buildContentFromDocument,
   buildDocumentFromContent,
@@ -22,26 +16,21 @@ import {
   suggestionsPlugin,
   suggestionsPluginKey,
 } from "../editor/suggestions";
+import { documentSchema, handleTransaction, headingRule } from "./lib/editor/config";
 
 type EditorProps = {
   content: string;
-  saveContent: (updatedContent: string, debounce: boolean) => void;
+  onSaveContent: (updatedContent: string, debounce: boolean) => void;
   status: "streaming" | "idle";
   isCurrentVersion: boolean;
   currentVersionIndex: number;
   suggestions: Array<Suggestion>;
 };
 
-function PureEditor({
-  content,
-  saveContent,
-  suggestions,
-  status,
-}: EditorProps) {
+function PureEditor({ content, onSaveContent, suggestions, status }: EditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorView | null>(null);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (containerRef.current && !editorRef.current) {
       const state = EditorState.create({
@@ -81,23 +70,24 @@ function PureEditor({
     if (editorRef.current) {
       editorRef.current.setProps({
         dispatchTransaction: (transaction) => {
-          handleTransaction({ transaction, editorRef, saveContent });
+          handleTransaction({
+            transaction,
+            editorRef,
+            onSaveContent,
+          });
         },
       });
     }
-  }, [saveContent]);
+  }, [onSaveContent]);
 
   useEffect(() => {
-    const newDocument = buildDocumentFromContent(content);
     if (editorRef.current && content) {
-      const currentContent = buildContentFromDocument(
-        editorRef.current.state.doc,
-      );
+      const currentContent = buildContentFromDocument(editorRef.current.state.doc);
 
       if (status === "streaming") {
         const newDocument = buildDocumentFromContent(content);
 
-        const transaction = editorRef.current?.state?.tr?.replaceWith(
+        const transaction = editorRef.current.state.tr.replaceWith(
           0,
           editorRef.current.state.doc.content.size,
           newDocument.content,
@@ -111,14 +101,14 @@ function PureEditor({
       if (currentContent !== content) {
         const newDocument = buildDocumentFromContent(content);
 
-        const transaction = editorRef.current?.state?.tr?.replaceWith(
+        const transaction = editorRef.current.state.tr.replaceWith(
           0,
           editorRef.current.state.doc.content.size,
           newDocument.content,
         );
 
         transaction.setMeta("no-save", true);
-        editorRef.current?.dispatch(transaction);
+        editorRef.current.dispatch(transaction);
       }
     }
   }, [content, status]);
@@ -126,16 +116,11 @@ function PureEditor({
   useEffect(() => {
     if (editorRef.current?.state.doc && content) {
       const projectedSuggestions = projectWithPositions(
-        editorRef.current?.state.doc,
+        editorRef.current.state.doc,
         suggestions,
-      ).filter(
-        (suggestion) => suggestion.selectionStart && suggestion.selectionEnd,
-      );
+      ).filter((suggestion) => suggestion.selectionStart && suggestion.selectionEnd);
 
-      const decorations = createDecorations(
-        projectedSuggestions,
-        editorRef.current,
-      );
+      const decorations = createDecorations(projectedSuggestions, editorRef.current);
 
       const transaction = editorRef.current.state.tr;
       transaction.setMeta(suggestionsPluginKey, { decorations });
@@ -143,32 +128,18 @@ function PureEditor({
     }
   }, [suggestions, content]);
 
-  return (
-    <div className="relative prose dark:prose-invert" ref={containerRef} />
-  );
+  return <div className="relative prose dark:prose-invert" ref={containerRef} />;
 }
 
 function areEqual(prevProps: EditorProps, nextProps: EditorProps) {
-  if (prevProps.suggestions !== nextProps.suggestions) {
-    return false;
-  }
-  if (prevProps.currentVersionIndex !== nextProps.currentVersionIndex) {
-    return false;
-  }
-  if (prevProps.isCurrentVersion !== nextProps.isCurrentVersion) {
-    return false;
-  }
-  if (prevProps.status === "streaming" && nextProps.status === "streaming") {
-    return false;
-  }
-  if (prevProps.content !== nextProps.content) {
-    return false;
-  }
-  if (prevProps.saveContent !== nextProps.saveContent) {
-    return false;
-  }
-
-  return true;
+  return (
+    prevProps.suggestions === nextProps.suggestions &&
+    prevProps.currentVersionIndex === nextProps.currentVersionIndex &&
+    prevProps.isCurrentVersion === nextProps.isCurrentVersion &&
+    !(prevProps.status === "streaming" && nextProps.status === "streaming") &&
+    prevProps.content === nextProps.content &&
+    prevProps.onSaveContent === nextProps.onSaveContent
+  );
 }
 
 export const Editor = memo(PureEditor, areEqual);

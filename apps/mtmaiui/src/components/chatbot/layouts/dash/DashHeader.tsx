@@ -1,7 +1,6 @@
-import UserAvatorMenus from "@/components/UserAvatorMenus";
-import { dashConfig } from "@/core/config/dashConfig";
+// import UserAvatorMenus from "@/components/UserAvatorMenus";
+// import { dashConfig } from "@/core/config/dashConfig";
 import { ThemeToggle } from "mtxuilib/components/theme-toggle";
-// import { dashConfig } from "../core/config/dashConfig";
 import { MainNav } from "./main-nav";
 
 export function DashHeader() {

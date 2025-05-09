@@ -5,7 +5,7 @@ import { DOMParser, type Node } from "prosemirror-model";
 import { Decoration, DecorationSet, type EditorView } from "prosemirror-view";
 import { renderToString } from "react-dom/server";
 
-import { Markdown } from "../markdown/Markdown";
+import { Markdown } from "../aichatbot/markdown";
 import { documentSchema } from "./config";
 import { type UISuggestion, createSuggestionWidget } from "./suggestions";
 
@@ -21,10 +21,7 @@ export const buildContentFromDocument = (document: Node) => {
   return defaultMarkdownSerializer.serialize(document);
 };
 
-export const createDecorations = (
-  suggestions: Array<UISuggestion>,
-  view: EditorView,
-) => {
+export const createDecorations = (suggestions: Array<UISuggestion>, view: EditorView) => {
   const decorations: Array<Decoration> = [];
 
   // biome-ignore lint/complexity/noForEach: <explanation>

@@ -91,7 +91,6 @@
     "@ai-sdk/google": "^1.2.11",
     "@ai-sdk/openai": "^1.1.5",
     "@cloudflare/workers-oauth-provider": "^0.0.2",
-    "@codemirror/lang-sql": "^6.8.0",
     "@genkit-ai/googleai": "^1.6.2",
     "@genkit-ai/vertexai": "^1.6.2",
     "@hono/auth-js": "^1.0.15",

@@ -1,10 +1,5 @@
 import OrderedMap from "orderedmap";
-import {
-  DOMParser,
-  type MarkSpec,
-  type Node as ProsemirrorNode,
-  Schema,
-} from "prosemirror-model";
+import { DOMParser, type MarkSpec, type Node as ProsemirrorNode, Schema } from "prosemirror-model";
 import { schema } from "prosemirror-schema-basic";
 import { addListNodes } from "prosemirror-schema-list";
 import { EditorState } from "prosemirror-state";
@@ -13,7 +8,7 @@ import { useEffect, useRef } from "react";
 import { renderToString } from "react-dom/server";
 import ReactMarkdown from "react-markdown";
 
-import { DiffType, diffEditor } from "../editor/diff";
+import { DiffType, diffEditor } from "./lib/editor/diff";
 
 const diffSchema = new Schema({
   nodes: addListNodes(schema.spec.nodes, "paragraph block*", "block"),
@@ -26,12 +21,10 @@ const diffSchema = new Schema({
 
         switch (mark.attrs.type) {
           case DiffType.Inserted:
-            className =
-              "bg-green-100 text-green-700 dark:bg-green-500/70 dark:text-green-300";
+            className = "bg-green-100 text-green-700 dark:bg-green-500/70 dark:text-green-300";
             break;
           case DiffType.Deleted:
-            className =
-              "bg-red-100 line-through text-red-600 dark:bg-red-500/70 dark:text-red-300";
+            className = "bg-red-100 line-through text-red-600 dark:bg-red-500/70 dark:text-red-300";
             break;
           default:
             className = "";
@@ -59,12 +52,8 @@ export const DiffView = ({ oldContent, newContent }: DiffEditorProps) => {
     if (editorRef.current && !viewRef.current) {
       const parser = DOMParser.fromSchema(diffSchema);
 
-      const oldHtmlContent = renderToString(
-        <ReactMarkdown>{oldContent}</ReactMarkdown>,
-      );
-      const newHtmlContent = renderToString(
-        <ReactMarkdown>{newContent}</ReactMarkdown>,
-      );
+      const oldHtmlContent = renderToString(<ReactMarkdown>{oldContent}</ReactMarkdown>);
+      const newHtmlContent = renderToString(<ReactMarkdown>{newContent}</ReactMarkdown>);
 
       const oldContainer = document.createElement("div");
       oldContainer.innerHTML = oldHtmlContent;
