@@ -3,6 +3,7 @@ import type { Attachment, UIMessage } from "ai";
 import { formatDistance } from "date-fns";
 import equal from "fast-deep-equal";
 import { AnimatePresence, motion } from "framer-motion";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { fetcher } from "mtxuilib/lib/utils";
 import { useSidebar } from "mtxuilib/ui/sidebar";
 import { type Dispatch, type SetStateAction, memo, useCallback, useEffect, useState } from "react";
@@ -313,7 +314,6 @@ function PureArtifact({
                   isReadonly={isReadonly}
                   artifactStatus={artifact.status}
                 />
-
                 <form className="flex flex-row gap-2 relative items-end w-full px-4 pb-4">
                   <MultimodalInput
                     chatId={chatId}
@@ -403,6 +403,7 @@ function PureArtifact({
             <div className="p-2 flex flex-row justify-between items-start">
               <div className="flex flex-row gap-4 items-start">
                 <ArtifactCloseButton />
+                <DebugValue data={artifact} />
 
                 <div className="flex flex-col">
                   <div className="font-medium">{artifact.title}</div>
