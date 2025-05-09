@@ -1,11 +1,5 @@
 "use client";
 
-import type { User } from "next-auth";
-import { useRouter } from "next/navigation";
-
-// import { PlusIcon } from '@/components/icons';
-// import { SidebarHistory } from '@/components/sidebar-history';
-// import { SidebarUserNav } from '@/components/sidebar-user-nav';
 import { Button } from "mtxuilib/ui/button";
 import {
   Sidebar,
@@ -16,7 +10,9 @@ import {
   useSidebar,
 } from "mtxuilib/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import type { User } from "next-auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PlusIcon } from "./icons";
 import { SidebarHistory } from "./sidebar-history";
 import { SidebarUserNav } from "./sidebar-user-nav";

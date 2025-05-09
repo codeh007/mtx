@@ -10,14 +10,15 @@ import { differenceInSeconds } from "date-fns";
 import { generateUUID } from "mtxuilib/lib/sslib";
 import { after } from "next/server";
 import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
-import { type RequestHints, systemPrompt } from "../../../../components/aichatbot/lib/ai/prompts";
-import { myProvider } from "../../../../components/aichatbot/lib/ai/providers";
-import { createDocument } from "../../../../components/aichatbot/lib/ai/tools/create-document";
-import { getWeather } from "../../../../components/aichatbot/lib/ai/tools/get-weather";
-import { requestSuggestions } from "../../../../components/aichatbot/lib/ai/tools/request-suggestions";
-import { updateDocument } from "../../../../components/aichatbot/lib/ai/tools/update-document";
-import { isProductionEnvironment } from "../../../../components/aichatbot/lib/constants";
-import { getTrailingMessageId } from "../../../../components/aichatbot/lib/utils";
+import { generateTitleFromUserMessage } from "../../(chat)/actions";
+import { type RequestHints, systemPrompt } from "../../../components/aichatbot/lib/ai/prompts";
+import { myProvider } from "../../../components/aichatbot/lib/ai/providers";
+import { createDocument } from "../../../components/aichatbot/lib/ai/tools/create-document";
+import { getWeather } from "../../../components/aichatbot/lib/ai/tools/get-weather";
+import { requestSuggestions } from "../../../components/aichatbot/lib/ai/tools/request-suggestions";
+import { updateDocument } from "../../../components/aichatbot/lib/ai/tools/update-document";
+import { isProductionEnvironment } from "../../../components/aichatbot/lib/constants";
+import { getTrailingMessageId } from "../../../components/aichatbot/lib/utils";
 import {
   createStreamId,
   deleteChatById,
@@ -27,10 +28,9 @@ import {
   getStreamIdsByChatId,
   saveChat,
   saveMessages,
-} from "../../../../db/queries/queries";
-import type { Chat } from "../../../../db/schema";
-import { type UserType, auth } from "../../../../lib/auth/auth";
-import { generateTitleFromUserMessage } from "../../actions";
+} from "../../../db/queries/queries";
+import type { Chat } from "../../../db/schema";
+import { type UserType, auth } from "../../../lib/auth/auth";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 
 export const maxDuration = 60;

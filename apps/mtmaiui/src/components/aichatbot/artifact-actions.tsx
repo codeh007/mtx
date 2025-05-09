@@ -1,8 +1,6 @@
-// import { ArtifactActionContext } from './create-artifact';
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-// import { artifactDefinitions, UIArtifact } from './artifact';
 import { type Dispatch, type SetStateAction, memo, useState } from "react";
 import { toast } from "sonner";
 import { type UIArtifact, artifactDefinitions } from "./artifact";

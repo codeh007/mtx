@@ -1,12 +1,12 @@
 import type { DataStreamWriter } from "ai";
 import type { Session } from "next-auth";
+import { saveDocument } from "../../../../db/queries/queries";
+import type { Document } from "../../../../db/schema";
 import type { ArtifactKind } from "../../artifact";
 import { codeDocumentHandler } from "../../artifacts/code/server";
 import { imageDocumentHandler } from "../../artifacts/image/server";
 import { sheetDocumentHandler } from "../../artifacts/sheet/server";
 import { textDocumentHandler } from "../../artifacts/text/server";
-import { saveDocument } from "../db/queries";
-import type { Document } from "../db/schema";
 
 export interface SaveDocumentProps {
   id: string;
