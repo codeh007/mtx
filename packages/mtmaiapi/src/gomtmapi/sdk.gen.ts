@@ -620,6 +620,11 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -715,6 +720,11 @@ export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -736,6 +746,11 @@ export const userUpdateSlackOauthCallback = <ThrowOnError extends boolean = fals
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -761,6 +776,11 @@ export const tenantSettingsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -782,6 +802,11 @@ export const tenantDefaultSettingGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -807,6 +832,11 @@ export const tenantDefaultSetting = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -828,6 +858,11 @@ export const tenantSettingsDelete = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -853,6 +888,11 @@ export const tenantSettingsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -874,6 +914,11 @@ export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -903,6 +948,11 @@ export const snsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -924,6 +974,11 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -957,6 +1012,11 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -982,6 +1042,11 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1015,6 +1080,11 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1040,6 +1110,11 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1069,6 +1144,11 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1094,6 +1174,11 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1123,6 +1208,11 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1150,6 +1240,11 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1171,6 +1266,13 @@ export const userGetCurrent = <ThrowOnError extends boolean = false>(
     UserGetCurrentError,
     ThrowOnError
   >({
+    security: [
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
     url: "/api/v1/users/current",
     ...options,
   });
@@ -1188,6 +1290,13 @@ export const userUpdatePassword = <ThrowOnError extends boolean = false>(
     UserUpdatePasswordError,
     ThrowOnError
   >({
+    security: [
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
     url: "/api/v1/users/password",
     ...options,
     headers: {
@@ -1234,6 +1343,11 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1258,6 +1372,11 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1287,6 +1406,11 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1308,6 +1432,11 @@ export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1335,6 +1464,11 @@ export const tenantInviteReject = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1368,6 +1502,11 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1397,6 +1536,11 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1430,6 +1574,11 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1457,6 +1606,11 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1482,6 +1636,11 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1515,6 +1674,11 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1540,6 +1704,11 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1573,6 +1742,11 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1598,6 +1772,11 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1631,6 +1810,11 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1656,6 +1840,11 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1685,6 +1874,11 @@ export const tenantGetStepRunQueueMetrics = <ThrowOnError extends boolean = fals
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1706,6 +1900,11 @@ export const eventList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1733,6 +1932,11 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1766,6 +1970,11 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1791,6 +2000,11 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1820,6 +2034,11 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1841,6 +2060,11 @@ export const eventGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1870,6 +2094,11 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1895,6 +2124,11 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1924,6 +2158,11 @@ export const workflowList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -1949,6 +2188,11 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -1978,6 +2222,11 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2003,6 +2252,11 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2032,6 +2286,11 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2057,6 +2316,11 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2090,6 +2354,11 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2112,6 +2381,11 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -2140,6 +2414,11 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2173,6 +2452,11 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2198,6 +2482,11 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2231,6 +2520,11 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2253,6 +2547,11 @@ export const logLineList = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -2283,6 +2582,11 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2308,6 +2612,11 @@ export const workflowRunListStepRunEvents = <ThrowOnError extends boolean = fals
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2337,6 +2646,11 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2362,6 +2676,11 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2391,6 +2710,11 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2416,6 +2740,11 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2449,6 +2778,11 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2474,6 +2808,11 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2503,6 +2842,11 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2524,6 +2868,11 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2551,6 +2900,11 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2584,6 +2938,11 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2611,6 +2970,11 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2634,6 +2998,11 @@ export const workerList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2655,6 +3024,11 @@ export const workerGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2682,6 +3056,11 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2712,6 +3091,11 @@ export const webhookList = <ThrowOnError extends boolean = false>(
           type: "http",
         },
         {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+        {
           scheme: "basic",
           type: "http",
         },
@@ -2738,6 +3122,11 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2767,6 +3156,11 @@ export const webhookDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2792,6 +3186,11 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2821,6 +3220,11 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2848,6 +3252,11 @@ export const workflowGetByName = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2871,6 +3280,11 @@ export const blogList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2892,6 +3306,11 @@ export const blogCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -2920,6 +3339,11 @@ export const blogGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2942,6 +3366,11 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -2971,6 +3400,11 @@ export const siteList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -2991,6 +3425,11 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3019,6 +3458,11 @@ export const siteGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3041,6 +3485,11 @@ export const siteUpdate = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -3074,6 +3523,11 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3100,6 +3554,11 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3124,6 +3583,11 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3153,6 +3617,11 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
           type: "http",
         },
         {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+        {
           scheme: "basic",
           type: "http",
         },
@@ -3179,6 +3648,11 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3223,6 +3697,11 @@ export const postGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3245,6 +3724,11 @@ export const postList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3265,6 +3749,11 @@ export const postCreate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3294,6 +3783,11 @@ export const artifactList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3316,6 +3810,11 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -3341,6 +3840,11 @@ export const comsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3362,6 +3866,11 @@ export const comsUpsert = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -3388,6 +3897,11 @@ export const comsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3409,6 +3923,11 @@ export const galleryList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3437,6 +3956,11 @@ export const galleryCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3463,6 +3987,11 @@ export const galleryGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3484,6 +4013,11 @@ export const agEventList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3509,6 +4043,11 @@ export const agEventGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3528,6 +4067,11 @@ export const modelList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3545,6 +4089,11 @@ export const modelGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3571,6 +4120,11 @@ export const modelUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3600,6 +4154,11 @@ export const modelRunsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3618,6 +4177,11 @@ export const modelRunGet = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -3647,6 +4211,11 @@ export const modelRunUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3674,6 +4243,11 @@ export const promptList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3694,6 +4268,11 @@ export const promptGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3717,6 +4296,11 @@ export const adminReleaseConn = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3743,6 +4327,11 @@ export const adminResetDb = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3788,6 +4377,11 @@ export const hfAccountGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3808,6 +4402,11 @@ export const envList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3831,6 +4430,11 @@ export const envUpdate = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3859,6 +4463,11 @@ export const envGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3880,6 +4489,11 @@ export const endpointList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3909,6 +4523,11 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3934,6 +4553,11 @@ export const platformList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -3962,6 +4586,11 @@ export const platformCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -3983,6 +4612,11 @@ export const platformGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4012,6 +4646,11 @@ export const platformUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4039,6 +4678,11 @@ export const platformAccountList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4062,6 +4706,11 @@ export const platformAccountCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4083,6 +4732,11 @@ export const platformAccountGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4111,6 +4765,11 @@ export const platformAccountUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4133,6 +4792,11 @@ export const browserList = <ThrowOnError extends boolean = false>(
         {
           scheme: "bearer",
           type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
         },
         {
           scheme: "basic",
@@ -4162,6 +4826,11 @@ export const browserCreate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4189,6 +4858,11 @@ export const browserOpen = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4210,6 +4884,11 @@ export const browserGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4238,6 +4917,11 @@ export const browserUpdate = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4261,6 +4945,11 @@ export const proxyList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4278,6 +4967,11 @@ export const proxyGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4301,6 +4995,11 @@ export const proxyUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4329,6 +5028,11 @@ export const agStateList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4349,6 +5053,11 @@ export const agStateGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4375,6 +5084,11 @@ export const agStateUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4407,6 +5121,11 @@ export const chatMessagesList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4433,6 +5152,11 @@ export const chatSessionList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4457,6 +5181,11 @@ export const chatMessageUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4490,6 +5219,11 @@ export const chatSessionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4514,6 +5248,11 @@ export const chatSessionUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4542,6 +5281,11 @@ export const flowStateList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4563,6 +5307,11 @@ export const flowStateGet = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4591,6 +5340,11 @@ export const flowStateUpsert = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4617,6 +5371,11 @@ export const uiAgentGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4640,6 +5399,11 @@ export const dispatcherListen = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4661,6 +5425,11 @@ export const resourceList = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4687,6 +5456,11 @@ export const resourceUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4716,6 +5490,11 @@ export const resourceDelete = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4740,6 +5519,11 @@ export const resourceGet = <ThrowOnError extends boolean = false>(
           type: "http",
         },
         {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+        {
           scheme: "basic",
           type: "http",
         },
@@ -4762,6 +5546,11 @@ export const instagramLogin = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4790,6 +5579,11 @@ export const adkAppList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4814,6 +5608,11 @@ export const adkAppUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4843,6 +5642,11 @@ export const adkAppGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4869,6 +5673,11 @@ export const adkSessionList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4893,6 +5702,11 @@ export const adkSessionUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -4926,6 +5740,11 @@ export const adkSessionGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4952,6 +5771,11 @@ export const adkUserStateList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -4976,6 +5800,11 @@ export const adkUserStateUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -5009,6 +5838,11 @@ export const adkUserStateGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -5035,6 +5869,11 @@ export const adkEventsList = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -5059,6 +5898,11 @@ export const adkEventsUpsert = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -5092,6 +5936,11 @@ export const adkEventsGet = <ThrowOnError extends boolean = false>(
         type: "http",
       },
       {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
         scheme: "basic",
         type: "http",
       },
@@ -5116,6 +5965,11 @@ export const tkGetUserProfile = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
@@ -5146,6 +6000,11 @@ export const tkAccountLogin = <ThrowOnError extends boolean = false>(
       {
         scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
       {
         scheme: "basic",
