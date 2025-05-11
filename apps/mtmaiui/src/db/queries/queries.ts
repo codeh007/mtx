@@ -21,16 +21,12 @@ import {
   user,
   vote,
 } from "../schema";
-// import type { ArtifactKind } from '@/components/artifact';
-// import { generateUUID } from '../utils';
 import { generateHashedPassword } from "../utils";
-// import type { VisibilityType } from '@/components/visibility-selector';
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
 // https://authjs.dev/reference/adapter/drizzle
 
-// biome-ignore lint: Forbidden non-null assertion.
 const client = postgres(process.env.MTM_DATABASE_URL!);
 const db = drizzle(client);
 

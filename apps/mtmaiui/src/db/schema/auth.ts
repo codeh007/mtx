@@ -4,7 +4,7 @@ import { uuid } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 // 参考: https://authjs.dev/getting-started/adapters/drizzle
-export const user = pgTable("user", {
+export const user = pgTable("User", {
   // id: text("id")
   //   .primaryKey()
   //   .$defaultFn(() => crypto.randomUUID()),

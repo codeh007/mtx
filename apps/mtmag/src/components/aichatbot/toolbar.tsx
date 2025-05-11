@@ -1,20 +1,8 @@
 "use client";
-
 import type { ChatRequestOptions, CreateMessage, Message } from "ai";
-import cx from "classnames";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { AnimatePresence, motion, useMotionValue, useTransform } from "framer-motion";
+import { cn } from "mtxuilib/lib/utils";
+import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import {
@@ -24,13 +12,8 @@ import {
   StopIcon,
   SummarizeIcon,
 } from "mtxuilib/icons/aichatbot.icons";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { sanitizeUIMessages } from "../../lib/utils";
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-} from "mtxuilib/ui/tooltip";
 
 type ToolProps = {
   type: "final-polish" | "request-suggestions" | "adjust-reading-level";
@@ -92,8 +75,7 @@ const Tool = ({
       } else if (type === "request-suggestions") {
         append({
           role: "user",
-          content:
-            "Please add suggestions you have that could improve the writing.",
+          content: "Please add suggestions you have that could improve the writing.",
         });
 
         setSelectedTool(null);
@@ -105,7 +87,7 @@ const Tool = ({
     <Tooltip open={isHovered && !isAnimating}>
       <TooltipTrigger asChild>
         <motion.div
-          className={cx("p-3 rounded-full", {
+          className={cn("p-3 rounded-full", {
             "bg-primary !text-primary-foreground": selectedTool === type,
           })}
           onHoverStart={() => {
@@ -172,8 +154,7 @@ const ReadingLevelSelector = ({
   const yToLevel = useTransform(y, [0, -dragConstraints], [0, 5]);
 
   const [currentLevel, setCurrentLevel] = useState(2);
-  const [hasUserSelectedLevel, setHasUserSelectedLevel] =
-    useState<boolean>(false);
+  const [hasUserSelectedLevel, setHasUserSelectedLevel] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = yToLevel.on("change", (latest) => {
@@ -206,7 +187,7 @@ const ReadingLevelSelector = ({
         <Tooltip open={!isAnimating}>
           <TooltipTrigger asChild>
             <motion.div
-              className={cx(
+              className={cn(
                 "absolute bg-background p-3 border rounded-full flex flex-row items-center",
                 {
                   "bg-primary text-primary-foreground": currentLevel !== 2,
