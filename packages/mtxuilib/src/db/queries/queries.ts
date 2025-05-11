@@ -24,7 +24,7 @@ import {
 let db: any;
 const getDb = () => {
   if (!db) {
-    const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
+    const client = postgres(`${process.env.MTM_DATABASE_URL!}?sslmode=require`);
 
     db = drizzle(client);
   }
@@ -101,10 +101,7 @@ export async function getChatsByUserId({ id }: { id: string }) {
 
 export async function getChatById({ id }: { id: string }) {
   try {
-    const [selectedChat] = await getDb()
-      .select()
-      .from(chat)
-      .where(eq(chat.id, id));
+    const [selectedChat] = await getDb().select().from(chat).where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
     console.error("Failed to get chat by id from database");
@@ -242,20 +239,13 @@ export async function deleteDocumentsByIdAfterTimestamp({
   try {
     await getDb()
       .delete(suggestion)
-      .where(
-        and(
-          eq(suggestion.documentId, id),
-          gt(suggestion.documentCreatedAt, timestamp),
-        ),
-      );
+      .where(and(eq(suggestion.documentId, id), gt(suggestion.documentCreatedAt, timestamp)));
 
     return await getDb()
       .delete(document)
       .where(and(eq(document.id, id), gt(document.createdAt, timestamp)));
   } catch (error) {
-    console.error(
-      "Failed to delete documents by id after timestamp from database",
-    );
+    console.error("Failed to delete documents by id after timestamp from database");
     throw error;
   }
 }
@@ -284,9 +274,7 @@ export async function getSuggestionsByDocumentId({
       .from(suggestion)
       .where(and(eq(suggestion.documentId, documentId)));
   } catch (error) {
-    console.error(
-      "Failed to get suggestions by document version from database",
-    );
+    console.error("Failed to get suggestions by document version from database");
     throw error;
   }
 }
