@@ -7,15 +7,15 @@ import { type Dispatch, type SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard, useDebounceCallback, useWindowSize } from "usehooks-ts";
 
-import type { Vote } from "mtxuilib/db/schema/vote";
 import { CopyIcon, CrossIcon, DeltaIcon, RedoIcon, UndoIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import type { Vote } from "../../db/schema";
 import { MultimodalInput } from "../chat/prompt-input/multimodal-input";
 import { DiffView } from "./diffview";
 import { Editor } from "./editor";
 import { Toolbar } from "./toolbar";
-import { VersionFooter } from "./version-footer";
+// import { VersionFooter } from "./version-footer";
 export interface UIBlock {
   title: string;
   documentId: string;

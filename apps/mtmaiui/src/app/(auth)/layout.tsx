@@ -1,7 +1,6 @@
 import { MtThemeProvider } from "mtxuilib/components/themes/ThemeProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "sonner";
 
 import "../../styles/globals.css";
 import { SessionProvider } from "next-auth/react";
@@ -72,7 +71,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <MtThemeProvider>
-          <Toaster position="top-center" />
+          {/* <Toaster position="top-center" /> */}
           <SessionProvider>{children}</SessionProvider>
         </MtThemeProvider>
       </body>
