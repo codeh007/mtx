@@ -4,6 +4,7 @@ import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
+import { adkEvents } from "../../db/schema";
 import { MtmaiuiConfig } from "../../lib/core/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
@@ -12,7 +13,6 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
 import InstagramLoginView from "./func_view/InstagramLogin";
-import { adkEvents } from "../../db/schema";
 
 interface AgentChatViewProps {
   sessionId: string;
@@ -40,7 +40,7 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
           className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]"
         >
           {adkEvents && adkEvents.length <= 0 && <AdkWelcomeCard />}
-          {adkEvents?.map((m) => {
+          {adkEvents?.rows?.map((m) => {
             return <AdkEventsViewItemView key={m.id} item={m} />;
           })}
           <div ref={messagesEndRef} />

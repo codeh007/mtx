@@ -1,7 +1,7 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 
 import { swaggerUI } from "@hono/swagger-ui";
-import packageJson from "../../../../../package.json";
+import packageJson from "../../../../package.json";
 import type { Bindings } from "./types";
 
 export const openAPIObjectConfig = {

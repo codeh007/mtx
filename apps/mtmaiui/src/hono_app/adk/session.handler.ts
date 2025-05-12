@@ -1,5 +1,5 @@
-import { getDb } from "../../../db/dbClientV2";
-import { adkSessions } from "../../../db/schema/adk_sessions";
+import { getDb } from "../../db/dbClientV2";
+import { adkSessions } from "../../db/schema/adk_sessions";
 import { createRouter } from "../agent_api/lib/createApp";
 
 export const sessionRouter = createRouter();

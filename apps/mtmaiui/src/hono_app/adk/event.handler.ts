@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { getDb } from "../../../db/dbClientV2";
-import { adkEvents } from "../../../db/schema";
+import { getDb } from "../../db/dbClientV2";
+import { adkEvents } from "../../db/schema";
 import { createRouter } from "../agent_api/lib/createApp";
 export const eventRouter = createRouter();
 

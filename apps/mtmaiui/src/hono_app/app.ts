@@ -1,18 +1,19 @@
 import { cors } from "hono/cors";
-import configureOpenAPI from "./routes/agent_api/lib/configureOpenAPI";
+import configureOpenAPI from "./agent_api/lib/configureOpenAPI";
 
 import type { Provider } from "@auth/core/providers";
 import { authHandler, initAuthConfig } from "@hono/auth-js";
 import { providers } from "../lib/auth/auth_providers";
-import { eventRouter } from "./routes/adk/event.handler";
-import { sessionRouter } from "./routes/adk/session.handler";
-import createApp from "./routes/agent_api/lib/createApp";
-import { chatV2Router } from "./routes/chat_v2/chat_v2_handler";
-import { envsRouter } from "./routes/envs/envs.handler";
-import { r2Router } from "./routes/r2/r2.handler";
-import { scriptRouter } from "./routes/scripts/scripts.handler";
-import gomtmProxyRouter from "./routes/v1/v1_route";
-import { workflowsRoute } from "./routes/workflows/workflows.handler";
+import { eventRouter } from "./adk/event.handler";
+import { sessionRouter } from "./adk/session.handler";
+import createApp from "./agent_api/lib/createApp";
+import { chatRouter } from "./chat/chat.handler";
+import { chatV2Router } from "./chat_v2/chat_v2_handler";
+import { envsRouter } from "./envs/envs.handler";
+import { r2Router } from "./r2/r2.handler";
+import { scriptRouter } from "./scripts/scripts.handler";
+import gomtmProxyRouter from "./v1/v1_route";
+import { workflowsRoute } from "./workflows/workflows.handler";
 const app = createApp().basePath("/api");
 
 app.use("*", cors());
@@ -49,8 +50,6 @@ app.route("/workflows/", workflowsRoute);
 app.route("/adk/session/", sessionRouter);
 app.route("/adk/events/", eventRouter);
 app.route("/chat_v2/", chatV2Router);
-// for (const route of apiRoutes) {
-//   app.route("/", route);
-// }
+app.route("/chat/", chatRouter);
 app.route("/v1/*", gomtmProxyRouter);
 export default app;

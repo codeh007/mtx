@@ -1,6 +1,6 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 import { type Agent, getAgentByName } from "agents";
-import type { RootAg } from "../../../agents/root_ag";
+import type { RootAg } from "../../agents/root_ag";
 import {
   homeContent,
   layout,
