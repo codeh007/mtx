@@ -6,8 +6,6 @@ import {
   frontendGetConfig,
 } from "./gomtmapi";
 import { initMtiaiClient } from "./index";
-// import { isInBuild } from "./util/sutils";
-
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
 let cachedFrontendConfig: FrontendConfig | undefined = undefined;
@@ -112,13 +110,13 @@ export async function getFrontendConfig() {
   return cachedFrontendConfig;
 }
 
-export async function getAccessToken() {
-  // if (isInBuild()) {
-  //   console.warn("在build 阶段,不加载AccessToken");
-  //   return "";
-  // }
-  return "";
-}
+// export async function getAccessToken() {
+//   // if (isInBuild()) {
+//   //   console.warn("在build 阶段,不加载AccessToken");
+//   //   return "";
+//   // }
+//   return "";
+// }
 
 export async function reset() {
   cachedEndpointList = undefined;
