@@ -12,15 +12,20 @@ import { ChatHeader } from "./ChatHeader";
 import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
 import InstagramLoginView from "./func_view/InstagramLogin";
+import { adkEvents } from "../../db/schema";
 
-export default function AgentChatView() {
-  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
+interface AgentChatViewProps {
+  sessionId: string;
+}
+export default function AgentChatView({ sessionId }: AgentChatViewProps) {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   const eventQuery = useQuery({
     queryKey: ["adkEvents"],
     queryFn: () => {
-      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/events`).then((res) => res.json());
+      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/events/list?session_id=${sessionId}`).then(
+        (res) => res.json(),
+      );
     },
   });
 
