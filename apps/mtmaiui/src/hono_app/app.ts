@@ -6,6 +6,8 @@ import { authHandler, initAuthConfig } from "@hono/auth-js";
 import { providers } from "../lib/auth/auth_providers";
 import { eventRouter } from "./adk/event.handler";
 import { sessionRouter } from "./adk/session.handler";
+import { agentsMiddleware } from "./agent_api/lib/agentsMiddleware";
+// import configureAgents from "./agent_api/lib/configureAgents";
 import createApp from "./agent_api/lib/createApp";
 import { chatRouter } from "./chat/chat.handler";
 import { chatMessageRouter } from "./chat_message/chat_message.handler";
@@ -32,6 +34,28 @@ app.use(
 
 configureOpenAPI(app as any);
 
+// 设置 cloudflare agents 中间件
+app.use(
+  "/agents/*",
+  agentsMiddleware({
+    onError: (error) => {
+      console.log("aggents onError", error);
+      return new Response(`error:${error}`, { status: 401 });
+    },
+    options: {
+      // 设置前缀:
+      prefix: "agents", // Handles /agents/* routes only
+      cors: true,
+      // 在连接之前验证请求
+      onBeforeConnect: async (req) => {
+        const token = req.headers.get("authorization");
+        // validate token
+        // if (!token) return new Response("(agents)Unauthorized", { status: 401 });
+      },
+    },
+  }),
+);
+
 // auth 组件: https://github.com/honojs/middleware
 app.use(
   "*",
@@ -40,7 +64,7 @@ app.use(
     providers: providers as Provider[],
   })),
 );
-// 认真 及 session api , 基于 hono auth js
+// 认证 及 session api , 基于 hono auth js
 app.use("/auth/*", authHandler());
 // 暂时关闭认证
 // app.use("/*", verifyAuth());
