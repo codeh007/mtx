@@ -80,6 +80,7 @@
         "p-limit": "^3",
         "papaparse": "^5.5.2",
         "postal-mime": "^2.4.3",
+        "postgres": "^3.4.5",
         "react": "^19.1",
         "react-data-grid": "^7.0.0-beta.52",
         "react-dom": "^19.1",
@@ -220,7 +221,7 @@
     },
     "packages/gomtm-cli": {
       "name": "gomtm-cli",
-      "version": "0.7.0",
+      "version": "0.7.5",
       "bin": {
         "gomtm": "./bin/gomtm",
       },

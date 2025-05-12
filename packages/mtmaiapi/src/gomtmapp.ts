@@ -13,13 +13,13 @@ let headers: () => Promise<Headers> | Headers;
 let cookies: () => Promise<ReadonlyRequestCookies>;
 
 export function getBackendUrl(prefix = "") {
-  if (process.env.MTMAI_BACKEND) {
-    return `${process.env.MTMAI_BACKEND}${prefix}`;
+  if (process.env.MTM_SERVER_URL) {
+    return `${process.env.MTM_SERVER_URL}${prefix}`;
   }
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}${prefix}`;
   }
-  const host = process.env.MTMAI_BACKEND || "localhost";
+  const host = process.env.MTM_SERVER_URL || "localhost";
   const port = Number(process.env.PORT) || 3000;
 
   const localHost =

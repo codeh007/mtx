@@ -1,31 +1,21 @@
-import { getAgentByName } from "agents";
-import type { RootAg } from "../../../agents/root_ag";
+import { getDb } from "../../../db/dbClientV2";
+import { adkSessions } from "../../../db/schema/adk_sessions";
 import { createRouter } from "../../lib/createApp";
 
 export const sessionRouter = createRouter();
 
-sessionRouter.post("/list", async (c) => {
-  const { agentId, prompt } = await c.req.json<{
-    agentId: string;
-    prompt: string;
-  }>();
+sessionRouter.get("/list", async (c) => {
   try {
-    // console.log("agent_info", agentId, c.env.RootAg);
-
-    const namedAgent = await getAgentByName<Env, RootAg>(c.env.RootAg, agentId);
-
-    // const id = c.env.RootAg.idFromName(agentId);
-    // const agent = c.env.RootAg.get(id);
-    if (!namedAgent) {
-      return c.json({ error: "Agent not found" }, 404);
-    }
+    const db = await getDb(c.env);
+    const result = await db
+      .select([adkSessions.id, adkSessions.appName, adkSessions.userId, adkSessions.title])
+      .from(adkSessions)
+      .limit(10);
     return c.json({
-      agentName: namedAgent.name,
-      agentId: namedAgent.id,
-      state: namedAgent.state,
+      rows: result,
     });
   } catch (e: any) {
-    console.error(e);
-    return c.json({ error: e.message }, 500);
+    console.error("Database error:", e);
+    return c.json({ error: e.message, stack: e.stack }, 500);
   }
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { type AdkSession, adkSessionListOptions } from "mtmaiapi";
+import type { AdkSession } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -29,12 +29,20 @@ export function NavAdkSession() {
   }, []);
 
   const tid = useTenantId();
+  // const adkSessionQuery = useQuery({
+  //   ...adkSessionListOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //   }),
+  // });
+
   const adkSessionQuery = useQuery({
-    ...adkSessionListOptions({
-      path: {
-        tenant: tid,
-      },
-    }),
+    queryKey: ["adkSessionList"],
+    queryFn: async () => {
+      const response = await fetch("https://mtmag.yuepa8.com/api/adk/session/list");
+      return response.json();
+    },
   });
 
   return (
@@ -63,11 +71,7 @@ export function NavAdkSession() {
           <SidebarGroupContent>
             {isDebug && <DebugValue data={{ data: adkSessionQuery.data }} />}
             {adkSessionQuery.data?.rows?.map((item) => (
-              <NavAdkSessionItem
-                key={item.metadata?.id}
-                item={item}
-                rowId={item.metadata?.id || ""}
-              />
+              <NavAdkSessionItem key={item.id} item={item} rowId={item.id} />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>

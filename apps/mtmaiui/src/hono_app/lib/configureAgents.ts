@@ -6,11 +6,11 @@ import type { Bindings } from "./types";
 export default function configureAgents(app: OpenAPIHono<{ Bindings: Bindings }>) {
   // 设置 cloudflare agents 中间件
   app.use(
-    "*",
+    "/agents/*",
     agentsMiddleware({
       onError: (error) => {
         console.log("aggents onError", error);
-        console.error(error);
+        return new Response(`error:${error}`, { status: 401 });
       },
       options: {
         // 设置前缀:
