@@ -1,17 +1,14 @@
 import { drizzle } from "drizzle-orm/postgres-js";
-// import postgres from "postgres";
 
-// import { drizzle } from "drizzle-orm/node-postgres";
-// import { Pool } from "pg";
-// const db = drizzle(process.env.DATABASE_URL);
+export function getDb(env: Env | null = null) {
+  // 提示: 在 cloudflare 不能使用全局变量复用 db 实例
 
-let globalInstance: any;
-export async function getDb(env: Env) {
-  if (globalInstance) {
-    return globalInstance;
+  const hyperdrive: Hyperdrive | undefined = (env?.HYPERDRIVE || process.env.HYPERDRIVE) as
+    | Hyperdrive
+    | undefined;
+  if (!hyperdrive) {
+    throw new Error("HYPERDRIVE is not defined");
   }
-  // Create drizzle instance with the postgres client
-  const db = drizzle(`${env.HYPERDRIVE.connectionString}`);
-  globalInstance = db;
+  const db = drizzle(`${hyperdrive.connectionString}`);
   return db;
 }
