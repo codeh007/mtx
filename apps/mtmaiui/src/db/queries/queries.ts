@@ -1,33 +1,22 @@
-// import "server-only";
-
 import { type SQL, and, asc, count, desc, eq, gt, gte, inArray, lt } from "drizzle-orm";
-
-import { generateUUID } from "mtxuilib/lib/sslib";
+import { generateUUID } from "mtxuilib/lib/utils";
 import type { ArtifactKind } from "../../aichatbot/artifact";
 import type { VisibilityType } from "../../aichatbot/visibility-selector";
 import { getDb } from "../dbClientV2";
 import {
   stream,
   type Chat,
-  type DBMessage,
+  type DBChatMessage,
   type Suggestion,
   type User,
-  // type User,
   chat,
+  chatMessage,
   document,
-  message,
   suggestion,
   user,
   vote,
 } from "../schema";
 import { generateHashedPassword } from "../utils";
-
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
-
-// const client = postgres(process.env.MTM_DATABASE_URL!);
-// const db = drizzle(client);
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
@@ -94,7 +83,7 @@ export async function saveChat({
 export async function deleteChatById({ id }: { id: string }) {
   try {
     await getDb().delete(vote).where(eq(vote.chatId, id));
-    await getDb().delete(message).where(eq(message.chatId, id));
+    await getDb().delete(chatMessage).where(eq(chatMessage.chatId, id));
     await getDb().delete(stream).where(eq(stream.chatId, id));
 
     const [chatsDeleted] = await getDb().delete(chat).where(eq(chat.id, id)).returning();
@@ -182,10 +171,10 @@ export async function getChatById({ id }: { id: string }) {
 export async function saveMessages({
   messages,
 }: {
-  messages: Array<DBMessage>;
+  messages: Array<DBChatMessage>;
 }) {
   try {
-    return await getDb().insert(message).values(messages);
+    return await getDb().insert(chatMessage).values(messages);
   } catch (error) {
     console.error("Failed to save messages in database", error);
     throw error;
@@ -196,9 +185,9 @@ export async function getMessagesByChatId({ id }: { id: string }) {
   try {
     return await getDb()
       .select()
-      .from(message)
-      .where(eq(message.chatId, id))
-      .orderBy(asc(message.createdAt));
+      .from(chatMessage)
+      .where(eq(chatMessage.chatId, id))
+      .orderBy(asc(chatMessage.createdAt));
   } catch (error) {
     console.error("Failed to get messages by chat id from database", error);
     throw error;
@@ -362,7 +351,7 @@ export async function getSuggestionsByDocumentId({
 
 export async function getMessageById({ id }: { id: string }) {
   try {
-    return await getDb().select().from(message).where(eq(message.id, id));
+    return await getDb().select().from(chatMessage).where(eq(chatMessage.id, id));
   } catch (error) {
     console.error("Failed to get message by id from database");
     throw error;
@@ -378,9 +367,9 @@ export async function deleteMessagesByChatIdAfterTimestamp({
 }) {
   try {
     const messagesToDelete = await getDb()
-      .select({ id: message.id })
-      .from(message)
-      .where(and(eq(message.chatId, chatId), gte(message.createdAt, timestamp)));
+      .select({ id: chatMessage.id })
+      .from(chatMessage)
+      .where(and(eq(chatMessage.chatId, chatId), gte(chatMessage.createdAt, timestamp)));
 
     const messageIds = messagesToDelete.map((message) => message.id);
 
@@ -390,8 +379,8 @@ export async function deleteMessagesByChatIdAfterTimestamp({
         .where(and(eq(vote.chatId, chatId), inArray(vote.messageId, messageIds)));
 
       return await getDb()
-        .delete(message)
-        .where(and(eq(message.chatId, chatId), inArray(message.id, messageIds)));
+        .delete(chatMessage)
+        .where(and(eq(chatMessage.chatId, chatId), inArray(chatMessage.id, messageIds)));
     }
   } catch (error) {
     console.error("Failed to delete messages by id after timestamp from database");
@@ -422,14 +411,14 @@ export async function getMessageCountByUserId({
     const twentyFourHoursAgo = new Date(Date.now() - differenceInHours * 60 * 60 * 1000);
 
     const [stats] = await getDb()
-      .select({ count: count(message.id) })
-      .from(message)
-      .innerJoin(chat, eq(message.chatId, chat.id))
+      .select({ count: count(chatMessage.id) })
+      .from(chatMessage)
+      .innerJoin(chat, eq(chatMessage.chatId, chat.id))
       .where(
         and(
           eq(chat.userId, id),
-          gte(message.createdAt, twentyFourHoursAgo),
-          eq(message.role, "user"),
+          gte(chatMessage.createdAt, twentyFourHoursAgo),
+          eq(chatMessage.role, "user"),
         ),
       )
       .execute();

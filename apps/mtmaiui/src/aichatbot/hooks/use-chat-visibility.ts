@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
-import { updateChatVisibility } from "../../app/(chat)/actions";
+// import { updateChatVisibility } from "../../app/(chat)/actions";
 import { type ChatHistory, getChatHistoryPaginationKey } from "../sidebar-history";
 import type { VisibilityType } from "../visibility-selector";
 export function useChatVisibility({
@@ -35,10 +35,11 @@ export function useChatVisibility({
     setLocalVisibility(updatedVisibilityType);
     mutate(unstable_serialize(getChatHistoryPaginationKey));
 
-    updateChatVisibility({
-      chatId: chatId,
-      visibility: updatedVisibilityType,
-    });
+    // updateChatVisibility({
+    //   chatId: chatId,
+    //   visibility: updatedVisibilityType,
+    // });
+    console.warn("TODO: updateChatVisibility", chatId, updatedVisibilityType);
   };
 
   return { visibilityType, setVisibilityType };

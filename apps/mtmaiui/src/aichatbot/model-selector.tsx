@@ -10,7 +10,7 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import type { Session } from "next-auth";
 import { startTransition, useMemo, useOptimistic, useState } from "react";
-import { saveChatModelAsCookie } from "../app/(chat)/actions";
+// import { saveChatModelAsCookie } from "../app/(chat)/actions";
 import { CheckCircleFillIcon, ChevronDownIcon } from "./icons";
 import { entitlementsByUserType } from "./lib/ai/entitlements";
 import { chatModels } from "./lib/ai/models";
@@ -65,7 +65,8 @@ export function ModelSelector({
 
                 startTransition(() => {
                   setOptimisticModelId(id);
-                  saveChatModelAsCookie(id);
+                  // saveChatModelAsCookie(id);
+                  console.warn("TODO: saveChatModelAsCookie", id);
                 });
               }}
               data-active={id === optimisticModelId}

@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { getSuggestionsByDocumentId } from "../../db/queries/queries";
 

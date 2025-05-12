@@ -2,7 +2,7 @@ import type { InferSelectModel } from "drizzle-orm";
 import { json, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { chat } from "./chat";
 
-export const message = pgTable("chat_message_v2", {
+export const chatMessage = pgTable("chat_message_v2", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
   chatId: uuid("chatId")
     .notNull()
@@ -13,4 +13,4 @@ export const message = pgTable("chat_message_v2", {
   createdAt: timestamp("createdAt").notNull(),
 });
 
-export type DBMessage = InferSelectModel<typeof message>;
+export type DBChatMessage = InferSelectModel<typeof chatMessage>;
