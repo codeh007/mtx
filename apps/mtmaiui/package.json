@@ -131,7 +131,6 @@
     "mimetext": "^3.0.27",
     "mtmaiapi": "*",
     "mtravideolib": "*",
-    "mtremotion": "*",
     "mtxuilib": "*",
     "next": "^15.3.2",
     "ollama-ai-provider": "^1.2.0",

@@ -1,7 +1,6 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 import { type Agent, getAgentByName } from "agents";
 import type { RootAg } from "../../../agents/root_ag";
-import type { Bindings } from "../../lib/types";
 import {
   homeContent,
   layout,
@@ -10,7 +9,8 @@ import {
   renderAuthorizationRejectedContent,
   renderLoggedInAuthorizeScreen,
   renderLoggedOutAuthorizeScreen,
-} from "../../utils";
+} from "../auth/utils";
+import type { Bindings } from "./lib/types";
 
 export default function configureAgentDemo(app: OpenAPIHono<{ Bindings: Bindings }>) {
   app.post("/agent_info", async (c) => {

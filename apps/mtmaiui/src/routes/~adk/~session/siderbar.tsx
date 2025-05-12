@@ -18,6 +18,7 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
+import { MtmaiuiConfig } from "../../../lib/core/config";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
@@ -30,7 +31,7 @@ export function NavAdkSession() {
   const adkSessionQuery = useQuery({
     queryKey: ["adkSessionList"],
     queryFn: async () => {
-      const response = await fetch("https://mtmag.yuepa8.com/api/session/list");
+      const response = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/session/list`);
       return response.json();
     },
   });

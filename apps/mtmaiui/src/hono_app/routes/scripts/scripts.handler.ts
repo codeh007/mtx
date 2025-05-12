@@ -1,4 +1,4 @@
-import { createRouter } from "../../lib/createApp";
+import { createRouter } from "../agent_api/lib/createApp";
 
 export const scriptRouter = createRouter()
   .get("/coleb", async (c) => {

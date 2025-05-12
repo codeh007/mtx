@@ -1,4 +1,4 @@
-import { createRouter } from "../../lib/createApp";
+import { createRouter } from "../agent_api/lib/createApp";
 
 import * as handlers from "./plateform_account.handlers";
 import * as routes from "./plateform_account.routes";

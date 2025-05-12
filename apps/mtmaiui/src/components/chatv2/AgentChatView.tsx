@@ -1,8 +1,10 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
+import { MtmaiuiConfig } from "../../lib/core/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
@@ -15,10 +17,18 @@ export default function AgentChatView() {
   const adkEvents = useWorkbenchStore((x) => x.adkEvents);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
+  const eventQuery = useQuery({
+    queryKey: ["adkEvents"],
+    queryFn: () => {
+      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/events`).then((res) => res.json());
+    },
+  });
+
   return (
     <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
       <div className="h-[calc(100vh-1rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <ChatHeader />
+        <DebugValue data={eventQuery.data} />
         {/* Messages */}
         <div
           ref={messagesContainerRef}

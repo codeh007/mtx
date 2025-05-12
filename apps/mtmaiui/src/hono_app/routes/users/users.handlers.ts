@@ -1,4 +1,4 @@
-import type { AppRouteHandler } from "../../lib/types";
+import type { AppRouteHandler } from "../agent_api/lib/types";
 import type { CreateRoute, GetOneRoute, ListRoute } from "./users.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {

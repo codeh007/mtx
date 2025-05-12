@@ -1,8 +1,8 @@
 import { writeFileSync } from "node:fs";
 import * as yaml from "js-yaml";
 
-import configureOpenAPI, { openAPIObjectConfig } from "./lib/configureOpenAPI";
-import createApp from "./lib/createApp";
+import configureOpenAPI, { openAPIObjectConfig } from "./routes/agent_api/lib/configureOpenAPI";
+import createApp from "./routes/agent_api/lib/createApp";
 import { apiRoutes } from "./routes/api_routes";
 
 const app = createApp();

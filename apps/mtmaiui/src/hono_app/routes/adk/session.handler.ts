@@ -1,13 +1,12 @@
 import { getDb } from "../../../db/dbClientV2";
 import { adkSessions } from "../../../db/schema/adk_sessions";
-import { createRouter } from "../../lib/createApp";
+import { createRouter } from "../agent_api/lib/createApp";
 
 export const sessionRouter = createRouter();
 
 sessionRouter.get("/list", async (c) => {
   try {
-    const db = await getDb(c.env);
-    const result = await db
+    const result = await getDb(c.env)
       .select({
         id: adkSessions.id,
         appName: adkSessions.app_name,

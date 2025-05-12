@@ -1,6 +1,6 @@
 import { initGomtmApp } from "mtmaiapi/gomtmapp";
 import { newRProxy } from "mtxuilib/http/rproxy";
-import { createRouter } from "../../lib/createApp";
+import { createRouter } from "../agent_api/lib/createApp";
 
 const gomtmProxyRouter = createRouter();
 

@@ -1,13 +1,14 @@
 import type { AuthRequest, OAuthHelpers } from "@cloudflare/workers-oauth-provider";
 import { Hono } from "hono";
 import { Octokit } from "octokit";
-import { COOKIE_ENCRYPTION_KEY } from "./config";
 import { type Props, fetchUpstreamAuthToken, getUpstreamAuthorizeUrl } from "./github_auth_util";
 import {
   clientIdAlreadyApproved,
   parseRedirectApproval,
   renderApprovalDialog,
 } from "./workers-oauth-utils";
+
+export const COOKIE_ENCRYPTION_KEY = "cooke_encryption_key";
 
 const app = new Hono<{ Bindings: Env & { OAUTH_PROVIDER: OAuthHelpers } }>();
 
