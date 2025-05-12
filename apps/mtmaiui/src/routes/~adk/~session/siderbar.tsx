@@ -18,7 +18,6 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
-import { useTenantId } from "../../../hooks/useAuth";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
@@ -28,19 +27,10 @@ export function NavAdkSession() {
     return "/adk/session";
   }, []);
 
-  const tid = useTenantId();
-  // const adkSessionQuery = useQuery({
-  //   ...adkSessionListOptions({
-  //     path: {
-  //       tenant: tid,
-  //     },
-  //   }),
-  // });
-
   const adkSessionQuery = useQuery({
     queryKey: ["adkSessionList"],
     queryFn: async () => {
-      const response = await fetch("https://mtmag.yuepa8.com/api/adk/session/list");
+      const response = await fetch("https://mtmag.yuepa8.com/api/session/list");
       return response.json();
     },
   });
@@ -84,8 +74,10 @@ const NavAdkSessionItem = ({ item, rowId }: { item: AdkSession; rowId: string })
   return (
     <div className="bg-slate-100 border px-2 mb-2 rounded-md flex flex-col">
       <div className="flex items-center justify-between">
+        {/* <DebugValue data={{ data: item }} /> */}
         <CustomLink to={`/adk/session/${item.id}`}>
-          <div>{item.title || item.id}</div>
+          <div>{item.app_name || item.id}</div>
+          <div>{item.title}</div>
         </CustomLink>
         <div>{item.app_name}</div>
       </div>

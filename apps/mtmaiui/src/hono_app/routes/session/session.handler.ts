@@ -8,7 +8,12 @@ sessionRouter.get("/list", async (c) => {
   try {
     const db = await getDb(c.env);
     const result = await db
-      .select([adkSessions.id, adkSessions.appName, adkSessions.userId, adkSessions.title])
+      .select({
+        id: adkSessions.id,
+        appName: adkSessions.app_name,
+        userId: adkSessions.user_id,
+        title: adkSessions.title,
+      })
       .from(adkSessions)
       .limit(10);
     return c.json({
