@@ -1,7 +1,7 @@
 import { getDb } from "../../../db/dbClientV2";
 import { plateformAccount } from "../../../db/schema/plateform_account";
 import type { AppRouteHandler } from "../agent_api/lib/types";
-import type { CreateRoute, GetOneRoute, ListRoute } from "./plateform_account.routes";
+import type { CreateRoute, GetOneRoute, ListRoute } from "./plateform_account.routes.ts--";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   try {

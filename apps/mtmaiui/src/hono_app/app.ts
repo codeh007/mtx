@@ -10,7 +10,7 @@ import { sessionRouter } from "./routes/adk/session.handler";
 // import configureAuth from "./lib/configureAuth";
 import createApp from "./routes/agent_api/lib/createApp";
 // import configureAgentDemo from "./routes/agent_api/agent_handler";
-import { apiRoutes } from "./routes/api_routes";
+// import { apiRoutes } from "./routes/api_routes";
 import { chatV2Router } from "./routes/chat_v2/chat_v2_handler";
 // import { authRouter } from "./routes/auth/auth.handler";
 import { envsRouter } from "./routes/envs/envs.handler";
@@ -54,8 +54,8 @@ app.route("/workflows/", workflowsRoute);
 app.route("/adk/session/", sessionRouter);
 app.route("/adk/events/", eventRouter);
 app.route("/chat_v2/", chatV2Router);
-for (const route of apiRoutes) {
-  app.route("/", route);
-}
+// for (const route of apiRoutes) {
+//   app.route("/", route);
+// }
 app.route("/v1/*", gomtmProxyRouter);
 export default app;

@@ -1,7 +1,7 @@
 import { createRouter } from "../agent_api/lib/createApp";
 
 import * as handlers from "./plateform_account.handlers";
-import * as routes from "./plateform_account.routes";
+import * as routes from "./plateform_account.routes.ts--";
 
 const router = createRouter()
   .basePath("/api")
