@@ -23,7 +23,7 @@ export const esbuildTransform = async (rawCode: string) => {
     format: "esm",
     target: "es2015",
     write: false,
-    external: ["react", "react-dom", "@revideo/2d", "@revideo/core"],
+    external: ["react", "react-dom"],
     // define: {
     //   "process.env.NODE_ENV": '"development"',
     // },

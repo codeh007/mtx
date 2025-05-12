@@ -37,9 +37,7 @@
     "agents:coder": "bun run withEnv -- bun run src/agents/coder/index.ts",
     "a2a:cli": "bun run withEnv -- bun run src/lib/a2a/cli.ts",
     "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts",
-    "dev:browser": "bun src/browser.ts",
-    "revideo:serve": "revideo serve --projectFile ./src/revedio/project.ts",
-    "revideo:editor": "revideo editor --projectFile ./src/revedio/project.ts"
+    "dev:browser": "bun src/browser.ts"
   },
   "typesVersions": {
     "*": {
@@ -98,8 +96,6 @@
     "@modelcontextprotocol/sdk": "^1.11.0",
     "@nanostores/react": "^0.8.4",
     "@radix-ui/react-icons": "^1.3.2",
-    "@revideo/2d": "0.10.4",
-    "@revideo/core": "0.10.4",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-query": "^5.62.14",
     "@tanstack/react-query-devtools": "^5.62.14",
@@ -144,7 +140,6 @@
     "recharts": "^2.15.1",
     "redaxios": "^0.5.1",
     "resumable-stream": "^2.0.0",
-    "revideo": "^0.0.0",
     "sonner": "^2.0",
     "superjson": "^2.2.2",
     "unenv": "^1.10.0",
@@ -154,8 +149,6 @@
   },
   "devDependencies": {
     "vite": "^6.2.5",
-    "@revideo/cli": "0.10.4",
-    "@revideo/ui": "0.10.4",
     "@babel/core": "^7.26.0",
     "@babel/generator": "^7.26.3",
     "@cloudflare/workers-types": "^4.20250503.0",

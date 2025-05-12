@@ -74,7 +74,6 @@ const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
-const BundlerIndexLazyImport = createFileRoute('/bundler/')()
 const BrowserIndexLazyImport = createFileRoute('/browser/')()
 const AgentsIndexLazyImport = createFileRoute('/agents/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
@@ -628,14 +627,6 @@ const ChatIndexLazyRoute = ChatIndexLazyImport.update({
   path: '/',
   getParentRoute: () => ChatRouteLazyRoute,
 } as any).lazy(() => import('./routes/~chat/~index.lazy').then((d) => d.Route))
-
-const BundlerIndexLazyRoute = BundlerIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => BundlerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~bundler/~index.lazy').then((d) => d.Route),
-)
 
 const BrowserIndexLazyRoute = BrowserIndexLazyImport.update({
   id: '/',
@@ -1675,13 +1666,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserIndexLazyImport
       parentRoute: typeof BrowserRouteLazyImport
     }
-    '/bundler/': {
-      id: '/bundler/'
-      path: '/'
-      fullPath: '/bundler/'
-      preLoaderRoute: typeof BundlerIndexLazyImport
-      parentRoute: typeof BundlerRouteLazyImport
-    }
     '/chat/': {
       id: '/chat/'
       path: '/'
@@ -2543,12 +2527,10 @@ const BrowserRouteLazyRouteWithChildren =
 
 interface BundlerRouteLazyRouteChildren {
   BundlerTest111Route: typeof BundlerTest111Route
-  BundlerIndexLazyRoute: typeof BundlerIndexLazyRoute
 }
 
 const BundlerRouteLazyRouteChildren: BundlerRouteLazyRouteChildren = {
   BundlerTest111Route: BundlerTest111Route,
-  BundlerIndexLazyRoute: BundlerIndexLazyRoute,
 }
 
 const BundlerRouteLazyRouteWithChildren =
@@ -3381,7 +3363,6 @@ export interface FileRoutesByFullPath {
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
-  '/bundler/': typeof BundlerIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
@@ -3492,12 +3473,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/platform': typeof PlatformIndexRoute
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents': typeof AgentsIndexLazyRoute
   '/browser': typeof BrowserIndexLazyRoute
-  '/bundler': typeof BundlerIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
@@ -3589,7 +3570,6 @@ export interface FileRoutesById {
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
-  '/bundler/': typeof BundlerIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
@@ -3723,7 +3703,6 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/agents/'
     | '/browser/'
-    | '/bundler/'
     | '/chat/'
     | '/envs/'
     | '/events/'
@@ -3833,12 +3812,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/bundler'
     | '/platform'
     | '/bundler/test111'
     | '/envs/create'
     | '/agents'
     | '/browser'
-    | '/bundler'
     | '/chat'
     | '/envs'
     | '/events'
@@ -3928,7 +3907,6 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/agents/'
     | '/browser/'
-    | '/bundler/'
     | '/chat/'
     | '/envs/'
     | '/events/'
@@ -4153,8 +4131,7 @@ export const routeTree = rootRoute
     "/bundler": {
       "filePath": "~bundler/~route.lazy.tsx",
       "children": [
-        "/bundler/test111",
-        "/bundler/"
+        "/bundler/test111"
       ]
     },
     "/chat": {
@@ -4265,10 +4242,6 @@ export const routeTree = rootRoute
     "/browser/": {
       "filePath": "~browser/~index.lazy.tsx",
       "parent": "/browser"
-    },
-    "/bundler/": {
-      "filePath": "~bundler/~index.lazy.tsx",
-      "parent": "/bundler"
     },
     "/chat/": {
       "filePath": "~chat/~index.lazy.tsx",
