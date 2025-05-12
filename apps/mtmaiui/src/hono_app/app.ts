@@ -16,6 +16,11 @@ import gomtmProxyRouter from "./v1/v1_route";
 import { workflowsRoute } from "./workflows/workflows.handler";
 const app = createApp().basePath("/api");
 
+app.use("*", async (c, next) => {
+  // c.set("X-Powered-By", "Hono");
+  globalThis.Hyperdrive = c.env.HYPERDRIVE;
+  await next();
+});
 app.use("*", cors());
 app.use(
   "/users",

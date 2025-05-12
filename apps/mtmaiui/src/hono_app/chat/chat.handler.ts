@@ -243,6 +243,7 @@ chatRouter.post("/", async (c) => {
 });
 
 chatRouter.get("/", async (c) => {
+  const request = c.req.raw;
   const streamContext = getStreamContext();
   const resumeRequestedAt = new Date();
 
