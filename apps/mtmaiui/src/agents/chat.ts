@@ -30,7 +30,10 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   };
 
   async onStart(): Promise<void> {
+    this.log("onStart111");
+    this.log("HYPERDRIVE", this.env.HYPERDRIVE);
     await super.onStart();
+    this.log("onStart done111");
   }
   onConnect(connection: Connection, ctx: ConnectionContext) {
     this.setState({

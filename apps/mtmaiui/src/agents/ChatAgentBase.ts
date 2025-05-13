@@ -3,21 +3,25 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
 import { sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { z } from "zod";
-import { getDb } from "../db/dbClientV2";
 import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
 export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E, State> {
   async onStart() {
     // 将session 状态数据写入数据库, 这样才能查询到所有 agents
+    this.log("onStart", this.name, this.ctx?.id);
+    this.log("onStart base", this.env.HYPERDRIVE);
     try {
-      const res = await getDb(this.env!).execute(sql`SELECT * from upsert_agent(
+      const db = drizzle(`${this.env.HYPERDRIVE.connectionString}`);
+      const res = await db.execute(sql`SELECT * from upsert_agent(
         p_name  => ${this.name}::text,
         p_id    => ${this.ctx.id}::text,
         p_type  => ${"cfagent"}::text,
         -- p_agent_state => ${JSON.stringify(this.state)}::jsonb
       )`);
     } catch (e: any) {
+      this.log("onStart error", e);
       this.handleException(e);
     }
   }
@@ -48,8 +52,8 @@ export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E
     );
   }
 
-  handleException(error: unknown) {
-    console.error("Error calling coder agent", error);
+  handleException(error: any) {
+    console.error("handleException", error, error.stack);
     this.log(`(handleException): ${error}`);
     this.setState({
       ...this.state,

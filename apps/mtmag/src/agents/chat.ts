@@ -98,8 +98,8 @@ export class Chat extends AIChatAgent<Env, RootAgentState> {
           });
           console.log("callCoderAgent result", result);
         } catch (error) {
-          console.error("Error calling coder agent", error);
-          return `Error calling coder agent: ${error}`;
+          console.error("Error onChatMessage", error);
+          return `Error onChatMessage: ${error}`;
         }
       },
     });
