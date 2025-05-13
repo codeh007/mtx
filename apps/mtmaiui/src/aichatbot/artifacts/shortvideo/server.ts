@@ -74,6 +74,7 @@ export const shortVideoHandler = createDocumentHandler<"shortvideo">({
       }
     }
 
+    console.log("shortvideoHandler onUpdateDocument, draftContent:", draftContent);
     return draftContent;
   },
 });

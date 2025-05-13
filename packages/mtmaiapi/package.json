@@ -97,7 +97,6 @@
     "prepublish": "cp package.json dist/package.json;",
     "publish:ci": "rm -rf ./dist && npm run tsc:build && npm run prepublish && cd dist && npm publish --access public --no-git-checks",
     "publish:ci:alpha": "rm -rf ./dist && npm run tsc:build && npm run prepublish && cd dist && npm publish --access public --no-git-checks --tag alpha",
-    "generate-docs": "typedoc",
     "db_gen": "drizzle-kit generate",
     "db_migrate_old": "bun run withEnv -- bun run src/db/migrate.ts",
     "db_migrate": "bun run withEnv -- bun drizzle-kit migrate --config=drizzle.config.ts",
@@ -148,8 +147,6 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "ts-proto": "^2.6.1",
-    "typedoc": "^0.26.2",
-    "typedoc-plugin-markdown": "^4.0.2",
     "typescript": "^5.7"
   },
   "engines": {

@@ -55,7 +55,7 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       case "new_chat_participant":
         this.setState({
           ...this.state,
-          participants: [...this.state.participants, event.data.agentName],
+          // participants: [...this.state.participants, event.data.agentName],
         });
         this.broadcast(
           JSON.stringify({
@@ -345,4 +345,5 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       ],
     });
   }
+  async onRunSmalagent(task: string) {}
 }
