@@ -346,15 +346,21 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       ],
     });
   }
-<<<<<<< HEAD
-  async onRunSmalagent(task: string) {}
-=======
 
   @callable()
-  async onCallSmalagent(task: string) {
+  async onRunSmalagent(task: string) {
     await this.pushTask("small_agent", {
       task,
     });
+    // const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/run_smalagent`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     task,
+    //   }),
+    // });
+    // return res.json();
   }
->>>>>>> d44e80a1ecae55734cdf1e1a9b2f0f4e9f5c43fb
 }

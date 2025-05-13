@@ -126,9 +126,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             console.log("search1 result", result);
             break;
           }
-          case "/test_task": {
-            const smalagentTask = "请向我问好,然后自我介绍";
-            agent.call("onCallSmalagent", [smalagentTask]);
+          case "/run_smalagent": {
+            agent.call("onRunSmalagent", ["请向我问好,然后自我介绍"]);
             break;
           }
           case "/genshortvideo": {

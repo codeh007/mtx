@@ -2,7 +2,7 @@
 
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { Button, buttonVariants } from "mtxuilib/ui/button";
+import { buttonVariants } from "mtxuilib/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -12,29 +12,27 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
-import { useMutation } from "@tanstack/react-query";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
-import { MtmaiuiConfig } from "../../lib/config";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
   }, []);
 
-  const mqSendMutation = useMutation({
-    mutationFn: async (payload: { queue: string; payload: any }) => {
-      const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/${payload.queue}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      return res.json();
-    },
-  });
+  // const mqSendMutation = useMutation({
+  //   mutationFn: async (payload: { queue: string; payload: any }) => {
+  //     const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/${payload.queue}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+  //     return res.json();
+  //   },
+  // });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -68,7 +66,7 @@ export function NavSession() {
             {/* <DebugValue data={{ data: listSessions.data }} /> */}
           </SidebarGroupContent>
           <SidebarGroupContent>
-            <Button
+            {/* <Button
               onClick={() => {
                 mqSendMutation.mutate({
                   queue: "shortvideo_combine",
@@ -79,7 +77,7 @@ export function NavSession() {
               }}
             >
               测试, pgmq 消息发送
-            </Button>
+            </Button> */}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
