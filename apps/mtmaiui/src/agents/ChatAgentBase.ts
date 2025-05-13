@@ -2,10 +2,25 @@ import type { Connection, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
+import { sql } from "drizzle-orm";
 import { z } from "zod";
+import { getDb } from "../db/dbClientV2";
 import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
-export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<Env, State> {
+export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E, State> {
+  async onStart() {
+    // 将session 状态数据写入数据库, 这样才能查询到所有 agents
+    try {
+      const res = await getDb(this.env!).execute(sql`SELECT * from upsert_agent(
+        p_name  => ${this.name}::text,
+        p_id    => ${this.ctx.id}::text,
+        p_type  => ${"cfagent"}::text,
+        -- p_agent_state => ${JSON.stringify(this.state)}::jsonb
+      )`);
+    } catch (e: any) {
+      this.handleException(e);
+    }
+  }
   onMessage(connection: Connection, message: string): Promise<void> {
     return super.onMessage(connection, message);
   }

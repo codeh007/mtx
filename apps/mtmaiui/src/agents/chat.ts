@@ -29,8 +29,8 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     enabledAutoDispatch: true,
   };
 
-  onStart(): void | Promise<void> {
-    // 将session 状态数据写入数据库, 这样才能查询到所有 agents
+  async onStart(): Promise<void> {
+    await super.onStart();
   }
   onConnect(connection: Connection, ctx: ConnectionContext) {
     this.setState({
