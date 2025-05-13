@@ -7,7 +7,7 @@ import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
 // import { getChatById, getMessagesByChatId } from "../../../../db/queries/queries";
 import { type DBChatMessage, chat } from "../../../../db/schema";
-import { MtmaiuiConfig } from "../../../../lib/core/config";
+import { MtmaiuiConfig } from "../../../../lib/config";
 
 export default function Page(props: { params: Promise<{ id: string }> }) {
   // const params = await props.params;

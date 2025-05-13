@@ -5,7 +5,7 @@ import { Chat } from "../../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
 import type { DBChatMessage } from "../../../../db/schema";
-import { MtmaiuiConfig } from "../../../../lib/core/config";
+import { MtmaiuiConfig } from "../../../../lib/config";
 
 export const Route = createLazyFileRoute("/chat/session/$sessionId/")({
   component: RouteComponent,

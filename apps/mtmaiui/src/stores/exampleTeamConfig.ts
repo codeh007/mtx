@@ -1,19 +1,19 @@
 import {
-    type Agents,
-    type AssistantAgent,
-    type AssistantAgentConfig,
-    type InstagramAgent,
-    type InstagramAgentConfig,
-    ModelFamily,
-    type OpenAiChatCompletionClient,
-    ProviderTypes,
-    type SocialTeam,
-    type SocialTeamConfig,
-    type Terminations,
-    type UserProxyAgent,
-    type UserProxyAgentConfig,
+  type Agents,
+  type AssistantAgent,
+  type AssistantAgentConfig,
+  type InstagramAgent,
+  type InstagramAgentConfig,
+  ModelFamily,
+  type OpenAiChatCompletionClient,
+  ProviderTypes,
+  type SocialTeam,
+  type SocialTeamConfig,
+  type Terminations,
+  type UserProxyAgent,
+  type UserProxyAgentConfig,
 } from "mtmaiapi";
-import { MtmaiuiConfig } from "../lib/core/config";
+import { MtmaiuiConfig } from "../lib/config";
 export const exampleTeamConfig = {
   provider: ProviderTypes.SOCIAL_TEAM,
   component_type: "team",

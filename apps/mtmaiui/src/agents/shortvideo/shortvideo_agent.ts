@@ -96,7 +96,7 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       const client = await experimental_createMCPClient({
         transport: {
           type: "sse",
-          url: mcpServerUrl,
+          // url: mcpServerUrl,
         },
       });
 

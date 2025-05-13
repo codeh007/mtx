@@ -13,6 +13,7 @@ import { chatRouter } from "./chat/chat.handler";
 import { chatMessageRouter } from "./chat_message/chat_message.handler";
 import { chatV2Router } from "./chat_v2/chat_v2_handler";
 import { envsRouter } from "./envs/envs.handler";
+import { mqRouter } from "./mq/mq.handler";
 import { r2Router } from "./r2/r2.handler";
 import { scriptRouter } from "./scripts/scripts.handler";
 import gomtmProxyRouter from "./v1/v1_route";
@@ -36,7 +37,7 @@ configureOpenAPI(app as any);
 
 // 设置 cloudflare agents 中间件
 app.use(
-  "/agents/*",
+  "/*",
   agentsMiddleware({
     onError: (error) => {
       console.log("aggents onError", error);
@@ -83,4 +84,5 @@ app.route("/chat_v2/", chatV2Router);
 app.route("/chat/", chatRouter);
 app.route("/chat_message/", chatMessageRouter);
 app.route("/v1/*", gomtmProxyRouter);
+app.route("/mq", mqRouter);
 export default app;

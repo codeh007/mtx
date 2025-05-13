@@ -18,7 +18,7 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../components/chatv2/app_select";
-import { MtmaiuiConfig } from "../../lib/core/config";
+import { MtmaiuiConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function NavChat() {

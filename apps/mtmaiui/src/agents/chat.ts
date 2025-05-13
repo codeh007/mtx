@@ -55,7 +55,7 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       case "new_chat_participant":
         this.setState({
           ...this.state,
-          participants: [...this.state.participants, event.data.agentName],
+          // participants: [...this.state.participants, event.data.agentName],
         });
         this.broadcast(
           JSON.stringify({
@@ -81,10 +81,11 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
           messages: this.messages,
           tools: this.getTools(),
           onFinish: (result) => {
-            onFinish(result);
+            onFinish(result as any);
           },
-          onError: (error) => {
-            console.log("onStreamText error", error);
+          onError: (error: any) => {
+            console.log("onStreamText error", error, error.stack);
+            dataStream.writeData({ value: "Hello" });
           },
         });
         result.mergeIntoDataStream(dataStream);
@@ -343,6 +344,13 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
           text: "call adk agent example",
         },
       ],
+    });
+  }
+
+  @callable()
+  async onCallSmalagent(task: string) {
+    await this.pushTask("small_agent", {
+      task,
     });
   }
 }

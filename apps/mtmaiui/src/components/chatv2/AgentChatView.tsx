@@ -5,7 +5,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
 import { adkEvents } from "../../db/schema";
-import { MtmaiuiConfig } from "../../lib/core/config";
+import { MtmaiuiConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
