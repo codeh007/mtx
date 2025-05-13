@@ -1,8 +1,7 @@
-import { compare } from "bcrypt-ts";
 import NextAuth, { type Session, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "mtxuilib/db/queries/queries";
+import { getUser } from "../../db/queries/queries";
 
 import { authConfig } from "./auth.config";
 
@@ -23,8 +22,10 @@ export const {
       async authorize({ email, password }: any) {
         const users = await getUser(email);
         if (users.length === 0) return null;
-        const passwordsMatch = await compare(password, users[0].password!);
-        if (passwordsMatch) return users[0] as any;
+        // const passwordsMatch = await compare(password, users[0].password!);
+        // if (passwordsMatch) return users[0] as any;
+        // 测试,暂时不进行认证
+        return users[0] as any;
       },
     }),
   ],

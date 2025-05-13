@@ -1,16 +1,6 @@
 import { CopyIcon, LogsIcon, PlayIcon, RedoIcon, UndoIcon } from "lucide-react";
 import { MessageIcon } from "mtxuilib/icons/aichatbot.icons";
 import { generateUUID } from "mtxuilib/lib/utils";
-// import { Artifact } from '@/components/create-artifact';
-// import { CodeEditor } from '@/components/code-editor';
-// import {
-//   CopyIcon,
-//   LogsIcon,
-//   MessageIcon,
-//   PlayIcon,
-//   RedoIcon,
-//   UndoIcon,
-// } from '@/components/icons';
 import { toast } from "sonner";
 import { CodeEditor } from "../../code-editor";
 import { Console, type ConsoleOutput, type ConsoleOutputContent } from "../../console";

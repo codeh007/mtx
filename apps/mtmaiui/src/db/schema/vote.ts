@@ -3,7 +3,7 @@ import type { InferSelectModel } from "drizzle-orm";
 import { boolean, pgTable, primaryKey, uuid } from "drizzle-orm/pg-core";
 
 import { chat } from "./chat";
-import { message } from "./message";
+import { chatMessage } from "./message";
 
 export const vote = pgTable(
   "Vote_v2",
@@ -13,7 +13,7 @@ export const vote = pgTable(
       .references(() => chat.id),
     messageId: uuid("messageId")
       .notNull()
-      .references(() => message.id),
+      .references(() => chatMessage.id),
     isUpvoted: boolean("isUpvoted").notNull(),
   },
   (table) => {

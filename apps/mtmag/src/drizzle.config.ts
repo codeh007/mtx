@@ -8,15 +8,14 @@ config({
   path: ".env.local",
 });
 
-if (!process.env.POSTGRES_URL) {
-  throw new Error("POSTGRES_URL is not defined");
+if (!process.env.MTM_DATABASE_URL) {
+  throw new Error("MTM_DATABASE_URL is not defined");
 }
-// console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
 export default defineConfig({
   schema: "./src/db/schema/index.ts",
   out: "./src/db/migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.MTM_DATABASE_URL!,
   },
 });

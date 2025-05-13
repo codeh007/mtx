@@ -27,7 +27,6 @@ const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TkRouteLazyImport = createFileRoute('/tk')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
 const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
-const RevedioRouteLazyImport = createFileRoute('/revedio')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
@@ -35,6 +34,7 @@ const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
 const PlatformRouteLazyImport = createFileRoute('/platform')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
+const ChatRouteLazyImport = createFileRoute('/chat')()
 const BundlerRouteLazyImport = createFileRoute('/bundler')()
 const BrowserRouteLazyImport = createFileRoute('/browser')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
@@ -67,14 +67,13 @@ const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TkIndexLazyImport = createFileRoute('/tk/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
-const RevedioIndexLazyImport = createFileRoute('/revedio/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
-const BundlerIndexLazyImport = createFileRoute('/bundler/')()
+const ChatIndexLazyImport = createFileRoute('/chat/')()
 const BrowserIndexLazyImport = createFileRoute('/browser/')()
 const AgentsIndexLazyImport = createFileRoute('/agents/')()
 const WorkflowsWorkflowIdTriggerRouteLazyImport = createFileRoute(
@@ -233,6 +232,9 @@ const ProxyProxyIdActionsIndexLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdActionsIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/actions/',
 )()
+const ChatSessionSessionIdIndexLazyImport = createFileRoute(
+  '/chat/session/$sessionId/',
+)()
 const AgentsAgentSessionIdIndexLazyImport = createFileRoute(
   '/agents/$agent/$sessionId/',
 )()
@@ -329,14 +331,6 @@ const ScheduledRunsRouteLazyRoute = ScheduledRunsRouteLazyImport.update({
   import('./routes/~scheduled-runs/~route.lazy').then((d) => d.Route),
 )
 
-const RevedioRouteLazyRoute = RevedioRouteLazyImport.update({
-  id: '/revedio',
-  path: '/revedio',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~revedio/~route.lazy').then((d) => d.Route),
-)
-
 const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   id: '/resource',
   path: '/resource',
@@ -388,6 +382,12 @@ const EnvsRouteLazyRoute = EnvsRouteLazyImport.update({
   path: '/envs',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~envs/~route.lazy').then((d) => d.Route))
+
+const ChatRouteLazyRoute = ChatRouteLazyImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/~chat/~route.lazy').then((d) => d.Route))
 
 const BundlerRouteLazyRoute = BundlerRouteLazyImport.update({
   id: '/bundler',
@@ -578,14 +578,6 @@ const ScheduledRunsIndexLazyRoute = ScheduledRunsIndexLazyImport.update({
   import('./routes/~scheduled-runs/~index.lazy').then((d) => d.Route),
 )
 
-const RevedioIndexLazyRoute = RevedioIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RevedioRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~revedio/~index.lazy').then((d) => d.Route),
-)
-
 const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -630,13 +622,11 @@ const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
   getParentRoute: () => EnvsRouteLazyRoute,
 } as any).lazy(() => import('./routes/~envs/~index.lazy').then((d) => d.Route))
 
-const BundlerIndexLazyRoute = BundlerIndexLazyImport.update({
+const ChatIndexLazyRoute = ChatIndexLazyImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => BundlerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~bundler/~index.lazy').then((d) => d.Route),
-)
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any).lazy(() => import('./routes/~chat/~index.lazy').then((d) => d.Route))
 
 const BrowserIndexLazyRoute = BrowserIndexLazyImport.update({
   id: '/',
@@ -1283,6 +1273,17 @@ const PlatformAccountPlatformAccountIdActionsIndexLazyRoute =
     ).then((d) => d.Route),
   )
 
+const ChatSessionSessionIdIndexLazyRoute =
+  ChatSessionSessionIdIndexLazyImport.update({
+    id: '/session/$sessionId/',
+    path: '/session/$sessionId/',
+    getParentRoute: () => ChatRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~chat/~session/~$sessionId/~index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const AgentsAgentSessionIdIndexLazyRoute =
   AgentsAgentSessionIdIndexLazyImport.update({
     id: '/',
@@ -1539,6 +1540,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BundlerRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/envs': {
       id: '/envs'
       path: '/envs'
@@ -1586,13 +1594,6 @@ declare module '@tanstack/react-router' {
       path: '/resource'
       fullPath: '/resource'
       preLoaderRoute: typeof ResourceRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/revedio': {
-      id: '/revedio'
-      path: '/revedio'
-      fullPath: '/revedio'
-      preLoaderRoute: typeof RevedioRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/scheduled-runs': {
@@ -1665,12 +1666,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserIndexLazyImport
       parentRoute: typeof BrowserRouteLazyImport
     }
-    '/bundler/': {
-      id: '/bundler/'
+    '/chat/': {
+      id: '/chat/'
       path: '/'
-      fullPath: '/bundler/'
-      preLoaderRoute: typeof BundlerIndexLazyImport
-      parentRoute: typeof BundlerRouteLazyImport
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexLazyImport
+      parentRoute: typeof ChatRouteLazyImport
     }
     '/envs/': {
       id: '/envs/'
@@ -1713,13 +1714,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/'
       preLoaderRoute: typeof ResourceIndexLazyImport
       parentRoute: typeof ResourceRouteLazyImport
-    }
-    '/revedio/': {
-      id: '/revedio/'
-      path: '/'
-      fullPath: '/revedio/'
-      preLoaderRoute: typeof RevedioIndexLazyImport
-      parentRoute: typeof RevedioRouteLazyImport
     }
     '/scheduled-runs/': {
       id: '/scheduled-runs/'
@@ -2063,6 +2057,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/agents/$agent/$sessionId/'
       preLoaderRoute: typeof AgentsAgentSessionIdIndexLazyImport
       parentRoute: typeof AgentsAgentSessionIdRouteLazyImport
+    }
+    '/chat/session/$sessionId/': {
+      id: '/chat/session/$sessionId/'
+      path: '/session/$sessionId'
+      fullPath: '/chat/session/$sessionId'
+      preLoaderRoute: typeof ChatSessionSessionIdIndexLazyImport
+      parentRoute: typeof ChatRouteLazyImport
     }
     '/platform-account/$platformAccountId/actions/': {
       id: '/platform-account/$platformAccountId/actions/'
@@ -2526,16 +2527,28 @@ const BrowserRouteLazyRouteWithChildren =
 
 interface BundlerRouteLazyRouteChildren {
   BundlerTest111Route: typeof BundlerTest111Route
-  BundlerIndexLazyRoute: typeof BundlerIndexLazyRoute
 }
 
 const BundlerRouteLazyRouteChildren: BundlerRouteLazyRouteChildren = {
   BundlerTest111Route: BundlerTest111Route,
-  BundlerIndexLazyRoute: BundlerIndexLazyRoute,
 }
 
 const BundlerRouteLazyRouteWithChildren =
   BundlerRouteLazyRoute._addFileChildren(BundlerRouteLazyRouteChildren)
+
+interface ChatRouteLazyRouteChildren {
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+  ChatSessionSessionIdIndexLazyRoute: typeof ChatSessionSessionIdIndexLazyRoute
+}
+
+const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
+  ChatSessionSessionIdIndexLazyRoute: ChatSessionSessionIdIndexLazyRoute,
+}
+
+const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
+  ChatRouteLazyRouteChildren,
+)
 
 interface EnvsRouteLazyRouteChildren {
   EnvsCreateRoute: typeof EnvsCreateRoute
@@ -2776,17 +2789,6 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
-
-interface RevedioRouteLazyRouteChildren {
-  RevedioIndexLazyRoute: typeof RevedioIndexLazyRoute
-}
-
-const RevedioRouteLazyRouteChildren: RevedioRouteLazyRouteChildren = {
-  RevedioIndexLazyRoute: RevedioIndexLazyRoute,
-}
-
-const RevedioRouteLazyRouteWithChildren =
-  RevedioRouteLazyRoute._addFileChildren(RevedioRouteLazyRouteChildren)
 
 interface ScheduledRunsRouteLazyRouteChildren {
   ScheduledRunsIndexLazyRoute: typeof ScheduledRunsIndexLazyRoute
@@ -3343,6 +3345,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/bundler': typeof BundlerRouteLazyRouteWithChildren
+  '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -3350,7 +3353,6 @@ export interface FileRoutesByFullPath {
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
-  '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
@@ -3361,14 +3363,13 @@ export interface FileRoutesByFullPath {
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
-  '/bundler/': typeof BundlerIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
-  '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
@@ -3418,6 +3419,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
+  '/chat/session/$sessionId': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3471,19 +3473,19 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
+  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/platform': typeof PlatformIndexRoute
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents': typeof AgentsIndexLazyRoute
   '/browser': typeof BrowserIndexLazyRoute
-  '/bundler': typeof BundlerIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/proxy': typeof ProxyIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
-  '/revedio': typeof RevedioIndexLazyRoute
   '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/tk': typeof TkIndexLazyRoute
@@ -3508,6 +3510,7 @@ export interface FileRoutesByTo {
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdIndexLazyRoute
+  '/chat/session/$sessionId': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3549,6 +3552,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
   '/bundler': typeof BundlerRouteLazyRouteWithChildren
+  '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
   '/platform': typeof PlatformRouteLazyRouteWithChildren
@@ -3556,7 +3560,6 @@ export interface FileRoutesById {
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
-  '/revedio': typeof RevedioRouteLazyRouteWithChildren
   '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
@@ -3567,14 +3570,13 @@ export interface FileRoutesById {
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
-  '/bundler/': typeof BundlerIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
-  '/revedio/': typeof RevedioIndexLazyRoute
   '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
@@ -3624,6 +3626,7 @@ export interface FileRoutesById {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
+  '/chat/session/$sessionId/': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3682,6 +3685,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/browser'
     | '/bundler'
+    | '/chat'
     | '/envs'
     | '/events'
     | '/platform'
@@ -3689,7 +3693,6 @@ export interface FileRouteTypes {
     | '/proxy'
     | '/recurring'
     | '/resource'
-    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3700,14 +3703,13 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/agents/'
     | '/browser/'
-    | '/bundler/'
+    | '/chat/'
     | '/envs/'
     | '/events/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
     | '/resource/'
-    | '/revedio/'
     | '/scheduled-runs/'
     | '/tenant/'
     | '/tk/'
@@ -3757,6 +3759,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
+    | '/chat/session/$sessionId'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -3809,19 +3812,19 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/bundler'
     | '/platform'
     | '/bundler/test111'
     | '/envs/create'
     | '/agents'
     | '/browser'
-    | '/bundler'
+    | '/chat'
     | '/envs'
     | '/events'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
     | '/resource'
-    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3846,6 +3849,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
+    | '/chat/session/$sessionId'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -3885,6 +3889,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/browser'
     | '/bundler'
+    | '/chat'
     | '/envs'
     | '/events'
     | '/platform'
@@ -3892,7 +3897,6 @@ export interface FileRouteTypes {
     | '/proxy'
     | '/recurring'
     | '/resource'
-    | '/revedio'
     | '/scheduled-runs'
     | '/tenant'
     | '/tk'
@@ -3903,14 +3907,13 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/agents/'
     | '/browser/'
-    | '/bundler/'
+    | '/chat/'
     | '/envs/'
     | '/events/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
     | '/resource/'
-    | '/revedio/'
     | '/scheduled-runs/'
     | '/tenant/'
     | '/tk/'
@@ -3960,6 +3963,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
+    | '/chat/session/$sessionId/'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -4017,6 +4021,7 @@ export interface RootRouteChildren {
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
   BundlerRouteLazyRoute: typeof BundlerRouteLazyRouteWithChildren
+  ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
   PlatformRouteLazyRoute: typeof PlatformRouteLazyRouteWithChildren
@@ -4024,7 +4029,6 @@ export interface RootRouteChildren {
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
-  RevedioRouteLazyRoute: typeof RevedioRouteLazyRouteWithChildren
   ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
@@ -4043,6 +4047,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
   BundlerRouteLazyRoute: BundlerRouteLazyRouteWithChildren,
+  ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
   PlatformRouteLazyRoute: PlatformRouteLazyRouteWithChildren,
@@ -4050,7 +4055,6 @@ const rootRouteChildren: RootRouteChildren = {
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
-  RevedioRouteLazyRoute: RevedioRouteLazyRouteWithChildren,
   ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
@@ -4081,6 +4085,7 @@ export const routeTree = rootRoute
         "/auth",
         "/browser",
         "/bundler",
+        "/chat",
         "/envs",
         "/events",
         "/platform",
@@ -4088,7 +4093,6 @@ export const routeTree = rootRoute
         "/proxy",
         "/recurring",
         "/resource",
-        "/revedio",
         "/scheduled-runs",
         "/tenant",
         "/tk",
@@ -4127,8 +4131,14 @@ export const routeTree = rootRoute
     "/bundler": {
       "filePath": "~bundler/~route.lazy.tsx",
       "children": [
-        "/bundler/test111",
-        "/bundler/"
+        "/bundler/test111"
+      ]
+    },
+    "/chat": {
+      "filePath": "~chat/~route.lazy.tsx",
+      "children": [
+        "/chat/",
+        "/chat/session/$sessionId/"
       ]
     },
     "/envs": {
@@ -4178,12 +4188,6 @@ export const routeTree = rootRoute
         "/resource/",
         "/resource/$resId",
         "/resource/new"
-      ]
-    },
-    "/revedio": {
-      "filePath": "~revedio/~route.lazy.tsx",
-      "children": [
-        "/revedio/"
       ]
     },
     "/scheduled-runs": {
@@ -4239,9 +4243,9 @@ export const routeTree = rootRoute
       "filePath": "~browser/~index.lazy.tsx",
       "parent": "/browser"
     },
-    "/bundler/": {
-      "filePath": "~bundler/~index.lazy.tsx",
-      "parent": "/bundler"
+    "/chat/": {
+      "filePath": "~chat/~index.lazy.tsx",
+      "parent": "/chat"
     },
     "/envs/": {
       "filePath": "~envs/~index.lazy.tsx",
@@ -4266,10 +4270,6 @@ export const routeTree = rootRoute
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
       "parent": "/resource"
-    },
-    "/revedio/": {
-      "filePath": "~revedio/~index.lazy.tsx",
-      "parent": "/revedio"
     },
     "/scheduled-runs/": {
       "filePath": "~scheduled-runs/~index.lazy.tsx",
@@ -4574,6 +4574,10 @@ export const routeTree = rootRoute
     "/agents/$agent/$sessionId/": {
       "filePath": "~agents/~$agent/~$sessionId/~index.lazy.tsx",
       "parent": "/agents/$agent/$sessionId"
+    },
+    "/chat/session/$sessionId/": {
+      "filePath": "~chat/~session/~$sessionId/~index.lazy.tsx",
+      "parent": "/chat"
     },
     "/platform-account/$platformAccountId/actions/": {
       "filePath": "~platform-account/~$platformAccountId/~actions/~index.lazy.tsx",

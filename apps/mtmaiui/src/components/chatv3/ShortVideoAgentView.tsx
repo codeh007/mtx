@@ -2,7 +2,6 @@
 
 import { useAgent } from "agents/react";
 
-import { MainSencePlayer } from "mtremotion/components/MainSencePlayer";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useState } from "react";
 import { AgentNames } from "../../agent_state/shared";
@@ -31,7 +30,7 @@ export const ShortVideoAgentView = ({ agentId }: ShortVideoAgentViewProps) => {
   return (
     <div className="w-full h-full">
       {isDebug && <DebugValue data={shortVideoAgentState} />}
-      {shortVideoAgentState && <MainSencePlayer mainSenceData={shortVideoAgentState.mainSence} />}
+      {/* {shortVideoAgentState && <MainSencePlayer mainSenceData={shortVideoAgentState.mainSence} />} */}
     </div>
   );
 };

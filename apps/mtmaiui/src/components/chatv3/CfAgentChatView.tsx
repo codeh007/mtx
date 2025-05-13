@@ -126,6 +126,11 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             console.log("search1 result", result);
             break;
           }
+          case "/test_task": {
+            const smalagentTask = "请向我问好,然后自我介绍";
+            agent.call("onCallSmalagent", [smalagentTask]);
+            break;
+          }
           case "/genshortvideo": {
             const result = await shortVideoAgent.call("onGenShortVideo", ["test"]);
             console.log("genShortVideo result", result);

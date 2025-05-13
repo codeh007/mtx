@@ -1,36 +1,21 @@
 "use client";
-import type {
-  Attachment,
-  ChatRequestOptions,
-  CreateMessage,
-  Message,
-} from "ai";
-import cx from "classnames";
+import type { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { formatDistance } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "mtxuilib/lib/utils";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { toast } from "sonner";
-import {
-  useCopyToClipboard,
-  useDebounceCallback,
-  useWindowSize,
-} from "usehooks-ts";
+import { useCopyToClipboard, useDebounceCallback, useWindowSize } from "usehooks-ts";
 
-import type { Vote } from "mtxuilib/db/schema/vote";
-import {
-  CopyIcon,
-  CrossIcon,
-  DeltaIcon,
-  RedoIcon,
-  UndoIcon,
-} from "mtxuilib/icons/aichatbot.icons";
+import { CopyIcon, CrossIcon, DeltaIcon, RedoIcon, UndoIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
+import type { Vote } from "../../db/schema";
 import { MultimodalInput } from "../chat/prompt-input/multimodal-input";
 import { DiffView } from "./diffview";
 import { Editor } from "./editor";
 import { Toolbar } from "./toolbar";
-import { VersionFooter } from "./version-footer";
+// import { VersionFooter } from "./version-footer";
 export interface UIBlock {
   title: string;
   documentId: string;
@@ -86,8 +71,7 @@ export function Block({
 }) {
   // const tenant = useTenant();
 
-  const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>();
+  const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
   // const {
   //   data: documents,
@@ -181,10 +165,7 @@ export function Block({
   // );
 
   const handleContentChange = (data) => {};
-  const debouncedHandleContentChange = useDebounceCallback(
-    handleContentChange,
-    2000,
-  );
+  const debouncedHandleContentChange = useDebounceCallback(handleContentChange, 2000);
 
   // const saveContent = useCallback(
   //   (updatedContent: string, debounce: boolean) => {
@@ -317,18 +298,11 @@ export function Block({
                   block={block}
                   setBlock={setBlock}
                   isLoading={isLoading && index === messages.length - 1}
-                  vote={
-                    votes
-                      ? votes.find((vote) => vote.messageId === message.id)
-                      : undefined
-                  }
+                  vote={votes ? votes.find((vote) => vote.messageId === message.id) : undefined}
                 />
               ))}
 
-              <div
-                ref={messagesEndRef}
-                className="shrink-0 min-w-[24px] min-h-[24px]"
-              />
+              <div ref={messagesEndRef} className="shrink-0 min-w-[24px] min-h-[24px]" />
             </div>
 
             <form className="flex flex-row gap-2 relative items-end w-full px-4 pb-4">
@@ -430,23 +404,15 @@ export function Block({
             </Button>
 
             <div className="flex flex-col">
-              <div className="font-medium">
-                {document?.title ?? block.title}
-              </div>
+              <div className="font-medium">{document?.title ?? block.title}</div>
 
               {isContentDirty ? (
-                <div className="text-sm text-muted-foreground">
-                  Saving changes...
-                </div>
+                <div className="text-sm text-muted-foreground">Saving changes...</div>
               ) : document ? (
                 <div className="text-sm text-muted-foreground">
-                  {`Updated ${formatDistance(
-                    new Date(document.createdAt),
-                    new Date(),
-                    {
-                      addSuffix: true,
-                    },
-                  )}`}
+                  {`Updated ${formatDistance(new Date(document.createdAt), new Date(), {
+                    addSuffix: true,
+                  })}`}
                 </div>
               ) : (
                 <div className="w-32 h-3 mt-2 bg-muted-foreground/20 rounded-md animate-pulse" />
@@ -479,9 +445,7 @@ export function Block({
                   onClick={() => {
                     handleVersionChange("prev");
                   }}
-                  disabled={
-                    currentVersionIndex === 0 || block.status === "streaming"
-                  }
+                  disabled={currentVersionIndex === 0 || block.status === "streaming"}
                 >
                   <UndoIcon size={18} />
                 </Button>
@@ -507,18 +471,13 @@ export function Block({
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
-                  className={cx(
-                    "p-2 h-fit !pointer-events-auto dark:hover:bg-zinc-700",
-                    {
-                      "bg-muted": mode === "diff",
-                    },
-                  )}
+                  className={cn("p-2 h-fit !pointer-events-auto dark:hover:bg-zinc-700", {
+                    "bg-muted": mode === "diff",
+                  })}
                   onClick={() => {
                     handleVersionChange("toggle");
                   }}
-                  disabled={
-                    block.status === "streaming" || currentVersionIndex === 0
-                  }
+                  disabled={block.status === "streaming" || currentVersionIndex === 0}
                 >
                   <DeltaIcon size={18} />
                 </Button>
@@ -535,9 +494,7 @@ export function Block({
             ) : mode === "edit" ? (
               <Editor
                 content={
-                  isCurrentVersion
-                    ? block.content
-                    : getDocumentContentById(currentVersionIndex)
+                  isCurrentVersion ? block.content : getDocumentContentById(currentVersionIndex)
                 }
                 isCurrentVersion={isCurrentVersion}
                 currentVersionIndex={currentVersionIndex}
@@ -552,9 +509,7 @@ export function Block({
               />
             )}
 
-            {suggestions ? (
-              <div className="md:hidden h-dvh w-12 shrink-0" />
-            ) : null}
+            {suggestions ? <div className="md:hidden h-dvh w-12 shrink-0" /> : null}
 
             <AnimatePresence>
               {isCurrentVersion && (

@@ -1,6 +1,8 @@
 import type { Connection, Schedule } from "agents";
+import { unstable_callable as callable } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import type { StreamTextOnFinishCallback, ToolSet } from "ai";
+import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
 
 export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<Env, State> {
@@ -71,5 +73,19 @@ export class ChatAgentBase<Env = unknown, State = unknown> extends AIChatAgent<E
     } else {
       this.broadcast(message);
     }
+  }
+  //=========================================================================================================
+  // 发送消息到 MQ
+  //=========================================================================================================
+  @callable()
+  async pushTask(taskType: string, payload: any) {
+    const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/${taskType}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    return res.json();
   }
 }

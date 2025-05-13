@@ -2,7 +2,7 @@ import type { JSONValue } from "ai";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { useSWRConfig } from "swr";
 
-import type { Suggestion } from "mtxuilib/db/schema";
+import type { Suggestion } from "../../db/schema";
 import type { StreamingDelta } from "../../stores/workbrench.store";
 import type { UIBlock } from "./block";
 
@@ -14,9 +14,7 @@ export function useBlockStream({
   setBlock: Dispatch<SetStateAction<UIBlock>>;
 }) {
   const { mutate } = useSWRConfig();
-  const [optimisticSuggestions, setOptimisticSuggestions] = useState<
-    Array<Suggestion>
-  >([]);
+  const [optimisticSuggestions, setOptimisticSuggestions] = useState<Array<Suggestion>>([]);
 
   useEffect(() => {
     if (optimisticSuggestions && optimisticSuggestions.length > 0) {

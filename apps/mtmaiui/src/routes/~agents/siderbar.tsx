@@ -2,7 +2,7 @@
 
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import { buttonVariants } from "mtxuilib/ui/button";
+import { Button, buttonVariants } from "mtxuilib/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -12,20 +12,29 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
+import { useMutation } from "@tanstack/react-query";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
-// import { listPlateformAccountOptions } from "../../lib/mtmagapi/@tanstack/react-query.gen";
-
+import { MtmaiuiConfig } from "../../lib/config";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
   }, []);
 
-  // const listSessions = useQuery({
-  //   // ...listPlateformAccountOptions(),
-  // });
+  const mqSendMutation = useMutation({
+    mutationFn: async (payload: { queue: string; payload: any }) => {
+      const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/${payload.queue}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      return res.json();
+    },
+  });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -57,6 +66,20 @@ export function NavSession() {
           <SidebarGroupContent>
             todo list
             {/* <DebugValue data={{ data: listSessions.data }} /> */}
+          </SidebarGroupContent>
+          <SidebarGroupContent>
+            <Button
+              onClick={() => {
+                mqSendMutation.mutate({
+                  queue: "shortvideo_combine",
+                  payload: {
+                    message: "hello",
+                  },
+                });
+              }}
+            >
+              测试, pgmq 消息发送
+            </Button>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

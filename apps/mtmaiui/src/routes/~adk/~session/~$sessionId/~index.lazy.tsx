@@ -16,7 +16,7 @@ function RouteComponent() {
 
   return (
     <>
-      <AgentChatView />
+      <AgentChatView sessionId={sessionId} />
     </>
   );
 }

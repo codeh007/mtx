@@ -81,10 +81,11 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
           messages: this.messages,
           tools: this.getTools(),
           onFinish: (result) => {
-            onFinish(result);
+            onFinish(result as any);
           },
-          onError: (error) => {
-            console.log("onStreamText error", error);
+          onError: (error: any) => {
+            console.log("onStreamText error", error, error.stack);
+            dataStream.writeData({ value: "Hello" });
           },
         });
         result.mergeIntoDataStream(dataStream);
@@ -345,5 +346,15 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       ],
     });
   }
+<<<<<<< HEAD
   async onRunSmalagent(task: string) {}
+=======
+
+  @callable()
+  async onCallSmalagent(task: string) {
+    await this.pushTask("small_agent", {
+      task,
+    });
+  }
+>>>>>>> d44e80a1ecae55734cdf1e1a9b2f0f4e9f5c43fb
 }

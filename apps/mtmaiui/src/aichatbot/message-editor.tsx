@@ -5,7 +5,7 @@ import type { Message } from "ai";
 import { Button } from "mtxuilib/ui/button";
 import { Textarea } from "mtxuilib/ui/textarea";
 import { type Dispatch, type SetStateAction, useEffect, useRef, useState } from "react";
-import { deleteTrailingMessages } from "../app/(chat)/actions";
+// import { deleteTrailingMessages } from "../app/(chat)/actions";
 
 export type MessageEditorProps = {
   message: Message;
@@ -66,9 +66,11 @@ export function MessageEditor({ message, setMode, setMessages, reload }: Message
           onClick={async () => {
             setIsSubmitting(true);
 
-            await deleteTrailingMessages({
-              id: message.id,
-            });
+            // await deleteTrailingMessages({
+            //   id: message.id,
+            // });
+
+            console.warn("TODO: draftContent", draftContent);
 
             // @ts-expect-error todo: support UIMessage in setMessages
             setMessages((messages) => {

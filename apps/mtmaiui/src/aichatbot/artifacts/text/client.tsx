@@ -7,7 +7,7 @@ import { DiffView } from "../../diffview";
 import { DocumentSkeleton } from "../../document-skeleton";
 import { ClockRewind } from "../../icons";
 import { Editor } from "../../text-editor";
-import { getSuggestions } from "../actions";
+// import { getSuggestions } from "../actions";
 
 interface TextArtifactMetadata {
   suggestions: Array<Suggestion>;
@@ -17,10 +17,10 @@ export const textArtifact = new Artifact<"text", TextArtifactMetadata>({
   kind: "text",
   description: "Useful for text content, like drafting essays and emails.",
   initialize: async ({ documentId, setMetadata }) => {
-    const suggestions = await getSuggestions({ documentId });
+    // const suggestions = await getSuggestions({ documentId });
 
     setMetadata({
-      suggestions,
+      // suggestions,
     });
   },
   onStreamPart: ({ streamPart, setMetadata, setArtifact }) => {
@@ -82,7 +82,7 @@ export const textArtifact = new Artifact<"text", TextArtifactMetadata>({
             onSaveContent={onSaveContent}
           />
 
-          {metadata && metadata.suggestions && metadata.suggestions.length > 0 ? (
+          {metadata && metadata?.suggestions && metadata?.suggestions?.length > 0 ? (
             <div className="md:hidden h-dvh w-12 shrink-0" />
           ) : null}
         </div>

@@ -204,7 +204,8 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
               updatedAt: new Date().toISOString(),
             },
             app_name: get().adkAppName,
-            user_id: get().tenant.metadata.id,
+            // user_id: get().tenant.metadata.id,
+            user_id: "fack_user_id",
             session_id: sessionId,
             author: "user",
             invocation_id: generateUUID(),
@@ -213,7 +214,7 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
           },
         ],
       });
-      const url = `${get().agentUrl}/api/v1/run_sse_v3`;
+      const url = `${get().agentUrl}/api/chat_v2/sse`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -224,7 +225,8 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
         body: JSON.stringify({
           session_id: sessionId,
           app_name: get().adkAppName,
-          user_id: get().tenant.metadata.id,
+          // user_id: get().tenant.metadata.id,
+          user_id: "fack_user_id",
           new_message: input,
           streaming: true,
           init_state: {

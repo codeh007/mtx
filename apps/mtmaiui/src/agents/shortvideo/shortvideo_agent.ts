@@ -10,7 +10,6 @@ import {
   streamText,
 } from "ai";
 import { experimental_createMCPClient, generateText } from "ai";
-import type { SceneSchema } from "mtremotion/types/schema";
 import { z } from "zod";
 import { genImage } from "../../agent_utils/text2image";
 import { generateAudioViaGet, generateSrt } from "../../agent_utils/tts";
@@ -23,13 +22,13 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
   initialState = {
     mtmai_api_endpoint: "https://colab-7860.yuepa8.com/sse",
     video_subject: "",
-    mainSence: {
-      title: "",
-      subScenes: [],
-      fps: 30,
-      width: 1080,
-      height: 1920,
-    },
+    // mainSence: {
+    //   title: "",
+    //   subScenes: [],
+    //   fps: 30,
+    //   width: 1080,
+    //   height: 1920,
+    // },
     videoMeta: {
       fps: 30,
       width: 1080,
@@ -97,7 +96,7 @@ export class ShortVideoAg extends ChatAgentBase<Env, ShortVideoAgentState> {
       const client = await experimental_createMCPClient({
         transport: {
           type: "sse",
-          url: mcpServerUrl,
+          // url: mcpServerUrl,
         },
       });
 

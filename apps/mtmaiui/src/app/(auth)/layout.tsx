@@ -1,10 +1,10 @@
 import { MtThemeProvider } from "mtxuilib/components/themes/ThemeProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "sonner";
 
 import "../../styles/globals.css";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "@hono/auth-js/react";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://chat.vercel.ai"),
@@ -72,7 +72,7 @@ export default async function RootLayout({
       </head>
       <body className="antialiased">
         <MtThemeProvider>
-          <Toaster position="top-center" />
+          {/* <Toaster position="top-center" /> */}
           <SessionProvider>{children}</SessionProvider>
         </MtThemeProvider>
       </body>

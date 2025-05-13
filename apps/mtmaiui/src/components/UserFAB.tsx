@@ -1,8 +1,6 @@
 "use client";
 
-// import { AssistantModal } from "mtxuilib/assistant-ui/assistant-modal";
 import { IconX, Icons } from "mtxuilib/icons/icons";
-import { logout } from "mtxuilib/lib/auth/auth_actions";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -90,7 +88,11 @@ export const UserFAB = () => {
               </DropdownMenuSub>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem
+              onClick={() => {
+                console.log("TODO: logout");
+              }}
+            >
               Log out
               <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
             </DropdownMenuItem>

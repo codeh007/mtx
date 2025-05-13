@@ -1,7 +1,7 @@
 "use client";
 
 import type { Attachment, UIMessage } from "ai";
-import cx from "classnames";
+import { cn } from "mtxuilib/lib/utils";
 import type React from "react";
 import {
   type ChangeEvent,
@@ -256,7 +256,7 @@ function PureMultimodalInput({
         placeholder="Send a message..."
         value={input}
         onChange={handleInput}
-        className={cx(
+        className={cn(
           "min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10 dark:border-zinc-700",
           className,
         )}

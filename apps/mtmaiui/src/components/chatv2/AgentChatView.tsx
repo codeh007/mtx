@@ -1,8 +1,11 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
+import { adkEvents } from "../../db/schema";
+import { MtmaiuiConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
@@ -11,21 +14,33 @@ import { ChatInput } from "./ChatInput";
 import { AdkWelcomeCard } from "./ChatWelcome";
 import InstagramLoginView from "./func_view/InstagramLogin";
 
-export default function AgentChatView() {
-  const adkEvents = useWorkbenchStore((x) => x.adkEvents);
+interface AgentChatViewProps {
+  sessionId: string;
+}
+export default function AgentChatView({ sessionId }: AgentChatViewProps) {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
+
+  const eventQuery = useQuery({
+    queryKey: ["adkEvents"],
+    queryFn: () => {
+      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/events/list?session_id=${sessionId}`).then(
+        (res) => res.json(),
+      );
+    },
+  });
 
   return (
     <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
       <div className="h-[calc(100vh-1rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <ChatHeader />
+        <DebugValue data={eventQuery.data} />
         {/* Messages */}
         <div
           ref={messagesContainerRef}
           className="flex-1 overflow-y-auto p-4 space-y-4 pb-24 max-h-[calc(100vh-10rem)]"
         >
           {adkEvents && adkEvents.length <= 0 && <AdkWelcomeCard />}
-          {adkEvents?.map((m) => {
+          {adkEvents?.rows?.map((m) => {
             return <AdkEventsViewItemView key={m.id} item={m} />;
           })}
           <div ref={messagesEndRef} />

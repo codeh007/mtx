@@ -8,7 +8,7 @@ import { DiffView } from "../../diffview";
 import { DocumentSkeleton } from "../../document-skeleton";
 import { ClockRewind } from "../../icons";
 import { Editor } from "../../text-editor";
-import { getSuggestions } from "../actions";
+// import { getSuggestions } from "../actions";
 
 interface ShortVideoArtifactMetadata {
   suggestions: Array<Suggestion>;
@@ -18,10 +18,10 @@ export const shortVideoArtifact = new Artifact<"shortvideo", ShortVideoArtifactM
   kind: "shortvideo",
   description: "Useful for short video content, like drafting videos and reels.",
   initialize: async ({ documentId, setMetadata }) => {
-    const suggestions = await getSuggestions({ documentId });
+    // const suggestions = await getSuggestions({ documentId });
 
     setMetadata({
-      suggestions,
+      // suggestions,
     });
   },
   onStreamPart: ({ streamPart, setMetadata, setArtifact }) => {

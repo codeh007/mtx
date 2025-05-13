@@ -1,6 +1,6 @@
 "use client";
 
-import { type AdkSession, adkSessionListOptions } from "mtmaiapi";
+import type { AdkSession } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -18,7 +18,7 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
-import { useTenantId } from "../../../hooks/useAuth";
+import { MtmaiuiConfig } from "../../../lib/config";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
@@ -28,13 +28,12 @@ export function NavAdkSession() {
     return "/adk/session";
   }, []);
 
-  const tid = useTenantId();
   const adkSessionQuery = useQuery({
-    ...adkSessionListOptions({
-      path: {
-        tenant: tid,
-      },
-    }),
+    queryKey: ["adkSessionList"],
+    queryFn: async () => {
+      const response = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/session/list`);
+      return response.json();
+    },
   });
 
   return (
@@ -63,11 +62,7 @@ export function NavAdkSession() {
           <SidebarGroupContent>
             {isDebug && <DebugValue data={{ data: adkSessionQuery.data }} />}
             {adkSessionQuery.data?.rows?.map((item) => (
-              <NavAdkSessionItem
-                key={item.metadata?.id}
-                item={item}
-                rowId={item.metadata?.id || ""}
-              />
+              <NavAdkSessionItem key={item.id} item={item} rowId={item.id} />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
@@ -80,8 +75,10 @@ const NavAdkSessionItem = ({ item, rowId }: { item: AdkSession; rowId: string })
   return (
     <div className="bg-slate-100 border px-2 mb-2 rounded-md flex flex-col">
       <div className="flex items-center justify-between">
+        {/* <DebugValue data={{ data: item }} /> */}
         <CustomLink to={`/adk/session/${item.id}`}>
-          <div>{item.title || item.id}</div>
+          <div>{item.app_name || item.id}</div>
+          <div>{item.title}</div>
         </CustomLink>
         <div>{item.app_name}</div>
       </div>

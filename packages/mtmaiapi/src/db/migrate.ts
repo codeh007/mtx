@@ -8,12 +8,12 @@ import postgres from "postgres";
 // });
 
 const runMigrate = async () => {
-  if (!process.env.POSTGRES_URL) {
-    throw new Error("POSTGRES_URL is not defined");
+  if (!process.env.MTM_DATABASE_URL) {
+    throw new Error("MTM_DATABASE_URL is not defined");
   }
-  console.log("POSTGRES_URL:", process.env.POSTGRES_URL);
+  console.log("MTM_DATABASE_URL:", process.env.MTM_DATABASE_URL);
 
-  const connection = postgres(process.env.POSTGRES_URL, { max: 1 });
+  const connection = postgres(process.env.MTM_DATABASE_URL, { max: 1 });
   const db = drizzle(connection);
 
   console.log("⏳ Running migrations...");

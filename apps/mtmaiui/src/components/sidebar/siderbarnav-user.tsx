@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
-import { user } from "mtxuilib/db/schema";
+import { useMutation } from "@tanstack/react-query";
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "mtxuilib/ui/avatar";
 import {
   DropdownMenu,
@@ -19,15 +12,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "mtxuilib/ui/sidebar";
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "mtxuilib/ui/sidebar";
 import { useTheme } from "next-themes";
+import { user } from "../../db/schema";
 import { useTenant } from "../../hooks/useAuth";
-import { useMutation } from "@tanstack/react-query";
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { setTheme, theme } = useTheme();
@@ -49,9 +37,7 @@ export function NavUser() {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{tenant?.name}</span>
-                <span className="truncate text-xs">
-                  {tenant?.alertMemberEmails}
-                </span>
+                <span className="truncate text-xs">{tenant?.alertMemberEmails}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>

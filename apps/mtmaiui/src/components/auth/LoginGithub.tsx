@@ -1,6 +1,6 @@
 "use client";
 
-import { signin } from "mtxuilib/lib/auth/auth_actions";
+// import { signin } from "mtxuilib/lib/auth/auth_actions";
 import { Button } from "mtxuilib/ui/button";
 
 export function LoginGithub({ className }: { className?: string }) {
@@ -9,7 +9,7 @@ export function LoginGithub({ className }: { className?: string }) {
       <Button
         type="button"
         className={className}
-        onClick={() => signin("github")}
+        // onClick={() => signin("github")}
       >
         <svg
           className="size-4 mr-2"

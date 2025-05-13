@@ -6,8 +6,6 @@ import {
   frontendGetConfig,
 } from "./gomtmapi";
 import { initMtiaiClient } from "./index";
-// import { isInBuild } from "./util/sutils";
-
 const gomtmBackendToken: string | undefined = undefined;
 let cachedEndpointList: EndpointList | undefined = undefined;
 let cachedFrontendConfig: FrontendConfig | undefined = undefined;
@@ -15,13 +13,13 @@ let headers: () => Promise<Headers> | Headers;
 let cookies: () => Promise<ReadonlyRequestCookies>;
 
 export function getBackendUrl(prefix = "") {
-  if (process.env.MTMAI_BACKEND) {
-    return `${process.env.MTMAI_BACKEND}${prefix}`;
+  if (process.env.MTM_SERVER_URL) {
+    return `${process.env.MTM_SERVER_URL}${prefix}`;
   }
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}${prefix}`;
   }
-  const host = process.env.MTMAI_BACKEND || "localhost";
+  const host = process.env.MTM_SERVER_URL || "localhost";
   const port = Number(process.env.PORT) || 3000;
 
   const localHost =
@@ -112,13 +110,13 @@ export async function getFrontendConfig() {
   return cachedFrontendConfig;
 }
 
-export async function getAccessToken() {
-  // if (isInBuild()) {
-  //   console.warn("在build 阶段,不加载AccessToken");
-  //   return "";
-  // }
-  return "";
-}
+// export async function getAccessToken() {
+//   // if (isInBuild()) {
+//   //   console.warn("在build 阶段,不加载AccessToken");
+//   //   return "";
+//   // }
+//   return "";
+// }
 
 export async function reset() {
   cachedEndpointList = undefined;

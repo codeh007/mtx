@@ -4,6 +4,7 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
+import { SessionProvider } from "../lib/auth_hono/react";
 // import appCss from "../styles/app.css?url"
 
 interface MyRouterContext {
@@ -66,8 +67,10 @@ function RootComponent() {
   return (
     <>
       <MtSuspenseBoundary>
-        <UserFAB />
-        <Outlet />
+        <SessionProvider basePath="/api/auth">
+          <UserFAB />
+          <Outlet />
+        </SessionProvider>
       </MtSuspenseBoundary>
     </>
   );
