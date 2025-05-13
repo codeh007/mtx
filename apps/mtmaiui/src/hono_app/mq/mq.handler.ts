@@ -8,7 +8,7 @@ export const mqRouter = createRouter().post("/:task_type", async (c) => {
       return c.json({ error: "queue name is required" }, 400);
     }
     const res = await getDb(c.env).execute(sql`SELECT * from taskmq_submit(
-      p_task_type  => ${taskType},
+      p_task_type  => ${taskType}::text,
       p_input      => ${JSON.stringify(await c.req.json())}::jsonb
     )`);
     return c.json(res);

@@ -19,6 +19,7 @@ import type {
 } from "../agent_state/chat_agent_state";
 import { AgentNames, type OutgoingMessage } from "../agent_state/shared";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
+import { MtmaiuiConfig } from "../lib/config";
 import { ChatAgentBase } from "./ChatAgentBase";
 import type { ShortVideoAg } from "./shortvideo/shortvideo_agent";
 import { tools } from "./tools";
@@ -352,15 +353,16 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     await this.pushTask("smolagent", {
       task,
     });
-    // const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/run_smalagent`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     task,
-    //   }),
-    // });
-    // return res.json();
+    const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/smalagent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        task_type: "smolagent",
+        input: task,
+      }),
+    });
+    return res.json();
   }
 }
