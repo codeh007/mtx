@@ -16,6 +16,8 @@ export interface AgentStateBase {
   enabledDebug?: boolean;
   // 子 agent, 让前端可以判断和显示子 agent 视图
   subAgents?: Record<string, string>;
+  // 是否自动调度
+  enabledAutoDispatch?: boolean;
 }
 
 export type McpServer = {
