@@ -119,8 +119,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
       setInput("");
       if (inputValue.startsWith("/")) {
         switch (command) {
-          case "/test1":
-            break;
           case "/search1": {
             const result = await agent.call("search1", ["test"]);
             console.log("search1 result", result);
@@ -130,11 +128,11 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             agent.call("onRunSmalagent", ["请向我问好,然后自我介绍"]);
             break;
           }
-          case "/genshortvideo": {
-            const result = await shortVideoAgent.call("onGenShortVideo", ["test"]);
-            console.log("genShortVideo result", result);
-            break;
-          }
+          // case "/genshortvideo": {
+          //   const result = await shortVideoAgent.call("onGenShortVideo", ["test"]);
+          //   console.log("genShortVideo result", result);
+          //   break;
+          // }
 
           default: {
             // 事件名称

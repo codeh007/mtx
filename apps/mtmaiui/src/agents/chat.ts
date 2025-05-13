@@ -349,7 +349,7 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
 
   @callable()
   async onRunSmalagent(task: string) {
-    await this.pushTask("small_agent", {
+    await this.pushTask("smolagent", {
       task,
     });
     // const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/run_smalagent`, {
