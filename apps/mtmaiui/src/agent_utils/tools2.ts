@@ -1,12 +1,12 @@
 import type { Agent, Schedule } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import { generateObject, tool } from "ai";
+import { sleep } from "mtxuilib/lib/utils.js";
 import { z } from "zod";
-import type { ChatAgentBase } from "../agents/ChatAgentBase";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
-import { taskmq_submit } from "./dbfn/taskmq_submit";
+import { get_taskmq_result, taskmq_submit } from "./dbfn/taskmq";
 
-export function toolSmolagent(env: Env) {
+export function toolSmolagent(env: Env, ctx: DurableObjectState) {
   return {
     smolagent: tool({
       description: "运行 python 代码,解决复杂问题的agent",
@@ -17,7 +17,45 @@ export function toolSmolagent(env: Env) {
       }),
       execute: async ({ task }) => {
         try {
-          return taskmq_submit(env.HYPERDRIVE.connectionString, "smolagent", task);
+          const mq_task_id = (
+            await taskmq_submit(env.HYPERDRIVE.connectionString, "smolagent", {
+              task_type: "smolagent",
+              input: task,
+            })
+          ).at(0)?.task_id;
+
+          if (!mq_task_id) {
+            return "任务提交失败";
+          }
+          const sleep_seconds = 2;
+          const max_wait_seconds = 120;
+
+          let wait_seconds = 0;
+
+          const myPromise = new Promise((resolve, reject) => {
+            const checkResult = async () => {
+              while (wait_seconds < max_wait_seconds) {
+                // console.log(`等待任务结果: ${wait_seconds}秒`);
+                const result = await get_taskmq_result(env.HYPERDRIVE.connectionString, mq_task_id);
+                if (result) {
+                  resolve(result);
+                  return;
+                }
+                await sleep(sleep_seconds * 1000);
+                wait_seconds += sleep_seconds;
+              }
+              resolve("获取任务结果超时");
+            };
+            ctx.waitUntil(checkResult().catch(reject));
+          });
+
+          ctx.waitUntil(myPromise);
+          const result = await myPromise;
+          if (result) {
+            return result;
+          }
+
+          return "获取任务结果超时";
         } catch (e: any) {
           return { error: e.message, stack: e.stack };
         }
@@ -163,22 +201,22 @@ export function toolQueryTasksToRun(env: Env) {
 /**
  * 尝试自动运行下一个任务
  */
-export function toolRunNextTask(agent: ChatAgentBase<Env>) {
-  return {
-    runNextTask: tool({
-      description: "尝试自动运行下一个任务",
-      parameters: z.object({
-        task: z.string().describe("任务描述"),
-      }),
-      execute: async ({}) => {
-        try {
-          return taskmq_submit(agent.env.HYPERDRIVE.connectionString, "smolagent", task);
-          // return "暂时没有任务需要执行";
-        } catch (e: any) {
-          console.error("toolGenShortVideo error", e);
-          return `运行出错: ${e.message}, ${e.stack}`;
-        }
-      },
-    }),
-  };
-}
+// export function toolRunNextTask(agent: ChatAgentBase) {
+//   return {
+//     runNextTask: tool({
+//       description: "运行下一个任务",
+//       parameters: z.object({
+//         task: z.string().describe("任务描述"),
+//       }),
+//       execute: async ({ task }) => {
+//         try {
+//           return taskmq_submit(agent.env.HYPERDRIVE.connectionString, "smolagent", task);
+//           // return "暂时没有任务需要执行";
+//         } catch (e: any) {
+//           console.error("toolGenShortVideo error", e);
+//           return `运行出错: ${e.message}, ${e.stack}`;
+//         }
+//       },
+//     }),
+//   };
+// }

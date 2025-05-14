@@ -129,7 +129,13 @@ export function getToolsRequiringConfirmation<
   }) as string[];
 }
 
-export function convertScheduleToScheduledItem(schedule: Schedule): ScheduledItem {
+export function convertScheduleToScheduledItem<T = unknown>(schedule: Schedule<T>): ScheduledItem {
+  let description = "";
+  if (typeof schedule.payload === "string") {
+    description = schedule.payload;
+  } else {
+    description = JSON.stringify(schedule.payload, null, 2);
+  }
   return {
     id: schedule.id,
     trigger:
@@ -139,7 +145,7 @@ export function convertScheduleToScheduledItem(schedule: Schedule): ScheduledIte
           ? `at ${schedule.cron}`
           : `at ${new Date(schedule.time * 1000).toISOString()}`,
     nextTrigger: new Date(schedule.time * 1000).toISOString(),
-    description: schedule.payload,
+    description: description,
     type: schedule.type,
   };
 }

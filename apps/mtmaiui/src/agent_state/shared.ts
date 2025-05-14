@@ -18,6 +18,8 @@ export interface AgentStateBase {
   subAgents?: Record<string, string>;
   // 是否自动调度
   enabledAutoDispatch?: boolean;
+  runningTasks: Record<string, any>;
+  counter: number;
 }
 
 export type McpServer = {

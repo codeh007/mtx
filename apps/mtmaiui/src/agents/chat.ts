@@ -9,31 +9,38 @@ import {
   generateId,
   generateText,
   streamText,
+  tool,
 } from "ai";
 import postgres from "postgres";
 
 import { appendResponseMessages } from "ai";
+import { sleep } from "mtxuilib/lib/utils";
+import { z } from "zod";
 import type {
   ChatAgentIncomingMessage,
   ChatAgentOutgoingMessage,
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
+import { taskmq_submit } from "../agent_utils/dbfn/taskmq";
 import { toolGenShortVideo, toolQueryTasksToRun, toolSmolagent } from "../agent_utils/tools2";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
+
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
 
 const decoder = new TextDecoder();
 
-export class Chat extends ChatAgentBase<Env, ChatAgentState> {
+export class Chat extends ChatAgentBase<ChatAgentState> {
   initialState: ChatAgentState = {
     lastUpdated: 0,
     subAgents: {},
     enabledDebug: true,
     // 是否自动调度
     enabledAutoDispatch: true,
+    runningTasks: {},
+    counter: 0,
   };
 
   async onStart(): Promise<void> {
@@ -101,7 +108,8 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
             tools: {
               ...tools,
               ...toolGenShortVideo(this.env),
-              ...toolSmolagent(this.env),
+              ...toolSmolagent(this.env, this.ctx),
+              ...this.toolRunNextTask(),
               // ...toolSchedule(this.env, this, this.onSchedule, userInput),
             },
             onFinish: (result) => {
@@ -117,6 +125,9 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
         },
       });
 
+      const a = sleep(10000);
+      this.ctx.waitUntil(a);
+      // return dataStreamResponse;
       return dataStreamResponse;
     } catch (e: any) {
       // this.log(`onChatMessage error: ${e.message}, ${e.stack}`);
@@ -146,16 +157,116 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     }
   }
 
-  async startAutoDispatch() {
-    // this.log("自动调度已开启");
+  // toolSmolagent(env: Env) {
+  //   return {
+  //     smolagent: tool({
+  //       description: "运行 python 代码,解决复杂问题的agent",
+  //       parameters: z.object({
+  //         task: z.string().describe(`任务描述,例子1:如何生成一个短视频,
+  //         例子2: 289.882乘以180.34减去3098.120, 结果保留两位小数,最终结果是多少?
+  //         `),
+  //       }),
+  //       execute: async ({ task }) => {
+  //         try {
+  //           const mq_task_id = (
+  //             await taskmq_submit(env.HYPERDRIVE.connectionString, "smolagent", {
+  //               task_type: "smolagent",
+  //               input: task,
+  //             })
+  //           ).at(0)?.task_id;
 
+  //           if (!mq_task_id) {
+  //             return "任务提交失败";
+  //           }
+  //           const sleep_seconds = 2;
+  //           const max_wait_seconds = 120;
+
+  //           let wait_seconds = 0;
+  //           while (wait_seconds < max_wait_seconds) {
+  //             // console.log(`等待任务结果: ${wait_seconds}秒`);
+  //             const result = await get_taskmq_result(env.HYPERDRIVE.connectionString, mq_task_id);
+  //             if (result) {
+  //               return result;
+  //             }
+  //             await sleep(sleep_seconds * 1000);
+  //             wait_seconds += sleep_seconds;
+  //           }
+
+  //           return "获取任务结果超时";
+  //         } catch (e: any) {
+  //           return { error: e.message, stack: e.stack };
+  //         }
+  //       },
+  //     }),
+  //   };
+  // }
+
+  toolRunNextTask() {
+    return {
+      runNextTask: tool({
+        description: "运行下一个任务",
+        parameters: z.object({
+          // task: z.string().describe("任务描述"),
+        }),
+        execute: async ({}) => {
+          try {
+            const task_result = await taskmq_submit(
+              this.env.HYPERDRIVE.connectionString,
+              "smolagent",
+              {
+                task_type: "smolagent",
+                input: "你好吗?",
+              },
+            );
+            this.log("task_result", JSON.stringify(task_result, null, 2));
+            this.setState({
+              ...this.state,
+              runningTasks: {
+                ...this.state.runningTasks,
+
+                [task_result[0].task_id]: {},
+              },
+            });
+
+            //实验: 如果用户输入了"运行" 则直接运行任务
+            const scheduleItem = await this.schedule(5, "on_run_example1", {
+              counter: this.state.counter + 1,
+            });
+            this.notifySchedule(scheduleItem);
+            return task_result;
+          } catch (e: any) {
+            console.error("toolGenShortVideo error", e);
+            return `运行出错: ${e.message}, ${e.stack}`;
+          }
+        },
+      }),
+    };
+  }
+
+  async on_run_example1(payload: { counter: number }, schedule: Schedule<string>) {
+    this.log(`on_run_example1: ${payload.counter}`);
+
+    const newMessages = [
+      ...this.messages,
+      {
+        id: generateId(),
+        role: "assistant",
+        content: `运行第${payload.counter}次`,
+      } satisfies Message,
+    ];
+    await this.persistMessages(newMessages);
+    await this.saveMessages(newMessages);
+    this.log(`on_run_example1: ${payload.counter} 完成`);
+  }
+
+  async startAutoDispatch() {
     if (!this.messages?.length) {
-      // this.log("至少有一条聊天信息, 才能正常工作.");
+      // 至少有一条聊天信息, 才能正常工作.
       this.messages = [
         {
           id: generateId(),
           role: "user",
-          content: "请自动完成任务调度, 我已经离开 UI, 你不要打扰我, 尽你最大的能力自动运行!",
+          content: "请自动完成任务调度, 尽你最大的能力自动运行, 打扰我!",
         } satisfies Message,
       ];
       await this.saveMessages(this.messages);
@@ -269,33 +380,33 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     await this.saveMessages(messages222);
   }
 
-  private _broadcastChatMessage(message: OutgoingMessage, exclude?: string[]) {
-    this.broadcast(JSON.stringify(message), exclude);
-  }
-  private async _reply(id: string, response: Response) {
-    this.log("_reply", id);
-    // now take chunks out from dataStreamResponse and send them to the client
-    // return this._tryCatchChat(async () => {
-    // @ts-expect-error TODO: fix this type error
-    for await (const chunk of response.body!) {
-      const body = decoder.decode(chunk);
-      this.log("_reply", body);
-      this._broadcastChatMessage({
-        id,
-        type: "cf_agent_use_chat_response",
-        body,
-        done: false,
-      });
-    }
+  // private _broadcastChatMessage(message: OutgoingMessage, exclude?: string[]) {
+  //   this.broadcast(JSON.stringify(message), exclude);
+  // }
+  // private async _reply(id: string, response: Response) {
+  //   this.log("_reply", id);
+  //   // now take chunks out from dataStreamResponse and send them to the client
+  //   // return this._tryCatchChat(async () => {
+  //   // @ts-expect-error TODO: fix this type error
+  //   for await (const chunk of response.body!) {
+  //     const body = decoder.decode(chunk);
+  //     this.log("_reply", body);
+  //     this._broadcastChatMessage({
+  //       id,
+  //       type: "cf_agent_use_chat_response",
+  //       body,
+  //       done: false,
+  //     });
+  //   }
 
-    this._broadcastChatMessage({
-      id,
-      type: "cf_agent_use_chat_response",
-      body: "",
-      done: true,
-    });
-    // });
-  }
+  //   this._broadcastChatMessage({
+  //     id,
+  //     type: "cf_agent_use_chat_response",
+  //     body: "",
+  //     done: true,
+  //   });
+  //   // });
+  // }
 
   async stopAutoDispatch() {
     this.log("自动调度已关闭");

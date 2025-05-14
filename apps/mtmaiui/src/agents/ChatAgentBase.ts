@@ -5,7 +5,7 @@ import type { Message } from "ai";
 import { z } from "zod";
 import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
-export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E, State> {
+export class ChatAgentBase<State = unknown> extends AIChatAgent<Env, State> {
   onMessage(connection: Connection, message: string): Promise<void> {
     return super.onMessage(connection, message);
   }
@@ -42,7 +42,7 @@ export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E
     });
   }
 
-  notifySchedule(schedule: Schedule<string>, connection: Connection | undefined = undefined) {
+  notifySchedule(schedule: Schedule<unknown>, connection: Connection | undefined = undefined) {
     const message = JSON.stringify({
       type: "schedule",
       data: convertScheduleToScheduledItem(schedule),
