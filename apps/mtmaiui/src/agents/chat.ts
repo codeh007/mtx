@@ -9,7 +9,7 @@ import {
   generateId,
   streamText,
 } from "ai";
-import { sql } from "drizzle-orm";
+import postgres from "postgres";
 
 import type {
   ChatAgentIncomingMessage,
@@ -22,6 +22,9 @@ import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
+
+const decoder = new TextDecoder();
+
 export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   initialState: ChatAgentState = {
     lastUpdated: 0,
@@ -32,15 +35,13 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   };
 
   async onStart(): Promise<void> {
-    globalThis.Hyperdrive = this.env.HYPERDRIVE;
+    const sql = postgres(this.env.HYPERDRIVE.connectionString);
     try {
-      await this.getDb().execute(
-        sql`SELECT * from upsert_agent(
+      await sql`SELECT * from upsert_agent(
         p_name  => ${"chat"}::text,
         p_id    => ${this.name}::text,
         p_type  => ${"cfagent"}::text
-      )`,
-      );
+      )`;
     } catch (e: any) {
       this.handleException(e);
     }
@@ -56,9 +57,9 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       } satisfies OutgoingMessage),
     );
   }
-  async onRequest(request: Request) {
-    return super.onRequest(request);
-  }
+  // async onRequest(request: Request) {
+  //   return super.onRequest(request);
+  // }
 
   async onMessage(connection: Connection, message: string): Promise<void> {
     const event = JSON.parse(message) as ChatAgentIncomingMessage;
@@ -121,8 +122,99 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       // return dataStreamResponse;
     }
   }
-  onStateUpdate(state, source: "server" | Connection) {
+  async onStateUpdate(state, source: "server" | Connection) {
     // console.log(`${source} state updated`, state);
+    // this.log(`后端状态更新: ${JSON.stringify(state)}`);
+
+    if (typeof source === "string") {
+      // return;
+    } else {
+      source.send(
+        JSON.stringify({
+          type: "state_update",
+          data: state,
+        } satisfies OutgoingMessage),
+      );
+    }
+
+    if (state.enabledAutoDispatch) {
+      const response = await this.startAutoDispatch();
+      this._reply();
+    } else {
+      await this.stopAutoDispatch();
+    }
+  }
+
+  async startAutoDispatch() {
+    this.log("自动调度已开启");
+
+    try {
+      const model = getDefaultModel(this.env);
+      // const lastestMessage = this.messages?.[this.messages.length - 1];
+      // const userInput = lastestMessage?.content;
+      const dataStreamResponse = createDataStreamResponse({
+        execute: async (dataStream) => {
+          const result = streamText({
+            model,
+            messages: this.messages,
+            tools: {
+              ...tools,
+              ...toolGenShortVideo(this.env),
+              ...toolSmolagent(this.env),
+              // ...toolSchedule(this.env, this, this.onSchedule, userInput),
+            },
+            onFinish: (result) => {
+              // onFinish(result as any);
+              this.log(`onFinish: ${JSON.stringify(result)}`);
+            },
+            onError: (error: any) => {
+              // console.log("onStreamText error", error, error.stack);
+              this.log(`onStreamText error: ${error.message}, ${error.stack}`);
+              dataStream.writeData({ value: "Hello" });
+            },
+          });
+          result.mergeIntoDataStream(dataStream);
+        },
+      });
+      const newId = generateId();
+      this._reply(newId, dataStreamResponse);
+      return dataStreamResponse;
+    } catch (e: any) {
+      // this.log(`onChatMessage error: ${e.message}, ${e.stack}`);
+      this.handleException(e);
+      // return dataStreamResponse;
+    }
+  }
+
+  private _broadcastChatMessage(message: OutgoingMessage, exclude?: string[]) {
+    this.broadcast(JSON.stringify(message), exclude);
+  }
+  private async _reply(id: string, response: Response) {
+    // now take chunks out from dataStreamResponse and send them to the client
+    // return this._tryCatchChat(async () => {
+    // @ts-expect-error TODO: fix this type error
+    for await (const chunk of response.body!) {
+      const body = decoder.decode(chunk);
+
+      this._broadcastChatMessage({
+        id,
+        type: "cf_agent_use_chat_response",
+        body,
+        done: false,
+      });
+    }
+
+    this._broadcastChatMessage({
+      id,
+      type: "cf_agent_use_chat_response",
+      body: "",
+      done: true,
+    });
+    // });
+  }
+
+  async stopAutoDispatch() {
+    this.log("自动调度已关闭");
   }
 
   @unstable_callable()

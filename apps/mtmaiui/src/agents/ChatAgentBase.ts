@@ -2,32 +2,11 @@ import type { Connection, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
-import { drizzle } from "drizzle-orm/postgres-js";
+// import { drizzle } from "drizzle-orm/postgres-js";
 import { z } from "zod";
 import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
 export class ChatAgentBase<E extends Env, State = unknown> extends AIChatAgent<E, State> {
-  // async onStart() {
-  //   // 将session 状态数据写入数据库, 这样才能查询到所有 agents
-  //   // this.log("onStart", this.name, this.ctx?.id);
-  //   // this.log("onStart base", this.env.HYPERDRIVE);
-  //   globalThis.Hyperdrive = this.env.HYPERDRIVE;
-
-  //   try {
-  //     const db = drizzle(`${this.env.HYPERDRIVE.connectionString}`);
-  //     const res = await db.execute(sql`SELECT * from upsert_agent(
-  //       p_name  => ${this.name}::text,
-  //       p_id    => ${this.name}::text,
-  //       p_type  => ${"cfagent"}::text
-  //     )`);
-  //   } catch (e: any) {
-  //     this.handleException(e);
-  //   }
-  // }
-  getDb() {
-    return drizzle(`${this.env.HYPERDRIVE.connectionString}`);
-  }
-
   onMessage(connection: Connection, message: string): Promise<void> {
     return super.onMessage(connection, message);
   }
