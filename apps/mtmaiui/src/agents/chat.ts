@@ -11,6 +11,7 @@ import {
 } from "ai";
 import postgres from "postgres";
 
+import { appendResponseMessages } from "ai";
 import type {
   ChatAgentIncomingMessage,
   ChatAgentOutgoingMessage,
@@ -156,28 +157,44 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
         execute: async (dataStream) => {
           const result = streamText({
             model,
-            messages: this.messages,
+            // messages: this.messages,
+            messages: [
+              {
+                role: "user",
+                content: "你好,请自我介绍,你能做什么?",
+              },
+            ],
             tools: {
               ...tools,
               ...toolGenShortVideo(this.env),
               ...toolSmolagent(this.env),
               // ...toolSchedule(this.env, this, this.onSchedule, userInput),
             },
-            onFinish: (result) => {
+            onFinish: async (result) => {
               // onFinish(result as any);
-              this.log(`onFinish: ${JSON.stringify(result)}`);
+              this.log(`startAutoDispatch, onFinish, request: ${JSON.stringify(result.request)}`);
+              this.log(`startAutoDispatch, onFinish, steps: ${JSON.stringify(result.steps)}`);
+              this.log(`startAutoDispatch, onFinish, text: ${JSON.stringify(result.text)}`);
+              this.log(`startAutoDispatch, onFinish: ${JSON.stringify(result.response)}`);
+              const finalMessages = appendResponseMessages({
+                messages: this.messages,
+                responseMessages: result.response.messages,
+              });
+              await this.persistMessages(finalMessages);
             },
             onError: (error: any) => {
               // console.log("onStreamText error", error, error.stack);
               this.log(`onStreamText error: ${error.message}, ${error.stack}`);
-              dataStream.writeData({ value: "Hello" });
+              // dataStream.writeData({ value: "Hello" });
             },
           });
           result.mergeIntoDataStream(dataStream);
         },
       });
-      const newId = generateId();
-      this._reply(newId, dataStreamResponse);
+      // const newId = generateId();
+      const newId = "msg-ns0xeqqjHESZcpIsTX77Y2vc";
+      await this.log("newId", newId);
+      await this._reply(newId, dataStreamResponse);
       return dataStreamResponse;
     } catch (e: any) {
       // this.log(`onChatMessage error: ${e.message}, ${e.stack}`);
@@ -190,12 +207,13 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     this.broadcast(JSON.stringify(message), exclude);
   }
   private async _reply(id: string, response: Response) {
+    this.log("_reply", id);
     // now take chunks out from dataStreamResponse and send them to the client
     // return this._tryCatchChat(async () => {
     // @ts-expect-error TODO: fix this type error
     for await (const chunk of response.body!) {
       const body = decoder.decode(chunk);
-
+      this.log("_reply", body);
       this._broadcastChatMessage({
         id,
         type: "cf_agent_use_chat_response",
