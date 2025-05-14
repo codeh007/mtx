@@ -2,6 +2,7 @@ import type { Agent, Schedule } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import { generateObject, tool } from "ai";
 import { z } from "zod";
+import type { ChatAgentBase } from "../agents/ChatAgentBase";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { taskmq_submit } from "./dbfn/taskmq_submit";
 
@@ -150,6 +151,29 @@ export function toolQueryTasksToRun(env: Env) {
           //   const result = await shortVideoAgent.onGenShortVideo(topic);
           //   return result;
           return "暂时没有任务需要执行";
+        } catch (e: any) {
+          console.error("toolGenShortVideo error", e);
+          return `运行出错: ${e.message}, ${e.stack}`;
+        }
+      },
+    }),
+  };
+}
+
+/**
+ * 尝试自动运行下一个任务
+ */
+export function toolRunNextTask(agent: ChatAgentBase<Env>) {
+  return {
+    runNextTask: tool({
+      description: "尝试自动运行下一个任务",
+      parameters: z.object({
+        task: z.string().describe("任务描述"),
+      }),
+      execute: async ({}) => {
+        try {
+          return taskmq_submit(agent.env.HYPERDRIVE.connectionString, "smolagent", task);
+          // return "暂时没有任务需要执行";
         } catch (e: any) {
           console.error("toolGenShortVideo error", e);
           return `运行出错: ${e.message}, ${e.stack}`;
