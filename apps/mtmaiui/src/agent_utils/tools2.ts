@@ -120,3 +120,41 @@ export function toolSchedule(
     }),
   };
 }
+
+/**未完成 */
+export function toolQueryTasksToRun(env: Env) {
+  return {
+    queryTasksToRun: tool({
+      description: "查询需要执行的任务",
+      parameters: z.object({
+        // topic: z.string().describe("任务描述"),
+      }),
+      execute: async ({}) => {
+        try {
+          //   let shortAgId = this.state.subAgents?.[AgentNames.shortVideoAg];
+          //   if (!shortAgId) {
+          //     shortAgId = generateId();
+          //   }
+          //   const shortVideoAgent = await getAgentByName<Env, ShortVideoAg>(
+          //     this.env.ShortVideoAg,
+          //     shortAgId,
+          //   );
+          //   this.setState({
+          //     ...this.state,
+          //     subAgents: {
+          //       ...this.state.subAgents,
+          //       [AgentNames.shortVideoAg]: shortAgId,
+          //     },
+          //   });
+          //   // ! Fixme: 工具调用,应尽可能返回文本
+          //   const result = await shortVideoAgent.onGenShortVideo(topic);
+          //   return result;
+          return "暂时没有任务需要执行";
+        } catch (e: any) {
+          console.error("toolGenShortVideo error", e);
+          return `运行出错: ${e.message}, ${e.stack}`;
+        }
+      },
+    }),
+  };
+}

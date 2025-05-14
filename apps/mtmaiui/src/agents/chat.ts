@@ -7,6 +7,7 @@ import {
   type ToolSet,
   createDataStreamResponse,
   generateId,
+  generateText,
   streamText,
 } from "ai";
 import postgres from "postgres";
@@ -18,7 +19,7 @@ import type {
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
-import { toolGenShortVideo, toolSmolagent } from "../agent_utils/tools2";
+import { toolGenShortVideo, toolQueryTasksToRun, toolSmolagent } from "../agent_utils/tools2";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
 import { tools } from "./tools";
@@ -130,24 +131,36 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     if (typeof source === "string") {
       // return;
     } else {
-      source.send(
-        JSON.stringify({
-          type: "state_update",
-          data: state,
-        } satisfies OutgoingMessage),
-      );
-    }
-
-    if (state.enabledAutoDispatch) {
-      const response = await this.startAutoDispatch();
-      this._reply();
-    } else {
-      await this.stopAutoDispatch();
+      // source.send(
+      //   JSON.stringify({
+      //     type: "state_update",
+      //     data: state,
+      //   } satisfies OutgoingMessage),
+      // );
+      if (state.enabledAutoDispatch) {
+        const response = await this.startAutoDispatch();
+        // this._reply();
+      } else {
+        await this.stopAutoDispatch();
+      }
     }
   }
 
   async startAutoDispatch() {
-    this.log("自动调度已开启");
+    // this.log("自动调度已开启");
+
+    if (!this.messages?.length) {
+      // this.log("至少有一条聊天信息, 才能正常工作.");
+      this.messages = [
+        {
+          id: generateId(),
+          role: "user",
+          content: "请自动完成任务调度, 我已经离开 UI, 你不要打扰我, 尽你最大的能力自动运行!",
+        } satisfies Message,
+      ];
+      await this.saveMessages(this.messages);
+      return;
+    }
 
     try {
       const model = getDefaultModel(this.env);
@@ -155,52 +168,105 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       // const userInput = lastestMessage?.content;
       const dataStreamResponse = createDataStreamResponse({
         execute: async (dataStream) => {
+          // const messages: Message[] = [
+          //   ...this.messages,
+          //   {
+          //     id: generateId(),
+          //     role: "user",
+          //     content: "你好",
+          //   },
+          // ];
           const result = streamText({
             model,
+            experimental_telemetry: { isEnabled: true },
             // messages: this.messages,
             messages: [
               {
-                role: "user",
-                content: "你好,请自我介绍,你能做什么?",
+                role: "system",
+                content: `你是具备自动化任务调度的后台,根据聊天上下文自动调用对应的工具完成任务.
+
+**背景描述**
+当用户点击UI 中的"自动操作"按钮, 会触发 agent state 中的 enabledAutoDispatch=true 状态.
+此时用户希望你处于后台不间断的进行任务调度.
+
+**注意**
+1: 你可以输出对话信息,但是不要期待用户会回复和反馈, 而是尽可能的调用工具完成任务.
+
+**流程说明**
+1:如果从对话上下文中,无法判断要执行什么任务, 就调用相关的工具查询需要执行的任务
+2:如果确信已经没有必要继续了,回复: "TERMINAL"
+
+**判断结束依据**
+1: 当聊天上下文有大量重复,且没意义的对话时, 可以认为已经没有必要继续了
+2: 当工具出现大量错误时, 可以认为已经没有必要继续了
+
+**工具说明**
+* queryTasksToRun: 用于获取需要执行的任务, 当你不知道要做什么时,调用这个工具看看.
+
+`,
               },
+              ...this.messages,
+              // ...messages,
             ],
             tools: {
-              ...tools,
-              ...toolGenShortVideo(this.env),
+              // ...tools,
+              // ...toolGenShortVideo(this.env),
               ...toolSmolagent(this.env),
-              // ...toolSchedule(this.env, this, this.onSchedule, userInput),
+              ...toolQueryTasksToRun(this.env),
             },
+            maxSteps: 10,
             onFinish: async (result) => {
               // onFinish(result as any);
-              this.log(`startAutoDispatch, onFinish, request: ${JSON.stringify(result.request)}`);
-              this.log(`startAutoDispatch, onFinish, steps: ${JSON.stringify(result.steps)}`);
-              this.log(`startAutoDispatch, onFinish, text: ${JSON.stringify(result.text)}`);
-              this.log(`startAutoDispatch, onFinish: ${JSON.stringify(result.response)}`);
+              // this.log(`startAutoDispatch, onFinish, request: ${JSON.stringify(result.request)}`);
+              this.log("onFinish, steps:", JSON.stringify(result.steps, null, 2));
+              // this.log(`startAutoDispatch, onFinish, text: ${JSON.stringify(result.text)}`);
+              this.log("onFinish, response:", JSON.stringify(result.response, null, 2));
               const finalMessages = appendResponseMessages({
-                messages: this.messages,
+                messages: this.messages || [],
                 responseMessages: result.response.messages,
               });
               await this.persistMessages(finalMessages);
             },
             onError: (error: any) => {
-              // console.log("onStreamText error", error, error.stack);
-              this.log(`onStreamText error: ${error.message}, ${error.stack}`);
+              console.log("onStreamText error", error, error.stack);
+              this.log(`onStreamText error: ${error}, ${error.stack}`);
+              this.handleException(error);
               // dataStream.writeData({ value: "Hello" });
             },
           });
           result.mergeIntoDataStream(dataStream);
         },
       });
-      // const newId = generateId();
-      const newId = "msg-ns0xeqqjHESZcpIsTX77Y2vc";
-      await this.log("newId", newId);
-      await this._reply(newId, dataStreamResponse);
-      return dataStreamResponse;
+      await this.callLlmWriteStory();
     } catch (e: any) {
-      // this.log(`onChatMessage error: ${e.message}, ${e.stack}`);
       this.handleException(e);
-      // return dataStreamResponse;
     }
+  }
+
+  async callLlmWriteStory() {
+    // 另一个 llm 调用 (演示)
+    const model = getDefaultModel(this.env);
+    const result = await generateText({
+      model: model,
+      // prompt: "Write a short story about a cat.",
+      experimental_telemetry: { isEnabled: true },
+      messages: this.messages,
+    });
+    const messages222 = [
+      ...this.messages,
+      {
+        id: generateId(),
+        role: "assistant",
+        content: result.text,
+        parts: [
+          {
+            type: "text",
+            text: result.text,
+          },
+        ],
+      } satisfies Message,
+    ];
+    await this.saveMessages(messages222);
   }
 
   private _broadcastChatMessage(message: OutgoingMessage, exclude?: string[]) {

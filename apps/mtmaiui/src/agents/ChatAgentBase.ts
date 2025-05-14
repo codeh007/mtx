@@ -2,7 +2,6 @@ import type { Connection, Schedule } from "agents";
 import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
-// import { drizzle } from "drizzle-orm/postgres-js";
 import { z } from "zod";
 import { MtmaiuiConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
