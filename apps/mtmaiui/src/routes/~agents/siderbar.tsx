@@ -12,10 +12,13 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
+import { useQuery } from "@tanstack/react-query";
+import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { type ChangeEvent, useMemo } from "react";
+import { MtmaiuiConfig } from "../../lib/config";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
@@ -62,8 +65,7 @@ export function NavSession() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            todo list
-            {/* <DebugValue data={{ data: listSessions.data }} /> */}
+            <ChatSessionList />
           </SidebarGroupContent>
           <SidebarGroupContent>
             {/* <Button
@@ -84,3 +86,32 @@ export function NavSession() {
     </Sidebar>
   );
 }
+
+const ChatSessionList = () => {
+  const { data: sessions } = useQuery({
+    queryKey: ["agents/sessions"],
+    queryFn: () => {
+      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/agents/sessions/list`).then((res) =>
+        res.json(),
+      );
+    },
+  });
+  return (
+    <div>
+      <DebugValue data={sessions?.list_agents_tmp1} />
+      {sessions?.list_agents_tmp1?.map((session: any) => (
+        <ChatSessionItem key={session.id} session={session} />
+      ))}
+    </div>
+  );
+};
+
+const ChatSessionItem = ({ session }: { session: any }) => {
+  return (
+    <div className="flex items-center justify-between bg-muted p-2">
+      <div>
+        <CustomLink to={`/agents/${session.name}/${session.id}`}>{session.name}</CustomLink>
+      </div>
+    </div>
+  );
+};

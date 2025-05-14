@@ -32,7 +32,6 @@ function RouteComponent() {
   }, [sessionId, setSessionId]);
   return (
     <>
-      {/* <SessionHeader /> */}
       <Outlet />
     </>
   );

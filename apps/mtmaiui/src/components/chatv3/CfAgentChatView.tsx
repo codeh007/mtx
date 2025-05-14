@@ -3,6 +3,7 @@ import type { Message } from "@ai-sdk/react";
 import { Bug, PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
+import type { Schedule } from "agents/schedule";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
@@ -11,6 +12,7 @@ import { Card } from "mtxuilib/ui/card";
 import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useToast } from "mtxuilib/ui/use-toast";
+import { useEffect, useState } from "react";
 import type { ChatAgentOutgoingMessage, ChatAgentState } from "../../agent_state/chat_agent_state";
 import { APPROVAL } from "../../agent_state/shared";
 import type { tools } from "../../agents/tools";
@@ -27,25 +29,14 @@ interface CfAgentChatViewProps {
   prefix?: string;
 }
 export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentChatViewProps) {
-  // const [showDebug, setShowDebug] = useState(false);
   const isDebug = useWorkbenchStore((x) => x.isDebug);
   const setIsDebug = useWorkbenchStore((x) => x.setIsDebug);
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
-
   const agentState = useWorkbenchStore((x) => x.assistantState);
-  // const [shortVideoAgentState, setShortVideoAgentState] = useState<ShortVideoAgentState>({});
   const setAgentState = useWorkbenchStore((x) => x.setAssistantState);
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
 
   const toast = useToast();
-
-  //临时测试
-  // const shortVideoAgent = useAgent<ShortVideoAgentState>({
-  //   agent: "short-video-ag",
-  //   host: host,
-  //   prefix: prefix,
-  //   name: "default",
-  //   onStateUpdate: (newState) => setShortVideoAgentState(newState),
-  // });
 
   const agent = useAgent<ChatAgentState>({
     agent: agentName,
@@ -97,6 +88,13 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     },
   });
 
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      const schedules: Schedule[] = await agent.call("listSchedules", []);
+      setSchedules(schedules);
+    };
+    fetchSchedules();
+  }, [agent]);
   const {
     messages: agentMessages,
     input: agentInput,
@@ -115,7 +113,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
       e.preventDefault();
       const inputValue = (e.target as HTMLInputElement).value;
 
-      const command = inputValue.toLowerCase().trim();
+      const command = inputValue.trim();
       setInput("");
       if (inputValue.startsWith("/")) {
         switch (command) {
@@ -128,12 +126,19 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             agent.call("onRunSmalagent", ["请向我问好,然后自我介绍"]);
             break;
           }
-          // case "/genshortvideo": {
-          //   const result = await shortVideoAgent.call("onGenShortVideo", ["test"]);
-          //   console.log("genShortVideo result", result);
-          //   break;
-          // }
-
+          case "/onRunSchedule": {
+            const schedules: Schedule[] = await agent.call("onRunSchedule", [
+              "请向我问好,然后自我介绍",
+            ]);
+            console.log("onRunSchedule result", schedules);
+            setSchedules(schedules);
+            break;
+          }
+          case "/listSchedules": {
+            const result = await agent.call("listSchedules", []);
+            console.log("listSchedules result", result);
+            break;
+          }
           default: {
             // 事件名称
             const eventType = inputValue.slice(1);
@@ -163,8 +168,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   );
 
   return (
-    <div className="h-[100vh] w-full p-4 flex justify-center items-center bg-fixed overflow-hidden">
-      <div className="h-[calc(100vh-2rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
+    <div className="h-[100vh] w-full p-2 flex justify-center items-center bg-fixed overflow-hidden">
+      <div className="h-[calc(100vh-0.5rem)] w-full mx-auto max-w-lg flex flex-col shadow-xl rounded-md overflow-hidden relative border border-neutral-300 dark:border-neutral-800">
         <div className="px-4 py-3 border-b border-neutral-300 dark:border-neutral-800 flex items-center gap-3 sticky top-0 z-10">
           <div className="flex items-center justify-center h-8 w-8">
             <svg width="28px" height="28px" className="text-[#F48120]" data-icon="agents">
@@ -191,6 +196,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
               checked={isDebug}
               onCheckedChange={() => setIsDebug(!isDebug)}
             />
+            <DebugValue data={schedules} />
           </div>
 
           <Button

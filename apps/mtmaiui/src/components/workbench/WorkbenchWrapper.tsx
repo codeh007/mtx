@@ -3,9 +3,6 @@
 import { cn } from "mtxuilib/lib/utils";
 
 import { memo } from "react";
-import { AgentNames } from "../../agent_state/shared";
-import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { ShortVideoAgentView } from "../chatv3/ShortVideoAgentView";
 
 export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
   children: React.ReactNode;
@@ -17,19 +14,19 @@ export const WorkbenchWrapper = memo(function WorkbenchWrapper(props: {
       {/* 左侧(聊天面板) */}
       <div className="w-full">{children}</div>
       {/* 右侧面板(主体内容) */}
-      <WorkbenchContent />
+      {/* <WorkbenchContent /> */}
     </div>
   );
 });
 
-export const WorkbenchContent = () => {
-  const assistantState = useWorkbenchStore((x) => x.assistantState);
-  const subAgents = assistantState?.subAgents;
-  return (
-    <div className="w-full">
-      {subAgents?.[AgentNames.shortVideoAg] && (
-        <ShortVideoAgentView agentId={subAgents[AgentNames.shortVideoAg]} />
-      )}
-    </div>
-  );
-};
+// export const WorkbenchContent = () => {
+//   const assistantState = useWorkbenchStore((x) => x.assistantState);
+//   const subAgents = assistantState?.subAgents;
+//   return (
+//     <div className="w-full">
+//       {subAgents?.[AgentNames.shortVideoAg] && (
+//         <ShortVideoAgentView agentId={subAgents[AgentNames.shortVideoAg]} />
+//       )}
+//     </div>
+//   );
+// };

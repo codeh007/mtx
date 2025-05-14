@@ -14,8 +14,6 @@ export class Scheduler extends Agent<Env> {
     connection.send(JSON.stringify(this.getSchedules()));
   }
   async onMessage(connection: Connection, message: string): Promise<void> {
-    console.log("scheduler on message", message);
-
     const event = JSON.parse(message) as IncomingMessage;
     const model = getDefaultModel(this.env);
     if (event.type === "schedule") {

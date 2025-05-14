@@ -13,10 +13,9 @@ function RouteComponent() {
     <WorkbrenchProvider>
       <RootAppWrapper secondSidebar={<NavSession />}>
         <MtSuspenseBoundary>
-          {/* <MtSessionProvider> */}
           <Outlet />
-          {/* </MtSessionProvider> */}
         </MtSuspenseBoundary>
+        
       </RootAppWrapper>
     </WorkbrenchProvider>
   );

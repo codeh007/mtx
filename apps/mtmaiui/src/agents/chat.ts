@@ -1,5 +1,5 @@
 import type { Connection, ConnectionContext, Schedule } from "agents";
-import { unstable_callable as callable } from "agents";
+import { unstable_callable } from "agents";
 import {
   type DataStreamWriter,
   type Message,
@@ -9,17 +9,19 @@ import {
   generateId,
   streamText,
 } from "ai";
+import { sql } from "drizzle-orm";
+
 import type {
   ChatAgentIncomingMessage,
   ChatAgentOutgoingMessage,
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
+import { toolGenShortVideo, toolSmolagent } from "../agent_utils/tools2";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
-
 export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   initialState: ChatAgentState = {
     lastUpdated: 0,
@@ -30,10 +32,18 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   };
 
   async onStart(): Promise<void> {
-    this.log("onStart111");
-    this.log("HYPERDRIVE", this.env.HYPERDRIVE);
-    await super.onStart();
-    this.log("onStart done111");
+    globalThis.Hyperdrive = this.env.HYPERDRIVE;
+    try {
+      await this.getDb().execute(
+        sql`SELECT * from upsert_agent(
+        p_name  => ${"chat"}::text,
+        p_id    => ${this.name}::text,
+        p_type  => ${"cfagent"}::text
+      )`,
+      );
+    } catch (e: any) {
+      this.handleException(e);
+    }
   }
   onConnect(connection: Connection, ctx: ConnectionContext) {
     this.setState({
@@ -54,7 +64,7 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
     const event = JSON.parse(message) as ChatAgentIncomingMessage;
     switch (event.type) {
       //未起作用
-      case "new_chat_participant":
+      case "new_chat_participant": {
         this.setState({
           ...this.state,
           // participants: [...this.state.participants, event.data.agentName],
@@ -65,6 +75,10 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
             data: { agentName: event.data.agentName || "unknown" },
           } satisfies ChatAgentOutgoingMessage),
         );
+        break;
+      }
+      case "schedule":
+        this.onRunSchedule(event.data);
         break;
       default:
         super.onMessage(connection, message);
@@ -80,7 +94,12 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
         const result = streamText({
           model,
           messages: this.messages,
-          tools: { ...tools, ...this.toolGenShortVideo(), ...this.toolSmolagent() },
+          tools: {
+            ...tools,
+            ...toolGenShortVideo(this.env),
+            ...toolSmolagent(this.env),
+            // ...toolSchedule(this.env, this, this.onSchedule, userInput),
+          },
           onFinish: (result) => {
             onFinish(result as any);
           },
@@ -97,6 +116,31 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   }
   onStateUpdate(state, source: "server" | Connection) {
     // console.log(`${source} state updated`, state);
+  }
+
+  @unstable_callable()
+  async onRunSchedule(schedule: any) {
+    try {
+      this.log(`onRunSchedule: ${JSON.stringify(schedule)}`);
+      const result = await this.schedule(30, "log", { message: "hello计划任务" });
+      const schedules = await this.getSchedules();
+      this.log(`schedules list: ${JSON.stringify(result)}\n${JSON.stringify(schedules)}\n`);
+      return schedules;
+    } catch (e: any) {
+      this.log(`onRunSchedule error: ${e.message}`);
+    }
+  }
+
+  @unstable_callable()
+  async listSchedules() {
+    try {
+      const schedules = await this.getSchedules();
+      this.log(`listSchedules: ${JSON.stringify(schedules)}`);
+      return schedules;
+    } catch (e: any) {
+      this.log(`listSchedules error: ${e.message}`);
+      return [];
+    }
   }
 
   /**
@@ -117,25 +161,6 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
         data: convertScheduleToScheduledItem(schedule),
       } satisfies OutgoingMessage),
     );
-  }
-
-  // async onStep(step) {
-  //   console.log("onStep", step);
-  //   this.broadcast(
-  //     JSON.stringify({
-  //       type: "new-step",
-  //       data: step,
-  //     } satisfies OutgoingMessage),
-  //   );
-  // }
-
-  // async getState() {
-  //   return this.state;
-  // }
-
-  @callable()
-  async onDemoSchedule1() {
-    console.log("onDemoSchedule1");
   }
 
   async onDemoRun2(
@@ -203,41 +228,5 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
       },
       providerMetadata: {},
     });
-  }
-
-  toolGenShortVideo() {
-    return {
-      // genShortVideo: tool({
-      //   description: "生成短视频",
-      //   parameters: z.object({
-      //     topic: z.string().describe("短视频主题"),
-      //   }),
-      //   execute: async ({ topic }) => {
-      //     try {
-      //       let shortAgId = this.state.subAgents?.[AgentNames.shortVideoAg];
-      //       if (!shortAgId) {
-      //         shortAgId = generateId();
-      //       }
-      //       const shortVideoAgent = await getAgentByName<Env, ShortVideoAg>(
-      //         this.env.ShortVideoAg,
-      //         shortAgId,
-      //       );
-      //       this.setState({
-      //         ...this.state,
-      //         subAgents: {
-      //           ...this.state.subAgents,
-      //           [AgentNames.shortVideoAg]: shortAgId,
-      //         },
-      //       });
-      //       // ! Fixme: 工具调用,应尽可能返回文本
-      //       const result = await shortVideoAgent.onGenShortVideo(topic);
-      //       return result;
-      //     } catch (e: any) {
-      //       console.error("toolGenShortVideo error", e);
-      //       return `运行出错: ${e.message}, ${e.stack}`;
-      //     }
-      //   },
-      // }),
-    };
   }
 }
