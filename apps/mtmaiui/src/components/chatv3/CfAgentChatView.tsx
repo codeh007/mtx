@@ -1,6 +1,6 @@
 "use client";
 import type { Message } from "@ai-sdk/react";
-import { Bug, PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
+import { PaperPlaneRight, Robot, Trash } from "@phosphor-icons/react";
 import { useAgentChat } from "agents/ai-react";
 import { useAgent } from "agents/react";
 import type { Schedule } from "agents/schedule";
@@ -9,7 +9,6 @@ import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Card } from "mtxuilib/ui/card";
-import { Switch } from "mtxuilib/ui/switch";
 import { BetterTooltip } from "mtxuilib/ui/tooltip";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect, useState } from "react";
@@ -35,7 +34,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
   const agentState = useWorkbenchStore((x) => x.assistantState);
   const setAgentState = useWorkbenchStore((x) => x.setAssistantState);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
-
+  const setTaskList = useWorkbenchStore((x) => x.setTaskList);
+  const onAgentMessageEvent = useWorkbenchStore((x) => x.onAgentMessageEvent);
   const toast = useToast();
 
   const agent = useAgent<ChatAgentState>({
@@ -82,7 +82,8 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           });
           break;
         default:
-          console.log(`onMessage: 未知消息: ${parsedMessage?.type}`, message);
+          // console.log(`onMessage: 未知消息: ${parsedMessage?.type}`, message);
+          onAgentMessageEvent(message);
           break;
       }
     },
@@ -92,9 +93,10 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
     const fetchSchedules = async () => {
       const schedules: Schedule[] = await agent.call("listSchedules", []);
       setSchedules(schedules);
+      setTaskList(schedules);
     };
     fetchSchedules();
-  }, [agent]);
+  }, [agent, setTaskList]);
   const {
     messages: agentMessages,
     input: agentInput,
@@ -130,8 +132,9 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             const schedules: Schedule[] = await agent.call("onRunSchedule", [
               "请向我问好,然后自我介绍",
             ]);
-            console.log("onRunSchedule result", schedules);
+            // console.log("onRunSchedule result", schedules);
             setSchedules(schedules);
+            setTaskList(schedules);
             break;
           }
           case "/listSchedules": {
@@ -188,7 +191,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
             <h2 className="font-semibold text-base">Assisant Agent</h2>
           </div>
 
-          <div className="flex items-center gap-2 mr-2">
+          {/* <div className="flex items-center gap-2 mr-2">
             <Bug className="size-4" />
             <Switch
               // toggled={showDebug}
@@ -196,8 +199,7 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
               checked={isDebug}
               onCheckedChange={() => setIsDebug(!isDebug)}
             />
-            <DebugValue data={schedules} />
-          </div>
+          </div> */}
 
           <Button
             variant="ghost"
@@ -207,7 +209,6 @@ export function CfAgentChatView({ agentName, agentId, host, prefix }: CfAgentCha
           >
             <Trash className="size-4" />
           </Button>
-          <DebugValue data={agentState} />
         </div>
 
         {/* Messages */}

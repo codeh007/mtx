@@ -3,6 +3,8 @@
 import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
 import type { Message } from "ai";
 import { debounce } from "lodash";
+import { useHotkeys } from "react-hotkeys-hook";
+
 import {
   type AdkEvent,
   type AgentRunRequestV3,
@@ -30,7 +32,7 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import type { ChatAgentState } from "../agent_state/chat_agent_state";
+import type { ChatAgentOutgoingMessage, ChatAgentState } from "../agent_state/chat_agent_state";
 import { parseEventStream } from "../agent_utils/agent_utils";
 import data from "../data/ig_settings_xiaoto33.json";
 import { useTenant, useTenantId } from "../hooks/useAuth";
@@ -124,6 +126,11 @@ export interface WorkbrenchState extends WorkbenchProps {
 
   agentState?: RootAgentState;
   setAgentState: (agentState: RootAgentState) => void;
+
+  taskList: any[];
+  setTaskList: (taskList: any[]) => void;
+
+  onAgentMessageEvent: (message: MessageEvent<any>) => void;
 }
 
 export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], WorkbrenchState> = (
@@ -186,6 +193,11 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     adkEvents: [],
     setAdkEvents: (adkEvents) => {
       set({ adkEvents });
+    },
+    taskList: [],
+    setTaskList: (taskList) => {
+      console.log("setTaskList", taskList);
+      set({ taskList });
     },
     handleHumanInput: debounce(async (input: Content) => {
       // console.log("handleHumanInput", input);
@@ -357,6 +369,19 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setAssistantState: (assistantState) => {
       set({ assistantState });
     },
+    onAgentMessageEvent: (message) => {
+      console.log("onAgentMessageEvent", message);
+
+      const parsedMessage = JSON.parse(message.data) as ChatAgentOutgoingMessage;
+      const messageType = parsedMessage?.type;
+      switch (messageType) {
+        //@ts-expect-error
+        case "cf_agent_chat_messages":
+          // 对话消息
+          break;
+      }
+      // set({ onAgentMessageEvent: message });
+    },
 
     ...init,
   };
@@ -452,25 +477,6 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   //   );
   // }, [mystore, nav, search, tid]);
 
-  // useEffect(() => {
-  //   return mystore.subscribe(
-  //     (state) => {
-  //       return state.sessionId;
-  //     },
-  //     debounce((cur, prev) => {
-  //       console.log("threadId changed", cur, "prev", prev);
-  //       if (cur) {
-  //         startTransition(() => {
-  //           nav({
-  //             to: `/session/${cur}`,
-  //             search: search,
-  //           });
-  //         });
-  //       }
-  //     }, 100),
-  //   );
-  // }, [mystore, nav, search]);
-
   const adkEventsQuery = useQuery({
     ...adkEventsListOptions({
       path: {
@@ -504,6 +510,13 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
     }
   }, [adkSessionQuery.data, mystore]);
 
+  useHotkeys(
+    "alt+.",
+    () => {
+      mystore.setState({ isDebug: !mystore.getState().isDebug });
+    },
+    [mystore],
+  );
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}

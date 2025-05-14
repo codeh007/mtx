@@ -86,33 +86,40 @@ export class Chat extends ChatAgentBase<Env, ChatAgentState> {
   }
 
   async onChatMessage(onFinish: StreamTextOnFinishCallback<ToolSet>) {
-    const model = getDefaultModel(this.env);
-    const lastestMessage = this.messages?.[this.messages.length - 1];
-    const userInput = lastestMessage?.content;
-    const dataStreamResponse = createDataStreamResponse({
-      execute: async (dataStream) => {
-        const result = streamText({
-          model,
-          messages: this.messages,
-          tools: {
-            ...tools,
-            ...toolGenShortVideo(this.env),
-            ...toolSmolagent(this.env),
-            // ...toolSchedule(this.env, this, this.onSchedule, userInput),
-          },
-          onFinish: (result) => {
-            onFinish(result as any);
-          },
-          onError: (error: any) => {
-            console.log("onStreamText error", error, error.stack);
-            dataStream.writeData({ value: "Hello" });
-          },
-        });
-        result.mergeIntoDataStream(dataStream);
-      },
-    });
+    try {
+      const model = getDefaultModel(this.env);
+      // const lastestMessage = this.messages?.[this.messages.length - 1];
+      // const userInput = lastestMessage?.content;
+      const dataStreamResponse = createDataStreamResponse({
+        execute: async (dataStream) => {
+          const result = streamText({
+            model,
+            messages: this.messages,
+            tools: {
+              ...tools,
+              ...toolGenShortVideo(this.env),
+              ...toolSmolagent(this.env),
+              // ...toolSchedule(this.env, this, this.onSchedule, userInput),
+            },
+            onFinish: (result) => {
+              onFinish(result as any);
+            },
+            onError: (error: any) => {
+              // console.log("onStreamText error", error, error.stack);
+              this.log(`onStreamText error: ${error.message}, ${error.stack}`);
+              dataStream.writeData({ value: "Hello" });
+            },
+          });
+          result.mergeIntoDataStream(dataStream);
+        },
+      });
 
-    return dataStreamResponse;
+      return dataStreamResponse;
+    } catch (e: any) {
+      // this.log(`onChatMessage error: ${e.message}, ${e.stack}`);
+      this.handleException(e);
+      // return dataStreamResponse;
+    }
   }
   onStateUpdate(state, source: "server" | Connection) {
     // console.log(`${source} state updated`, state);

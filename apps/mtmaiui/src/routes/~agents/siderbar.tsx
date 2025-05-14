@@ -17,73 +17,72 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { type ChangeEvent, useMemo } from "react";
 import { MtmaiuiConfig } from "../../lib/config";
+import { useWorkbenchStore } from "../../stores/workbrench.store";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
   }, []);
 
-  // const mqSendMutation = useMutation({
-  //   mutationFn: async (payload: { queue: string; payload: any }) => {
-  //     const res = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/mq/${payload.queue}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(payload),
-  //     });
-  //     return res.json();
-  //   },
-  // });
-
   return (
-    <Sidebar collapsible="none" className="hidden flex-1 md:flex">
-      <SidebarHeader className="gap-3.5 border-b p-4">
-        <div className="flex w-full items-center justify-between">
-          <div className="text-base font-medium text-foreground">对话</div>
-          <Label className="flex items-center gap-2 text-sm">
-            <CustomLink
-              to={linkToNew}
-              className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
-            >
-              <Icons.plus className="size-4" />
-            </CustomLink>
-            <Switch className="shadow-none" />
-          </Label>
-        </div>
-        <SidebarInput
-          placeholder="Type to search..."
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            // console.log("sidebar input", e.target.value);
-            // setQueryParams({
-            //   label: e.target.value,
-            // });
-          }}
-        />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup className="px-0">
-          <SidebarGroupContent>
-            <ChatSessionList />
-          </SidebarGroupContent>
-          <SidebarGroupContent>
-            {/* <Button
-              onClick={() => {
-                mqSendMutation.mutate({
-                  queue: "shortvideo_combine",
-                  payload: {
-                    message: "hello",
-                  },
-                });
+    <>
+      <Sidebar collapsible="none" className="hidden flex-1 md:flex">
+        <Tabs defaultValue="tasks">
+          <SidebarHeader className="gap-3.5 border-b p-4">
+            <TabsList layout="underlined">
+              <TabsTrigger variant="underlined" value="tasks">
+                任务
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="chats">
+                历史
+              </TabsTrigger>
+              <TabsTrigger variant="underlined" value="agent">
+                状态
+              </TabsTrigger>
+            </TabsList>
+          </SidebarHeader>
+          <TabsContent value="tasks">
+            <TaskSessionList />
+          </TabsContent>
+          <TabsContent value="chats">
+            <div className="flex w-full items-center justify-between">
+              {/* <div className="text-base font-medium text-foreground">对话</div> */}
+              <Label className="flex items-center gap-2 text-sm">
+                <CustomLink
+                  to={linkToNew}
+                  className={cn(buttonVariants({ variant: "ghost", size: "icon" }))}
+                >
+                  <Icons.plus className="size-4" />
+                </CustomLink>
+                <Switch className="shadow-none" />
+              </Label>
+            </div>
+            <SidebarInput
+              placeholder="Type to search..."
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                // console.log("sidebar input", e.target.value);
+                // setQueryParams({
+                //   label: e.target.value,
+                // });
               }}
-            >
-              测试, pgmq 消息发送
-            </Button> */}
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+            />
+            <SidebarContent>
+              <SidebarGroup className="px-0">
+                <SidebarGroupContent>
+                  <ChatSessionList />
+                </SidebarGroupContent>
+                {/* <SidebarGroupContent></SidebarGroupContent> */}
+              </SidebarGroup>
+            </SidebarContent>
+          </TabsContent>
+          <TabsContent value="agent">
+            <AgentStateView />
+          </TabsContent>
+        </Tabs>
+      </Sidebar>
+    </>
   );
 }
 
@@ -98,8 +97,8 @@ const ChatSessionList = () => {
   });
   return (
     <div>
-      <DebugValue data={sessions?.list_agents_tmp1} />
-      {sessions?.list_agents_tmp1?.map((session: any) => (
+      <DebugValue data={sessions} />
+      {sessions?.data?.map((session: any) => (
         <ChatSessionItem key={session.id} session={session} />
       ))}
     </div>
@@ -112,6 +111,31 @@ const ChatSessionItem = ({ session }: { session: any }) => {
       <div>
         <CustomLink to={`/agents/${session.name}/${session.id}`}>{session.name}</CustomLink>
       </div>
+    </div>
+  );
+};
+
+const TaskSessionList = () => {
+  const taskList = useWorkbenchStore((x) => x.taskList);
+  const isDebug = useWorkbenchStore((x) => x.isDebug);
+  return (
+    <div>
+      {taskList.map((task) => (
+        <div key={task.id} className="flex items-center justify-between bg-muted p-2">
+          {isDebug && <DebugValue data={task} />}
+          <div>{task.id}</div>
+          <div className="text-sm text-muted-foreground">{task.created_at}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const AgentStateView = () => {
+  const assistantState = useWorkbenchStore((x) => x.assistantState);
+  return (
+    <div>
+      <DebugValue data={assistantState} />
     </div>
   );
 };
