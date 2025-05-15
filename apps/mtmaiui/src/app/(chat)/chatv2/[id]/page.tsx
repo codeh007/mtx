@@ -1,12 +1,11 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
-import type { Attachment, UIMessage } from "ai";
 import { Chat } from "../../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
 import { getChatById, getMessagesByChatId } from "../../../../db/queries";
-import type { DBChatMessage } from "../../../../db/schema";
+import { convertToUIMessages } from "../../../../lib/aisdk_utils";
 import { auth } from "../../../../lib/auth/auth";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
@@ -37,18 +36,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const messagesFromDb = await getMessagesByChatId({
     id,
   });
-
-  function convertToUIMessages(messages: Array<DBChatMessage>): Array<UIMessage> {
-    return messages.map((message) => ({
-      id: message.id,
-      parts: message.parts as UIMessage["parts"],
-      role: message.role as UIMessage["role"],
-      // Note: content will soon be deprecated in @ai-sdk/react
-      content: "",
-      createdAt: message.createdAt,
-      experimental_attachments: (message.attachments as Array<Attachment>) ?? [],
-    }));
-  }
 
   const cookieStore = await cookies();
   const chatModelFromCookie = cookieStore.get("chat-model");

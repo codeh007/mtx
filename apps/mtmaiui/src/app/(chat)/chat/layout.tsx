@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import Script from "next/script";
 import { AppSidebar } from "../../../aichatbot/app-sidebar";
 import { auth } from "../../../lib/auth/auth";
+import { WorkbrenchProvider } from "../../../stores/workbrench.store";
 
 export const experimental_ppr = true;
 
@@ -23,12 +24,14 @@ export default async function Layout({
         async={true}
       />
       <SidebarProvider defaultOpen={!isCollapsed}>
-        <MtSuspenseBoundary>
-          <AppSidebar user={session?.user} />
-        </MtSuspenseBoundary>
-        <MtSuspenseBoundary>
-          <SidebarInset>{children}</SidebarInset>
-        </MtSuspenseBoundary>
+        <WorkbrenchProvider>
+          <MtSuspenseBoundary>
+            <AppSidebar user={session?.user} />
+          </MtSuspenseBoundary>
+          <MtSuspenseBoundary>
+            <SidebarInset>{children}</SidebarInset>
+          </MtSuspenseBoundary>
+        </WorkbrenchProvider>
       </SidebarProvider>
     </>
   );

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { memo } from "react";
 import type { Vote } from "../db/schema";
+import { useWorkbenchStore } from "../stores/workbrench.store";
 import { Greeting } from "./greeting";
 import { useMessages } from "./hooks/use-messages";
 import { PreviewMessage, ThinkingMessage } from "./message";
@@ -41,13 +42,15 @@ function PureMessages({
     status,
   });
 
+  const isdebug = useWorkbenchStore((x) => x.isDebug);
+
   return (
     <div
       ref={messagesContainerRef}
       className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4 relative"
     >
       {messages.length === 0 && <Greeting />}
-      <DebugValue data={messages} />
+      {isdebug && <DebugValue data={messages} />}
       {messages.map((message, index) => (
         <PreviewMessage
           key={message.id}
