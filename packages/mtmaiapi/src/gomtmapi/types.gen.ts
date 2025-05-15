@@ -239,12 +239,7 @@ export const TenantMemberRole = {
   MEMBER: "MEMBER",
 } as const;
 
-export type TenantResource =
-  | "WORKER"
-  | "EVENT"
-  | "WORKFLOW_RUN"
-  | "CRON"
-  | "SCHEDULE";
+export type TenantResource = "WORKER" | "EVENT" | "WORKFLOW_RUN" | "CRON" | "SCHEDULE";
 
 export const TenantResource = {
   WORKER: "WORKER",
@@ -714,11 +709,7 @@ export type WorkflowConcurrency = {
   /**
    * The strategy to use when the concurrency limit is reached.
    */
-  limitStrategy:
-    | "CANCEL_IN_PROGRESS"
-    | "DROP_NEWEST"
-    | "QUEUE_NEWEST"
-    | "GROUP_ROUND_ROBIN";
+  limitStrategy: "CANCEL_IN_PROGRESS" | "DROP_NEWEST" | "QUEUE_NEWEST" | "GROUP_ROUND_ROBIN";
   /**
    * An action which gets the concurrency group for the WorkflowRun.
    */
@@ -1006,11 +997,7 @@ export const CronWorkflowsOrderByField = {
   CREATED_AT: "createdAt",
 } as const;
 
-export type WorkflowRunOrderByField =
-  | "createdAt"
-  | "startedAt"
-  | "finishedAt"
-  | "duration";
+export type WorkflowRunOrderByField = "createdAt" | "startedAt" | "finishedAt" | "duration";
 
 export const WorkflowRunOrderByField = {
   CREATED_AT: "createdAt",
@@ -1074,13 +1061,7 @@ export type WorkflowRunsCancelRequest = {
   workflowRunIds: Array<string>;
 };
 
-export type JobRunStatus =
-  | "PENDING"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "FAILED"
-  | "CANCELLED"
-  | "BACKOFF";
+export type JobRunStatus = "PENDING" | "RUNNING" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "BACKOFF";
 
 export const JobRunStatus = {
   PENDING: "PENDING",
@@ -2295,29 +2276,27 @@ export type Agents =
       provider?: "UserProxyAgent";
     } & UserProxyAgent);
 
-export type OpenAiClientConfigurationConfigModel =
-  BaseOpenAiClientConfigurationConfigModel & {
-    organization?: string;
-    base_url?: string;
-  };
+export type OpenAiClientConfigurationConfigModel = BaseOpenAiClientConfigurationConfigModel & {
+  organization?: string;
+  base_url?: string;
+};
 
-export type BaseOpenAiClientConfigurationConfigModel =
-  CreateArgumentsConfigModel & {
-    model?: string;
-    api_key?: string;
-    timeout?: number;
-    max_retries?: number;
-    model_capabilities?: {
-      [key: string]: unknown;
-    };
-    model_info?: {
-      [key: string]: unknown;
-    };
-    add_name_prefixes?: boolean;
-    default_headers?: {
-      [key: string]: unknown;
-    };
+export type BaseOpenAiClientConfigurationConfigModel = CreateArgumentsConfigModel & {
+  model?: string;
+  api_key?: string;
+  timeout?: number;
+  max_retries?: number;
+  model_capabilities?: {
+    [key: string]: unknown;
   };
+  model_info?: {
+    [key: string]: unknown;
+  };
+  add_name_prefixes?: boolean;
+  default_headers?: {
+    [key: string]: unknown;
+  };
+};
 
 export type CreateArgumentsConfigModel = {
   frequency_penalty?: number;
@@ -2620,9 +2599,7 @@ export type ModelInfo = {
   structured_output: boolean;
 };
 
-export type ModelTypes =
-  | "OpenAIChatCompletionClient"
-  | "AzureOpenAIChatCompletionClient";
+export type ModelTypes = "OpenAIChatCompletionClient" | "AzureOpenAIChatCompletionClient";
 
 export const ModelTypes = {
   OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
@@ -2979,8 +2956,7 @@ export type PlatformAccountProperties = {
 
 export type PlatformAccountCreate = PlatformAccountProperties;
 
-export type PlatformAccount = ApiResourceMetaProperties &
-  PlatformAccountProperties;
+export type PlatformAccount = ApiResourceMetaProperties & PlatformAccountProperties;
 
 export type PlatformAccountList = {
   pagination?: PaginationResponse;
@@ -3842,11 +3818,7 @@ export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
 
 export type AdkAppUpsert = AdkAppProperties;
 
-export type AdkAppTypes =
-  | "root"
-  | "instagram_agent"
-  | "assistant"
-  | "open_deep_research";
+export type AdkAppTypes = "root" | "instagram_agent" | "assistant" | "open_deep_research";
 
 export const AdkAppTypes = {
   ROOT: "root",
@@ -4229,8 +4201,7 @@ export type MetadataGetResponses = {
   200: ApiMeta;
 };
 
-export type MetadataGetResponse =
-  MetadataGetResponses[keyof MetadataGetResponses];
+export type MetadataGetResponse = MetadataGetResponses[keyof MetadataGetResponses];
 
 export type CloudMetadataGetData = {
   body?: never;
@@ -4246,8 +4217,7 @@ export type CloudMetadataGetErrors = {
   400: ApiErrors;
 };
 
-export type CloudMetadataGetError =
-  CloudMetadataGetErrors[keyof CloudMetadataGetErrors];
+export type CloudMetadataGetError = CloudMetadataGetErrors[keyof CloudMetadataGetErrors];
 
 export type CloudMetadataGetResponses = {
   /**
@@ -4256,8 +4226,7 @@ export type CloudMetadataGetResponses = {
   200: ApiErrors;
 };
 
-export type CloudMetadataGetResponse =
-  CloudMetadataGetResponses[keyof CloudMetadataGetResponses];
+export type CloudMetadataGetResponse = CloudMetadataGetResponses[keyof CloudMetadataGetResponses];
 
 export type MetadataListIntegrationsData = {
   body?: never;
@@ -4308,8 +4277,7 @@ export type UserUpdateLoginErrors = {
   405: ApiErrors;
 };
 
-export type UserUpdateLoginError =
-  UserUpdateLoginErrors[keyof UserUpdateLoginErrors];
+export type UserUpdateLoginError = UserUpdateLoginErrors[keyof UserUpdateLoginErrors];
 
 export type UserUpdateLoginResponses = {
   /**
@@ -4318,8 +4286,7 @@ export type UserUpdateLoginResponses = {
   200: User;
 };
 
-export type UserUpdateLoginResponse =
-  UserUpdateLoginResponses[keyof UserUpdateLoginResponses];
+export type UserUpdateLoginResponse = UserUpdateLoginResponses[keyof UserUpdateLoginResponses];
 
 export type UserUpdateGoogleOauthStartData = {
   body?: never;
@@ -4395,8 +4362,7 @@ export type TenantSettingsListErrors = {
   404: ApiErrors;
 };
 
-export type TenantSettingsListError =
-  TenantSettingsListErrors[keyof TenantSettingsListErrors];
+export type TenantSettingsListError = TenantSettingsListErrors[keyof TenantSettingsListErrors];
 
 export type TenantSettingsListResponses = {
   200: TenantSettingList;
@@ -4538,8 +4504,7 @@ export type TenantSettingsGetErrors = {
   403: ApiErrors;
 };
 
-export type TenantSettingsGetError =
-  TenantSettingsGetErrors[keyof TenantSettingsGetErrors];
+export type TenantSettingsGetError = TenantSettingsGetErrors[keyof TenantSettingsGetErrors];
 
 export type TenantSettingsGetResponses = {
   200: TenantSetting;
@@ -4681,8 +4646,7 @@ export type AlertEmailGroupListErrors = {
   403: ApiError;
 };
 
-export type AlertEmailGroupListError =
-  AlertEmailGroupListErrors[keyof AlertEmailGroupListErrors];
+export type AlertEmailGroupListError = AlertEmailGroupListErrors[keyof AlertEmailGroupListErrors];
 
 export type AlertEmailGroupListResponses = {
   /**
@@ -4909,8 +4873,7 @@ export type SlackWebhookListErrors = {
   405: ApiErrors;
 };
 
-export type SlackWebhookListError =
-  SlackWebhookListErrors[keyof SlackWebhookListErrors];
+export type SlackWebhookListError = SlackWebhookListErrors[keyof SlackWebhookListErrors];
 
 export type SlackWebhookListResponses = {
   /**
@@ -4919,8 +4882,7 @@ export type SlackWebhookListResponses = {
   200: ListSlackWebhooks;
 };
 
-export type SlackWebhookListResponse =
-  SlackWebhookListResponses[keyof SlackWebhookListResponses];
+export type SlackWebhookListResponse = SlackWebhookListResponses[keyof SlackWebhookListResponses];
 
 export type SlackWebhookDeleteData = {
   body?: never;
@@ -4949,8 +4911,7 @@ export type SlackWebhookDeleteErrors = {
   405: ApiErrors;
 };
 
-export type SlackWebhookDeleteError =
-  SlackWebhookDeleteErrors[keyof SlackWebhookDeleteErrors];
+export type SlackWebhookDeleteError = SlackWebhookDeleteErrors[keyof SlackWebhookDeleteErrors];
 
 export type SlackWebhookDeleteResponses = {
   /**
@@ -4984,8 +4945,7 @@ export type UserGetCurrentErrors = {
   405: ApiErrors;
 };
 
-export type UserGetCurrentError =
-  UserGetCurrentErrors[keyof UserGetCurrentErrors];
+export type UserGetCurrentError = UserGetCurrentErrors[keyof UserGetCurrentErrors];
 
 export type UserGetCurrentResponses = {
   /**
@@ -4994,8 +4954,7 @@ export type UserGetCurrentResponses = {
   200: User;
 };
 
-export type UserGetCurrentResponse =
-  UserGetCurrentResponses[keyof UserGetCurrentResponses];
+export type UserGetCurrentResponse = UserGetCurrentResponses[keyof UserGetCurrentResponses];
 
 export type UserUpdatePasswordData = {
   body?: UserChangePasswordRequest;
@@ -5019,8 +4978,7 @@ export type UserUpdatePasswordErrors = {
   405: ApiErrors;
 };
 
-export type UserUpdatePasswordError =
-  UserUpdatePasswordErrors[keyof UserUpdatePasswordErrors];
+export type UserUpdatePasswordError = UserUpdatePasswordErrors[keyof UserUpdatePasswordErrors];
 
 export type UserUpdatePasswordResponses = {
   /**
@@ -5087,8 +5045,7 @@ export type UserUpdateLogoutErrors = {
   405: ApiErrors;
 };
 
-export type UserUpdateLogoutError =
-  UserUpdateLogoutErrors[keyof UserUpdateLogoutErrors];
+export type UserUpdateLogoutError = UserUpdateLogoutErrors[keyof UserUpdateLogoutErrors];
 
 export type UserUpdateLogoutResponses = {
   /**
@@ -5097,8 +5054,7 @@ export type UserUpdateLogoutResponses = {
   200: User;
 };
 
-export type UserUpdateLogoutResponse =
-  UserUpdateLogoutResponses[keyof UserUpdateLogoutResponses];
+export type UserUpdateLogoutResponse = UserUpdateLogoutResponses[keyof UserUpdateLogoutResponses];
 
 export type TenantMembershipsListData = {
   body?: never;
@@ -5180,8 +5136,7 @@ export type TenantInviteAcceptErrors = {
   403: ApiError;
 };
 
-export type TenantInviteAcceptError =
-  TenantInviteAcceptErrors[keyof TenantInviteAcceptErrors];
+export type TenantInviteAcceptError = TenantInviteAcceptErrors[keyof TenantInviteAcceptErrors];
 
 export type TenantInviteAcceptResponses = {
   /**
@@ -5208,8 +5163,7 @@ export type TenantInviteRejectErrors = {
   403: ApiError;
 };
 
-export type TenantInviteRejectError =
-  TenantInviteRejectErrors[keyof TenantInviteRejectErrors];
+export type TenantInviteRejectError = TenantInviteRejectErrors[keyof TenantInviteRejectErrors];
 
 export type TenantInviteRejectResponses = {
   /**
@@ -5245,8 +5199,7 @@ export type TenantCreateResponses = {
   200: Tenant;
 };
 
-export type TenantCreateResponse =
-  TenantCreateResponses[keyof TenantCreateResponses];
+export type TenantCreateResponse = TenantCreateResponses[keyof TenantCreateResponses];
 
 export type TenantUpdateData = {
   /**
@@ -5283,8 +5236,7 @@ export type TenantUpdateResponses = {
   200: Tenant;
 };
 
-export type TenantUpdateResponse =
-  TenantUpdateResponses[keyof TenantUpdateResponses];
+export type TenantUpdateResponse = TenantUpdateResponses[keyof TenantUpdateResponses];
 
 export type TenantAlertingSettingsGetData = {
   body?: never;
@@ -5345,8 +5297,7 @@ export type TenantInviteListErrors = {
   403: ApiError;
 };
 
-export type TenantInviteListError =
-  TenantInviteListErrors[keyof TenantInviteListErrors];
+export type TenantInviteListError = TenantInviteListErrors[keyof TenantInviteListErrors];
 
 export type TenantInviteListResponses = {
   /**
@@ -5355,8 +5306,7 @@ export type TenantInviteListResponses = {
   200: TenantInviteList;
 };
 
-export type TenantInviteListResponse =
-  TenantInviteListResponses[keyof TenantInviteListResponses];
+export type TenantInviteListResponse = TenantInviteListResponses[keyof TenantInviteListResponses];
 
 export type TenantInviteCreateData = {
   /**
@@ -5384,8 +5334,7 @@ export type TenantInviteCreateErrors = {
   403: ApiError;
 };
 
-export type TenantInviteCreateError =
-  TenantInviteCreateErrors[keyof TenantInviteCreateErrors];
+export type TenantInviteCreateError = TenantInviteCreateErrors[keyof TenantInviteCreateErrors];
 
 export type TenantInviteCreateResponses = {
   /**
@@ -5420,8 +5369,7 @@ export type TenantInviteDeleteErrors = {
   400: ApiErrors;
 };
 
-export type TenantInviteDeleteError =
-  TenantInviteDeleteErrors[keyof TenantInviteDeleteErrors];
+export type TenantInviteDeleteError = TenantInviteDeleteErrors[keyof TenantInviteDeleteErrors];
 
 export type TenantInviteDeleteResponses = {
   /**
@@ -5459,8 +5407,7 @@ export type TenantInviteUpdateErrors = {
   400: ApiErrors;
 };
 
-export type TenantInviteUpdateError =
-  TenantInviteUpdateErrors[keyof TenantInviteUpdateErrors];
+export type TenantInviteUpdateError = TenantInviteUpdateErrors[keyof TenantInviteUpdateErrors];
 
 export type TenantInviteUpdateResponses = {
   /**
@@ -5504,8 +5451,7 @@ export type ApiTokenListResponses = {
   200: ListApiTokensResponse;
 };
 
-export type ApiTokenListResponse =
-  ApiTokenListResponses[keyof ApiTokenListResponses];
+export type ApiTokenListResponse = ApiTokenListResponses[keyof ApiTokenListResponses];
 
 export type ApiTokenCreateData = {
   body?: CreateApiTokenRequest;
@@ -5530,8 +5476,7 @@ export type ApiTokenCreateErrors = {
   403: ApiErrors;
 };
 
-export type ApiTokenCreateError =
-  ApiTokenCreateErrors[keyof ApiTokenCreateErrors];
+export type ApiTokenCreateError = ApiTokenCreateErrors[keyof ApiTokenCreateErrors];
 
 export type ApiTokenCreateResponses = {
   /**
@@ -5540,8 +5485,7 @@ export type ApiTokenCreateResponses = {
   200: CreateApiTokenResponse;
 };
 
-export type ApiTokenCreateResponse =
-  ApiTokenCreateResponses[keyof ApiTokenCreateResponses];
+export type ApiTokenCreateResponse = ApiTokenCreateResponses[keyof ApiTokenCreateResponses];
 
 export type ApiTokenUpdateRevokeData = {
   body?: never;
@@ -5773,8 +5717,7 @@ export type EventUpdateCancelErrors = {
   429: ApiErrors;
 };
 
-export type EventUpdateCancelError =
-  EventUpdateCancelErrors[keyof EventUpdateCancelErrors];
+export type EventUpdateCancelError = EventUpdateCancelErrors[keyof EventUpdateCancelErrors];
 
 export type EventUpdateCancelResponses = {
   /**
@@ -5841,8 +5784,7 @@ export type RateLimitListResponses = {
   200: RateLimitList;
 };
 
-export type RateLimitListResponse =
-  RateLimitListResponses[keyof RateLimitListResponses];
+export type RateLimitListResponse = RateLimitListResponses[keyof RateLimitListResponses];
 
 export type TenantMemberListData = {
   body?: never;
@@ -5867,8 +5809,7 @@ export type TenantMemberListErrors = {
   403: ApiError;
 };
 
-export type TenantMemberListError =
-  TenantMemberListErrors[keyof TenantMemberListErrors];
+export type TenantMemberListError = TenantMemberListErrors[keyof TenantMemberListErrors];
 
 export type TenantMemberListResponses = {
   /**
@@ -5877,8 +5818,7 @@ export type TenantMemberListResponses = {
   200: TenantMemberList;
 };
 
-export type TenantMemberListResponse =
-  TenantMemberListResponses[keyof TenantMemberListResponses];
+export type TenantMemberListResponse = TenantMemberListResponses[keyof TenantMemberListResponses];
 
 export type TenantMemberDeleteData = {
   body?: never;
@@ -5911,8 +5851,7 @@ export type TenantMemberDeleteErrors = {
   404: ApiErrors;
 };
 
-export type TenantMemberDeleteError =
-  TenantMemberDeleteErrors[keyof TenantMemberDeleteErrors];
+export type TenantMemberDeleteError = TenantMemberDeleteErrors[keyof TenantMemberDeleteErrors];
 
 export type TenantMemberDeleteResponses = {
   /**
@@ -5990,8 +5929,7 @@ export type EventDataGetResponses = {
   200: EventData;
 };
 
-export type EventDataGetResponse =
-  EventDataGetResponses[keyof EventDataGetResponses];
+export type EventDataGetResponse = EventDataGetResponses[keyof EventDataGetResponses];
 
 export type EventKeyListData = {
   body?: never;
@@ -6025,8 +5963,7 @@ export type EventKeyListResponses = {
   200: EventKeyList;
 };
 
-export type EventKeyListResponse =
-  EventKeyListResponses[keyof EventKeyListResponses];
+export type EventKeyListResponse = EventKeyListResponses[keyof EventKeyListResponses];
 
 export type WorkflowListData = {
   body?: never;
@@ -6073,8 +6010,7 @@ export type WorkflowListResponses = {
   200: WorkflowList;
 };
 
-export type WorkflowListResponse =
-  WorkflowListResponses[keyof WorkflowListResponses];
+export type WorkflowListResponse = WorkflowListResponses[keyof WorkflowListResponses];
 
 export type WorkflowScheduledListData = {
   body?: never;
@@ -6281,8 +6217,7 @@ export type CronWorkflowListErrors = {
   403: ApiErrors;
 };
 
-export type CronWorkflowListError =
-  CronWorkflowListErrors[keyof CronWorkflowListErrors];
+export type CronWorkflowListError = CronWorkflowListErrors[keyof CronWorkflowListErrors];
 
 export type CronWorkflowListResponses = {
   /**
@@ -6291,8 +6226,7 @@ export type CronWorkflowListResponses = {
   200: CronWorkflowsList;
 };
 
-export type CronWorkflowListResponse =
-  CronWorkflowListResponses[keyof CronWorkflowListResponses];
+export type CronWorkflowListResponse = CronWorkflowListResponses[keyof CronWorkflowListResponses];
 
 export type WorkflowRunCancelData = {
   /**
@@ -6320,8 +6254,7 @@ export type WorkflowRunCancelErrors = {
   403: ApiErrors;
 };
 
-export type WorkflowRunCancelError =
-  WorkflowRunCancelErrors[keyof WorkflowRunCancelErrors];
+export type WorkflowRunCancelError = WorkflowRunCancelErrors[keyof WorkflowRunCancelErrors];
 
 export type WorkflowRunCancelResponses = {
   /**
@@ -6362,8 +6295,7 @@ export type WorkflowDeleteErrors = {
   404: ApiErrors;
 };
 
-export type WorkflowDeleteError =
-  WorkflowDeleteErrors[keyof WorkflowDeleteErrors];
+export type WorkflowDeleteError = WorkflowDeleteErrors[keyof WorkflowDeleteErrors];
 
 export type WorkflowDeleteResponses = {
   /**
@@ -6372,8 +6304,7 @@ export type WorkflowDeleteResponses = {
   204: void;
 };
 
-export type WorkflowDeleteResponse =
-  WorkflowDeleteResponses[keyof WorkflowDeleteResponses];
+export type WorkflowDeleteResponse = WorkflowDeleteResponses[keyof WorkflowDeleteResponses];
 
 export type WorkflowGetData = {
   body?: never;
@@ -6411,8 +6342,7 @@ export type WorkflowGetResponses = {
   200: Workflow;
 };
 
-export type WorkflowGetResponse =
-  WorkflowGetResponses[keyof WorkflowGetResponses];
+export type WorkflowGetResponse = WorkflowGetResponses[keyof WorkflowGetResponses];
 
 export type WorkflowUpdateData = {
   /**
@@ -6440,8 +6370,7 @@ export type WorkflowUpdateErrors = {
   403: ApiErrors;
 };
 
-export type WorkflowUpdateError =
-  WorkflowUpdateErrors[keyof WorkflowUpdateErrors];
+export type WorkflowUpdateError = WorkflowUpdateErrors[keyof WorkflowUpdateErrors];
 
 export type WorkflowUpdateResponses = {
   /**
@@ -6450,8 +6379,7 @@ export type WorkflowUpdateResponses = {
   200: Workflow;
 };
 
-export type WorkflowUpdateResponse =
-  WorkflowUpdateResponses[keyof WorkflowUpdateResponses];
+export type WorkflowUpdateResponse = WorkflowUpdateResponses[keyof WorkflowUpdateResponses];
 
 export type WorkflowVersionGetData = {
   body?: never;
@@ -6485,8 +6413,7 @@ export type WorkflowVersionGetErrors = {
   404: ApiErrors;
 };
 
-export type WorkflowVersionGetError =
-  WorkflowVersionGetErrors[keyof WorkflowVersionGetErrors];
+export type WorkflowVersionGetError = WorkflowVersionGetErrors[keyof WorkflowVersionGetErrors];
 
 export type WorkflowVersionGetResponses = {
   /**
@@ -6537,8 +6464,7 @@ export type WorkflowRunCreateErrors = {
   429: ApiErrors;
 };
 
-export type WorkflowRunCreateError =
-  WorkflowRunCreateErrors[keyof WorkflowRunCreateErrors];
+export type WorkflowRunCreateError = WorkflowRunCreateErrors[keyof WorkflowRunCreateErrors];
 
 export type WorkflowRunCreateResponses = {
   /**
@@ -6586,8 +6512,7 @@ export type WorkflowGetMetricsErrors = {
   404: ApiErrors;
 };
 
-export type WorkflowGetMetricsError =
-  WorkflowGetMetricsErrors[keyof WorkflowGetMetricsErrors];
+export type WorkflowGetMetricsError = WorkflowGetMetricsErrors[keyof WorkflowGetMetricsErrors];
 
 export type WorkflowGetMetricsResponses = {
   /**
@@ -6656,8 +6581,7 @@ export type LogLineListResponses = {
   200: LogLineList;
 };
 
-export type LogLineListResponse =
-  LogLineListResponses[keyof LogLineListResponses];
+export type LogLineListResponse = LogLineListResponses[keyof LogLineListResponses];
 
 export type StepRunListEventsData = {
   body?: never;
@@ -6695,8 +6619,7 @@ export type StepRunListEventsErrors = {
   404: ApiErrors;
 };
 
-export type StepRunListEventsError =
-  StepRunListEventsErrors[keyof StepRunListEventsErrors];
+export type StepRunListEventsError = StepRunListEventsErrors[keyof StepRunListEventsErrors];
 
 export type StepRunListEventsResponses = {
   /**
@@ -6793,8 +6716,7 @@ export type StepRunListArchivesErrors = {
   404: ApiErrors;
 };
 
-export type StepRunListArchivesError =
-  StepRunListArchivesErrors[keyof StepRunListArchivesErrors];
+export type StepRunListArchivesError = StepRunListArchivesErrors[keyof StepRunListArchivesErrors];
 
 export type StepRunListArchivesResponses = {
   /**
@@ -6930,8 +6852,7 @@ export type WorkflowRunListErrors = {
   403: ApiErrors;
 };
 
-export type WorkflowRunListError =
-  WorkflowRunListErrors[keyof WorkflowRunListErrors];
+export type WorkflowRunListError = WorkflowRunListErrors[keyof WorkflowRunListErrors];
 
 export type WorkflowRunListResponses = {
   /**
@@ -6940,8 +6861,7 @@ export type WorkflowRunListResponses = {
   200: WorkflowRunList;
 };
 
-export type WorkflowRunListResponse =
-  WorkflowRunListResponses[keyof WorkflowRunListResponses];
+export type WorkflowRunListResponse = WorkflowRunListResponses[keyof WorkflowRunListResponses];
 
 export type WorkflowRunUpdateReplayData = {
   /**
@@ -7078,8 +6998,7 @@ export type WorkflowRunGetErrors = {
   403: ApiErrors;
 };
 
-export type WorkflowRunGetError =
-  WorkflowRunGetErrors[keyof WorkflowRunGetErrors];
+export type WorkflowRunGetError = WorkflowRunGetErrors[keyof WorkflowRunGetErrors];
 
 export type WorkflowRunGetResponses = {
   /**
@@ -7088,8 +7007,7 @@ export type WorkflowRunGetResponses = {
   200: WorkflowRun;
 };
 
-export type WorkflowRunGetResponse =
-  WorkflowRunGetResponses[keyof WorkflowRunGetResponses];
+export type WorkflowRunGetResponse = WorkflowRunGetResponses[keyof WorkflowRunGetResponses];
 
 export type WorkflowRunGetShapeData = {
   body?: never;
@@ -7118,8 +7036,7 @@ export type WorkflowRunGetShapeErrors = {
   403: ApiErrors;
 };
 
-export type WorkflowRunGetShapeError =
-  WorkflowRunGetShapeErrors[keyof WorkflowRunGetShapeErrors];
+export type WorkflowRunGetShapeError = WorkflowRunGetShapeErrors[keyof WorkflowRunGetShapeErrors];
 
 export type WorkflowRunGetShapeResponses = {
   /**
@@ -7203,8 +7120,7 @@ export type StepRunUpdateRerunErrors = {
   403: ApiErrors;
 };
 
-export type StepRunUpdateRerunError =
-  StepRunUpdateRerunErrors[keyof StepRunUpdateRerunErrors];
+export type StepRunUpdateRerunError = StepRunUpdateRerunErrors[keyof StepRunUpdateRerunErrors];
 
 export type StepRunUpdateRerunResponses = {
   /**
@@ -7243,8 +7159,7 @@ export type StepRunUpdateCancelErrors = {
   403: ApiErrors;
 };
 
-export type StepRunUpdateCancelError =
-  StepRunUpdateCancelErrors[keyof StepRunUpdateCancelErrors];
+export type StepRunUpdateCancelError = StepRunUpdateCancelErrors[keyof StepRunUpdateCancelErrors];
 
 export type StepRunUpdateCancelResponses = {
   /**
@@ -7287,8 +7202,7 @@ export type StepRunGetSchemaErrors = {
   404: ApiErrors;
 };
 
-export type StepRunGetSchemaError =
-  StepRunGetSchemaErrors[keyof StepRunGetSchemaErrors];
+export type StepRunGetSchemaError = StepRunGetSchemaErrors[keyof StepRunGetSchemaErrors];
 
 export type StepRunGetSchemaResponses = {
   /**
@@ -7299,8 +7213,7 @@ export type StepRunGetSchemaResponses = {
   };
 };
 
-export type StepRunGetSchemaResponse =
-  StepRunGetSchemaResponses[keyof StepRunGetSchemaResponses];
+export type StepRunGetSchemaResponse = StepRunGetSchemaResponses[keyof StepRunGetSchemaResponses];
 
 export type WorkerListData = {
   body?: never;
@@ -7405,8 +7318,7 @@ export type WorkerUpdateResponses = {
   200: Worker;
 };
 
-export type WorkerUpdateResponse =
-  WorkerUpdateResponses[keyof WorkerUpdateResponses];
+export type WorkerUpdateResponse = WorkerUpdateResponses[keyof WorkerUpdateResponses];
 
 export type WebhookListData = {
   body?: never;
@@ -7444,8 +7356,7 @@ export type WebhookListResponses = {
   200: WebhookWorkerListResponse;
 };
 
-export type WebhookListResponse =
-  WebhookListResponses[keyof WebhookListResponses];
+export type WebhookListResponse = WebhookListResponses[keyof WebhookListResponses];
 
 export type WebhookCreateData = {
   body?: WebhookWorkerCreateRequest;
@@ -7483,8 +7394,7 @@ export type WebhookCreateResponses = {
   200: WebhookWorkerCreated;
 };
 
-export type WebhookCreateResponse =
-  WebhookCreateResponses[keyof WebhookCreateResponses];
+export type WebhookCreateResponse = WebhookCreateResponses[keyof WebhookCreateResponses];
 
 export type WebhookDeleteData = {
   body?: never;
@@ -7549,8 +7459,7 @@ export type WebhookRequestsListErrors = {
   405: ApiErrors;
 };
 
-export type WebhookRequestsListError =
-  WebhookRequestsListErrors[keyof WebhookRequestsListErrors];
+export type WebhookRequestsListError = WebhookRequestsListErrors[keyof WebhookRequestsListErrors];
 
 export type WebhookRequestsListResponses = {
   /**
@@ -7593,8 +7502,7 @@ export type WorkflowRunGetInputErrors = {
   404: ApiErrors;
 };
 
-export type WorkflowRunGetInputError =
-  WorkflowRunGetInputErrors[keyof WorkflowRunGetInputErrors];
+export type WorkflowRunGetInputError = WorkflowRunGetInputErrors[keyof WorkflowRunGetInputErrors];
 
 export type WorkflowRunGetInputResponses = {
   /**
@@ -7639,8 +7547,7 @@ export type WorkflowGetByNameErrors = {
   404: ApiErrors;
 };
 
-export type WorkflowGetByNameError =
-  WorkflowGetByNameErrors[keyof WorkflowGetByNameErrors];
+export type WorkflowGetByNameError = WorkflowGetByNameErrors[keyof WorkflowGetByNameErrors];
 
 export type WorkflowGetByNameResponses = {
   /**
@@ -7973,8 +7880,7 @@ export type SiteGetByHostResponses = {
   200: Site;
 };
 
-export type SiteGetByHostResponse =
-  SiteGetByHostResponses[keyof SiteGetByHostResponses];
+export type SiteGetByHostResponse = SiteGetByHostResponses[keyof SiteGetByHostResponses];
 
 export type SiteHostListData = {
   body?: never;
@@ -8022,8 +7928,7 @@ export type SiteHostListResponses = {
   200: SiteHostList;
 };
 
-export type SiteHostListResponse =
-  SiteHostListResponses[keyof SiteHostListResponses];
+export type SiteHostListResponse = SiteHostListResponses[keyof SiteHostListResponses];
 
 export type SiteHostCreateData = {
   /**
@@ -8051,15 +7956,13 @@ export type SiteHostCreateErrors = {
   403: ApiError;
 };
 
-export type SiteHostCreateError =
-  SiteHostCreateErrors[keyof SiteHostCreateErrors];
+export type SiteHostCreateError = SiteHostCreateErrors[keyof SiteHostCreateErrors];
 
 export type SiteHostCreateResponses = {
   200: SiteHost;
 };
 
-export type SiteHostCreateResponse =
-  SiteHostCreateResponses[keyof SiteHostCreateResponses];
+export type SiteHostCreateResponse = SiteHostCreateResponses[keyof SiteHostCreateResponses];
 
 export type SiteHostGetData = {
   body?: never;
@@ -8098,8 +8001,7 @@ export type SiteHostGetResponses = {
   200: SiteHost;
 };
 
-export type SiteHostGetResponse =
-  SiteHostGetResponses[keyof SiteHostGetResponses];
+export type SiteHostGetResponse = SiteHostGetResponses[keyof SiteHostGetResponses];
 
 export type SiteHostUpdateData = {
   /**
@@ -8131,8 +8033,7 @@ export type SiteHostUpdateErrors = {
   403: ApiError;
 };
 
-export type SiteHostUpdateError =
-  SiteHostUpdateErrors[keyof SiteHostUpdateErrors];
+export type SiteHostUpdateError = SiteHostUpdateErrors[keyof SiteHostUpdateErrors];
 
 export type SiteHostUpdateResponses = {
   /**
@@ -8141,8 +8042,7 @@ export type SiteHostUpdateResponses = {
   200: SiteHost;
 };
 
-export type SiteHostUpdateResponse =
-  SiteHostUpdateResponses[keyof SiteHostUpdateResponses];
+export type SiteHostUpdateResponse = SiteHostUpdateResponses[keyof SiteHostUpdateResponses];
 
 export type PostListPublicData = {
   body?: never;
@@ -8171,15 +8071,13 @@ export type PostListPublicErrors = {
   404: ApiErrors;
 };
 
-export type PostListPublicError =
-  PostListPublicErrors[keyof PostListPublicErrors];
+export type PostListPublicError = PostListPublicErrors[keyof PostListPublicErrors];
 
 export type PostListPublicResponses = {
   200: PostList;
 };
 
-export type PostListPublicResponse =
-  PostListPublicResponses[keyof PostListPublicResponses];
+export type PostListPublicResponse = PostListPublicResponses[keyof PostListPublicResponses];
 
 export type PostGetData = {
   body?: never;
@@ -8310,8 +8208,7 @@ export type ArtifactListResponses = {
   200: ArtifactList;
 };
 
-export type ArtifactListResponse =
-  ArtifactListResponses[keyof ArtifactListResponses];
+export type ArtifactListResponse = ArtifactListResponses[keyof ArtifactListResponses];
 
 export type ArtifactGetData = {
   body?: never;
@@ -8353,8 +8250,7 @@ export type ArtifactGetResponses = {
   200: Artifact;
 };
 
-export type ArtifactGetResponse =
-  ArtifactGetResponses[keyof ArtifactGetResponses];
+export type ArtifactGetResponse = ArtifactGetResponses[keyof ArtifactGetResponses];
 
 export type ComsListData = {
   body?: never;
@@ -8513,8 +8409,7 @@ export type GalleryListResponses = {
   200: GalleryList;
 };
 
-export type GalleryListResponse =
-  GalleryListResponses[keyof GalleryListResponses];
+export type GalleryListResponse = GalleryListResponses[keyof GalleryListResponses];
 
 export type GalleryCreateData = {
   body: Gallery;
@@ -8545,8 +8440,7 @@ export type GalleryCreateResponses = {
   200: Gallery;
 };
 
-export type GalleryCreateResponse =
-  GalleryCreateResponses[keyof GalleryCreateResponses];
+export type GalleryCreateResponse = GalleryCreateResponses[keyof GalleryCreateResponses];
 
 export type GalleryGetData = {
   body?: never;
@@ -8586,8 +8480,7 @@ export type AgEventListResponses = {
   200: AgEventList;
 };
 
-export type AgEventListResponse =
-  AgEventListResponses[keyof AgEventListResponses];
+export type AgEventListResponse = AgEventListResponses[keyof AgEventListResponses];
 
 export type AgEventGetData = {
   body?: never;
@@ -8705,8 +8598,7 @@ export type ModelUpsertResponses = {
   200: Model;
 };
 
-export type ModelUpsertResponse =
-  ModelUpsertResponses[keyof ModelUpsertResponses];
+export type ModelUpsertResponse = ModelUpsertResponses[keyof ModelUpsertResponses];
 
 export type ModelRunsListData = {
   body?: never;
@@ -8741,8 +8633,7 @@ export type ModelRunsListResponses = {
   200: ModelList;
 };
 
-export type ModelRunsListResponse =
-  ModelRunsListResponses[keyof ModelRunsListResponses];
+export type ModelRunsListResponse = ModelRunsListResponses[keyof ModelRunsListResponses];
 
 export type ModelRunGetData = {
   body?: never;
@@ -8777,8 +8668,7 @@ export type ModelRunGetResponses = {
   200: ModelRun;
 };
 
-export type ModelRunGetResponse =
-  ModelRunGetResponses[keyof ModelRunGetResponses];
+export type ModelRunGetResponse = ModelRunGetResponses[keyof ModelRunGetResponses];
 
 export type ModelRunUpsertData = {
   /**
@@ -8810,8 +8700,7 @@ export type ModelRunUpsertErrors = {
   403: ApiErrors;
 };
 
-export type ModelRunUpsertError =
-  ModelRunUpsertErrors[keyof ModelRunUpsertErrors];
+export type ModelRunUpsertError = ModelRunUpsertErrors[keyof ModelRunUpsertErrors];
 
 export type ModelRunUpsertResponses = {
   /**
@@ -8820,8 +8709,7 @@ export type ModelRunUpsertResponses = {
   200: ModelRun;
 };
 
-export type ModelRunUpsertResponse =
-  ModelRunUpsertResponses[keyof ModelRunUpsertResponses];
+export type ModelRunUpsertResponse = ModelRunUpsertResponses[keyof ModelRunUpsertResponses];
 
 export type PromptListData = {
   body?: never;
@@ -8917,15 +8805,13 @@ export type AdminReleaseConnErrors = {
   400: ApiErrors;
 };
 
-export type AdminReleaseConnError =
-  AdminReleaseConnErrors[keyof AdminReleaseConnErrors];
+export type AdminReleaseConnError = AdminReleaseConnErrors[keyof AdminReleaseConnErrors];
 
 export type AdminReleaseConnResponses = {
   200: CommonResult;
 };
 
-export type AdminReleaseConnResponse =
-  AdminReleaseConnResponses[keyof AdminReleaseConnResponses];
+export type AdminReleaseConnResponse = AdminReleaseConnResponses[keyof AdminReleaseConnResponses];
 
 export type AdminResetDbData = {
   body?: never;
@@ -8947,8 +8833,7 @@ export type AdminResetDbResponses = {
   200: CommonResult;
 };
 
-export type AdminResetDbResponse =
-  AdminResetDbResponses[keyof AdminResetDbResponses];
+export type AdminResetDbResponse = AdminResetDbResponses[keyof AdminResetDbResponses];
 
 export type FrontendGetConfigData = {
   body?: never;
@@ -9015,8 +8900,7 @@ export type HfAccountGetResponses = {
   200: HfAccount;
 };
 
-export type HfAccountGetResponse =
-  HfAccountGetResponses[keyof HfAccountGetResponses];
+export type HfAccountGetResponse = HfAccountGetResponses[keyof HfAccountGetResponses];
 
 export type EnvListData = {
   body?: never;
@@ -9143,8 +9027,7 @@ export type EndpointListResponses = {
   200: EndpointList;
 };
 
-export type EndpointListResponse =
-  EndpointListResponses[keyof EndpointListResponses];
+export type EndpointListResponse = EndpointListResponses[keyof EndpointListResponses];
 
 export type EndpointUpdateData = {
   /**
@@ -9167,8 +9050,7 @@ export type EndpointUpdateErrors = {
   403: ApiError;
 };
 
-export type EndpointUpdateError =
-  EndpointUpdateErrors[keyof EndpointUpdateErrors];
+export type EndpointUpdateError = EndpointUpdateErrors[keyof EndpointUpdateErrors];
 
 export type EndpointUpdateResponses = {
   /**
@@ -9177,8 +9059,7 @@ export type EndpointUpdateResponses = {
   200: Endpoint;
 };
 
-export type EndpointUpdateResponse =
-  EndpointUpdateResponses[keyof EndpointUpdateResponses];
+export type EndpointUpdateResponse = EndpointUpdateResponses[keyof EndpointUpdateResponses];
 
 export type PlatformListData = {
   body?: never;
@@ -9213,8 +9094,7 @@ export type PlatformListResponses = {
   200: PlatformList;
 };
 
-export type PlatformListResponse =
-  PlatformListResponses[keyof PlatformListResponses];
+export type PlatformListResponse = PlatformListResponses[keyof PlatformListResponses];
 
 export type PlatformCreateData = {
   body: Platform;
@@ -9239,15 +9119,13 @@ export type PlatformCreateErrors = {
   403: ApiError;
 };
 
-export type PlatformCreateError =
-  PlatformCreateErrors[keyof PlatformCreateErrors];
+export type PlatformCreateError = PlatformCreateErrors[keyof PlatformCreateErrors];
 
 export type PlatformCreateResponses = {
   200: Platform;
 };
 
-export type PlatformCreateResponse =
-  PlatformCreateResponses[keyof PlatformCreateResponses];
+export type PlatformCreateResponse = PlatformCreateResponses[keyof PlatformCreateResponses];
 
 export type PlatformGetData = {
   body?: never;
@@ -9269,8 +9147,7 @@ export type PlatformGetResponses = {
   200: Platform;
 };
 
-export type PlatformGetResponse =
-  PlatformGetResponses[keyof PlatformGetResponses];
+export type PlatformGetResponse = PlatformGetResponses[keyof PlatformGetResponses];
 
 export type PlatformUpdateData = {
   /**
@@ -9302,8 +9179,7 @@ export type PlatformUpdateErrors = {
   403: ApiErrors;
 };
 
-export type PlatformUpdateError =
-  PlatformUpdateErrors[keyof PlatformUpdateErrors];
+export type PlatformUpdateError = PlatformUpdateErrors[keyof PlatformUpdateErrors];
 
 export type PlatformUpdateResponses = {
   /**
@@ -9312,8 +9188,7 @@ export type PlatformUpdateResponses = {
   200: Platform;
 };
 
-export type PlatformUpdateResponse =
-  PlatformUpdateResponses[keyof PlatformUpdateResponses];
+export type PlatformUpdateResponse = PlatformUpdateResponses[keyof PlatformUpdateResponses];
 
 export type PlatformAccountListData = {
   body?: never;
@@ -9342,8 +9217,7 @@ export type PlatformAccountListErrors = {
   404: ApiErrors;
 };
 
-export type PlatformAccountListError =
-  PlatformAccountListErrors[keyof PlatformAccountListErrors];
+export type PlatformAccountListError = PlatformAccountListErrors[keyof PlatformAccountListErrors];
 
 export type PlatformAccountListResponses = {
   200: PlatformAccountList;
@@ -9484,8 +9358,7 @@ export type BrowserListResponses = {
   200: BrowserList;
 };
 
-export type BrowserListResponse =
-  BrowserListResponses[keyof BrowserListResponses];
+export type BrowserListResponse = BrowserListResponses[keyof BrowserListResponses];
 
 export type BrowserCreateData = {
   body: Browser;
@@ -9516,8 +9389,7 @@ export type BrowserCreateResponses = {
   200: Browser;
 };
 
-export type BrowserCreateResponse =
-  BrowserCreateResponses[keyof BrowserCreateResponses];
+export type BrowserCreateResponse = BrowserCreateResponses[keyof BrowserCreateResponses];
 
 export type BrowserOpenData = {
   body: BrowserOpenRequest;
@@ -9546,8 +9418,7 @@ export type BrowserOpenResponses = {
   200: BrowserOpenResult;
 };
 
-export type BrowserOpenResponse =
-  BrowserOpenResponses[keyof BrowserOpenResponses];
+export type BrowserOpenResponse = BrowserOpenResponses[keyof BrowserOpenResponses];
 
 export type BrowserGetData = {
   body?: never;
@@ -9610,8 +9481,7 @@ export type BrowserUpdateResponses = {
   200: Browser;
 };
 
-export type BrowserUpdateResponse =
-  BrowserUpdateResponses[keyof BrowserUpdateResponses];
+export type BrowserUpdateResponse = BrowserUpdateResponses[keyof BrowserUpdateResponses];
 
 export type ProxyListData = {
   body?: never;
@@ -9710,8 +9580,7 @@ export type ProxyUpsertResponses = {
   200: Proxy;
 };
 
-export type ProxyUpsertResponse =
-  ProxyUpsertResponses[keyof ProxyUpsertResponses];
+export type ProxyUpsertResponse = ProxyUpsertResponses[keyof ProxyUpsertResponses];
 
 export type AgStateListData = {
   body?: never;
@@ -9742,8 +9611,7 @@ export type AgStateListResponses = {
   200: AgStateList;
 };
 
-export type AgStateListResponse =
-  AgStateListResponses[keyof AgStateListResponses];
+export type AgStateListResponse = AgStateListResponses[keyof AgStateListResponses];
 
 export type AgStateGetData = {
   body?: never;
@@ -9815,8 +9683,7 @@ export type AgStateUpsertResponses = {
   200: AgState;
 };
 
-export type AgStateUpsertResponse =
-  AgStateUpsertResponses[keyof AgStateUpsertResponses];
+export type AgStateUpsertResponse = AgStateUpsertResponses[keyof AgStateUpsertResponses];
 
 export type ChatMessagesListData = {
   body?: never;
@@ -9843,8 +9710,7 @@ export type ChatMessagesListErrors = {
   404: ApiErrors;
 };
 
-export type ChatMessagesListError =
-  ChatMessagesListErrors[keyof ChatMessagesListErrors];
+export type ChatMessagesListError = ChatMessagesListErrors[keyof ChatMessagesListErrors];
 
 export type ChatMessagesListResponses = {
   /**
@@ -9853,8 +9719,7 @@ export type ChatMessagesListResponses = {
   200: ChatMessageList;
 };
 
-export type ChatMessagesListResponse =
-  ChatMessagesListResponses[keyof ChatMessagesListResponses];
+export type ChatMessagesListResponse = ChatMessagesListResponses[keyof ChatMessagesListResponses];
 
 export type ChatSessionListData = {
   body?: never;
@@ -9874,15 +9739,13 @@ export type ChatSessionListErrors = {
   404: ApiErrors;
 };
 
-export type ChatSessionListError =
-  ChatSessionListErrors[keyof ChatSessionListErrors];
+export type ChatSessionListError = ChatSessionListErrors[keyof ChatSessionListErrors];
 
 export type ChatSessionListResponses = {
   200: ChatSessionList;
 };
 
-export type ChatSessionListResponse =
-  ChatSessionListResponses[keyof ChatSessionListResponses];
+export type ChatSessionListResponse = ChatSessionListResponses[keyof ChatSessionListResponses];
 
 export type ChatMessageUpsertData = {
   body: ChatMessageUpsert;
@@ -9901,8 +9764,7 @@ export type ChatMessageUpsertErrors = {
   403: ApiError;
 };
 
-export type ChatMessageUpsertError =
-  ChatMessageUpsertErrors[keyof ChatMessageUpsertErrors];
+export type ChatMessageUpsertError = ChatMessageUpsertErrors[keyof ChatMessageUpsertErrors];
 
 export type ChatMessageUpsertResponses = {
   200: ChatMessage;
@@ -9957,15 +9819,13 @@ export type ChatSessionGetErrors = {
   404: ApiErrors;
 };
 
-export type ChatSessionGetError =
-  ChatSessionGetErrors[keyof ChatSessionGetErrors];
+export type ChatSessionGetError = ChatSessionGetErrors[keyof ChatSessionGetErrors];
 
 export type ChatSessionGetResponses = {
   200: ChatSession;
 };
 
-export type ChatSessionGetResponse =
-  ChatSessionGetResponses[keyof ChatSessionGetResponses];
+export type ChatSessionGetResponse = ChatSessionGetResponses[keyof ChatSessionGetResponses];
 
 export type ChatSessionUpsertData = {
   body: ChatUpsert;
@@ -9988,8 +9848,7 @@ export type ChatSessionUpsertErrors = {
   403: ApiErrors;
 };
 
-export type ChatSessionUpsertError =
-  ChatSessionUpsertErrors[keyof ChatSessionUpsertErrors];
+export type ChatSessionUpsertError = ChatSessionUpsertErrors[keyof ChatSessionUpsertErrors];
 
 export type ChatSessionUpsertResponses = {
   200: ChatSession;
@@ -10027,8 +9886,7 @@ export type FlowStateListResponses = {
   200: FlowStateList;
 };
 
-export type FlowStateListResponse =
-  FlowStateListResponses[keyof FlowStateListResponses];
+export type FlowStateListResponse = FlowStateListResponses[keyof FlowStateListResponses];
 
 export type FlowStateGetData = {
   body?: never;
@@ -10068,8 +9926,7 @@ export type FlowStateGetResponses = {
   200: FlowState;
 };
 
-export type FlowStateGetResponse =
-  FlowStateGetResponses[keyof FlowStateGetResponses];
+export type FlowStateGetResponse = FlowStateGetResponses[keyof FlowStateGetResponses];
 
 export type FlowStateUpsertData = {
   /**
@@ -10099,15 +9956,13 @@ export type FlowStateUpsertErrors = {
   403: ApiErrors;
 };
 
-export type FlowStateUpsertError =
-  FlowStateUpsertErrors[keyof FlowStateUpsertErrors];
+export type FlowStateUpsertError = FlowStateUpsertErrors[keyof FlowStateUpsertErrors];
 
 export type FlowStateUpsertResponses = {
   200: FlowState;
 };
 
-export type FlowStateUpsertResponse =
-  FlowStateUpsertResponses[keyof FlowStateUpsertResponses];
+export type FlowStateUpsertResponse = FlowStateUpsertResponses[keyof FlowStateUpsertResponses];
 
 export type UiAgentGetData = {
   body?: never;
@@ -10151,15 +10006,13 @@ export type DispatcherListenErrors = {
   403: ApiError;
 };
 
-export type DispatcherListenError =
-  DispatcherListenErrors[keyof DispatcherListenErrors];
+export type DispatcherListenError = DispatcherListenErrors[keyof DispatcherListenErrors];
 
 export type DispatcherListenResponses = {
   200: AssignedAction;
 };
 
-export type DispatcherListenResponse =
-  DispatcherListenResponses[keyof DispatcherListenResponses];
+export type DispatcherListenResponse = DispatcherListenResponses[keyof DispatcherListenResponses];
 
 export type ResourceListData = {
   body?: never;
@@ -10189,8 +10042,7 @@ export type ResourceListResponses = {
   200: ResourceList;
 };
 
-export type ResourceListResponse =
-  ResourceListResponses[keyof ResourceListResponses];
+export type ResourceListResponse = ResourceListResponses[keyof ResourceListResponses];
 
 export type ResourceUpsertData = {
   body: ResourceUpsert;
@@ -10209,15 +10061,13 @@ export type ResourceUpsertErrors = {
   403: ApiError;
 };
 
-export type ResourceUpsertError =
-  ResourceUpsertErrors[keyof ResourceUpsertErrors];
+export type ResourceUpsertError = ResourceUpsertErrors[keyof ResourceUpsertErrors];
 
 export type ResourceUpsertResponses = {
   200: Resource;
 };
 
-export type ResourceUpsertResponse =
-  ResourceUpsertResponses[keyof ResourceUpsertResponses];
+export type ResourceUpsertResponse = ResourceUpsertResponses[keyof ResourceUpsertResponses];
 
 export type ResourceDeleteData = {
   body?: never;
@@ -10244,8 +10094,7 @@ export type ResourceDeleteErrors = {
   405: ApiErrors;
 };
 
-export type ResourceDeleteError =
-  ResourceDeleteErrors[keyof ResourceDeleteErrors];
+export type ResourceDeleteError = ResourceDeleteErrors[keyof ResourceDeleteErrors];
 
 export type ResourceDeleteResponses = {
   /**
@@ -10254,8 +10103,7 @@ export type ResourceDeleteResponses = {
   204: void;
 };
 
-export type ResourceDeleteResponse =
-  ResourceDeleteResponses[keyof ResourceDeleteResponses];
+export type ResourceDeleteResponse = ResourceDeleteResponses[keyof ResourceDeleteResponses];
 
 export type ResourceGetData = {
   body?: never;
@@ -10285,8 +10133,7 @@ export type ResourceGetResponses = {
   200: Resource;
 };
 
-export type ResourceGetResponse =
-  ResourceGetResponses[keyof ResourceGetResponses];
+export type ResourceGetResponse = ResourceGetResponses[keyof ResourceGetResponses];
 
 export type InstagramLoginData = {
   body?: IgLogin;
@@ -10310,8 +10157,7 @@ export type InstagramLoginErrors = {
   404: ApiErrors;
 };
 
-export type InstagramLoginError =
-  InstagramLoginErrors[keyof InstagramLoginErrors];
+export type InstagramLoginError = InstagramLoginErrors[keyof InstagramLoginErrors];
 
 export type InstagramLoginResponses = {
   /**
@@ -10320,8 +10166,7 @@ export type InstagramLoginResponses = {
   200: IgLoginResponse;
 };
 
-export type InstagramLoginResponse =
-  InstagramLoginResponses[keyof InstagramLoginResponses];
+export type InstagramLoginResponse = InstagramLoginResponses[keyof InstagramLoginResponses];
 
 export type AdkAppListData = {
   body?: never;
@@ -10372,8 +10217,7 @@ export type AdkAppUpsertResponses = {
   200: AdkApp;
 };
 
-export type AdkAppUpsertResponse =
-  AdkAppUpsertResponses[keyof AdkAppUpsertResponses];
+export type AdkAppUpsertResponse = AdkAppUpsertResponses[keyof AdkAppUpsertResponses];
 
 export type AdkAppGetData = {
   body?: never;
@@ -10426,15 +10270,13 @@ export type AdkSessionListErrors = {
   404: ApiErrors;
 };
 
-export type AdkSessionListError =
-  AdkSessionListErrors[keyof AdkSessionListErrors];
+export type AdkSessionListError = AdkSessionListErrors[keyof AdkSessionListErrors];
 
 export type AdkSessionListResponses = {
   200: AdkSessionList;
 };
 
-export type AdkSessionListResponse =
-  AdkSessionListResponses[keyof AdkSessionListResponses];
+export type AdkSessionListResponse = AdkSessionListResponses[keyof AdkSessionListResponses];
 
 export type AdkSessionUpsertData = {
   body: AdkSessionUpsert;
@@ -10453,15 +10295,13 @@ export type AdkSessionUpsertErrors = {
   403: ApiError;
 };
 
-export type AdkSessionUpsertError =
-  AdkSessionUpsertErrors[keyof AdkSessionUpsertErrors];
+export type AdkSessionUpsertError = AdkSessionUpsertErrors[keyof AdkSessionUpsertErrors];
 
 export type AdkSessionUpsertResponses = {
   200: AdkSession;
 };
 
-export type AdkSessionUpsertResponse =
-  AdkSessionUpsertResponses[keyof AdkSessionUpsertResponses];
+export type AdkSessionUpsertResponse = AdkSessionUpsertResponses[keyof AdkSessionUpsertResponses];
 
 export type AdkSessionGetData = {
   body?: never;
@@ -10495,8 +10335,7 @@ export type AdkSessionGetResponses = {
   200: AdkSession;
 };
 
-export type AdkSessionGetResponse =
-  AdkSessionGetResponses[keyof AdkSessionGetResponses];
+export type AdkSessionGetResponse = AdkSessionGetResponses[keyof AdkSessionGetResponses];
 
 export type AdkUserStateListData = {
   body?: never;
@@ -10516,15 +10355,13 @@ export type AdkUserStateListErrors = {
   404: ApiErrors;
 };
 
-export type AdkUserStateListError =
-  AdkUserStateListErrors[keyof AdkUserStateListErrors];
+export type AdkUserStateListError = AdkUserStateListErrors[keyof AdkUserStateListErrors];
 
 export type AdkUserStateListResponses = {
   200: AdkUserStateList;
 };
 
-export type AdkUserStateListResponse =
-  AdkUserStateListResponses[keyof AdkUserStateListResponses];
+export type AdkUserStateListResponse = AdkUserStateListResponses[keyof AdkUserStateListResponses];
 
 export type AdkUserStateUpsertData = {
   body: AdkUserStateUpsert;
@@ -10543,8 +10380,7 @@ export type AdkUserStateUpsertErrors = {
   403: ApiError;
 };
 
-export type AdkUserStateUpsertError =
-  AdkUserStateUpsertErrors[keyof AdkUserStateUpsertErrors];
+export type AdkUserStateUpsertError = AdkUserStateUpsertErrors[keyof AdkUserStateUpsertErrors];
 
 export type AdkUserStateUpsertResponses = {
   200: AdkUserState;
@@ -10575,15 +10411,13 @@ export type AdkUserStateGetErrors = {
   404: ApiErrors;
 };
 
-export type AdkUserStateGetError =
-  AdkUserStateGetErrors[keyof AdkUserStateGetErrors];
+export type AdkUserStateGetError = AdkUserStateGetErrors[keyof AdkUserStateGetErrors];
 
 export type AdkUserStateGetResponses = {
   200: AdkUserState;
 };
 
-export type AdkUserStateGetResponse =
-  AdkUserStateGetResponses[keyof AdkUserStateGetResponses];
+export type AdkUserStateGetResponse = AdkUserStateGetResponses[keyof AdkUserStateGetResponses];
 
 export type AdkEventsListData = {
   body?: never;
@@ -10615,8 +10449,7 @@ export type AdkEventsListResponses = {
   200: AdkEventList;
 };
 
-export type AdkEventsListResponse =
-  AdkEventsListResponses[keyof AdkEventsListResponses];
+export type AdkEventsListResponse = AdkEventsListResponses[keyof AdkEventsListResponses];
 
 export type AdkEventsUpsertData = {
   body: AdkEventUpsert;
@@ -10635,15 +10468,13 @@ export type AdkEventsUpsertErrors = {
   403: ApiError;
 };
 
-export type AdkEventsUpsertError =
-  AdkEventsUpsertErrors[keyof AdkEventsUpsertErrors];
+export type AdkEventsUpsertError = AdkEventsUpsertErrors[keyof AdkEventsUpsertErrors];
 
 export type AdkEventsUpsertResponses = {
   200: AdkEvent;
 };
 
-export type AdkEventsUpsertResponse =
-  AdkEventsUpsertResponses[keyof AdkEventsUpsertResponses];
+export type AdkEventsUpsertResponse = AdkEventsUpsertResponses[keyof AdkEventsUpsertResponses];
 
 export type AdkEventsGetData = {
   body?: never;
@@ -10676,8 +10507,7 @@ export type AdkEventsGetResponses = {
   200: AdkEvent;
 };
 
-export type AdkEventsGetResponse =
-  AdkEventsGetResponses[keyof AdkEventsGetResponses];
+export type AdkEventsGetResponse = AdkEventsGetResponses[keyof AdkEventsGetResponses];
 
 export type TkGetUserProfileData = {
   body: TkGetUserProfileRequest;
@@ -10696,15 +10526,13 @@ export type TkGetUserProfileErrors = {
   403: ApiErrors;
 };
 
-export type TkGetUserProfileError =
-  TkGetUserProfileErrors[keyof TkGetUserProfileErrors];
+export type TkGetUserProfileError = TkGetUserProfileErrors[keyof TkGetUserProfileErrors];
 
 export type TkGetUserProfileResponses = {
   200: TkUserProfile;
 };
 
-export type TkGetUserProfileResponse =
-  TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
+export type TkGetUserProfileResponse = TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
 
 export type TkAccountLoginData = {
   body: TkAccountLoginRequest;
@@ -10722,15 +10550,13 @@ export type TkAccountLoginErrors = {
   400: ApiErrors;
 };
 
-export type TkAccountLoginError =
-  TkAccountLoginErrors[keyof TkAccountLoginErrors];
+export type TkAccountLoginError = TkAccountLoginErrors[keyof TkAccountLoginErrors];
 
 export type TkAccountLoginResponses = {
   200: TkAccountLoginResult;
 };
 
-export type TkAccountLoginResponse =
-  TkAccountLoginResponses[keyof TkAccountLoginResponses];
+export type TkAccountLoginResponse = TkAccountLoginResponses[keyof TkAccountLoginResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
