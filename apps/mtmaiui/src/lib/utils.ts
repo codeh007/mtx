@@ -1,26 +1,4 @@
-import type {
-  CoreAssistantMessage,
-  CoreMessage,
-  CoreToolMessage,
-  Message,
-} from "ai";
-// import type { APIErrors } from "mtmaiapi/api/generated/cloud/data-contracts";
-
-// export function getFieldErrors(apiErrors: APIErrors): Record<string, string> {
-//   const fieldErrors: Record<string, string> = {};
-
-//   if (!apiErrors.errors) {
-//     return fieldErrors;
-//   }
-
-//   for (const error of apiErrors.errors) {
-//     if (error.field && error.description) {
-//       fieldErrors[error.field] = error.description;
-//     }
-//   }
-
-//   return fieldErrors;
-// }
+import type { CoreAssistantMessage, CoreMessage, CoreToolMessage, Message } from "ai";
 
 interface ApplicationError extends Error {
   info: string;
@@ -31,9 +9,7 @@ export const fetcher = async (url: string) => {
   const res = await fetch(url);
 
   if (!res.ok) {
-    const error = new Error(
-      "An error occurred while fetching the data.",
-    ) as ApplicationError;
+    const error = new Error("An error occurred while fetching the data.") as ApplicationError;
 
     error.info = await res.json();
     error.status = res.status;
@@ -43,13 +19,6 @@ export const fetcher = async (url: string) => {
 
   return res.json();
 };
-
-// export function getLocalStorage(key: string) {
-//   if (typeof window !== "undefined") {
-//     return JSON.parse(localStorage.getItem(key) || "[]");
-//   }
-//   return [];
-// }
 
 export function getLocalStorage(name: string, stringify = true): any {
   if (typeof window !== "undefined") {
@@ -73,84 +42,6 @@ export function setLocalStorage(name: string, value: any, stringify = true) {
     localStorage.setItem(name, value);
   }
 }
-
-// function addToolMessageToChat({
-//   toolMessage,
-//   messages,
-// }: {
-//   toolMessage: CoreToolMessage;
-//   messages: Array<Message>;
-// }): Array<Message> {
-//   return messages.map((message) => {
-//     if (message.toolInvocations) {
-//       return {
-//         ...message,
-//         toolInvocations: message.toolInvocations.map((toolInvocation) => {
-//           const toolResult = toolMessage.content.find(
-//             (tool) => tool.toolCallId === toolInvocation.toolCallId,
-//           );
-
-//           if (toolResult) {
-//             return {
-//               ...toolInvocation,
-//               state: "result",
-//               result: toolResult.result,
-//             };
-//           }
-
-//           return toolInvocation;
-//         }),
-//       };
-//     }
-
-//     return message;
-//   });
-// }
-
-// export function convertToUIMessages(
-//   messages: Array<DBMessage>,
-// ): Array<Message> {
-//   return messages.reduce((chatMessages: Array<Message>, message) => {
-//     if (message.role === "tool") {
-//       return addToolMessageToChat({
-//         toolMessage: message as CoreToolMessage,
-//         messages: chatMessages,
-//       });
-//     }
-
-//     let textContent = "";
-//     const toolInvocations: Array<ToolInvocation> = [];
-
-//     if (typeof message.content === "string") {
-//       textContent = message.content;
-//     } else if (Array.isArray(message.content)) {
-//       for (const content of message.content) {
-//         if (content.type === "text") {
-//           textContent += content.text;
-//         } else if (
-//           content.type === "tool-call" ||
-//           content.type === "tool_call"
-//         ) {
-//           toolInvocations.push({
-//             state: "call",
-//             toolCallId: content.toolCallId || content.tool_call?.id,
-//             toolName: content.toolName,
-//             args: content.args,
-//           });
-//         }
-//       }
-//     }
-
-//     chatMessages.push({
-//       id: message.id,
-//       role: message.role as Message["role"],
-//       content: textContent,
-//       toolInvocations,
-//     });
-
-//     return chatMessages;
-//   }, []);
-// }
 
 export function sanitizeResponseMessages(
   messages: Array<CoreToolMessage | CoreAssistantMessage>,
@@ -186,9 +77,7 @@ export function sanitizeResponseMessages(
     };
   });
 
-  return messagesBySanitizedContent.filter(
-    (message) => message.content.length > 0,
-  );
+  return messagesBySanitizedContent.filter((message) => message.content.length > 0);
 }
 
 export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
@@ -207,8 +96,7 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
 
     const sanitizedToolInvocations = message.toolInvocations.filter(
       (toolInvocation) =>
-        toolInvocation.state === "result" ||
-        toolResultIds.includes(toolInvocation.toolCallId),
+        toolInvocation.state === "result" || toolResultIds.includes(toolInvocation.toolCallId),
     );
 
     return {
@@ -219,8 +107,7 @@ export function sanitizeUIMessages(messages: Array<Message>): Array<Message> {
 
   return messagesBySanitizedToolInvocations.filter(
     (message) =>
-      message.content.length > 0 ||
-      (message.toolInvocations && message.toolInvocations.length > 0),
+      message.content.length > 0 || (message.toolInvocations && message.toolInvocations.length > 0),
   );
 }
 

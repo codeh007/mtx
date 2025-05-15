@@ -1,7 +1,7 @@
 import { streamObject } from "ai";
 import { z } from "zod";
-import { sheetPrompt, updateDocumentPrompt } from "../../lib/ai/prompts";
-import { myProvider } from "../../lib/ai/providers";
+import { sheetPrompt, updateDocumentPrompt } from "../../../agent_utils/prompts";
+import { myProvider } from "../../../agent_utils/providers";
 import { createDocumentHandler } from "../../lib/artifacts/server";
 
 export const sheetDocumentHandler = createDocumentHandler<"sheet">({

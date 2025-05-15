@@ -7,28 +7,11 @@ import { DataTable } from "mtxuilib/data-table/data-table";
 import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
 import { DashHeaders } from "mtxuilib/mt/DashContent";
 import { GoBack } from "mtxuilib/mt/GoBack";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "mtxuilib/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "mtxuilib/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "mtxuilib/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "mtxuilib/ui/select";
 import { useTenantId } from "../../hooks/useAuth";
-import { useNav } from "../../hooks/useNav";
 import { useMtmaiV2 } from "../../stores/StoreProvider";
 import { useWorkflowRunStore } from "../../stores/workflowRunStore";
 import { workflowRunsColumns } from "./components/workflow-runs-columns";
@@ -40,7 +23,6 @@ export const Route = createLazyFileRoute("/workflow-runs/")({
 function RouteComponent() {
   const tid = useTenantId();
   const search = Route.useSearch();
-  const nav = useNav();
 
   const {
     createdAfter,
@@ -511,14 +493,10 @@ function RouteComponent() {
   const setPageSize = useWorkflowRunStore((x) => x.setPageSize);
   const offset = useWorkflowRunStore((x) => x.offset);
   const setOffset = useWorkflowRunStore((x) => x.setOffset);
-  const onAdditionalMetadataClick = useWorkflowRunStore(
-    (x) => x.onAdditionalMetadataClick,
-  );
+  const onAdditionalMetadataClick = useWorkflowRunStore((x) => x.onAdditionalMetadataClick);
   const pagination = useWorkflowRunStore((x) => x.pagination);
   const setPagination = useWorkflowRunStore((x) => x.setPagination);
-  const listWorkflowRunsData = useWorkflowRunStore(
-    (x) => x.listWorkflowRunsData,
-  );
+  const listWorkflowRunsData = useWorkflowRunStore((x) => x.listWorkflowRunsData);
   // const setListWorkflowRunsData = useWorkflowRunStore((x) => x.setListWorkflowRunsData);
   return (
     <MtSuspenseBoundary>
@@ -607,9 +585,7 @@ function RouteComponent() {
                   } else {
                     setCustomTimeRange([
                       getCreatedAfterFromTimeRange(value) ||
-                        new Date(
-                          Date.now() - 24 * 60 * 60 * 1000,
-                        ).toISOString(),
+                        new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
                       new Date().toISOString(),
                     ]);
                   }

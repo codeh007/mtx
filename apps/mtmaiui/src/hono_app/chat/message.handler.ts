@@ -1,11 +1,11 @@
+import { getDbV3 } from "@mtmaiui/db/dbClientV3";
 import { eq } from "drizzle-orm";
-import { getDb } from "../../db/dbClientV2";
 import { chatMessage } from "../../db/schema";
 import { createRouter } from "../agent_api/lib/createApp";
 
 export const chatMessageRouter = createRouter();
 
-chatMessageRouter.get("/", async (c) => {
+chatMessageRouter.get("/list", async (c) => {
   const chatId = c.req.query("chatId");
 
   if (!chatId) {
@@ -17,7 +17,7 @@ chatMessageRouter.get("/", async (c) => {
     );
   }
 
-  const chatMessages = await getDb()
+  const chatMessages = await getDbV3()
     .select()
     .from(chatMessage)
     .where(eq(chatMessage.chatId, chatId));

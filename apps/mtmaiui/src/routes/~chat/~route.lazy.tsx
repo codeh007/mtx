@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
 import { WorkflowsProvider } from "../../stores/workflow-store";
@@ -29,7 +30,9 @@ function RouteComponent() {
                 </BreadcrumbList>
               </Breadcrumb>
             </DashHeaders> */}
-            <Outlet />
+            <MtSuspenseBoundary>
+              <Outlet />
+            </MtSuspenseBoundary>
           </RootAppWrapper>
         </WorkflowsProvider>
       </WorkbrenchProvider>

@@ -16,8 +16,8 @@ import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useNav } from "../../../hooks/useNav";
 import { useWorkflowRun } from "../../../hooks/useWorkflowRun";
+import { RootRoute } from "../../~__root";
 import { PlatformAccountHeader } from "./headers";
 
 export const Route = createLazyFileRoute("/platform-account/new")({
@@ -27,7 +27,7 @@ export const Route = createLazyFileRoute("/platform-account/new")({
 function RouteComponent() {
   const queryClient = useQueryClient();
   const toast = useToast();
-  const nav = useNav();
+  const nav = RootRoute.useNavigate();
 
   const { handleRun, workflowRunData, workflowRunMutation } = useWorkflowRun(
     FlowNames.PLATFORM_ACCOUNT_LOGIN,

@@ -26,6 +26,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      "@mtmaiui": path.resolve(__dirname, "./src"),
       mtmaiapi: path.resolve(__dirname, "../../packages/mtmaiapi/src"),
       mtxuilib: path.resolve(__dirname, "../../packages/mtxuilib/src"),
     },

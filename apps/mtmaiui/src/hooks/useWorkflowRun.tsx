@@ -1,15 +1,12 @@
 "use client";
 
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import {
-  workflowRunCreateMutation,
-  workflowRunGetShapeOptions,
-} from "mtmaiapi";
+import { workflowRunCreateMutation, workflowRunGetShapeOptions } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useCallback, useState } from "react";
+import { Route } from "../routes/~__root";
 import { useTenantId } from "./useAuth";
-import { useNav } from "./useNav";
 export const useWorkflowRunShape = (runId: string) => {
   const tid = useTenantId();
   const shape = useSuspenseQuery({
@@ -42,7 +39,7 @@ export const useWorkflowRun = (workflowName: string, payload: any) => {
   const toast = useToast();
 
   const [workflowRunData, setWorkflowRunData] = useState<any>(null);
-  const nav = useNav();
+  const nav = Route.useNavigate();
   const handleShow = useCallback(
     (runId: string) => {
       nav({ to: `/workflow-runs/${runId}` });

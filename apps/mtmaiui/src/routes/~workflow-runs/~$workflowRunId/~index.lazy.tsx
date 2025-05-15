@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useNav } from "../../../hooks/useNav";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
+import { RootRoute } from "../../~__root";
 import { RunSummary } from "../components/RunSummary";
 import { StepRunEvents } from "../components/step-run-events-for-workflow-run";
 
@@ -11,7 +11,7 @@ export const Route = createLazyFileRoute("/workflow-runs/$workflowRunId/")({
 function RouteComponent() {
   const { workflowRunId } = Route.useParams();
   const { shape } = useWorkflowRunShape(workflowRunId);
-  const nav = useNav();
+  const nav = RootRoute.useNavigate();
 
   return (
     <div className="mx-auto max-w-7xl pt-2 px-4 sm:px-6 lg:px-8">

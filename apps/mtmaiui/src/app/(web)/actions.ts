@@ -2,9 +2,8 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "mtxuilib/db/queries/queries";
-
 import { signIn } from "../../components/auth/auth";
+import { createUser, getUser } from "../../db/queries";
 
 const authFormSchema = z.object({
   email: z.string().email(),
@@ -15,10 +14,7 @@ export interface LoginActionState {
   status: "idle" | "in_progress" | "success" | "failed" | "invalid_data";
 }
 
-export const login = async (
-  _: LoginActionState,
-  formData: FormData,
-): Promise<LoginActionState> => {
+export const login = async (_: LoginActionState, formData: FormData): Promise<LoginActionState> => {
   try {
     const validatedData = authFormSchema.parse({
       email: formData.get("email"),
@@ -42,13 +38,7 @@ export const login = async (
 };
 
 export interface RegisterActionState {
-  status:
-    | "idle"
-    | "in_progress"
-    | "success"
-    | "failed"
-    | "user_exists"
-    | "invalid_data";
+  status: "idle" | "in_progress" | "success" | "failed" | "user_exists" | "invalid_data";
 }
 
 export const register = async (

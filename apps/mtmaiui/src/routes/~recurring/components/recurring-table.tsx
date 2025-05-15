@@ -1,4 +1,5 @@
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { RootRoute } from "@mtmaiui/routes/~__root";
 import { useQuery } from "@tanstack/react-query";
 import type {
   ColumnFiltersState,
@@ -23,13 +24,12 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import { useEffect, useMemo, useState } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useSearch } from "../../../hooks/useNav";
 import { DeleteCron } from "./delete-cron";
 import { columns } from "./recurring-columns";
 
 export function CronsTable() {
   const tid = useTenantId();
-  const { sort } = useSearch();
+  const { sort } = RootRoute.useSearch();
 
   const [sorting, setSorting] = useState<SortingState>(() => {
     const sortParam = sort;
@@ -84,16 +84,12 @@ export function CronsTable() {
     return vals[0];
   }, [columnFilters]);
 
-  const orderByDirection = useMemo<
-    WorkflowRunOrderByDirection | undefined
-  >(() => {
+  const orderByDirection = useMemo<WorkflowRunOrderByDirection | undefined>(() => {
     if (!sorting.length) {
       return;
     }
 
-    return sorting[0]?.desc
-      ? WorkflowRunOrderByDirection.DESC
-      : WorkflowRunOrderByDirection.ASC;
+    return sorting[0]?.desc ? WorkflowRunOrderByDirection.DESC : WorkflowRunOrderByDirection.ASC;
   }, [sorting]);
 
   const orderByField = useMemo<CronWorkflowsOrderByField | undefined>(() => {
@@ -154,9 +150,7 @@ export function CronsTable() {
     refetchInterval: 2000,
   });
 
-  const [showDeleteCron, setShowDeleteCron] = useState<
-    CronWorkflows | undefined
-  >();
+  const [showDeleteCron, setShowDeleteCron] = useState<CronWorkflows | undefined>();
 
   const handleDeleteClick = (cron: CronWorkflows) => {
     setShowDeleteCron(cron);

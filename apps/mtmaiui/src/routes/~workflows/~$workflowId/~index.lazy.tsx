@@ -31,7 +31,7 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { Separator } from "mtxuilib/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
-import { useNav } from "../../../hooks/useNav";
+import { RootRoute } from "../../~__root";
 import { WorkflowTriggerBtn } from "../WorkflowTriggerBtn";
 import WorkflowGeneralSettings from "../components/workflow-general-settings";
 import { WorkflowTags } from "../components/workflow-tags";
@@ -41,7 +41,7 @@ export const Route = createLazyFileRoute("/workflows/$workflowId/")({
 
 export default function ExpandedWorkflow() {
   const { workflowId } = Route.useParams();
-  const nav = useNav();
+  const nav = RootRoute.useNavigate();
   const [selectedVersion] = useState<string | undefined>();
   const [deleteWorkflow, setDeleteWorkflow] = useState(false);
 
@@ -197,8 +197,7 @@ export default function ExpandedWorkflow() {
               </div>
               <div className="flex flex-row justify-start items-center mt-4">
                 <div className="text-sm text-gray-700 dark:text-gray-300">
-                  Updated{" "}
-                  {relativeDate(workflow.versions?.[0].metadata.updatedAt)}
+                  Updated {relativeDate(workflow.versions?.[0].metadata.updatedAt)}
                 </div>
               </div>
               {workflow.description && (
@@ -226,17 +225,12 @@ export default function ExpandedWorkflow() {
                   </MtSuspenseBoundary>
                 </TabsContent>
                 <TabsContent value="settings">
-                  <h3 className="text-xl font-bold leading-tight text-foreground mt-4">
-                    Settings
-                  </h3>
+                  <h3 className="text-xl font-bold leading-tight text-foreground mt-4">Settings</h3>
                   <Separator className="my-4" />
-                  {workflowVersionQuery.isLoading ||
-                  !workflowVersionQuery.data ? (
+                  {workflowVersionQuery.isLoading || !workflowVersionQuery.data ? (
                     <MtLoading />
                   ) : (
-                    <WorkflowGeneralSettings
-                      workflow={workflowVersionQuery.data}
-                    />
+                    <WorkflowGeneralSettings workflow={workflowVersionQuery.data} />
                   )}
                   {/* <Separator className="my-4" />
                   {hasGithubIntegration && (

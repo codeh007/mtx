@@ -1,31 +1,15 @@
 "use client";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "mtxuilib/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "mtxuilib/ui/sheet";
 
-import {
-  useCanGoBack,
-  useLocation,
-  useNavigate,
-  useRouterState,
-} from "@tanstack/react-router";
+import { useCanGoBack, useLocation, useNavigate, useRouterState } from "@tanstack/react-router";
 import type { Gallery } from "mtmaiapi";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "mtxuilib/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "mtxuilib/ui/dialog";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { useNav } from "../hooks/useNav";
 
 export interface ModalProps {
   defaultGallery?: Gallery;
@@ -43,12 +27,11 @@ interface ModalState extends ModalProps {
   children: React.ReactNode;
   setChildren: (children: React.ReactNode) => void;
 }
-export const createModelStoreSlice: StateCreator<
-  ModalState,
-  [],
-  [],
-  ModalState
-> = (set, get, init) => {
+export const createModelStoreSlice: StateCreator<ModalState, [], [], ModalState> = (
+  set,
+  get,
+  init,
+) => {
   return {
     open: false,
     setOpen: (open: boolean) => set({ open }),
@@ -78,9 +61,7 @@ const createModalStore = (initProps?: Partial<ModalState>) => {
     ),
   );
 };
-const mtmaiStoreContext = createContext<ReturnType<
-  typeof createModalStore
-> | null>(null);
+const mtmaiStoreContext = createContext<ReturnType<typeof createModalStore> | null>(null);
 
 type AppProviderProps = React.PropsWithChildren<ModalProps>;
 export const ModalProvider = (props: AppProviderProps) => {
@@ -103,10 +84,7 @@ export function useModelStore<T>(selector?: (state: ModalState) => T) {
   if (!store) throw new Error("useModelStore must in ModalProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -118,7 +96,6 @@ const ModalDisplay = () => {
   const setOpen = useModelStore((x) => x.setOpen);
   const children = useModelStore((x) => x.children);
   const variant = useModelStore((x) => x.variant);
-  const nav = useNav();
   const backLink = useModelStore((x) => x.backLink);
   const r = useRouterState();
   const n = useNavigate();
@@ -197,7 +174,5 @@ export const ModelContent = ({ children }: ModelContentProps) => {
       </DialogContent>
     );
   }
-  return (
-    <SheetContent className="w-full sm:max-w-5xl">{children}</SheetContent>
-  );
+  return <SheetContent className="w-full sm:max-w-5xl">{children}</SheetContent>;
 };

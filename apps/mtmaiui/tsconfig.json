@@ -21,13 +21,13 @@
       "src/types/worker-configuration.d.ts"
     ],
     "moduleResolution": "bundler",
-    "rootDir": ".",
-    // "baseUrl": "./src",
-    // "paths": {
-    //   "mtmaiui": [
-    //     "./src/*"
-    //   ]
-    // },
+    // "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "@mtmaiui/*": ["./src/*"]
+      // mtmaiapi: path.resolve(__dirname, "../../packages/mtmaiapi/src"),
+      // mtxuilib: path.resolve(__dirname, "../../packages/mtxuilib/src"),
+    },
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

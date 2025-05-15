@@ -3,15 +3,12 @@ import { FlowNames } from "mtmaiapi";
 import FlowForm from "../../../../../components/flow-form/FlowForm";
 import { FlowTenantFields } from "../../../../../components/flow-form/flow-forms/FlowTenantFields";
 
-export const Route = createLazyFileRoute(
-  "/workflows/$workflowId/trigger/tenant/",
-)({
+export const Route = createLazyFileRoute("/workflows/$workflowId/trigger/tenant/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   // const toast = useToast();
-  // const nav = useNav();
   // const handleNavToWorkflowRun = (id: string) => {
   //   nav({
   //     to: `/workflow-runs/${id}`,

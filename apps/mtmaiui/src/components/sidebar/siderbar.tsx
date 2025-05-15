@@ -16,11 +16,7 @@ import { frontendGetSiderbarOptions } from "mtmaiapi";
 import { useIsMobile } from "mtxuilib/hooks/use-mobile";
 import { IconX } from "mtxuilib/icons/icons";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "mtxuilib/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "mtxuilib/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,8 +43,7 @@ import {
 } from "mtxuilib/ui/sidebar";
 import Link from "next/link";
 import React, { useTransition } from "react";
-
-import { useNav } from "../../hooks/useNav";
+import { Route } from "../../routes/~__root";
 import { example_data } from "./example_data";
 import { NavUser } from "./siderbarnav-user";
 
@@ -63,7 +58,7 @@ export const DashSidebar = (props: DashSidebarProps) => {
   const [mails, setMails] = React.useState(example_data.mails);
   const [activeItem, setActiveItem] = React.useState(example_data.navMain[0]);
   const { setOpen } = useSidebar();
-  const nav = useNav();
+  const nav = Route.useNavigate();
   return (
     <Sidebar
       collapsible="icon"
@@ -73,10 +68,7 @@ export const DashSidebar = (props: DashSidebarProps) => {
       {/* This is the first sidebar */}
       {/* We disable collapsible and adjust width to icon. */}
       {/* This will make the sidebar appear as icons. */}
-      <Sidebar
-        collapsible="none"
-        className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
-      >
+      <Sidebar collapsible="none" className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r">
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -107,15 +99,8 @@ export const DashSidebar = (props: DashSidebarProps) => {
                       }}
                       onClick={() => {
                         setActiveItem(item);
-                        const mail = example_data.mails.sort(
-                          () => Math.random() - 0.5,
-                        );
-                        setMails(
-                          mail.slice(
-                            0,
-                            Math.max(5, Math.floor(Math.random() * 10) + 1),
-                          ),
-                        );
+                        const mail = example_data.mails.sort(() => Math.random() - 0.5);
+                        setMails(mail.slice(0, Math.max(5, Math.floor(Math.random() * 10) + 1)));
                         setOpen(true);
                         startTransition(() => {
                           nav({ to: item.url });
@@ -349,9 +334,7 @@ export const SidebarMenuView = () => {
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && (
-                    <IconX name={item.icon} className="size-5 m-0 p-0" />
-                  )}
+                  {item.icon && <IconX name={item.icon} className="size-5 m-0 p-0" />}
                   <span className="text-lg font-semibold">{item.title}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
@@ -362,12 +345,7 @@ export const SidebarMenuView = () => {
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <CustomLink to={subItem.url}>
-                          {subItem.icon && (
-                            <IconX
-                              name={subItem.icon}
-                              className="size-5 m-0 p-0"
-                            />
-                          )}
+                          {subItem.icon && <IconX name={subItem.icon} className="size-5 m-0 p-0" />}
                           <span>{subItem.title}</span>
                         </CustomLink>
                       </SidebarMenuSubButton>

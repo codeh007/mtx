@@ -1,18 +1,13 @@
 "use client";
 import { Download, Play, Save } from "lucide-react";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { TeamBuilderToolbar } from "../../../../components/autogen_views/team/builder/toolbar";
 import { ValidationErrors } from "../../../../components/autogen_views/team/builder/validationerrors";
-import { useNav } from "../../../../hooks/useNav";
 import { useTeamBuilderStore } from "../../../../stores/teamBuildStore";
+import { RootRoute } from "../../../~__root";
 
 interface TeamBuilderHeaderProps {
   comId: string;
@@ -21,7 +16,6 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
   const isDirty = useTeamBuilderStore((x) => x.isDirty);
   const validationResults = useTeamBuilderStore((x) => x.validationResults);
   const handleSave = useTeamBuilderStore((x) => x.handleSave);
-  const nav = useNav();
   const isJsonMode = useTeamBuilderStore((x) => x.isJsonMode);
   const isFullscreen = useTeamBuilderStore((x) => x.isFullscreen);
   const showGrid = useTeamBuilderStore((x) => x.showGrid);
@@ -36,7 +30,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
   const setShowGrid = useTeamBuilderStore((x) => x.setShowGrid);
   const setIsFullscreen = useTeamBuilderStore((x) => x.setIsFullscreen);
   const component = useTeamBuilderStore((x) => x.component);
-
+  const nav = RootRoute.useNavigate();
   return (
     <DashHeaders>
       <Breadcrumb>
@@ -96,12 +90,7 @@ export function TeamBuilderHeader({ comId }: TeamBuilderHeaderProps) {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                onClick={handleSave}
-                variant="outline"
-                disabled={!isDirty}
-                size="icon"
-              >
+              <Button onClick={handleSave} variant="outline" disabled={!isDirty} size="icon">
                 <div className="relative">
                   <Save className="size-4" />
                   {isDirty && (

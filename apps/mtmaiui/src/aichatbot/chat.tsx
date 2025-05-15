@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { unstable_serialize } from "swr/infinite";
 import type { Vote } from "../db/schema";
-import { useNav } from "../hooks/useNav";
+import { Route } from "../routes/~__root";
 import { Artifact } from "./artifact";
 import { ChatHeader } from "./chat-header";
 import { useArtifactSelector } from "./hooks/use-artifact";
@@ -89,7 +89,7 @@ export function Chat({
 
   const [hasAppendedQuery, setHasAppendedQuery] = useState(false);
 
-  const nav = useNav();
+  const nav = Route.useNavigate();
 
   useEffect(() => {
     if (query && !hasAppendedQuery) {

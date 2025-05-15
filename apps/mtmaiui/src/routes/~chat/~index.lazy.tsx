@@ -5,14 +5,12 @@ import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { DEFAULT_CHAT_MODEL } from "../../agent_utils/models";
 import { Chat } from "../../aichatbot/chat";
 import { DataStreamHandler } from "../../aichatbot/data-stream-handler";
-import { useNav } from "../../hooks/useNav";
 
 export const Route = createLazyFileRoute("/chat/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const nav = useNav();
   const sessionId = generateUUID();
   return (
     <>

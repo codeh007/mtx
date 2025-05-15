@@ -8,7 +8,7 @@ import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { type PropsWithChildren, useEffect } from "react";
-import { useNav } from "../../hooks/useNav";
+import { Route } from "../../routes/~__root";
 
 interface FlowFormProps {
   workflowName: FlowNames;
@@ -20,7 +20,7 @@ export default function FlowForm({
   children,
   className,
 }: PropsWithChildren<FlowFormProps>) {
-  const nav = useNav();
+  const nav = Route.useNavigate();
   const toast = useToast();
 
   const handleNavToWorkflowRun = (id: string) => {
@@ -119,9 +119,7 @@ export default function FlowForm({
   };
 
   useEffect(() => {
-    const subscription = form.form.watch((value, { name, type }) =>
-      console.log(value, name, type),
-    );
+    const subscription = form.form.watch((value, { name, type }) => console.log(value, name, type));
     return () => subscription.unsubscribe();
   }, [form.form.watch]);
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "@tanstack/react-router";
 import { Download, Save } from "lucide-react";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import {
@@ -12,11 +13,10 @@ import {
 } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
-import { useParams } from "../../../../hooks/useNav";
 import { SetDefaultSettingBtn } from "./SetDefaultSettingBtn";
 
 export function TenantSettingHeader() {
-  const { tenantSettingId } = useParams();
+  const { tenantSettingId } = useParams({});
   return (
     <DashHeaders>
       <Breadcrumb>

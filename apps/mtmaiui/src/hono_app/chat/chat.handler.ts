@@ -17,7 +17,6 @@ import { createDocument } from "../../agents/tools/create-document";
 import { requestSuggestions } from "../../agents/tools/request-suggestions";
 import { updateDocument } from "../../agents/tools/update-document";
 // import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
-// import { isProductionEnvironment } from "../../aichatbot/lib/constants";
 import { getTrailingMessageId, isProductionEnvironment } from "../../aichatbot/lib/utils";
 import { getDbV3 } from "../../db/dbClientV3";
 import {
@@ -30,8 +29,7 @@ import {
   saveChat,
   saveMessages,
 } from "../../db/queries";
-import { type Chat, chat } from "../../db/schema";
-import { getStreamContext } from "../../lib/aisdk_utils";
+import { stream, type Chat, chat } from "../../db/schema";
 import { type UserType, auth } from "../../lib/auth/auth";
 import { createRouter } from "../agent_api/lib/createApp";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
@@ -203,11 +201,11 @@ chatRouter.post("/sse", async (c) => {
       },
     });
 
-    const streamContext = getStreamContext();
+    // const streamContext = getStreamContext();
 
-    if (streamContext) {
-      return new Response(await streamContext.resumableStream(streamId, () => stream));
-    }
+    // if (streamContext) {
+    //   return new Response(await streamContext.resumableStream(streamId, () => stream));
+    // }
     return new Response(stream);
   } catch (err: any) {
     console.error(`Failed to process chat request, error: ${err}`);
@@ -219,12 +217,12 @@ chatRouter.post("/sse", async (c) => {
 
 chatRouter.get("/", async (c) => {
   const request = c.req.raw;
-  const streamContext = getStreamContext();
+  // const streamContext = getStreamContext();
   const resumeRequestedAt = new Date();
 
-  if (!streamContext) {
-    return new Response(null, { status: 204 });
-  }
+  // if (!streamContext) {
+  //   return new Response(null, { status: 204 });
+  // }
 
   const { searchParams } = new URL(request.url);
   const chatId = searchParams.get("chatId");
@@ -271,7 +269,7 @@ chatRouter.get("/", async (c) => {
     execute: () => {},
   });
 
-  const stream = await streamContext.resumableStream(recentStreamId, () => emptyDataStream);
+  // const stream = await streamContext.resumableStream(recentStreamId, () => emptyDataStream);
 
   /*
    * For when the generation is streaming during SSR

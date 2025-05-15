@@ -8,8 +8,8 @@ import {
 } from "mtmaiapi";
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
+import { Route } from "../routes/~__root";
 import { useMtmaiV2 } from "../stores/StoreProvider";
-import { useNav } from "./useNav";
 
 export const useUser = () => {
   const userQuery = useQuery({
@@ -31,11 +31,11 @@ export const useIsAdmin = () => {
 };
 
 export const useLoginHandler = () => {
-  const nav = useNav()
+  const nav = Route.useNavigate();
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-  
+
   const login = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
@@ -81,8 +81,7 @@ export function useSessionLoader() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const computedCurrTenant = useMemo(() => {
     const findTenant = (tenantId: string) => {
-      return memberships?.find((m) => m.tenant?.metadata.id === tenantId)
-        ?.tenant;
+      return memberships?.find((m) => m.tenant?.metadata.id === tenantId)?.tenant;
     };
 
     // const currTenantId = searchParams.get("tenant") || undefined;

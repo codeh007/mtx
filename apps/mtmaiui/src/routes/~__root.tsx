@@ -38,6 +38,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
 });
 
+export const RootRoute = Route;
 // export const Route = createRootRoute({
 //   head: () => ({
 //     meta: [

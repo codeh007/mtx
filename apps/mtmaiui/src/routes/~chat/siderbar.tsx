@@ -12,13 +12,11 @@ import {
   SidebarHeader,
 } from "mtxuilib/ui/sidebar";
 
-import { useQuery } from "@tanstack/react-query";
-import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../components/chatv2/app_select";
-import { MtmaiuiConfig } from "../../lib/config";
+// import { MtmaiuiConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 
 export function NavChat() {
@@ -29,13 +27,13 @@ export function NavChat() {
     return `/chat/${uuid}`;
   }, []);
 
-  const chatSessionQuery = useQuery({
-    queryKey: ["chatSessionList"],
-    queryFn: async () => {
-      const response = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/chat/session/list`);
-      return response.json();
-    },
-  });
+  // const chatSessionQuery = useQuery({
+  //   queryKey: ["chatSessionList"],
+  //   queryFn: async () => {
+  //     const response = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/chat/session/list`);
+  //     return response.json();
+  //   },
+  // });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -61,10 +59,10 @@ export function NavChat() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {isDebug && <DebugValue data={{ data: chatSessionQuery.data }} />}
+            {/* {isDebug && <DebugValue data={{ data: chatSessionQuery.data }} />}
             {chatSessionQuery.data?.rows?.map((item) => (
               <NavAdkSessionItem key={item.id} item={item} rowId={item.id} />
-            ))}
+            ))} */}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

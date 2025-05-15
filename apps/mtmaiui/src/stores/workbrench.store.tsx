@@ -406,7 +406,6 @@ const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore>
 
 export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
-  // const nav = useNav();
   const [isPending, startTransition] = useTransition();
   const tenant = useTenant();
   const workflowRunCreate = useMutation({

@@ -1,9 +1,4 @@
-// import { cookies } from "next/headers";
-// import { notFound, redirect } from "next/navigation";
-
 import type { Attachment, UIMessage } from "ai";
-import { after } from "next/server";
-import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
 import type { DBChatMessage } from "../db/schema";
 export function convertToUIMessages(messages: Array<DBChatMessage>): Array<UIMessage> {
   return messages.map((message) => ({
@@ -38,22 +33,25 @@ export function convertToUIMessages(messages: Array<DBChatMessage>): Array<UIMes
 //   await updateChatVisiblityById({ chatId, visibility });
 // }
 
-let globalStreamContext: ResumableStreamContext | null = null;
+// 备忘:
+//import { after } from "next/server";
+// import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
+// let globalStreamContext: ResumableStreamContext | null = null;
 
-export function getStreamContext() {
-  if (!globalStreamContext) {
-    try {
-      globalStreamContext = createResumableStreamContext({
-        waitUntil: after,
-      });
-    } catch (error: any) {
-      if (error.message.includes("REDIS_URL")) {
-        console.log(" > Resumable streams are disabled due to missing REDIS_URL");
-      } else {
-        console.error(error);
-      }
-    }
-  }
+// export function getStreamContext() {
+//   if (!globalStreamContext) {
+//     try {
+//       globalStreamContext = createResumableStreamContext({
+//         waitUntil: after,
+//       });
+//     } catch (error: any) {
+//       if (error.message.includes("REDIS_URL")) {
+//         console.log(" > Resumable streams are disabled due to missing REDIS_URL");
+//       } else {
+//         console.error(error);
+//       }
+//     }
+//   }
 
-  return globalStreamContext;
-}
+//   return globalStreamContext;
+// }

@@ -5,6 +5,7 @@ import CronPrettifier from "cronstrue";
 
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import {
   type WorkflowRunShape,
   WorkflowRunStatus,
@@ -26,7 +27,6 @@ import {
 import { Button } from "mtxuilib/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { useTenant, useTenantId } from "../../../hooks/useAuth";
-import { useParams } from "../../../hooks/useNav";
 import { useWorkflowRunShape } from "../../../hooks/useWorkflowRun";
 
 interface RunDetailHeaderProps {
@@ -41,10 +41,7 @@ export const WORKFLOW_RUN_TERMINAL_STATUSES = [
   WorkflowRunStatus.SUCCEEDED,
 ];
 
-export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
-  data,
-  loading,
-}) => {
+export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({ data, loading }) => {
   const tenant = useTenant();
   const tid = useTenantId();
 
@@ -55,7 +52,7 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
     ...workflowRunUpdateReplayMutation(),
   });
 
-  const { workflowRunId } = useParams();
+  const { workflowRunId } = useParams({});
   const { shape } = useWorkflowRunShape(workflowRunId);
 
   const additionalMetadata = shape.data?.additionalMetadata;
@@ -139,10 +136,7 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                     </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="additional-metadata">
-                    <TabsTrigger
-                      variant="underlined"
-                      value="additional-metadata"
-                    >
+                    <TabsTrigger variant="underlined" value="additional-metadata">
                       元数据
                     </TabsTrigger>
                   </CustomLink>
@@ -155,10 +149,7 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
                     </TabsTrigger>
                   </CustomLink>
                   <CustomLink to="chat">
-                    <TabsTrigger
-                      variant="underlined"
-                      value="agent_visualization"
-                    >
+                    <TabsTrigger variant="underlined" value="agent_visualization">
                       交互
                     </TabsTrigger>
                   </CustomLink>
@@ -173,9 +164,7 @@ export const RunDetailHeader: React.FC<RunDetailHeaderProps> = ({
             parentWorkflowRunId={data.triggeredBy.parentWorkflowRunId}
           />
         )}
-        {data.triggeredBy?.eventId && (
-          <TriggeringEventSection eventId={data.triggeredBy.eventId} />
-        )}
+        {data.triggeredBy?.eventId && <TriggeringEventSection eventId={data.triggeredBy.eventId} />}
         {data.triggeredBy?.cronSchedule && (
           <TriggeringCronSection cron={data.triggeredBy.cronSchedule} />
         )}
@@ -242,9 +231,7 @@ function TriggeringEventSection({ eventId }: { eventId: string }) {
 }
 
 function TriggeringCronSection({ cron }: { cron: string }) {
-  const prettyInterval = `runs ${CronPrettifier.toString(
-    cron,
-  ).toLowerCase()} UTC`;
+  const prettyInterval = `runs ${CronPrettifier.toString(cron).toLowerCase()} UTC`;
 
   return (
     <div className="text-sm text-gray-700 dark:text-gray-300">

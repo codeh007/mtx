@@ -63,8 +63,9 @@ import {
   isToolComponent,
   isWebSurferAgent,
 } from "../components/autogen_views/types/guards";
-import { useNav } from "../hooks/useNav";
+import type { useNav } from "../hooks/useNav";
 import type { ComponentConfig } from "../types/datamodel";
+import { RootRoute } from "@tanstack/react-router";
 
 const MAX_HISTORY = 50;
 export interface DragItemData {
@@ -147,10 +148,7 @@ export interface TeamBuilderState extends TeamBuilderProps {
   handleSave: () => Promise<void>;
   onConnect: (params: Connection) => void;
   newHistoryState: () => void;
-  validateDropTarget: (
-    draggedType: ComponentTypes,
-    targetType: ComponentTypes,
-  ) => boolean;
+  validateDropTarget: (draggedType: ComponentTypes, targetType: ComponentTypes) => boolean;
   nav: ReturnType<typeof useNav>;
 
   handleSaveV2: (teamValues: any) => void;
@@ -172,8 +170,7 @@ const buildTeamComponent = (
   const participants = participantEdges
     .map((edge) => {
       const agentNode = nodes.find((n) => n.id === edge.target);
-      if (!agentNode || !isAgentComponent(agentNode.data.component))
-        return null;
+      if (!agentNode || !isAgentComponent(agentNode.data.component)) return null;
       return agentNode.data.component;
     })
     .filter((agent) => agent !== null);
@@ -189,12 +186,11 @@ const buildTeamComponent = (
   };
 };
 
-export const createWorkbrenchSlice: StateCreator<
-  TeamBuilderState,
-  [],
-  [],
-  TeamBuilderState
-> = (set, get, init) => {
+export const createWorkbrenchSlice: StateCreator<TeamBuilderState, [], [], TeamBuilderState> = (
+  set,
+  get,
+  init,
+) => {
   return {
     setNodes: (nodes: CustomNode[]) => {
       console.log("setNodes", nodes);
@@ -218,9 +214,7 @@ export const createWorkbrenchSlice: StateCreator<
               position: node.position,
             };
             // 更新所有节点
-            const updatedNodes = get().nodes.map((n) =>
-              n.id === node.id ? updatedNode : n,
-            );
+            const updatedNodes = get().nodes.map((n) => (n.id === node.id ? updatedNode : n));
             set({ nodes: updatedNodes });
             // 添加到历史记录
             get().addToHistory();
@@ -274,10 +268,7 @@ export const createWorkbrenchSlice: StateCreator<
     setTeamJson: (teamJson: string) => {
       set({ teamJson });
     },
-    validateDropTarget: (
-      draggedType: ComponentTypes,
-      targetType: ComponentTypes,
-    ): boolean => {
+    validateDropTarget: (draggedType: ComponentTypes, targetType: ComponentTypes): boolean => {
       // console.log("validateDropTarget", draggedType, targetType);
       const validTargets: Record<ComponentTypes, ComponentTypes[]> = {
         model: ["team", "agent"],
@@ -372,11 +363,7 @@ export const createWorkbrenchSlice: StateCreator<
         currentHistoryIndex: get().currentHistoryIndex + 1,
       });
     },
-    addNode: (
-      position: Position,
-      component: MtComponent,
-      targetNodeId: string,
-    ) => {
+    addNode: (position: Position, component: MtComponent, targetNodeId: string) => {
       // Deep clone the incoming component to avoid reference issues
       const clonedComponent = JSON.parse(JSON.stringify(component.config));
       console.log("addNode", { component, targetNodeId, position });
@@ -533,18 +520,11 @@ export const createWorkbrenchSlice: StateCreator<
         let teamNode = newNodes.find((n) => isTeamComponent(n.data.component));
         if (teamNode) {
           // Ensure unique agent name
-          if (
-            isAssistantAgent(clonedComponent) &&
-            isTeamComponent(teamNode.data.component)
-          ) {
+          if (isAssistantAgent(clonedComponent) && isTeamComponent(teamNode.data.component)) {
             // console.log("teamNode222", teamNode);
-            const existingAgents =
-              teamNode.data.component.config.participants || [];
+            const existingAgents = teamNode.data.component.config.participants || [];
             const existingNames = existingAgents?.map((p) => p.config.name);
-            clonedComponent.config.name = getUniqueName(
-              clonedComponent.config.name,
-              existingNames,
-            );
+            clonedComponent.config.name = getUniqueName(clonedComponent.config.name, existingNames);
           }
           // console.log("clonedComponent", clonedComponent);
           const newNode = {
@@ -610,8 +590,10 @@ export const createWorkbrenchSlice: StateCreator<
         }
       }
 
-      const { nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedElements(newNodes, newEdges);
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        newNodes,
+        newEdges,
+      );
 
       get().newHistoryState();
       set({
@@ -649,10 +631,7 @@ export const createWorkbrenchSlice: StateCreator<
           const isTeamWithUpdatedAgent =
             isTeamComponent(node.data.component) &&
             get().edges.some(
-              (e) =>
-                e.type === "agent-connection" &&
-                e.target === nodeId &&
-                e.source === node.id,
+              (e) => e.type === "agent-connection" && e.target === nodeId && e.source === node.id,
             );
 
           if (isTeamWithUpdatedAgent && isTeamComponent(node.data.component)) {
@@ -667,13 +646,10 @@ export const createWorkbrenchSlice: StateCreator<
                   config: {
                     ...node.data.component.config,
                     participants:
-                      node.data.component.config.participants?.map(
-                        (participant) =>
-                          participant ===
-                          get().nodes.find((n) => n.id === nodeId)?.data
-                            .component
-                            ? updates.component
-                            : participant,
+                      node.data.component.config.participants?.map((participant) =>
+                        participant === get().nodes.find((n) => n.id === nodeId)?.data.component
+                          ? updates.component
+                          : participant,
                       ) || [],
                   },
                 },
@@ -742,13 +718,9 @@ export const createWorkbrenchSlice: StateCreator<
               .forEach((e) => collectNodesToRemove(e.target));
           } else if (isAgentComponent(node.data.component)) {
             // Update team's participants if agent is connected to a team
-            const teamEdge = connectedEdges.find(
-              (e) => e.type === "agent-connection",
-            );
+            const teamEdge = connectedEdges.find((e) => e.type === "agent-connection");
             if (teamEdge) {
-              const teamNode = state.nodes.find(
-                (n) => n.id === teamEdge.source,
-              );
+              const teamNode = state.nodes.find((n) => n.id === teamEdge.source);
               if (teamNode && isTeamComponent(teamNode.data.component)) {
                 const updatedTeamNode = {
                   ...teamNode,
@@ -758,10 +730,9 @@ export const createWorkbrenchSlice: StateCreator<
                       ...teamNode.data.component,
                       config: {
                         ...teamNode.data.component.config,
-                        participants:
-                          teamNode.data.component.config.participants.filter(
-                            (p) => !isEqual(p, node.data.component),
-                          ),
+                        participants: teamNode.data.component.config.participants.filter(
+                          (p) => !isEqual(p, node.data.component),
+                        ),
                       },
                     },
                   },
@@ -782,8 +753,7 @@ export const createWorkbrenchSlice: StateCreator<
 
         // Remove all affected edges
         const newEdges = state.edges.filter(
-          (edge) =>
-            !nodesToRemove.has(edge.source) && !nodesToRemove.has(edge.target),
+          (edge) => !nodesToRemove.has(edge.source) && !nodesToRemove.has(edge.target),
         );
 
         return {
@@ -886,8 +856,7 @@ export const createWorkbrenchSlice: StateCreator<
 
     layoutNodes: () => {
       const { nodes, edges } = get();
-      const { nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedElements(nodes, edges);
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges);
 
       set({
         nodes: layoutedNodes,
@@ -944,8 +913,7 @@ export const createWorkbrenchSlice: StateCreator<
       console.log("loadFromJson", config);
       // Get graph representation of team config
       const { nodes, edges } = convertTeamConfigToGraph(config);
-      const { nodes: layoutedNodes, edges: layoutedEdges } =
-        getLayoutedElements(nodes, edges);
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(nodes, edges);
 
       if (isInitialLoad) {
         // Initial load - reset history
@@ -1067,7 +1035,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
   // const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   // const [edges, setEdges, onEdgesChange] = useEdgesState<CustomEdge>([]);
   const tid = useTenantId();
-  const nav = useNav();
+  const nav = RootRoute.useNavigate();
   const upsertComponent = useMutation({
     ...comsUpsertMutation(),
   });
@@ -1124,8 +1092,7 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
         e.returnValue = "";
       };
       window.addEventListener("beforeunload", handleBeforeUnload);
-      return () =>
-        window.removeEventListener("beforeunload", handleBeforeUnload);
+      return () => window.removeEventListener("beforeunload", handleBeforeUnload);
     }
   }, [store]);
   return (
@@ -1144,21 +1111,13 @@ export const TeamBuilderProvider = (props: AppProviderProps) => {
 
 const DEFAULT_USE_SHALLOW = false;
 export function useTeamBuilderStore(): TeamBuilderState;
-export function useTeamBuilderStore<T>(
-  selector: (state: TeamBuilderState) => T,
-): T;
-export function useTeamBuilderStore<T>(
-  selector?: (state: TeamBuilderState) => T,
-) {
+export function useTeamBuilderStore<T>(selector: (state: TeamBuilderState) => T): T;
+export function useTeamBuilderStore<T>(selector?: (state: TeamBuilderState) => T) {
   const store = useContext(mtmaiStoreContext);
-  if (!store)
-    throw new Error("useTeamBuilderStore must in TeamBuilderProvider");
+  if (!store) throw new Error("useTeamBuilderStore must in TeamBuilderProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

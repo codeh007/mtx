@@ -4,7 +4,7 @@ import type { UseChatHelpers } from "@ai-sdk/react";
 import { motion } from "framer-motion";
 import { Button } from "mtxuilib/ui/button";
 import { memo } from "react";
-import { useNav } from "../hooks/useNav";
+import { Route } from "../routes/~__root";
 import type { VisibilityType } from "./visibility-selector";
 const suggestedActions = [
   {
@@ -41,8 +41,7 @@ interface SuggestedActionsProps {
 }
 
 function PureSuggestedActions({ chatId, append, selectedVisibilityType }: SuggestedActionsProps) {
-  const nav = useNav();
-
+  const nav = Route.useNavigate();
   return (
     <div data-testid="suggested-actions" className="grid sm:grid-cols-2 gap-2 w-full">
       {suggestedActions.map((suggestedAction, index) => (

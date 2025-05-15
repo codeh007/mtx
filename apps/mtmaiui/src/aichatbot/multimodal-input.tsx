@@ -22,7 +22,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { Button } from "mtxuilib/ui/button";
 import { Textarea } from "mtxuilib/ui/textarea";
-import { useNav } from "../hooks/useNav";
+import { Route } from "../routes/~__root";
 import { useScrollToBottom } from "./hooks/use-scroll-to-bottom";
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import { PreviewAttachment } from "./preview-attachment";
@@ -107,7 +107,7 @@ function PureMultimodalInput({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
-  const nav = useNav();
+  const nav = Route.useNavigate();
 
   const submitForm = useCallback(() => {
     // window.history.replaceState({}, "", `/chat/${chatId}`);

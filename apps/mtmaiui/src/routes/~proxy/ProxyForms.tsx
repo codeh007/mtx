@@ -5,24 +5,18 @@ import { proxyListQueryKey, proxyUpsertMutation } from "mtmaiapi";
 import { zProxyUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useFormContext } from "react-hook-form";
 import type { z } from "zod";
 import { useTenantId } from "../../hooks/useAuth";
-import { useNav } from "../../hooks/useNav";
+import { RootRoute } from "../~__root";
 import { ProxySelect } from "./ProxySelect";
 
 export function ProxyForm() {
   const tid = useTenantId();
   const queryClient = useQueryClient();
-  const nav = useNav();
+  const nav = RootRoute.useNavigate();
   const upsertProxyMutation = useMutation({
     ...proxyUpsertMutation({}),
     onSuccess: (data) => {

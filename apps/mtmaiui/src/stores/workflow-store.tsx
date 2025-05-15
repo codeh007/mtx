@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  ArrowPathIcon,
-  ArrowPathRoundedSquareIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
-import {
-  type UseQueryResult,
-  useMutation,
-  useQuery,
-} from "@tanstack/react-query";
+import { ArrowPathIcon, ArrowPathRoundedSquareIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { RootRoute } from "@mtmaiui/routes/~__root";
+import { type UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import type {
   ColumnFiltersState,
   PaginationState,
@@ -32,7 +25,6 @@ import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
-import { useSearch } from "../hooks/useNav";
 import type { AdditionalMetadataClick } from "../routes/~events/additional-metadata";
 import { useMtmaiV2 } from "./StoreProvider";
 
@@ -76,12 +68,11 @@ export interface WorkflowStoreState extends ComponentsProps {
   listWorkflowQuery: UseQueryResult<WorkflowList>;
 }
 
-export const createWorkbrenchSlice: StateCreator<
-  WorkflowStoreState,
-  [],
-  [],
-  WorkflowStoreState
-> = (set, get, init) => {
+export const createWorkbrenchSlice: StateCreator<WorkflowStoreState, [], [], WorkflowStoreState> = (
+  set,
+  get,
+  init,
+) => {
   return {
     isPending: false,
     viewQueueMetrics: false,
@@ -123,16 +114,11 @@ const createWorkflowStore = (initProps?: Partial<WorkflowStoreState>) => {
     ),
   );
 };
-const workflowStoreContext = createContext<ReturnType<
-  typeof createWorkflowStore
-> | null>(null);
+const workflowStoreContext = createContext<ReturnType<typeof createWorkflowStore> | null>(null);
 
-export const WorkflowsProvider = (
-  props: React.PropsWithChildren<ComponentsProps>,
-) => {
+export const WorkflowsProvider = (props: React.PropsWithChildren<ComponentsProps>) => {
   const { children, ...etc } = props;
   const tid = useTenantId();
-  // const nav = useNav();
   // const [isPending, startTransition] = useTransition();
   const {
     createdAfter,
@@ -151,19 +137,17 @@ export const WorkflowsProvider = (
     pageIndex = 0,
     pageSize = 50,
     // backTo = "/workflow-runs",
-  } = useSearch();
+  } = RootRoute.useSearch();
 
-  const [customTimeRange, setCustomTimeRange] = useState<string[] | undefined>(
-    () => {
-      // const timeRangeParam = search.get("customTimeRange");
-      if (timeRangeParam) {
-        return timeRangeParam?.split(",").map((param) => {
-          return new Date(param).toISOString();
-        });
-      }
-      return undefined;
-    },
-  );
+  const [customTimeRange, setCustomTimeRange] = useState<string[] | undefined>(() => {
+    // const timeRangeParam = search.get("customTimeRange");
+    if (timeRangeParam) {
+      return timeRangeParam?.split(",").map((param) => {
+        return new Date(param).toISOString();
+      });
+    }
+    return undefined;
+  });
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [rotate, setRotate] = useState(false);
@@ -217,9 +201,7 @@ export const WorkflowsProvider = (
       variant={"outline"}
       aria-label="Refresh events list"
     >
-      <ArrowPathIcon
-        className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`}
-      />
+      <ArrowPathIcon className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`} />
     </Button>,
   ];
 
@@ -304,10 +286,7 @@ export const WorkflowsProvider = (
     // onError: handleApiError,
   });
 
-  const onAdditionalMetadataClick = ({
-    key,
-    value,
-  }: AdditionalMetadataClick) => {
+  const onAdditionalMetadataClick = ({ key, value }: AdditionalMetadataClick) => {
     setColumnFilters((prev) => {
       let newFilters = prev;
       const metadataFilter = prev.find((filter) => filter.id === "Metadata");
@@ -336,29 +315,18 @@ export const WorkflowsProvider = (
       }),
     [listWorkflowQuery],
   );
-  return (
-    <workflowStoreContext.Provider value={mystore}>
-      {children}
-    </workflowStoreContext.Provider>
-  );
+  return <workflowStoreContext.Provider value={mystore}>{children}</workflowStoreContext.Provider>;
 };
 
 const DEFAULT_USE_SHALLOW = false;
 export function useWorkflowsStore(): WorkflowStoreState;
-export function useWorkflowsStore<T>(
-  selector: (state: WorkflowStoreState) => T,
-): T;
-export function useWorkflowsStore<T>(
-  selector?: (state: WorkflowStoreState) => T,
-) {
+export function useWorkflowsStore<T>(selector: (state: WorkflowStoreState) => T): T;
+export function useWorkflowsStore<T>(selector?: (state: WorkflowStoreState) => T) {
   const store = useContext(workflowStoreContext);
   if (!store) throw new Error("useWorkflowsStore must in WorkflowsProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
