@@ -1,5 +1,3 @@
-import { cookies } from "next/headers";
-
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
@@ -19,11 +17,6 @@ export default async function Page() {
   }
 
   const id = generateUUID();
-
-  const cookieStore = await cookies();
-  const modelIdFromCookie = cookieStore.get("chat-model");
-  const chatModel = modelIdFromCookie ? modelIdFromCookie.value : DEFAULT_CHAT_MODEL;
-
   return (
     <>
       <WorkbrenchProvider>
@@ -36,7 +29,7 @@ export default async function Page() {
               key={id}
               id={id}
               initialMessages={[]}
-              initialChatModel={chatModel}
+              initialChatModel={DEFAULT_CHAT_MODEL}
               initialVisibilityType="private"
               isReadonly={false}
               session={session}

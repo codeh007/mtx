@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -40,24 +39,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const messagesFromDb = await getMessagesByChatId({
     id,
   });
-
-  const cookieStore = await cookies();
-  const chatModelFromCookie = cookieStore.get("chat-model");
-  const chatModel = chatModelFromCookie ? chatModelFromCookie.value : DEFAULT_CHAT_MODEL;
-
   return (
     <>
-      {/* <Chat
-        id={chat.id}
-        initialMessages={convertToUIMessages(messagesFromDb)}
-        initialChatModel={chatModel}
-        initialVisibilityType={chat.visibility}
-        isReadonly={session?.user?.id !== chat.userId}
-        session={session}
-        autoResume={true}
-        api="/api/chat/chat_v2"
-      />
-      <DataStreamHandler id={id} /> */}
       <WorkbrenchProvider>
         <MtSuspenseBoundary>
           <AppSidebar user={session?.user} />
@@ -68,7 +51,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               key={id}
               id={id}
               initialMessages={convertToUIMessages(messagesFromDb)}
-              initialChatModel={chatModel}
+              initialChatModel={DEFAULT_CHAT_MODEL}
               initialVisibilityType="private"
               isReadonly={false}
               session={session}

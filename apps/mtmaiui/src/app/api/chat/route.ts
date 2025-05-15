@@ -1,8 +1,10 @@
 import { geolocation } from "@vercel/functions";
 import {
+  type UIMessage,
   appendClientMessage,
   appendResponseMessages,
   createDataStream,
+  generateText,
   smoothStream,
   streamText,
 } from "ai";
@@ -10,7 +12,7 @@ import { differenceInSeconds } from "date-fns";
 import { generateUUID } from "mtxuilib/lib/sslib";
 import { after } from "next/server";
 import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
-import { generateTitleFromUserMessage } from "../../(chat)/actions";
+// import { generateTitleFromUserMessage } from "../../(chat)/actions";
 import { type RequestHints, systemPrompt } from "../../../aichatbot/lib/ai/prompts";
 import { myProvider } from "../../../aichatbot/lib/ai/providers";
 import { createDocument } from "../../../aichatbot/lib/ai/tools/create-document";
@@ -53,6 +55,24 @@ function getStreamContext() {
   }
 
   return globalStreamContext;
+}
+
+export async function generateTitleFromUserMessage({
+  message,
+}: {
+  message: UIMessage;
+}) {
+  const { text: title } = await generateText({
+    model: myProvider.languageModel("title-model"),
+    system: `\n
+    - you will generate a short title based on the first message a user begins a conversation with
+    - ensure it is not more than 80 characters long
+    - the title should be a summary of the user's message
+    - do not use quotes or colons`,
+    prompt: JSON.stringify(message),
+  });
+
+  return title;
 }
 
 export async function POST(request: Request) {
