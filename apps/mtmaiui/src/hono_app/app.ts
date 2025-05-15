@@ -12,6 +12,7 @@ import { envsRouter } from "./envs/envs.handler";
 import { mqRouter } from "./mq/mq.handler";
 import { scriptRouter } from "./scripts/scripts.handler";
 import gomtmProxyRouter from "./v1/v1_route";
+import { r2Router } from "./r2/r2.handler";
 const app = createApp().basePath("/api");
 
 // app.use("*", async (c, next) => {
@@ -68,7 +69,7 @@ app.use("*", cors());
 // configureAgents(app);
 // configureAgentDemo(app);
 
-// app.route("/r2/", r2Router);
+app.route("/r2/", r2Router);
 app.route("/scripts/", scriptRouter);
 app.route("/envs/", envsRouter);
 // app.route("/workflows/", workflowsRoute);

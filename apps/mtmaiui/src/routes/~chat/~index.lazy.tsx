@@ -12,7 +12,7 @@ function RouteComponent() {
     <div>
       <Button
         onClick={() => {
-          nav({ to: "/chat_v2/sessionId/new" });
+          nav({ to: "/chat/sessionId/new" });
         }}
       >
         new chat
