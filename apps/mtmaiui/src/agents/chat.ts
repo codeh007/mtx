@@ -14,7 +14,6 @@ import {
 import postgres from "postgres";
 
 import { appendResponseMessages } from "ai";
-import { sleep } from "mtxuilib/lib/utils";
 import { z } from "zod";
 import type {
   ChatAgentIncomingMessage,
@@ -22,11 +21,12 @@ import type {
   ChatAgentState,
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
-import { taskmq_submit } from "../agent_utils/dbfn/taskmq";
-import { toolGenShortVideo, toolQueryTasksToRun, toolSmolagent } from "../agent_utils/tools2";
+import { get_taskmq_result, taskmq_submit } from "../agent_utils/dbfn/taskmq";
+import { toolGenShortVideo, toolQueryTasksToRun } from "../agent_utils/tools2";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
 
+import { sleep } from "mtxuilib/lib/utils";
 import { tools } from "./tools";
 import { convertScheduleToScheduledItem } from "./utils";
 
@@ -108,7 +108,8 @@ export class Chat extends ChatAgentBase<ChatAgentState> {
             tools: {
               ...tools,
               ...toolGenShortVideo(this.env),
-              ...toolSmolagent(this.env, this.ctx),
+              // ...toolSmolagent(this.env, this.ctx),
+              ...this.toolSmolagent2(),
               ...this.toolRunNextTask(),
               // ...toolSchedule(this.env, this, this.onSchedule, userInput),
             },
@@ -125,8 +126,8 @@ export class Chat extends ChatAgentBase<ChatAgentState> {
         },
       });
 
-      const a = sleep(10000);
-      this.ctx.waitUntil(a);
+      // const a = sleep(10000);
+      // this.ctx.waitUntil(a);
       // return dataStreamResponse;
       return dataStreamResponse;
     } catch (e: any) {
@@ -156,50 +157,6 @@ export class Chat extends ChatAgentBase<ChatAgentState> {
       }
     }
   }
-
-  // toolSmolagent(env: Env) {
-  //   return {
-  //     smolagent: tool({
-  //       description: "运行 python 代码,解决复杂问题的agent",
-  //       parameters: z.object({
-  //         task: z.string().describe(`任务描述,例子1:如何生成一个短视频,
-  //         例子2: 289.882乘以180.34减去3098.120, 结果保留两位小数,最终结果是多少?
-  //         `),
-  //       }),
-  //       execute: async ({ task }) => {
-  //         try {
-  //           const mq_task_id = (
-  //             await taskmq_submit(env.HYPERDRIVE.connectionString, "smolagent", {
-  //               task_type: "smolagent",
-  //               input: task,
-  //             })
-  //           ).at(0)?.task_id;
-
-  //           if (!mq_task_id) {
-  //             return "任务提交失败";
-  //           }
-  //           const sleep_seconds = 2;
-  //           const max_wait_seconds = 120;
-
-  //           let wait_seconds = 0;
-  //           while (wait_seconds < max_wait_seconds) {
-  //             // console.log(`等待任务结果: ${wait_seconds}秒`);
-  //             const result = await get_taskmq_result(env.HYPERDRIVE.connectionString, mq_task_id);
-  //             if (result) {
-  //               return result;
-  //             }
-  //             await sleep(sleep_seconds * 1000);
-  //             wait_seconds += sleep_seconds;
-  //           }
-
-  //           return "获取任务结果超时";
-  //         } catch (e: any) {
-  //           return { error: e.message, stack: e.stack };
-  //         }
-  //       },
-  //     }),
-  //   };
-  // }
 
   toolRunNextTask() {
     return {
@@ -322,8 +279,9 @@ export class Chat extends ChatAgentBase<ChatAgentState> {
             tools: {
               // ...tools,
               // ...toolGenShortVideo(this.env),
-              ...toolSmolagent(this.env),
+              // ...toolSmolagent(this.env),
               ...toolQueryTasksToRun(this.env),
+              ...this.toolSmolagent2(),
             },
             maxSteps: 10,
             onFinish: async (result) => {
@@ -352,6 +310,91 @@ export class Chat extends ChatAgentBase<ChatAgentState> {
     } catch (e: any) {
       this.handleException(e);
     }
+  }
+
+  async pullTaskResult(payload: { mq_task_id: string }, schedule: Schedule<string>) {
+    // console.log(`等待任务结果: ${wait_seconds}秒`);
+    const result = await get_taskmq_result(
+      this.env.HYPERDRIVE.connectionString,
+      payload.mq_task_id,
+    );
+    if (result) {
+      this.log(`pullTaskResult: ${payload.mq_task_id} 完成`);
+
+      // return result;
+    } else {
+      this.log(`pullTaskResult: ${payload.mq_task_id} 未完成`);
+      const retrySchedule = await this.schedule(5, "pullTaskResult", {
+        mq_task_id: payload.mq_task_id,
+      });
+      this.notifySchedule(retrySchedule);
+    }
+  }
+
+  toolSmolagent2() {
+    return {
+      smolagent: tool({
+        description: "运行 python 代码,解决复杂问题的agent",
+        parameters: z.object({
+          task: z.string().describe(`任务描述,例子1:如何生成一个短视频,
+          例子2: 289.882乘以180.34减去3098.120, 结果保留两位小数,最终结果是多少?
+          `),
+        }),
+        execute: async ({ task }) => {
+          try {
+            const mq_task_id = (
+              await taskmq_submit(this.env.HYPERDRIVE.connectionString, "smolagent", {
+                task_type: "smolagent",
+                input: task,
+              })
+            ).at(0)?.task_id;
+
+            if (!mq_task_id) {
+              return "任务提交失败";
+            }
+            const sleep_seconds = 2;
+            const max_wait_seconds = 120;
+
+            let wait_seconds = 0;
+
+            const scheduleResult = await this.schedule(sleep_seconds, "pullTaskResult", {
+              mq_task_id,
+            });
+            this.notifySchedule(scheduleResult);
+
+            const myPromise = new Promise((resolve, reject) => {
+              const checkResult = async () => {
+                while (wait_seconds < max_wait_seconds) {
+                  // console.log(`等待任务结果: ${wait_seconds}秒`);
+                  const result = await get_taskmq_result(
+                    this.env.HYPERDRIVE.connectionString,
+                    mq_task_id,
+                  );
+                  if (result) {
+                    resolve(result);
+                    return;
+                  }
+                  await sleep(sleep_seconds * 1000);
+                  wait_seconds += sleep_seconds;
+                }
+                resolve("获取任务结果超时");
+              };
+              this.ctx.waitUntil(checkResult().catch(reject));
+            });
+
+            this.ctx.waitUntil(myPromise);
+            const result = await myPromise;
+            if (result) {
+              return result;
+            }
+
+            return "获取任务结果超时";
+          } catch (e: any) {
+            return { error: e.message, stack: e.stack };
+          }
+        },
+      }),
+    };
   }
 
   async callLlmWriteStory() {
