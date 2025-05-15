@@ -8,12 +8,11 @@ import {
 } from "ai";
 import { differenceInSeconds } from "date-fns";
 import { generateUUID } from "mtxuilib/lib/sslib";
-import { after } from "next/server";
-import { type ResumableStreamContext, createResumableStreamContext } from "resumable-stream";
+
 import { type RequestHints, systemPrompt } from "../../aichatbot/lib/ai/prompts";
 import { myProvider } from "../../aichatbot/lib/ai/providers";
 import { createDocument } from "../../aichatbot/lib/ai/tools/create-document";
-import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
+// import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
 import { requestSuggestions } from "../../aichatbot/lib/ai/tools/request-suggestions";
 import { updateDocument } from "../../aichatbot/lib/ai/tools/update-document";
 import { isProductionEnvironment } from "../../aichatbot/lib/constants";
@@ -29,43 +28,14 @@ import {
   saveMessages,
 } from "../../db/queries";
 import type { Chat } from "../../db/schema";
+import { getStreamContext } from "../../lib/aisdk_utils";
 import { type UserType, auth } from "../../lib/auth/auth";
 import { createRouter } from "../agent_api/lib/createApp";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 
 export const maxDuration = 60;
-
-let globalStreamContext: ResumableStreamContext | null = null;
-
-function getStreamContext() {
-  if (!globalStreamContext) {
-    try {
-      globalStreamContext = createResumableStreamContext({
-        waitUntil: after,
-      });
-    } catch (error: any) {
-      if (error.message.includes("REDIS_URL")) {
-        console.log(" > Resumable streams are disabled due to missing REDIS_URL");
-      } else {
-        console.error(error);
-      }
-    }
-  }
-
-  return globalStreamContext;
-}
 export const chatRouter = createRouter();
-
-// chatRouter.all("/", async (c) => {
-//   try {
-//     return c.json("hello");
-//   } catch (e: any) {
-//     return c.json({ error: e.message, stack: e.stack }, 500);
-//   }
-// });
-
 chatRouter.post("/sse", async (c) => {
-  // export async function POST(request: Request) {
   let requestBody: PostRequestBody;
   const request = c.req.raw;
 
@@ -155,10 +125,11 @@ chatRouter.post("/sse", async (c) => {
     const streamId = generateUUID();
     await createStreamId({ streamId, chatId: id });
 
+    const model = myProvider.languageModel(selectedChatModel);
     const stream = createDataStream({
       execute: (dataStream) => {
         const result = streamText({
-          model: myProvider.languageModel(selectedChatModel),
+          model,
           system: systemPrompt({ selectedChatModel, requestHints }),
           messages,
           maxSteps: 5,
@@ -169,7 +140,7 @@ chatRouter.post("/sse", async (c) => {
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
-            getWeather,
+            // getWeather,
             createDocument: createDocument({ session, dataStream }),
             updateDocument: updateDocument({ session, dataStream }),
             requestSuggestions: requestSuggestions({

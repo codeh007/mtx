@@ -9,7 +9,7 @@ chatV3Router.get("/:id", async (c) => {
   const id = c.req.param("id");
   try {
     const [selectedChat] = await getDbV3().select().from(chat).where(eq(chat.id, id));
-    return selectedChat;
+    return c.json(selectedChat);
   } catch (e: any) {
     return c.json({ error: e.message, stack: e.stack }, 500);
   }
