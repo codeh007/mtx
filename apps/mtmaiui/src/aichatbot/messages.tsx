@@ -49,7 +49,6 @@ function PureMessages({
       ref={messagesContainerRef}
       className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4 relative"
     >
-      chatId:{chatId}
       {messages.length === 0 && <Greeting />}
       {isdebug && <DebugValue data={messages} />}
       {messages.map((message, index) => (

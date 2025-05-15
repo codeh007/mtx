@@ -19,7 +19,6 @@ function RouteComponent() {
       <MtSuspenseBoundary>{/* <AppSidebar /> */}</MtSuspenseBoundary>
       <MtSuspenseBoundary>
         <SidebarInset>
-          sessionId:{sessionId}
           <Chat
             key={sessionId}
             id={sessionId}
@@ -29,7 +28,7 @@ function RouteComponent() {
             isReadonly={false}
             // session={session}
             autoResume={false}
-            api="/api/chat"
+            api="/api/chat/sse"
           />
           <DataStreamHandler id={sessionId} />
         </SidebarInset>

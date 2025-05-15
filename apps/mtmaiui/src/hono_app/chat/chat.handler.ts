@@ -64,7 +64,7 @@ export const chatRouter = createRouter();
 //   }
 // });
 
-chatRouter.post("/", async (c) => {
+chatRouter.post("/sse", async (c) => {
   // export async function POST(request: Request) {
   let requestBody: PostRequestBody;
   const request = c.req.raw;
