@@ -1,22 +1,24 @@
-"use client";
+// "use client";
 import { useQuery } from "@tanstack/react-query";
 import type { Attachment, UIMessage } from "ai";
+import { notFound } from "next/navigation";
 // import { cookies } from "next/headers";
 import { Chat } from "../../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
+import { getChatById } from "../../../../db/queries/queries";
 // import { getChatById, getMessagesByChatId } from "../../../../db/queries/queries";
-import { type DBChatMessage, chat } from "../../../../db/schema";
+import type { DBChatMessage } from "../../../../db/schema";
 import { MtmaiuiConfig } from "../../../../lib/config";
 
-export default function Page(props: { params: Promise<{ id: string }> }) {
-  // const params = await props.params;
-  // const { id } = params;
-  // const chat = await getChatById({ id });
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const { id } = params;
+  const chat = await getChatById({ id });
 
-  // if (!chat) {
-  //   notFound();
-  // }
+  if (!chat) {
+    notFound();
+  }
 
   const chatQuery = useQuery({
     queryKey: ["chat", id],

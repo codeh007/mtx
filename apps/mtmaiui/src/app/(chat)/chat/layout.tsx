@@ -1,4 +1,4 @@
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary.jsx";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { SidebarInset, SidebarProvider } from "mtxuilib/ui/sidebar";
 import { cookies } from "next/headers";
 import Script from "next/script";
@@ -24,10 +24,10 @@ export default async function Layout({
       />
       <SidebarProvider defaultOpen={!isCollapsed}>
         <MtSuspenseBoundary>
-        <AppSidebar user={session?.user} />
+          <AppSidebar user={session?.user} />
         </MtSuspenseBoundary>
         <MtSuspenseBoundary>
-        <SidebarInset>{children}</SidebarInset>
+          <SidebarInset>{children}</SidebarInset>
         </MtSuspenseBoundary>
       </SidebarProvider>
     </>
