@@ -20,7 +20,7 @@ import { getChatHistoryPaginationKey } from "./sidebar-history";
 import { toast } from "./toast";
 import type { VisibilityType } from "./visibility-selector";
 
-export function Chat({
+export function ChatV2({
   id,
   initialMessages,
   initialChatModel,
