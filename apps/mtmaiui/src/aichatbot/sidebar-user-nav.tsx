@@ -14,13 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "mtxuilib/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "mtxuilib/ui/sidebar";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { LoaderIcon } from "./icons";
 import { guestRegex } from "./lib/constants";
 import { toast } from "./toast";
 
 export function SidebarUserNav({ user }: { user: User }) {
-  const router = useRouter();
+  // const router = useRouter();
   const { data, status } = useSession();
   const { setTheme, theme } = useTheme();
 
@@ -90,7 +90,7 @@ export function SidebarUserNav({ user }: { user: User }) {
                   }
 
                   if (isGuest) {
-                    router.push("/login");
+                    // router.push("/login");
                   } else {
                     signOut({
                       redirectTo: "/",

@@ -12,6 +12,12 @@ function RouteComponent() {
   return (
     <>
       <WorkbrenchProvider>
+        {/* 加载第三方 python js 运行环境  */}
+        {/* <Script
+        src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"
+        strategy="beforeInteractive"
+        async={true}
+      /> */}
         <WorkflowsProvider>
           <RootAppWrapper secondSidebar={<NavChat />}>
             {/* <DashHeaders>

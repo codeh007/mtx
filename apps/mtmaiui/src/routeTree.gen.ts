@@ -143,6 +143,7 @@ const PlatformAccountNewIndexLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/',
 )()
+const ChatSessionIndexLazyImport = createFileRoute('/chat/$session/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const AdkSessionIndexLazyImport = createFileRoute('/adk/session/')()
 const WorkflowsWorkflowIdTriggerTestteamRouteLazyImport = createFileRoute(
@@ -231,9 +232,6 @@ const ProxyProxyIdActionsIndexLazyImport = createFileRoute(
 )()
 const PlatformAccountPlatformAccountIdActionsIndexLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/actions/',
-)()
-const ChatSessionSessionIdIndexLazyImport = createFileRoute(
-  '/chat/$session/$sessionId/',
 )()
 const AgentsAgentSessionIdIndexLazyImport = createFileRoute(
   '/agents/$agent/$sessionId/',
@@ -920,6 +918,14 @@ const PlatformAccountPlatformAccountIdIndexLazyRoute =
     ),
   )
 
+const ChatSessionIndexLazyRoute = ChatSessionIndexLazyImport.update({
+  id: '/$session/',
+  path: '/$session/',
+  getParentRoute: () => ChatRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~chat/~$session/~index.lazy').then((d) => d.Route),
+)
+
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -1271,17 +1277,6 @@ const PlatformAccountPlatformAccountIdActionsIndexLazyRoute =
     import(
       './routes/~platform-account/~$platformAccountId/~actions/~index.lazy'
     ).then((d) => d.Route),
-  )
-
-const ChatSessionSessionIdIndexLazyRoute =
-  ChatSessionSessionIdIndexLazyImport.update({
-    id: '/$session/$sessionId/',
-    path: '/$session/$sessionId/',
-    getParentRoute: () => ChatRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~chat/~$session/~$sessionId/~index.lazy').then(
-      (d) => d.Route,
-    ),
   )
 
 const AgentsAgentSessionIdIndexLazyRoute =
@@ -1862,6 +1857,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginIndexLazyImport
       parentRoute: typeof AuthLoginRouteLazyImport
     }
+    '/chat/$session/': {
+      id: '/chat/$session/'
+      path: '/$session'
+      fullPath: '/chat/$session'
+      preLoaderRoute: typeof ChatSessionIndexLazyImport
+      parentRoute: typeof ChatRouteLazyImport
+    }
     '/platform-account/$platformAccountId/': {
       id: '/platform-account/$platformAccountId/'
       path: '/'
@@ -2057,13 +2059,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/agents/$agent/$sessionId/'
       preLoaderRoute: typeof AgentsAgentSessionIdIndexLazyImport
       parentRoute: typeof AgentsAgentSessionIdRouteLazyImport
-    }
-    '/chat/$session/$sessionId/': {
-      id: '/chat/$session/$sessionId/'
-      path: '/$session/$sessionId'
-      fullPath: '/chat/$session/$sessionId'
-      preLoaderRoute: typeof ChatSessionSessionIdIndexLazyImport
-      parentRoute: typeof ChatRouteLazyImport
     }
     '/platform-account/$platformAccountId/actions/': {
       id: '/platform-account/$platformAccountId/actions/'
@@ -2538,12 +2533,12 @@ const BundlerRouteLazyRouteWithChildren =
 
 interface ChatRouteLazyRouteChildren {
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
-  ChatSessionSessionIdIndexLazyRoute: typeof ChatSessionSessionIdIndexLazyRoute
+  ChatSessionIndexLazyRoute: typeof ChatSessionIndexLazyRoute
 }
 
 const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
   ChatIndexLazyRoute: ChatIndexLazyRoute,
-  ChatSessionSessionIdIndexLazyRoute: ChatSessionSessionIdIndexLazyRoute,
+  ChatSessionIndexLazyRoute: ChatSessionIndexLazyRoute,
 }
 
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
@@ -3391,6 +3386,7 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/chat/$session': typeof ChatSessionIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
@@ -3419,7 +3415,6 @@ export interface FileRoutesByFullPath {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/chat/$session/$sessionId': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3496,6 +3491,7 @@ export interface FileRoutesByTo {
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/adk/session': typeof AdkSessionIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
+  '/chat/$session': typeof ChatSessionIndexLazyRoute
   '/platform-account/$platformAccountId': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
@@ -3510,7 +3506,6 @@ export interface FileRoutesByTo {
   '/site/$siteId/host': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/chat/$session/$sessionId': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3598,6 +3593,7 @@ export interface FileRoutesById {
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
+  '/chat/$session/': typeof ChatSessionIndexLazyRoute
   '/platform-account/$platformAccountId/': typeof PlatformAccountPlatformAccountIdIndexLazyRoute
   '/platform-account/new/': typeof PlatformAccountNewIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
@@ -3626,7 +3622,6 @@ export interface FileRoutesById {
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexRoute
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/chat/$session/$sessionId/': typeof ChatSessionSessionIdIndexLazyRoute
   '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -3731,6 +3726,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
+    | '/chat/$session'
     | '/platform-account/$platformAccountId/'
     | '/platform-account/new/'
     | '/proxy/$proxyId/'
@@ -3759,7 +3755,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
-    | '/chat/$session/$sessionId'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -3835,6 +3830,7 @@ export interface FileRouteTypes {
     | '/resource/new'
     | '/adk/session'
     | '/auth/login'
+    | '/chat/$session'
     | '/platform-account/$platformAccountId'
     | '/platform-account/new'
     | '/proxy/$proxyId'
@@ -3849,7 +3845,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
-    | '/chat/$session/$sessionId'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -3935,6 +3930,7 @@ export interface FileRouteTypes {
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
+    | '/chat/$session/'
     | '/platform-account/$platformAccountId/'
     | '/platform-account/new/'
     | '/proxy/$proxyId/'
@@ -3963,7 +3959,6 @@ export interface FileRouteTypes {
     | '/site/$siteId/host/'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
-    | '/chat/$session/$sessionId/'
     | '/platform-account/$platformAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
@@ -4138,7 +4133,7 @@ export const routeTree = rootRoute
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
         "/chat/",
-        "/chat/$session/$sessionId/"
+        "/chat/$session/"
       ]
     },
     "/envs": {
@@ -4404,6 +4399,10 @@ export const routeTree = rootRoute
       "filePath": "~auth/~login/~index.lazy.tsx",
       "parent": "/auth/login"
     },
+    "/chat/$session/": {
+      "filePath": "~chat/~$session/~index.lazy.tsx",
+      "parent": "/chat"
+    },
     "/platform-account/$platformAccountId/": {
       "filePath": "~platform-account/~$platformAccountId/~index.lazy.tsx",
       "parent": "/platform-account/$platformAccountId"
@@ -4574,10 +4573,6 @@ export const routeTree = rootRoute
     "/agents/$agent/$sessionId/": {
       "filePath": "~agents/~$agent/~$sessionId/~index.lazy.tsx",
       "parent": "/agents/$agent/$sessionId"
-    },
-    "/chat/$session/$sessionId/": {
-      "filePath": "~chat/~$session/~$sessionId/~index.lazy.tsx",
-      "parent": "/chat"
     },
     "/platform-account/$platformAccountId/actions/": {
       "filePath": "~platform-account/~$platformAccountId/~actions/~index.lazy.tsx",

@@ -6,13 +6,14 @@ import { sessionRouter } from "./adk/session.handler";
 import createApp from "./agent_api/lib/createApp";
 import { agentSessionRouter } from "./agent_api/session.handler";
 import { chatRouter } from "./chat/chat.handler";
+import { chatV3Router } from "./chat/chat.handlerv2";
+import { chatV2Router } from "./chat/chat_v2_handler";
 import { chatMessageRouter } from "./chat_message/chat_message.handler";
-import { chatV2Router } from "./chat_v2/chat_v2_handler";
 import { envsRouter } from "./envs/envs.handler";
 import { mqRouter } from "./mq/mq.handler";
+import { r2Router } from "./r2/r2.handler";
 import { scriptRouter } from "./scripts/scripts.handler";
 import gomtmProxyRouter from "./v1/v1_route";
-import { r2Router } from "./r2/r2.handler";
 const app = createApp().basePath("/api");
 
 // app.use("*", async (c, next) => {
@@ -76,6 +77,7 @@ app.route("/envs/", envsRouter);
 app.route("/adk/session/", sessionRouter);
 app.route("/adk/events/", eventRouter);
 app.route("/chat_v2/", chatV2Router);
+app.route("/chats/", chatV3Router);
 app.route("/chat/", chatRouter);
 app.route("/chat_message/", chatMessageRouter);
 app.route("/v1/*", gomtmProxyRouter);
