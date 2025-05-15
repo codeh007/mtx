@@ -1,10 +1,8 @@
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
-import { SidebarInset, SidebarProvider } from "mtxuilib/ui/sidebar";
+import { SidebarProvider } from "mtxuilib/ui/sidebar";
 import { cookies } from "next/headers";
 import Script from "next/script";
-import { AppSidebar } from "../../../aichatbot/app-sidebar";
 import { auth } from "../../../lib/auth/auth";
-import { WorkbrenchProvider } from "../../../stores/workbrench.store";
+import { MtmaiProvider } from "../../../stores/StoreProvider";
 
 export const experimental_ppr = true;
 
@@ -23,16 +21,9 @@ export default async function Layout({
         strategy="beforeInteractive"
         async={true}
       />
-      <SidebarProvider defaultOpen={!isCollapsed}>
-        <WorkbrenchProvider>
-          <MtSuspenseBoundary>
-            <AppSidebar user={session?.user} />
-          </MtSuspenseBoundary>
-          <MtSuspenseBoundary>
-            <SidebarInset>{children}</SidebarInset>
-          </MtSuspenseBoundary>
-        </WorkbrenchProvider>
-      </SidebarProvider>
+      <MtmaiProvider>
+        <SidebarProvider defaultOpen={!isCollapsed}>{children}</SidebarProvider>
+      </MtmaiProvider>
     </>
   );
 }

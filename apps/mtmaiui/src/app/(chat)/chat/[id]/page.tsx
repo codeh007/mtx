@@ -1,13 +1,16 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 
-import type { Attachment, UIMessage } from "ai";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { SidebarInset } from "mtxuilib/ui/sidebar";
+import { AppSidebar } from "../../../../aichatbot/app-sidebar";
 import { Chat } from "../../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
 import { getChatById, getMessagesByChatId } from "../../../../db/queries";
-import type { DBChatMessage } from "../../../../db/schema";
+import { convertToUIMessages } from "../../../../lib/aisdk_utils";
 import { auth } from "../../../../lib/auth/auth";
+import { WorkbrenchProvider } from "../../../../stores/workbrench.store";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -38,50 +41,44 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     id,
   });
 
-  function convertToUIMessages(messages: Array<DBChatMessage>): Array<UIMessage> {
-    return messages.map((message) => ({
-      id: message.id,
-      parts: message.parts as UIMessage["parts"],
-      role: message.role as UIMessage["role"],
-      // Note: content will soon be deprecated in @ai-sdk/react
-      content: "",
-      createdAt: message.createdAt,
-      experimental_attachments: (message.attachments as Array<Attachment>) ?? [],
-    }));
-  }
-
   const cookieStore = await cookies();
   const chatModelFromCookie = cookieStore.get("chat-model");
-
-  if (!chatModelFromCookie) {
-    return (
-      <>
-        <Chat
-          id={chat.id}
-          initialMessages={convertToUIMessages(messagesFromDb)}
-          initialChatModel={DEFAULT_CHAT_MODEL}
-          initialVisibilityType={chat.visibility}
-          isReadonly={session?.user?.id !== chat.userId}
-          session={session}
-          autoResume={true}
-        />
-        <DataStreamHandler id={id} />
-      </>
-    );
-  }
+  const chatModel = chatModelFromCookie ? chatModelFromCookie.value : DEFAULT_CHAT_MODEL;
 
   return (
     <>
-      <Chat
+      {/* <Chat
         id={chat.id}
         initialMessages={convertToUIMessages(messagesFromDb)}
-        initialChatModel={chatModelFromCookie.value}
+        initialChatModel={chatModel}
         initialVisibilityType={chat.visibility}
         isReadonly={session?.user?.id !== chat.userId}
         session={session}
         autoResume={true}
+        api="/api/chat/chat_v2"
       />
-      <DataStreamHandler id={id} />
+      <DataStreamHandler id={id} /> */}
+      <WorkbrenchProvider>
+        <MtSuspenseBoundary>
+          <AppSidebar user={session?.user} />
+        </MtSuspenseBoundary>
+        <MtSuspenseBoundary>
+          <SidebarInset>
+            <Chat
+              key={id}
+              id={id}
+              initialMessages={convertToUIMessages(messagesFromDb)}
+              initialChatModel={chatModel}
+              initialVisibilityType="private"
+              isReadonly={false}
+              session={session}
+              autoResume={false}
+              api="/api/chat"
+            />
+            <DataStreamHandler id={id} />
+          </SidebarInset>
+        </MtSuspenseBoundary>
+      </WorkbrenchProvider>
     </>
   );
 }

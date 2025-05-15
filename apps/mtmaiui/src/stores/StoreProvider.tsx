@@ -155,7 +155,7 @@ export function useMtmaiV2(): MainStoreStateV2;
 export function useMtmaiV2<T>(selector: (state: MainStoreStateV2) => T): T;
 export function useMtmaiV2<T>(selector?: (state: MainStoreStateV2) => T) {
   const store = useContext(mtmaiStoreContext);
-  if (!store) throw new Error("useMtmaiV2 must in MtmaiProviderV2");
+  if (!store) throw new Error("useMtmaiV2 must in MtmaiProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
