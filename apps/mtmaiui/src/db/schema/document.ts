@@ -1,15 +1,15 @@
 import type { InferSelectModel } from "drizzle-orm";
-import { pgTable, primaryKey, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { pgTable, primaryKey, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
 export const document = pgTable(
-  "Document",
+  "document",
   {
     id: uuid("id").notNull().defaultRandom(),
     createdAt: timestamp("createdAt").notNull(),
     title: text("title").notNull(),
     content: text("content"),
-    kind: varchar("text", { enum: ["text", "code", "image", "sheet"] })
+    kind: text("kind", { enum: ["text", "code", "image", "sheet"] })
       .notNull()
       .default("text"),
     userId: uuid("userId")
