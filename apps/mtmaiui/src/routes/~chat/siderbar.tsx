@@ -26,7 +26,7 @@ export function NavChat() {
 
   const linkToNew = useMemo(() => {
     const uuid = generateUUID();
-    return `/chat/session/${uuid}`;
+    return `/chat/${uuid}`;
   }, []);
 
   const chatSessionQuery = useQuery({
