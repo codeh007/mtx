@@ -76,7 +76,6 @@ app.route("/envs/", envsRouter);
 // app.route("/workflows/", workflowsRoute);
 app.route("/adk/session/", sessionRouter);
 app.route("/adk/events/", eventRouter);
-// app.route("/chat_v2/", chatV2Router);
 app.route("/chats/", chatV3Router);
 app.route("/chat/", chatRouter);
 app.route("/chat_message/", chatMessageRouter);

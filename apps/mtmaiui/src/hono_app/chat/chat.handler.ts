@@ -7,14 +7,11 @@ import {
   streamText,
 } from "ai";
 import { differenceInSeconds } from "date-fns";
-import { generateUUID } from "mtxuilib/lib/sslib";
-
+// import { generateUUID } from "mtxuilib/lib/sslib";
+import { generateUUID } from "mtxuilib/lib/utils";
 import { type RequestHints, systemPrompt } from "../../aichatbot/lib/ai/prompts";
 import { myProvider } from "../../aichatbot/lib/ai/providers";
-import { createDocument } from "../../aichatbot/lib/ai/tools/create-document";
 // import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
-import { requestSuggestions } from "../../aichatbot/lib/ai/tools/request-suggestions";
-import { updateDocument } from "../../aichatbot/lib/ai/tools/update-document";
 import { isProductionEnvironment } from "../../aichatbot/lib/constants";
 import { getTrailingMessageId } from "../../aichatbot/lib/utils";
 import {
@@ -133,20 +130,18 @@ chatRouter.post("/sse", async (c) => {
           system: systemPrompt({ selectedChatModel, requestHints }),
           messages,
           maxSteps: 5,
-          experimental_activeTools:
-            selectedChatModel === "chat-model-reasoning"
-              ? []
-              : ["getWeather", "createDocument", "updateDocument", "requestSuggestions"],
+          // experimental_activeTools:
+          //   selectedChatModel === "chat-model-reasoning" ? [] : ["createDocument"],
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
             // getWeather,
-            createDocument: createDocument({ session, dataStream }),
-            updateDocument: updateDocument({ session, dataStream }),
-            requestSuggestions: requestSuggestions({
-              session,
-              dataStream,
-            }),
+            // createDocument: createDocument({ session, dataStream }),
+            // updateDocument: updateDocument({ session, dataStream }),
+            // requestSuggestions: requestSuggestions({
+            //   session,
+            //   dataStream,
+            // }),
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {
@@ -194,8 +189,9 @@ chatRouter.post("/sse", async (c) => {
         });
       },
       onError: (e: any) => {
-        console.error(e);
-        return "Oops, an error occurred!";
+        console.error(e, e.stack);
+        // return "Oops, an error occurred!";
+        return `Oops, an error occurred!${e.stack}`;
       },
     });
 
