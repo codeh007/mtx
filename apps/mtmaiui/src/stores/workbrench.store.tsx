@@ -36,7 +36,6 @@ import type { ChatAgentOutgoingMessage, ChatAgentState } from "../agent_state/ch
 import { parseEventStream } from "../agent_utils/agent_utils";
 import data from "../data/ig_settings_xiaoto33.json";
 import { useTenant, useTenantId } from "../hooks/useAuth";
-import { useNav } from "../hooks/useNav";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 import { exampleTeamConfig } from "./exampleTeamConfig";
 
@@ -407,7 +406,7 @@ const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore>
 
 export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
-  const nav = useNav();
+  // const nav = useNav();
   const [isPending, startTransition] = useTransition();
   const tenant = useTenant();
   const workflowRunCreate = useMutation({
