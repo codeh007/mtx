@@ -5,7 +5,7 @@ import { memo, useCallback, useEffect } from "react";
 import type {
   OnChangeCallback as OnEditorChange,
   OnScrollCallback as OnEditorScroll,
-} from "../../editor/codemirror/CodeMirrorEditor";
+} from "../../editor/codemirror/CodeMirrorEditor.tsx--";
 
 import { computed } from "nanostores";
 
@@ -39,9 +39,7 @@ const sliderOptions: SliderOptions<WorkbenchViewType> = {
 export const WebContainerWorkbench = memo(({ isStreaming }: WorkspaceProps) => {
   renderLogger.trace("WebContainerWorkbench");
 
-  const hasPreview = useStore(
-    computed(workbenchStore.previews, (previews) => previews.length > 0),
-  );
+  const hasPreview = useStore(computed(workbenchStore.previews, (previews) => previews.length > 0));
   const showWorkbench = useWorkbenchStore((x) => x.openWorkbench);
   const setShowWorkbench = useWorkbenchStore((x) => x.setShowWorkbench);
   const selectedFile = useStore(workbenchStore.selectedFile);
@@ -101,20 +99,14 @@ export const WebContainerWorkbench = memo(({ isStreaming }: WorkspaceProps) => {
       <div className="absolute inset-0 px-1">
         <div className="h-full flex flex-col bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor shadow-xs rounded-lg overflow-hidden">
           <div className="flex items-center px-3 py-2 border-b border-bolt-elements-borderColor">
-            <MtSlider
-              selected={currentView}
-              options={sliderOptions}
-              setSelected={setCurrentView}
-            />
+            <MtSlider selected={currentView} options={sliderOptions} setSelected={setCurrentView} />
 
             <div className="ml-auto" />
             {currentView === "code" && (
               <PanelHeaderButton
                 className="mr-1 text-sm"
                 onClick={() => {
-                  workbenchStore.toggleTerminal(
-                    !workbenchStore.showTerminal.get(),
-                  );
+                  workbenchStore.toggleTerminal(!workbenchStore.showTerminal.get());
                 }}
               >
                 <div className="i-ph:terminal" />

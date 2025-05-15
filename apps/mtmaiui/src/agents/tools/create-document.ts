@@ -2,7 +2,10 @@ import { type DataStreamWriter, tool } from "ai";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { Session } from "next-auth";
 import { z } from "zod";
-import { artifactKinds, documentHandlersByArtifactKind } from "../../artifacts/server";
+import {
+  artifactKinds,
+  documentHandlersByArtifactKind,
+} from "../../aichatbot/lib/artifacts/server";
 
 interface CreateDocumentProps {
   session: Session;

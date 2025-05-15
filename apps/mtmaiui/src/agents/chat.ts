@@ -22,9 +22,9 @@ import type {
 } from "../agent_state/chat_agent_state";
 import type { OutgoingMessage } from "../agent_state/shared";
 import { get_taskmq_result, taskmq_submit } from "../agent_utils/dbfn/taskmq";
-import { toolGenShortVideo, toolQueryTasksToRun } from "../agent_utils/tools2";
 import { getDefaultModel } from "../components/cloudflare-agents/model";
 import { ChatAgentBase } from "./ChatAgentBase";
+import { toolGenShortVideo, toolQueryTasksToRun } from "./tools/tools2";
 
 import { sleep } from "mtxuilib/lib/utils";
 import { tools } from "./tools";

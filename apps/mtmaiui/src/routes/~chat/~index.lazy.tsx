@@ -2,9 +2,9 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
+import { DEFAULT_CHAT_MODEL } from "../../agent_utils/models";
 import { Chat } from "../../aichatbot/chat";
 import { DataStreamHandler } from "../../aichatbot/data-stream-handler";
-import { DEFAULT_CHAT_MODEL } from "../../aichatbot/lib/ai/models";
 import { useNav } from "../../hooks/useNav";
 
 export const Route = createLazyFileRoute("/chat/")({

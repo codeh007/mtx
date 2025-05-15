@@ -1,4 +1,6 @@
 import { geolocation } from "@vercel/functions";
+import { eq } from "drizzle-orm";
+
 import {
   appendClientMessage,
   appendResponseMessages,
@@ -7,16 +9,17 @@ import {
   streamText,
 } from "ai";
 import { differenceInSeconds } from "date-fns";
-// import { generateUUID } from "mtxuilib/lib/sslib";
+
 import { generateUUID } from "mtxuilib/lib/utils";
-import { type RequestHints, systemPrompt } from "../../aichatbot/lib/ai/prompts";
-import { myProvider } from "../../aichatbot/lib/ai/providers";
-import { createDocument } from "../../aichatbot/lib/ai/tools/create-document";
-import { requestSuggestions } from "../../aichatbot/lib/ai/tools/request-suggestions";
-import { updateDocument } from "../../aichatbot/lib/ai/tools/update-document";
+import { type RequestHints, systemPrompt } from "../../agent_utils/prompts";
+import { myProvider } from "../../agent_utils/providers";
+import { createDocument } from "../../agents/tools/create-document";
+import { requestSuggestions } from "../../agents/tools/request-suggestions";
+import { updateDocument } from "../../agents/tools/update-document";
 // import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
-import { isProductionEnvironment } from "../../aichatbot/lib/constants";
-import { getTrailingMessageId } from "../../aichatbot/lib/utils";
+// import { isProductionEnvironment } from "../../aichatbot/lib/constants";
+import { getTrailingMessageId, isProductionEnvironment } from "../../aichatbot/lib/utils";
+import { getDbV3 } from "../../db/dbClientV3";
 import {
   createStreamId,
   deleteChatById,
@@ -27,7 +30,7 @@ import {
   saveChat,
   saveMessages,
 } from "../../db/queries";
-import type { Chat } from "../../db/schema";
+import { type Chat, chat } from "../../db/schema";
 import { getStreamContext } from "../../lib/aisdk_utils";
 import { type UserType, auth } from "../../lib/auth/auth";
 import { createRouter } from "../agent_api/lib/createApp";
@@ -305,6 +308,16 @@ chatRouter.get("/", async (c) => {
   }
 
   return new Response(stream, { status: 200 });
+});
+
+chatRouter.get("/:id", async (c) => {
+  const id = c.req.param("id");
+  try {
+    const [selectedChat] = await getDbV3().select().from(chat).where(eq(chat.id, id));
+    return c.json(selectedChat);
+  } catch (e: any) {
+    return c.json({ error: e.message, stack: e.stack }, 500);
+  }
 });
 
 chatRouter.delete("/", async (c) => {

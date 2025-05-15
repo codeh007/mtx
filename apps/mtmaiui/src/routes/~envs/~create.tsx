@@ -2,21 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { postCreateMutation } from "mtmaiapi";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { toast } from "sonner";
 
-import { javascript } from "@codemirror/lang-javascript";
 // import CodeMirror from "@uiw/react-codemirror";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import type { EditorDocument } from "../../components/editor/codemirror/CodeMirrorEditor";
+import type { EditorDocument } from "../../components/editor/codemirror/CodeMirrorEditor.tsx--";
 import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/envs/create")({

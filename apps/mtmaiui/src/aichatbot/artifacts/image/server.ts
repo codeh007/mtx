@@ -1,5 +1,5 @@
 import { experimental_generateImage } from "ai";
-import { myProvider } from "../../lib/ai/providers";
+import { myProvider } from "../../../agent_utils/providers";
 import { createDocumentHandler } from "../../lib/artifacts/server";
 
 export const imageDocumentHandler = createDocumentHandler<"image">({

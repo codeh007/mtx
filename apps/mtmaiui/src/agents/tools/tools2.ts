@@ -1,10 +1,10 @@
 import type { Agent, Schedule } from "agents";
 import { unstable_getSchedulePrompt, unstable_scheduleSchema } from "agents/schedule";
 import { generateObject, tool } from "ai";
-import { sleep } from "mtxuilib/lib/utils.js";
+import { sleep } from "mtxuilib/lib/utils";
 import { z } from "zod";
-import { getDefaultModel } from "../components/cloudflare-agents/model";
-import { get_taskmq_result, taskmq_submit } from "./dbfn/taskmq";
+import { get_taskmq_result, taskmq_submit } from "../../agent_utils/dbfn/taskmq";
+import { getDefaultModel } from "../../components/cloudflare-agents/model";
 
 export function toolSmolagent(env: Env, ctx: DurableObjectState) {
   return {

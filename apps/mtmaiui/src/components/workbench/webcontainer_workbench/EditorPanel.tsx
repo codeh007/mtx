@@ -15,7 +15,7 @@ import {
   type OnChangeCallback as OnEditorChange,
   type OnSaveCallback as OnEditorSave,
   type OnScrollCallback as OnEditorScroll,
-} from "../../editor/codemirror/CodeMirrorEditor";
+} from "../../editor/codemirror/CodeMirrorEditor.tsx--";
 
 import { PanelHeader } from "../../ui/PanelHeader";
 import { PanelHeaderButton } from "../../ui/PanelHeaderButton";
@@ -78,19 +78,13 @@ export const EditorPanel = memo(
     }, [editorDocument]);
 
     const activeFileUnsaved = useMemo(() => {
-      return (
-        editorDocument !== undefined &&
-        unsavedFiles?.has(editorDocument.filePath)
-      );
+      return editorDocument !== undefined && unsavedFiles?.has(editorDocument.filePath);
     }, [editorDocument, unsavedFiles]);
 
     useEffect(() => {
-      const unsubscribeFromEventEmitter = shortcutEventEmitter.on(
-        "toggleTerminal",
-        () => {
-          terminalToggledByShortcut.current = true;
-        },
-      );
+      const unsubscribeFromEventEmitter = shortcutEventEmitter.on("toggleTerminal", () => {
+        terminalToggledByShortcut.current = true;
+      });
 
       // const unsubscribeFromThemeStore = themeStore.subscribe(() => {
       // 	for (const ref of Object.values(terminalRefs.current)) {
@@ -133,10 +127,7 @@ export const EditorPanel = memo(
 
     return (
       <PanelGroup direction="vertical">
-        <Panel
-          defaultSize={showTerminal ? DEFAULT_EDITOR_SIZE : 100}
-          minSize={20}
-        >
+        <Panel defaultSize={showTerminal ? DEFAULT_EDITOR_SIZE : 100} minSize={20}>
           <PanelGroup direction="horizontal">
             <Panel defaultSize={20} minSize={10} collapsible>
               <div className="flex flex-col border-r border-bolt-elements-borderColor h-full">
@@ -240,10 +231,7 @@ export const EditorPanel = memo(
                   );
                 })}
                 {terminalCount < MAX_TERMINALS && (
-                  <Icons.plus
-                    className="text-lg cursor-pointer"
-                    onClick={addTerminal}
-                  />
+                  <Icons.plus className="text-lg cursor-pointer" onClick={addTerminal} />
                 )}
                 <Icons.arrowDown
                   className="ml-auto text-lg cursor-pointer"
@@ -263,12 +251,8 @@ export const EditorPanel = memo(
                     ref={(ref) => {
                       terminalRefs.current.push(ref);
                     }}
-                    onTerminalReady={(terminal) =>
-                      workbenchStore.attachTerminal(terminal)
-                    }
-                    onTerminalResize={(cols, rows) =>
-                      workbenchStore.onTerminalResize(cols, rows)
-                    }
+                    onTerminalReady={(terminal) => workbenchStore.attachTerminal(terminal)}
+                    onTerminalResize={(cols, rows) => workbenchStore.onTerminalResize(cols, rows)}
                     theme={theme}
                   />
                 );
