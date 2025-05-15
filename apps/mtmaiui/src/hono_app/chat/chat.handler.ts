@@ -11,6 +11,9 @@ import { differenceInSeconds } from "date-fns";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { type RequestHints, systemPrompt } from "../../aichatbot/lib/ai/prompts";
 import { myProvider } from "../../aichatbot/lib/ai/providers";
+import { createDocument } from "../../aichatbot/lib/ai/tools/create-document";
+import { requestSuggestions } from "../../aichatbot/lib/ai/tools/request-suggestions";
+import { updateDocument } from "../../aichatbot/lib/ai/tools/update-document";
 // import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
 import { isProductionEnvironment } from "../../aichatbot/lib/constants";
 import { getTrailingMessageId } from "../../aichatbot/lib/utils";
@@ -130,18 +133,20 @@ chatRouter.post("/sse", async (c) => {
           system: systemPrompt({ selectedChatModel, requestHints }),
           messages,
           maxSteps: 5,
-          // experimental_activeTools:
-          //   selectedChatModel === "chat-model-reasoning" ? [] : ["createDocument"],
+          experimental_activeTools:
+            selectedChatModel === "chat-model-reasoning"
+              ? []
+              : ["createDocument", "updateDocument", "requestSuggestions"],
           experimental_transform: smoothStream({ chunking: "word" }),
           experimental_generateMessageId: generateUUID,
           tools: {
             // getWeather,
-            // createDocument: createDocument({ session, dataStream }),
-            // updateDocument: updateDocument({ session, dataStream }),
-            // requestSuggestions: requestSuggestions({
-            //   session,
-            //   dataStream,
-            // }),
+            createDocument: createDocument({ session, dataStream }),
+            updateDocument: updateDocument({ session, dataStream }),
+            requestSuggestions: requestSuggestions({
+              session,
+              dataStream,
+            }),
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {

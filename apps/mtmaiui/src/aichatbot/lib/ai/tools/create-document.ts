@@ -70,13 +70,13 @@ export const createDocument = ({ session, dataStream }: CreateDocumentProps) =>
           kind,
           content: "A document was created and is now visible to the user.",
         };
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
         return {
           id: "",
           title: "",
           kind: "",
-          content: "An error occurred while creating the document.",
+          content: `An error occurred while creating the document.${error}${error.stack}`,
         };
       }
     },
