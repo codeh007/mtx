@@ -117,8 +117,8 @@ function PureEditor({ content, onSaveContent, suggestions, status }: EditorProps
     if (editorRef.current?.state.doc && content) {
       const projectedSuggestions = projectWithPositions(
         editorRef.current.state.doc,
-        suggestions,
-      ).filter((suggestion) => suggestion.selectionStart && suggestion.selectionEnd);
+        suggestions || [],
+      ).filter((suggestion) => suggestion?.selectionStart && suggestion?.selectionEnd);
 
       const decorations = createDecorations(projectedSuggestions, editorRef.current);
 
