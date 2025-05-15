@@ -9,6 +9,8 @@ import { AuthForm } from "../../../aichatbot/auth-form";
 import { toast } from "../../../aichatbot/toast";
 import { type RegisterActionState, register } from "../actions";
 
+export const runtime = "nodejs";
+
 export default function Page() {
   const router = useRouter();
 

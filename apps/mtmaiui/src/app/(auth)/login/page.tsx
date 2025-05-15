@@ -1,14 +1,16 @@
 "use client";
 
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { AuthForm } from "../../../aichatbot/auth-form";
 import { SubmitButton } from "../../../aichatbot/submit-button";
 import { type LoginActionState, login } from "../actions";
 
+export const runtime = "nodejs";
 export default function Page() {
   const router = useRouter();
 
@@ -21,14 +23,16 @@ export default function Page() {
 
   const { update: updateSession } = useSession();
 
+  const toast = useToast();
+
   useEffect(() => {
     if (state.status === "failed") {
-      toast({
+      toast.toast({
         type: "error",
         description: "Invalid credentials!",
       });
     } else if (state.status === "invalid_data") {
-      toast({
+      toast.toast({
         type: "error",
         description: "Failed validating your submission!",
       });
