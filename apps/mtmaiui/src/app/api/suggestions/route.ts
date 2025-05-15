@@ -1,4 +1,4 @@
-import { getSuggestionsByDocumentId } from "../../../db/queries/queries";
+import { getSuggestionsByDocumentId } from "../../../db/queries";
 import { auth } from "../../../lib/auth/auth";
 
 export async function GET(request: Request) {

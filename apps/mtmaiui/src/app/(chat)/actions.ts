@@ -8,7 +8,7 @@ import {
   deleteMessagesByChatIdAfterTimestamp,
   getMessageById,
   updateChatVisiblityById,
-} from "../../db/queries/queries";
+} from "../../db/queries";
 
 export async function saveChatModelAsCookie(model: string) {
   const cookieStore = await cookies();

@@ -1,8 +1,8 @@
 import { type SQL, and, asc, count, desc, eq, gt, gte, inArray, lt } from "drizzle-orm";
 import { generateUUID } from "mtxuilib/lib/utils";
-import type { ArtifactKind } from "../../aichatbot/artifact";
-import type { VisibilityType } from "../../aichatbot/visibility-selector";
-import { getDbV3 } from "../dbClientV3";
+import type { ArtifactKind } from "../aichatbot/artifact";
+import type { VisibilityType } from "../aichatbot/visibility-selector";
+import { getDbV3 } from "./dbClientV3";
 import {
   stream,
   type Chat,
@@ -15,8 +15,8 @@ import {
   suggestion,
   user,
   vote,
-} from "../schema";
-import { generateHashedPassword } from "../utils";
+} from "./schema";
+import { generateHashedPassword } from "./utils";
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
@@ -159,13 +159,13 @@ export async function getChatsByUserId({
 }
 
 export async function getChatById({ id }: { id: string }) {
-  try {
-    const [selectedChat] = await getDbV3().select().from(chat).where(eq(chat.id, id));
-    return selectedChat;
-  } catch (error) {
-    console.error(`Failed to get chat by id from database, id: ${id}`);
-    throw error;
-  }
+  // try {
+  const [selectedChat] = await getDbV3().select().from(chat).where(eq(chat.id, id));
+  return selectedChat;
+  // } catch (error) {
+  //   console.error(`Failed to get chat by id from database, id: ${id}`);
+  //   throw error;
+  // }
 }
 
 export async function saveMessages({

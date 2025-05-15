@@ -27,7 +27,7 @@ import {
   getStreamIdsByChatId,
   saveChat,
   saveMessages,
-} from "../../db/queries/queries";
+} from "../../db/queries";
 import type { Chat } from "../../db/schema";
 import { type UserType, auth } from "../../lib/auth/auth";
 import { createRouter } from "../agent_api/lib/createApp";

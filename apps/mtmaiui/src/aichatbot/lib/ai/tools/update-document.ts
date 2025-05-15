@@ -1,7 +1,7 @@
 import { type DataStreamWriter, tool } from "ai";
 import type { Session } from "next-auth";
 import { z } from "zod";
-import { getDocumentById } from "../../../../db/queries/queries";
+import { getDocumentById } from "../../../../db/queries";
 import { documentHandlersByArtifactKind } from "../../artifacts/server";
 
 interface UpdateDocumentProps {

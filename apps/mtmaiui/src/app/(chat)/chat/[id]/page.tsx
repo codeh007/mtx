@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 import { Chat } from "../../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../../aichatbot/lib/ai/models";
-import { getChatById } from "../../../../db/queries/queries";
+import { getChatById } from "../../../../db/queries";
 // import { getChatById, getMessagesByChatId } from "../../../../db/queries/queries";
 import type { DBChatMessage } from "../../../../db/schema";
 import { MtmaiuiConfig } from "../../../../lib/config";
