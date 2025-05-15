@@ -2,7 +2,7 @@ import { type SQL, and, asc, count, desc, eq, gt, gte, inArray, lt } from "drizz
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { ArtifactKind } from "../../aichatbot/artifact";
 import type { VisibilityType } from "../../aichatbot/visibility-selector";
-import { getDb } from "../dbClientV2";
+import { getDbV3 } from "../dbClientV3";
 import {
   stream,
   type Chat,
@@ -20,7 +20,7 @@ import { generateHashedPassword } from "../utils";
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
-    return await getDb().select().from(user).where(eq(user.email, email));
+    return await getDbV3().select().from(user).where(eq(user.email, email));
   } catch (error) {
     console.error("Failed to get user from database");
     throw error;
@@ -31,7 +31,7 @@ export async function createUser(email: string, password: string) {
   const hashedPassword = generateHashedPassword(password);
 
   try {
-    return await getDb()
+    return await getDbV3()
       .insert(user)
       .values({ id: generateUUID(), email, password: hashedPassword });
   } catch (error) {
@@ -45,7 +45,7 @@ export async function createGuestUser() {
   const password = generateHashedPassword(generateUUID());
 
   try {
-    return await getDb().insert(user).values({ id: generateUUID(), email, password }).returning({
+    return await getDbV3().insert(user).values({ id: generateUUID(), email, password }).returning({
       id: user.id,
       email: user.email,
     });
@@ -67,7 +67,7 @@ export async function saveChat({
   visibility: VisibilityType;
 }) {
   try {
-    return await getDb().insert(chat).values({
+    return await getDbV3().insert(chat).values({
       id,
       createdAt: new Date(),
       userId,
@@ -82,11 +82,11 @@ export async function saveChat({
 
 export async function deleteChatById({ id }: { id: string }) {
   try {
-    await getDb().delete(vote).where(eq(vote.chatId, id));
-    await getDb().delete(chatMessage).where(eq(chatMessage.chatId, id));
-    await getDb().delete(stream).where(eq(stream.chatId, id));
+    await getDbV3().delete(vote).where(eq(vote.chatId, id));
+    await getDbV3().delete(chatMessage).where(eq(chatMessage.chatId, id));
+    await getDbV3().delete(stream).where(eq(stream.chatId, id));
 
-    const [chatsDeleted] = await getDb().delete(chat).where(eq(chat.id, id)).returning();
+    const [chatsDeleted] = await getDbV3().delete(chat).where(eq(chat.id, id)).returning();
     return chatsDeleted;
   } catch (error) {
     console.error("Failed to delete chat by id from database");
@@ -109,7 +109,7 @@ export async function getChatsByUserId({
     const extendedLimit = limit + 1;
 
     const query = (whereCondition?: SQL<any>) =>
-      getDb()
+      getDbV3()
         .select()
         .from(chat)
         .where(whereCondition ? and(whereCondition, eq(chat.userId, id)) : eq(chat.userId, id))
@@ -119,7 +119,7 @@ export async function getChatsByUserId({
     let filteredChats: Array<Chat> = [];
 
     if (startingAfter) {
-      const [selectedChat] = await getDb()
+      const [selectedChat] = await getDbV3()
         .select()
         .from(chat)
         .where(eq(chat.id, startingAfter))
@@ -131,7 +131,7 @@ export async function getChatsByUserId({
 
       filteredChats = await query(gt(chat.createdAt, selectedChat.createdAt));
     } else if (endingBefore) {
-      const [selectedChat] = await getDb()
+      const [selectedChat] = await getDbV3()
         .select()
         .from(chat)
         .where(eq(chat.id, endingBefore))
@@ -160,7 +160,7 @@ export async function getChatsByUserId({
 
 export async function getChatById({ id }: { id: string }) {
   try {
-    const [selectedChat] = await getDb().select().from(chat).where(eq(chat.id, id));
+    const [selectedChat] = await getDbV3().select().from(chat).where(eq(chat.id, id));
     return selectedChat;
   } catch (error) {
     console.error(`Failed to get chat by id from database, id: ${id}`);
@@ -174,7 +174,7 @@ export async function saveMessages({
   messages: Array<DBChatMessage>;
 }) {
   try {
-    return await getDb().insert(chatMessage).values(messages);
+    return await getDbV3().insert(chatMessage).values(messages);
   } catch (error) {
     console.error("Failed to save messages in database", error);
     throw error;
@@ -183,7 +183,7 @@ export async function saveMessages({
 
 export async function getMessagesByChatId({ id }: { id: string }) {
   try {
-    return await getDb()
+    return await getDbV3()
       .select()
       .from(chatMessage)
       .where(eq(chatMessage.chatId, id))
@@ -204,18 +204,18 @@ export async function voteMessage({
   type: "up" | "down";
 }) {
   try {
-    const [existingVote] = await getDb()
+    const [existingVote] = await getDbV3()
       .select()
       .from(vote)
       .where(and(eq(vote.messageId, messageId)));
 
     if (existingVote) {
-      return await getDb()
+      return await getDbV3()
         .update(vote)
         .set({ isUpvoted: type === "up" })
         .where(and(eq(vote.messageId, messageId), eq(vote.chatId, chatId)));
     }
-    return await getDb()
+    return await getDbV3()
       .insert(vote)
       .values({
         chatId,
@@ -230,7 +230,7 @@ export async function voteMessage({
 
 export async function getVotesByChatId({ id }: { id: string }) {
   try {
-    return await getDb().select().from(vote).where(eq(vote.chatId, id));
+    return await getDbV3().select().from(vote).where(eq(vote.chatId, id));
   } catch (error) {
     console.error("Failed to get votes by chat id from database", error);
     throw error;
@@ -251,7 +251,7 @@ export async function saveDocument({
   userId: string;
 }) {
   try {
-    return await getDb()
+    return await getDbV3()
       .insert(document)
       .values({
         id,
@@ -270,7 +270,7 @@ export async function saveDocument({
 
 export async function getDocumentsById({ id }: { id: string }) {
   try {
-    const documents = await getDb()
+    const documents = await getDbV3()
       .select()
       .from(document)
       .where(eq(document.id, id))
@@ -285,7 +285,7 @@ export async function getDocumentsById({ id }: { id: string }) {
 
 export async function getDocumentById({ id }: { id: string }) {
   try {
-    const [selectedDocument] = await getDb()
+    const [selectedDocument] = await getDbV3()
       .select()
       .from(document)
       .where(eq(document.id, id))
@@ -306,11 +306,11 @@ export async function deleteDocumentsByIdAfterTimestamp({
   timestamp: Date;
 }) {
   try {
-    await getDb()
+    await getDbV3()
       .delete(suggestion)
       .where(and(eq(suggestion.documentId, id), gt(suggestion.documentCreatedAt, timestamp)));
 
-    return await getDb()
+    return await getDbV3()
       .delete(document)
       .where(and(eq(document.id, id), gt(document.createdAt, timestamp)))
       .returning();
@@ -326,7 +326,7 @@ export async function saveSuggestions({
   suggestions: Array<Suggestion>;
 }) {
   try {
-    return await getDb().insert(suggestion).values(suggestions);
+    return await getDbV3().insert(suggestion).values(suggestions);
   } catch (error) {
     console.error("Failed to save suggestions in database");
     throw error;
@@ -339,7 +339,7 @@ export async function getSuggestionsByDocumentId({
   documentId: string;
 }) {
   try {
-    return await getDb()
+    return await getDbV3()
       .select()
       .from(suggestion)
       .where(and(eq(suggestion.documentId, documentId)));
@@ -351,7 +351,7 @@ export async function getSuggestionsByDocumentId({
 
 export async function getMessageById({ id }: { id: string }) {
   try {
-    return await getDb().select().from(chatMessage).where(eq(chatMessage.id, id));
+    return await getDbV3().select().from(chatMessage).where(eq(chatMessage.id, id));
   } catch (error) {
     console.error("Failed to get message by id from database");
     throw error;
@@ -366,7 +366,7 @@ export async function deleteMessagesByChatIdAfterTimestamp({
   timestamp: Date;
 }) {
   try {
-    const messagesToDelete = await getDb()
+    const messagesToDelete = await getDbV3()
       .select({ id: chatMessage.id })
       .from(chatMessage)
       .where(and(eq(chatMessage.chatId, chatId), gte(chatMessage.createdAt, timestamp)));
@@ -374,11 +374,11 @@ export async function deleteMessagesByChatIdAfterTimestamp({
     const messageIds = messagesToDelete.map((message) => message.id);
 
     if (messageIds.length > 0) {
-      await getDb()
+      await getDbV3()
         .delete(vote)
         .where(and(eq(vote.chatId, chatId), inArray(vote.messageId, messageIds)));
 
-      return await getDb()
+      return await getDbV3()
         .delete(chatMessage)
         .where(and(eq(chatMessage.chatId, chatId), inArray(chatMessage.id, messageIds)));
     }
@@ -396,7 +396,7 @@ export async function updateChatVisiblityById({
   visibility: "private" | "public";
 }) {
   try {
-    return await getDb().update(chat).set({ visibility }).where(eq(chat.id, chatId));
+    return await getDbV3().update(chat).set({ visibility }).where(eq(chat.id, chatId));
   } catch (error) {
     console.error("Failed to update chat visibility in database");
     throw error;
@@ -410,7 +410,7 @@ export async function getMessageCountByUserId({
   try {
     const twentyFourHoursAgo = new Date(Date.now() - differenceInHours * 60 * 60 * 1000);
 
-    const [stats] = await getDb()
+    const [stats] = await getDbV3()
       .select({ count: count(chatMessage.id) })
       .from(chatMessage)
       .innerJoin(chat, eq(chatMessage.chatId, chat.id))
@@ -438,7 +438,7 @@ export async function createStreamId({
   chatId: string;
 }) {
   try {
-    await getDb().insert(stream).values({ id: streamId, chatId, createdAt: new Date() });
+    await getDbV3().insert(stream).values({ id: streamId, chatId, createdAt: new Date() });
   } catch (error) {
     console.error("Failed to create stream id in database");
     throw error;
@@ -447,7 +447,7 @@ export async function createStreamId({
 
 export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
   try {
-    const streamIds = await getDb()
+    const streamIds = await getDbV3()
       .select({ id: stream.id })
       .from(stream)
       .where(eq(stream.chatId, chatId))
