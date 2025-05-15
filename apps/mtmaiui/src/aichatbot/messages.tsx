@@ -49,6 +49,7 @@ function PureMessages({
       ref={messagesContainerRef}
       className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-scroll pt-4 relative"
     >
+      chatId:{chatId}
       {messages.length === 0 && <Greeting />}
       {isdebug && <DebugValue data={messages} />}
       {messages.map((message, index) => (
@@ -64,11 +65,9 @@ function PureMessages({
           requiresScrollPadding={hasSentMessage && index === messages.length - 1}
         />
       ))}
-
       {status === "submitted" &&
         messages.length > 0 &&
         messages[messages.length - 1].role === "user" && <ThinkingMessage />}
-
       <motion.div
         ref={messagesEndRef}
         className="shrink-0 min-w-[24px] min-h-[24px]"

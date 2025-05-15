@@ -5,7 +5,7 @@ import { Chat } from "../../../aichatbot/chat";
 import { DataStreamHandler } from "../../../aichatbot/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "../../../aichatbot/lib/ai/models";
 
-export const Route = createLazyFileRoute("/chat/$session/")({
+export const Route = createLazyFileRoute("/chat/$sessionId/")({
   component: RouteComponent,
 });
 
@@ -19,6 +19,7 @@ function RouteComponent() {
       <MtSuspenseBoundary>{/* <AppSidebar /> */}</MtSuspenseBoundary>
       <MtSuspenseBoundary>
         <SidebarInset>
+          sessionId:{sessionId}
           <Chat
             key={sessionId}
             id={sessionId}
