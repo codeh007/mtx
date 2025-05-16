@@ -1,6 +1,5 @@
 "use client";
 
-// import { signin } from "mtxuilib/lib/auth/auth_actions";
 import { Button } from "mtxuilib/ui/button";
 
 export function LoginGithub({ className }: { className?: string }) {

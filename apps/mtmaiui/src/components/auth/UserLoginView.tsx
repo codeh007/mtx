@@ -24,11 +24,7 @@ export function LoginWithCreddents() {
       <div className="prose text-center">账号密码登录</div>
       <ZForm form={form} className="space-y-2" handleSubmit={loginHandler}>
         <Input type="email" placeholder="邮箱" {...form.register("email")} />
-        <Input
-          type="password"
-          placeholder="密码"
-          {...form.register("password")}
-        />
+        <Input type="password" placeholder="密码" {...form.register("password")} />
         <div className="flex items-center justify-between" />
         <Button
           // isSuccessful={isSuccessful}
@@ -51,9 +47,7 @@ export function LoginWithCreddents() {
         </CustomLink>
       </p>
       <footer className="py-3">
-        <div className="prose text-center">
-          © Mtmai. {new Date().getFullYear()}
-        </div>
+        <div className="prose text-center">© Mtmai. {new Date().getFullYear()}</div>
       </footer>
     </div>
   );

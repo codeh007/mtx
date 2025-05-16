@@ -1,7 +1,7 @@
 "use client";
 
+import { LoginWithCreddents } from "@mtmaiui/components/auth/UserLoginView";
 import { ChevronLeft } from "lucide-react";
-import { LoginWithCreddents } from "mtmaiui/components/auth/UserLoginView";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { ScreenPanel } from "mtxuilib/mt/ScreenPanel";
@@ -15,10 +15,7 @@ export default function Page(props: {
     <ScreenPanel open={true}>
       <div className="size-screen container flex flex-col items-center justify-center">
         <div className="absolute left-4 top-20 focus:z-10 focus:outline-hidden md:left-8 md:top-8">
-          <Link
-            href="/"
-            className={cn(buttonVariants({ variant: "ghost" }), "p-0")}
-          >
+          <Link href="/" className={cn(buttonVariants({ variant: "ghost" }), "p-0")}>
             <ChevronLeft />
           </Link>
         </div>
