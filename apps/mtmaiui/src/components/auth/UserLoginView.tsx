@@ -1,11 +1,12 @@
 "use client";
+import { useLoginHandler } from "@mtmaiui/hooks/useAuth";
+import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import { useLoginHandler } from "../../hooks/useAuth";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,11 +38,7 @@ export function LoginWithCreddents() {
       </ZForm>
 
       <p className="px-8 text-center text-sm ">
-        <CustomLink
-          cn={buttonVariants({ variant: "ghost" })}
-          className="hover:text-brand underline mt-8"
-          to={"/auth/register"}
-        >
+        <CustomLink className={cn(buttonVariants({ variant: "ghost" }))} to={"/auth/register"}>
           {/* Don&apos;t have an account? Sign Up */}
           没有账号？ 注册一个
         </CustomLink>
