@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { AuthForm } from "../../../aichatbot/auth-form";
-import { toast } from "../../../aichatbot/toast";
 import { type RegisterActionState, register } from "../actions";
+import { toast } from "@mtmaiui/aichatbot/toast";
+import { AuthForm } from "@mtmaiui/aichatbot/auth-form";
 
 export const runtime = "nodejs";
 

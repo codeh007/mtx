@@ -10,15 +10,6 @@ import {
 } from "ai";
 import { differenceInSeconds } from "date-fns";
 
-import { generateUUID } from "mtxuilib/lib/utils";
-import { type RequestHints, systemPrompt } from "../../agent_utils/prompts";
-import { myProvider } from "../../agent_utils/providers";
-import { createDocument } from "../../agents/tools/create-document";
-import { requestSuggestions } from "../../agents/tools/request-suggestions";
-import { updateDocument } from "../../agents/tools/update-document";
-// import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
-import { getTrailingMessageId, isProductionEnvironment } from "../../aichatbot/lib/utils";
-import { getDbV3 } from "../../db/dbClientV3";
 import {
   createStreamId,
   deleteChatById,
@@ -28,9 +19,18 @@ import {
   getStreamIdsByChatId,
   saveChat,
   saveMessages,
-} from "../../db/queries";
-import { stream, type Chat, chat } from "../../db/schema";
-import { type UserType, auth } from "../../lib/auth/auth";
+} from "@mtmaiui/db/queries";
+import { stream, type Chat, chat } from "@mtmaiui/db/schema";
+import { type UserType, auth } from "@mtmaiui/lib/auth/auth";
+import { generateUUID } from "mtxuilib/lib/utils";
+import { type RequestHints, systemPrompt } from "../../agent_utils/prompts";
+import { myProvider } from "../../agent_utils/providers";
+import { createDocument } from "../../agents/tools/create-document";
+import { requestSuggestions } from "../../agents/tools/request-suggestions";
+import { updateDocument } from "../../agents/tools/update-document";
+// import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
+import { getTrailingMessageId, isProductionEnvironment } from "../../aichatbot/lib/utils";
+import { getDbV3 } from "../../db/dbClientV3";
 import { createRouter } from "../agent_api/lib/createApp";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 

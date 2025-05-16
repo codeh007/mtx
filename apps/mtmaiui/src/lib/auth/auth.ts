@@ -1,7 +1,7 @@
+import { createGuestUser, getUser } from "@mtmaiui/db/queries";
 import NextAuth, { type DefaultSession } from "next-auth";
 import type { DefaultJWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
-import { createGuestUser, getUser } from "../../db/queries";
 import { authConfig } from "./auth.config";
 
 export type UserType = "guest" | "regular";

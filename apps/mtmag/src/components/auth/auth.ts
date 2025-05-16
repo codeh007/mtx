@@ -1,10 +1,10 @@
-// import { compare } from "bcrypt-ts";
 import NextAuth, { type Session, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "../../../db/queries/queries";
+// import { getUser } from "../../../db/queries/queries";
 
 import { authConfig } from "./auth.config";
+import { getUser } from "../../lib/mtmagapi";
 
 interface ExtendedSession extends Session {
   user: User;
