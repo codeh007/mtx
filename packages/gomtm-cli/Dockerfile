@@ -26,6 +26,9 @@ RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
     && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
 
 
+RUN apt install -yqq ffmpeg libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libavfilter-dev libswscale-dev libswresample-dev
+
+
 #############################
 # 安装 Go
 ARG GOLANG_VERSION
