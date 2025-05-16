@@ -30,6 +30,7 @@ const ResourceRouteLazyImport = createFileRoute('/resource')()
 const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
+const MttaskRouteLazyImport = createFileRoute('/mttask')()
 const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
@@ -66,6 +67,7 @@ const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
+const MttaskIndexLazyImport = createFileRoute('/mttask/')()
 const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
@@ -333,6 +335,14 @@ const PlatformAccountRouteLazyRoute = PlatformAccountRouteLazyImport.update({
   import('./routes/~platform-account/~route.lazy').then((d) => d.Route),
 )
 
+const MttaskRouteLazyRoute = MttaskRouteLazyImport.update({
+  id: '/mttask',
+  path: '/mttask',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~mttask/~route.lazy').then((d) => d.Route),
+)
+
 const EventsRouteLazyRoute = EventsRouteLazyImport.update({
   id: '/events',
   path: '/events',
@@ -559,6 +569,14 @@ const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
   getParentRoute: () => PlatformAccountRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~platform-account/~index.lazy').then((d) => d.Route),
+)
+
+const MttaskIndexLazyRoute = MttaskIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MttaskRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~mttask/~index.lazy').then((d) => d.Route),
 )
 
 const EventsIndexLazyRoute = EventsIndexLazyImport.update({
@@ -1428,6 +1446,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/mttask': {
+      id: '/mttask'
+      path: '/mttask'
+      fullPath: '/mttask'
+      preLoaderRoute: typeof MttaskRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/platform-account': {
       id: '/platform-account'
       path: '/platform-account'
@@ -1539,6 +1564,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/events/'
       preLoaderRoute: typeof EventsIndexLazyImport
       parentRoute: typeof EventsRouteLazyImport
+    }
+    '/mttask/': {
+      id: '/mttask/'
+      path: '/'
+      fullPath: '/mttask/'
+      preLoaderRoute: typeof MttaskIndexLazyImport
+      parentRoute: typeof MttaskRouteLazyImport
     }
     '/platform-account/': {
       id: '/platform-account/'
@@ -2373,6 +2405,18 @@ const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
   EventsRouteLazyRouteChildren,
 )
 
+interface MttaskRouteLazyRouteChildren {
+  MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
+}
+
+const MttaskRouteLazyRouteChildren: MttaskRouteLazyRouteChildren = {
+  MttaskIndexLazyRoute: MttaskIndexLazyRoute,
+}
+
+const MttaskRouteLazyRouteWithChildren = MttaskRouteLazyRoute._addFileChildren(
+  MttaskRouteLazyRouteChildren,
+)
+
 interface PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren {
   PlatformAccountPlatformAccountIdActionsIndexLazyRoute: typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
 }
@@ -3066,6 +3110,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
+  '/mttask': typeof MttaskRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
@@ -3082,6 +3127,7 @@ export interface FileRoutesByFullPath {
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
+  '/mttask/': typeof MttaskIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -3189,6 +3235,7 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
   '/events': typeof EventsIndexLazyRoute
+  '/mttask': typeof MttaskIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/proxy': typeof ProxyIndexLazyRoute
   '/recurring': typeof RecurringIndexLazyRoute
@@ -3258,6 +3305,7 @@ export interface FileRoutesById {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
   '/events': typeof EventsRouteLazyRouteWithChildren
+  '/mttask': typeof MttaskRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
   '/recurring': typeof RecurringRouteLazyRouteWithChildren
@@ -3274,6 +3322,7 @@ export interface FileRoutesById {
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
   '/events/': typeof EventsIndexLazyRoute
+  '/mttask/': typeof MttaskIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
   '/recurring/': typeof RecurringIndexLazyRoute
@@ -3381,6 +3430,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/envs'
     | '/events'
+    | '/mttask'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
@@ -3397,6 +3447,7 @@ export interface FileRouteTypes {
     | '/chat/'
     | '/envs/'
     | '/events/'
+    | '/mttask/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
@@ -3503,6 +3554,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/envs'
     | '/events'
+    | '/mttask'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
@@ -3570,6 +3622,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/envs'
     | '/events'
+    | '/mttask'
     | '/platform-account'
     | '/proxy'
     | '/recurring'
@@ -3586,6 +3639,7 @@ export interface FileRouteTypes {
     | '/chat/'
     | '/envs/'
     | '/events/'
+    | '/mttask/'
     | '/platform-account/'
     | '/proxy/'
     | '/recurring/'
@@ -3692,6 +3746,7 @@ export interface RootRouteChildren {
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
   EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
+  MttaskRouteLazyRoute: typeof MttaskRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
   RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
@@ -3716,6 +3771,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
   EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
+  MttaskRouteLazyRoute: MttaskRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
   RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
@@ -3751,6 +3807,7 @@ export const routeTree = rootRoute
         "/chat",
         "/envs",
         "/events",
+        "/mttask",
         "/platform-account",
         "/proxy",
         "/recurring",
@@ -3813,6 +3870,12 @@ export const routeTree = rootRoute
       "filePath": "~events/~route.lazy.tsx",
       "children": [
         "/events/"
+      ]
+    },
+    "/mttask": {
+      "filePath": "~mttask/~route.lazy.tsx",
+      "children": [
+        "/mttask/"
       ]
     },
     "/platform-account": {
@@ -3905,6 +3968,10 @@ export const routeTree = rootRoute
     "/events/": {
       "filePath": "~events/~index.lazy.tsx",
       "parent": "/events"
+    },
+    "/mttask/": {
+      "filePath": "~mttask/~index.lazy.tsx",
+      "parent": "/mttask"
     },
     "/platform-account/": {
       "filePath": "~platform-account/~index.lazy.tsx",
