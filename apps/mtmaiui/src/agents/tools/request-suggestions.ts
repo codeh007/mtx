@@ -1,10 +1,10 @@
+import { myProvider } from "@mtmaiui/agent_utils/providers";
+import { getDocumentById, saveSuggestions } from "@mtmaiui/db/queries";
+import type { Suggestion } from "@mtmaiui/db/schema";
 import { type DataStreamWriter, streamObject, tool } from "ai";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { Session } from "next-auth";
 import { z } from "zod";
-import { myProvider } from "../../agent_utils/providers";
-import { getDocumentById, saveSuggestions } from "../../db/queries";
-import type { Suggestion } from "../../db/schema";
 
 interface RequestSuggestionsProps {
   session: Session;

@@ -1,5 +1,5 @@
-import { getChatById, getVotesByChatId, voteMessage } from "../../../db/queries";
-import { auth } from "../../../lib/auth/auth";
+import { getChatById, getVotesByChatId, voteMessage } from "@mtmaiui/db/queries";
+import { auth } from "@mtmaiui/lib/auth/auth";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

@@ -1,8 +1,8 @@
+import { getDocumentById } from "@mtmaiui/db/queries";
 import { type DataStreamWriter, tool } from "ai";
 import type { Session } from "next-auth";
 import { z } from "zod";
 import { documentHandlersByArtifactKind } from "../../aichatbot/lib/artifacts/server";
-import { getDocumentById } from "../../db/queries";
 
 interface UpdateDocumentProps {
   session: Session;

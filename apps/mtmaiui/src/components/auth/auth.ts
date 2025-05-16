@@ -1,7 +1,7 @@
 import NextAuth, { type Session, type User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "../../db/queries";
+import { getUser } from "@mtmaiui/db/queries";
 
 import { authConfig } from "./auth.config";
 

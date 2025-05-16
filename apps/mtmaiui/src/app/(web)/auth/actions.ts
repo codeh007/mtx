@@ -2,8 +2,8 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "../../db/queries";
-import { signIn } from "../../lib/auth/auth";
+import { createUser, getUser } from "@mtmaiui/db/queries";
+import { signIn } from "@mtmaiui/lib/auth/auth";
 
 const authFormSchema = z.object({
   email: z.string().email(),

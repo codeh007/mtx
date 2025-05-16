@@ -1,7 +1,7 @@
+import { saveDocument } from "@mtmaiui/db/queries";
+import type { Document } from "@mtmaiui/db/schema";
 import type { DataStreamWriter } from "ai";
 import type { Session } from "next-auth";
-import { saveDocument } from "../../../db/queries";
-import type { Document } from "../../../db/schema";
 import type { ArtifactKind } from "../../artifact";
 import { codeDocumentHandler } from "../../artifacts/code/server";
 import { imageDocumentHandler } from "../../artifacts/image/server";
