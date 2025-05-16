@@ -1,13 +1,13 @@
 "use client";
 
+import { AuthForm } from "@mtmaiui/aichatbot/auth-form";
+// import { toast } from "@mtmaiui/aichatbot/toast";
 import { Button } from "mtxuilib/ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
-import { type RegisterActionState, register } from "../actions";
-import { toast } from "@mtmaiui/aichatbot/toast";
-import { AuthForm } from "@mtmaiui/aichatbot/auth-form";
+import { useState } from "react";
+// import { type RegisterActionState, register } from "../actions";
 
 export const runtime = "nodejs";
 
@@ -17,34 +17,34 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<RegisterActionState, FormData>(register, {
-    status: "idle",
-  });
+  // const [state, formAction] = useActionState<RegisterActionState, FormData>(register, {
+  //   status: "idle",
+  // });
 
   const { update: updateSession } = useSession();
 
-  useEffect(() => {
-    if (state.status === "user_exists") {
-      toast({ type: "error", description: "Account already exists!" });
-    } else if (state.status === "failed") {
-      toast({ type: "error", description: "Failed to create account!" });
-    } else if (state.status === "invalid_data") {
-      toast({
-        type: "error",
-        description: "Failed validating your submission!",
-      });
-    } else if (state.status === "success") {
-      toast({ type: "success", description: "Account created successfully!" });
+  // useEffect(() => {
+  //   if (state.status === "user_exists") {
+  //     toast({ type: "error", description: "Account already exists!" });
+  //   } else if (state.status === "failed") {
+  //     toast({ type: "error", description: "Failed to create account!" });
+  //   } else if (state.status === "invalid_data") {
+  //     toast({
+  //       type: "error",
+  //       description: "Failed validating your submission!",
+  //     });
+  //   } else if (state.status === "success") {
+  //     toast({ type: "success", description: "Account created successfully!" });
 
-      setIsSuccessful(true);
-      updateSession();
-      router.refresh();
-    }
-  }, [state]);
+  //     setIsSuccessful(true);
+  //     updateSession();
+  //     router.refresh();
+  //   }
+  // }, [state]);
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get("email") as string);
-    formAction(formData);
+    // formAction(formData);
   };
 
   return (
@@ -57,7 +57,7 @@ export default function Page() {
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
-          <Button isSuccessful={isSuccessful}>Sign Up</Button>
+          <Button>Sign Up</Button>
           <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
             {"Already have an account? "}
             <Link

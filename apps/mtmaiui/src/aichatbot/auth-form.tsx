@@ -1,3 +1,4 @@
+"use client";
 import Form from "next/form";
 
 import { Input } from "mtxuilib/ui/input";

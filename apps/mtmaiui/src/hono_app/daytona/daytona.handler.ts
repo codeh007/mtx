@@ -33,28 +33,45 @@ daytonaRouter.get("/daytona/helloworld", async (c) => {
 });
 
 daytonaRouter.get("/daytona/smolagent/hello", async (c) => {
+  const sandbox = await getDaytona().create({
+    // language: "typescript",
+    language: "python",
+    autoStopInterval: 10, // n 分钟后自动停止
+    envVars: { NODE_ENV: "development" },
+  });
   try {
     // Create a new sandbox
-    const sandbox = await getDaytona().create({
-      language: "typescript",
-      autoStopInterval: 10, // n 分钟后自动停止
-      envVars: { NODE_ENV: "development" },
-    });
 
     const smolagentTask = "请自我介绍, 告诉我你的能力.";
-    const installSmolagent = "pip install smolagent";
-    const installDaytona = "pip install daytona";
+
+    const files = [
+      {
+        path: "smolagent.py",
+        content: new File([smolagentTask], "smolagent.py", { type: "text/plain" }),
+      },
+    ];
+
+    const uploadResponse = await sandbox.fs.uploadFiles(files);
+
+    console.log(uploadResponse);
+    const installSmolagent = "pip install mtmai";
     // Execute a command
     const response = await sandbox.process.executeCommand(installSmolagent);
 
+    const fullResponseText = response.result;
     const pythonCode = `
     print ("Hello, World!")
     `;
     const response2 = await sandbox.process.codeRun(pythonCode, {});
+
+    await sandbox.stop();
     return c.json({
       result: response2.result,
+      fullResponseText: fullResponseText,
+      uploadResponse: uploadResponse,
     });
   } catch (error: any) {
+    await sandbox.stop();
     return c.text(error);
   }
 });
