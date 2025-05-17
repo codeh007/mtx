@@ -1,5 +1,4 @@
 import { eq } from "drizzle-orm";
-import { getDb } from "../../db/dbClientV2";
 import { adkEvents } from "../../db/schema";
 import { createRouter } from "../agent_api/lib/createApp";
 export const eventRouter = createRouter();
@@ -10,7 +9,7 @@ eventRouter.get("/list", async (c) => {
     return c.json({ error: "session_id is required" }, 400);
   }
   try {
-    const result = await getDb(c.env)
+    const result = await getDbV3()
       .select({
         id: adkEvents.id,
         appName: adkEvents.appName,

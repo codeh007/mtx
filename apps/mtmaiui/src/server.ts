@@ -18,7 +18,6 @@ export {
   MyMcpAgent,
   DemoMcpServer,
   ShortVideoAg,
-  // RevidioAg,
 };
 
 // 工作流
@@ -26,8 +25,18 @@ export { PromptChainingWorkflow } from "./workflows/prompt-chaining-workflow";
 export { D1DbBackupWorkflow } from "./workflows/d1db-backup-workflow";
 
 export { ShortVideoWorkflow } from "./agents/shortvideo/shortvideo-workflow";
-
 export default {
-  fetch: app.fetch,
+  fetch: (request: Request, env, ctx) => {
+    // setupPostgres(env.HYPERDRIVE.connectionString);
+    try {
+      globalThis.env = env;
+      process.env.MTM_DATABASE_URL = env.HYPERDRIVE.connectionString;
+      const response = app.fetch(request, env, ctx);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return new Response(`entry server error: ${error.stack}`, { status: 500 });
+    }
+  },
   scheduled: async (batch, env) => {},
 } satisfies ExportedHandler<Env>;

@@ -1,7 +1,7 @@
 import { getBackendUrl, initGomtmApp } from "mtmaiapi/gomtmapp";
 import { newRProxy } from "mtxuilib/http/rproxy";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 /**
  * 业务api 反向代理

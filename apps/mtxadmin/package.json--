@@ -256,7 +256,6 @@
     "lru-cache": "^10.2.2",
     "@types/nprogress": "^0.2.3",
     "posthog-js": "^1.138.0",
-    "edge-runtime": "^3.0.5",
     "class-variance-authority": "^0.7.0",
     "prosemirror-example-setup": "^1.2.3",
     "@typescript-eslint/parser": "^6.21.0",

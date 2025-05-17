@@ -12,8 +12,8 @@ const nextConfig = {
   transpilePackages: ["mtmaiapi", "mtmaiui"],
   // Configure `pageExtensions` to include MDX files
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
-  distDir: distDir, //输出路径
-  
+  // distDir: distDir, //输出路径
+
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -28,14 +28,14 @@ const nextConfig = {
   // outputFileTracingRoot: path.join(__dirname, "../../"),
 
   experimental: {
-    optimizePackageImports: ["icon-library"],
+    // optimizePackageImports: ["icon-library"],
     // ppr: true,
     // urlImports: ["https://cdn.skypack.dev", "blob:"],
   },
   images: {
     remotePatterns: [
       {
-        hostname: 'avatar.vercel.sh',
+        hostname: "avatar.vercel.sh",
       },
     ],
   },
@@ -72,6 +72,9 @@ const nextConfig = {
       "tiktoken",
       "unpdf",
       "basic-ftp",
+      "edge-runtime",
+      "ws",
+      "node-fetch",
     );
 
     // 演示将 chunk 文件名改为特定名称
@@ -146,6 +149,8 @@ const nextConfig = {
     "cloudflare",
     "cloudflare:sockets",
     "cloudflare:workers",
+    "edge-runtime",
+    "ws",
   ],
 };
 

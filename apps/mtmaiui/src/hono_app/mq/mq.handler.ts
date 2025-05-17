@@ -1,4 +1,4 @@
-import { getDbV3 } from "@mtmaiui/db/dbClientV3";
+import { getDbV3 } from "@mtmaiui/db/queries";
 import { sql } from "drizzle-orm";
 import { createRouter } from "../agent_api/lib/createApp";
 export const mqRouter = createRouter();

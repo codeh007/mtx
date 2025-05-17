@@ -1,35 +1,31 @@
 import type { DescService } from "@bufbuild/protobuf";
-import {
-  type Client,
-  type Interceptor,
-  createClient,
-} from "@connectrpc/connect";
+import { type Client, type Interceptor, createClient } from "@connectrpc/connect";
 import { TransportProvider } from "@connectrpc/connect-query";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
-import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
+// import { AgService } from "mtmaiapi/mtmclient/mtmai/mtmpb/ag_pb";
+// import { MtmService } from "mtmaiapi/mtmclient/mtmai/mtmpb/mtm_pb";
 import { useMemo } from "react";
 import { useTenantId } from "../hooks/useAuth";
 import { useMtmaiV2 } from "./StoreProvider";
 
 const queryClient = new QueryClient();
 
-interface MtTransportProviderProps {
-  children: React.ReactNode;
-}
-export function MtTransportProvider({ children }: MtTransportProviderProps) {
-  const accessToken = useMtmaiV2((x) => x.accessToken);
+// interface MtTransportProviderProps {
+//   children: React.ReactNode;
+// }
+// export function MtTransportProvider({ children }: MtTransportProviderProps) {
+//   const accessToken = useMtmaiV2((x) => x.accessToken);
 
-  const tid = useTenantId();
+//   const tid = useTenantId();
 
-  const transport = useGomtmTransport({ accessToken, tenantId: tid });
-  return (
-    <TransportProvider transport={transport}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </TransportProvider>
-  );
-}
+//   const transport = useGomtmTransport({ accessToken, tenantId: tid });
+//   return (
+//     <TransportProvider transport={transport}>
+//       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+//     </TransportProvider>
+//   );
+// }
 
 export function useGomtmTransport({
   accessToken,
@@ -83,10 +79,10 @@ export function useGomtmClient<T extends DescService>(service: T): Client<T> {
   return useMemo(() => createClient(service, transport), [service, transport]);
 }
 
-export function useAgService() {
-  return useGomtmClient(AgService);
-}
+// export function useAgService() {
+//   return useGomtmClient(AgService);
+// }
 
-export function useMtmService() {
-  return useGomtmClient(MtmService);
-}
+// export function useMtmService() {
+//   return useGomtmClient(MtmService);
+// }

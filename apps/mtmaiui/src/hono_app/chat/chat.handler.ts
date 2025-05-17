@@ -30,7 +30,7 @@ import { requestSuggestions } from "../../agents/tools/request-suggestions";
 import { updateDocument } from "../../agents/tools/update-document";
 // import { getWeather } from "../../aichatbot/lib/ai/tools/get-weather";
 import { getTrailingMessageId, isProductionEnvironment } from "../../aichatbot/lib/utils";
-import { getDbV3 } from "../../db/dbClientV3";
+import { getDbV3 } from "../../db/queries";
 import { createRouter } from "../agent_api/lib/createApp";
 import { type PostRequestBody, postRequestBodySchema } from "./schema";
 

@@ -1,7 +1,6 @@
 import GitHub from "@auth/core/providers/github";
 import { generateUUID } from "mtxuilib/lib/utils";
 import Credentials from "next-auth/providers/credentials";
-import { getDb } from "../../db/dbClientV2";
 import { user } from "../../db/schema";
 import { generateHashedPassword } from "../../db/utils";
 
@@ -10,7 +9,7 @@ export async function createGuestUser() {
   const password = generateHashedPassword(generateUUID());
 
   try {
-    const db = await getDb();
+    const db = await getDbV3();
     return await db.insert(user).values({ id: generateUUID(), email, password }).returning({
       id: user.id,
       email: user.email,

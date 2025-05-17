@@ -1,7 +1,7 @@
 import type { EndpointList } from "mtmaiapi";
 import { copyIncomeHeaders } from "mtxuilib/http/rproxy";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 /**
  * 业务api 反向代理
@@ -52,9 +52,7 @@ const handler = async (r: Request) => {
       body: r.body,
     });
 
-    console.log(
-      `🚀 [rroxy(space)] => ${r.method} ${response.status} ${remoteUrl.toString()}\n`,
-    );
+    console.log(`🚀 [rroxy(space)] => ${r.method} ${response.status} ${remoteUrl.toString()}\n`);
     return response;
   } catch (e) {
     return new Response(

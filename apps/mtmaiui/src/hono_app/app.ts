@@ -18,11 +18,15 @@ import { siteRoute } from "./site/site.hanler";
 import gomtmProxyRouter from "./v1/v1_route";
 const app = createApp().basePath("/api");
 
-// app.use("*", async (c, next) => {
-//   // c.set("X-Powered-By", "Hono");
-//   // globalThis.Hyperdrive = c.env.HYPERDRIVE;
-//   await next();
-// });
+// 所有路径,所有方法的中间件
+app.use(async (c, next) => {
+  try {
+    await next();
+  } catch (error) {
+    console.error(error.stack);
+    return c.json({ error: `Internal Server Error, error: ${error.stack}` }, 500);
+  }
+});
 app.use("*", cors());
 // app.use(
 //   "/users",

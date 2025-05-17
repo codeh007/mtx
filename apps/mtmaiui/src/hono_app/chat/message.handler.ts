@@ -1,4 +1,4 @@
-import { getDbV3 } from "@mtmaiui/db/dbClientV3";
+import { getDbV3 } from "@mtmaiui/db/queries";
 import { eq } from "drizzle-orm";
 import { chatMessage } from "../../db/schema";
 import { createRouter } from "../agent_api/lib/createApp";

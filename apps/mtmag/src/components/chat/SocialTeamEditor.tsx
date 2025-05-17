@@ -1,15 +1,8 @@
 "use client";
 
-import { AgentEventType } from "mtmaiapi";
 import { zSocialTeam } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ParticipantsInput } from "./ParticipantsInput";
@@ -27,7 +20,7 @@ export function SocialTeamEditor() {
         // session_id: "123",
         // task: "告诉我,您能帮我做什么事情?",
         // init_state: {},
-        type: AgentEventType.CHAT_MESSAGE_INPUT,
+        // type: AgentEventType.CHAT_MESSAGE_INPUT,
         content: "告诉我,您能帮我做什么事情?",
       });
     },

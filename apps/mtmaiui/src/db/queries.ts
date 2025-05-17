@@ -1,8 +1,36 @@
 import { type SQL, and, asc, count, desc, eq, gt, gte, inArray, lt } from "drizzle-orm";
+// import postgres from "postgres";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type { ArtifactKind } from "../aichatbot/artifact";
 import type { VisibilityType } from "../aichatbot/visibility-selector";
-import { getDbV3 } from "./dbClientV3";
+
+let globalInstance: ReturnType<typeof drizzle> | undefined;
+let globalPool: postgres.Sql | undefined;
+
+export function getDbV3() {
+  if (globalInstance) {
+    return globalInstance;
+  }
+
+  const connStr = process.env.MTM_DATABASE_URL;
+  if (!connStr) {
+    throw new Error("MTM_DATABASE_URL is not defined");
+  }
+
+  // Create connection pool
+  const pool = postgres(connStr, {
+    max: 5, // Maximum number of connections
+    idle_timeout: 20, // Idle connection timeout in seconds
+    connect_timeout: 10, // Connection timeout in seconds
+  });
+
+  globalPool = pool;
+  const db = drizzle(pool);
+  globalInstance = db;
+
+  return db;
+}
 import {
   stream,
   type Chat,
