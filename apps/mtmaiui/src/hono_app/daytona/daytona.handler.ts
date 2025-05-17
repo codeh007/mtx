@@ -40,7 +40,7 @@ daytonaRouter.get("/daytona/helloworld", async (c) => {
 
 daytonaRouter.get("/daytona/smolagent/hello", async (c) => {
   const sandbox = await getDaytona().create({
-    image: "gitgit188/gomtm",
+    image: "docker.io/gitgit188/gomtm:latest",
     // language: "typescript",
     language: "python",
     autoStopInterval: 10, // n 分钟后自动停止
