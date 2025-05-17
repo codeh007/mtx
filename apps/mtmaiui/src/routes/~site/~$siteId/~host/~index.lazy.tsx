@@ -18,7 +18,7 @@ function RouteComponent() {
   const query = useSuspenseQuery({
     queryKey: ["siteHostList", siteId],
     queryFn: async () => {
-      const res = await fetch(`/api/site/hosts?siteId=${siteId}`);
+      const res = await fetch(`/api/sites/hosts?siteId=${siteId}`);
       return res.json();
     },
   });

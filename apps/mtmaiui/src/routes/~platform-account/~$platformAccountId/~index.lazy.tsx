@@ -1,30 +1,19 @@
 "use client";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import {
-  platformAccountGetOptions,
-  platformAccountUpsertMutation,
-} from "mtmaiapi";
-import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import { platformAccountGetOptions, platformAccountUpsertMutation } from "mtmaiapi";
+// import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useToast } from "mtxuilib/ui/use-toast";
 import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { ProxySelect } from "../../~proxy/ProxySelect";
-export const Route = createLazyFileRoute(
-  "/platform-account/$platformAccountId/",
-)({
+export const Route = createLazyFileRoute("/platform-account/$platformAccountId/")({
   component: RouteComponent,
 });
 

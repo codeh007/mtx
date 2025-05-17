@@ -1,14 +1,8 @@
 "use client";
 
-import type { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
+// import type { zUpsertModel } from "mtmaiapi/gomtmapi/zod.gen";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { Switch } from "mtxuilib/ui/switch";
 import { useFormContext } from "react-hook-form";

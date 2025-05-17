@@ -7,7 +7,7 @@ import {
   platformAccountCreateMutation,
   platformAccountListOptions,
 } from "mtmaiapi";
-import { zPlatformAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
+// import { zPlatformAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import { Button } from "mtxuilib/ui/button";

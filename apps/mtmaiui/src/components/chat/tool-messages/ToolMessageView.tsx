@@ -1,15 +1,11 @@
 "use client";
 
 import type { MtLlmMessage } from "mtmaiapi";
-export const FunctionExecutionResultMessageView = ({
-  msg,
-}: { msg: MtLlmMessage }) => {
+export const FunctionExecutionResultMessageView = ({ msg }: { msg: MtLlmMessage }) => {
   const type = msg.type;
   if (type !== "FunctionExecutionResultMessage") {
     return (
-      <div className="bg-red-100 p-1">
-        unknown function execution result message type: {type}
-      </div>
+      <div className="bg-red-100 p-1">unknown function execution result message type: {type}</div>
     );
   }
 

@@ -1,15 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { resourceUpsertMutation } from "mtmaiapi";
-import { zResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+// import { zResourceUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useTenantId } from "../../../../hooks/useAuth";
 export const Route = createLazyFileRoute("/resource/new/res")({

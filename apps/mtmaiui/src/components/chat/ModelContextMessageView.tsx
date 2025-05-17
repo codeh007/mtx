@@ -23,7 +23,7 @@ import { useTenantId } from "../../hooks/useAuth";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { AskUserMessage } from "./tool-messages/AskUserMessage";
 import { CodeExecutorView } from "./tool-messages/CodeExecutor";
-import { SocialLoginView } from "./tool-messages/SocialLogin";
+// import { SocialLoginView } from "./tool-messages/SocialLogin";
 import { FunctionExecutionResultMessageView } from "./tool-messages/ToolMessageView";
 
 interface MtMessagesProps {

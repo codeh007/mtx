@@ -1,13 +1,7 @@
 "use client";
 
-import type { zAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+// import type { zAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import type { PropsWithChildren } from "react";
 import { useFormContext } from "react-hook-form";

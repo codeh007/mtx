@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { proxyListQueryKey, proxyUpsertMutation } from "mtmaiapi";
-import { zProxyUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+// import { zProxyUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { generateUUID } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";

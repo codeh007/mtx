@@ -2,7 +2,6 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { type FlowNames, workflowRunCreateMutation } from "mtmaiapi";
-import { zAgEvent } from "mtmaiapi/gomtmapi/zod.gen";
 import { cn } from "mtxuilib/lib/utils";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";

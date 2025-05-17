@@ -1,10 +1,7 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
-import {
-  tenantSettingsGetOptions,
-  tenantSettingsUpsertMutation,
-} from "mtmaiapi";
-import { zTenantSettingUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import { tenantSettingsGetOptions, tenantSettingsUpsertMutation } from "mtmaiapi";
+// import { zTenantSettingUpsert } from "mtmaiapi/gomtmapi/zod.gen";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";

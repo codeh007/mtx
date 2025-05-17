@@ -1,6 +1,6 @@
 "use client";
 import { AgentEventType } from "mtmaiapi";
-import { zSocialLoginInput } from "mtmaiapi/gomtmapi/zod.gen";
+// import { zSocialLoginInput } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
