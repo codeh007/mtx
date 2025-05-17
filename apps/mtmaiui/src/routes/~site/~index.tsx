@@ -1,30 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { type Site, siteListOptions } from "mtmaiapi";
+import { useQuery } from "@tanstack/react-query";
+// import { type Site } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useMemo } from "react";
 
+import type { Site } from "mtmaiapi";
 import { SiteListViewHeader } from "../../components/site/SiteListViewHeader";
-import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/site/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const tenant = useTenant();
-  const listQuery = useSuspenseQuery({
-    ...siteListOptions({
-      path: {
-        tenant: tenant!.metadata.id,
-      },
-    }),
+  // const tenant = useTenant();
+  // const listQuery = useSuspenseQuery({
+  //   ...siteListOptions({
+  //     path: {
+  //       tenant: tenant!.metadata.id,
+  //     },
+  //   }),
+  // });
+
+  const listSites = useQuery({
+    queryKey: ["sites"],
+    queryFn: async () => {
+      const res = await fetch("/api/sites");
+      return res.json();
+    },
   });
   const isEmpty = useMemo(() => {
-    return listQuery.data?.rows?.length === 0;
-  }, [listQuery.data?.rows]);
+    return listSites.data?.rows?.length === 0;
+  }, [listSites.data?.rows]);
   return (
     <div className="flex flex-col h-full w-full ">
       {isEmpty ? (
@@ -36,7 +44,7 @@ function RouteComponent() {
           <SiteListViewHeader />
 
           <div className="flex flex-col gap-2">
-            {listQuery.data?.rows?.map((site) => (
+            {listSites.data?.rows?.map((site) => (
               <SiteListItem key={site.metadata.id} site={site} />
             ))}
           </div>
@@ -53,9 +61,7 @@ const SiteListItem = ({ site }: SiteListItemProps) => {
   return (
     <div className="flex bg-red-100 p-2 ">
       <div className="flex-1">
-        <CustomLink to={`/dash/site/${site.metadata.id}`}>
-          {site.title}
-        </CustomLink>
+        <CustomLink to={`/dash/site/${site.metadata.id}`}>{site.title}</CustomLink>
       </div>
       <div className="flex-0">
         <DebugValue data={site} />

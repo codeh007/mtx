@@ -13,6 +13,7 @@ import { envsRouter } from "./envs/envs.handler";
 import { mqRouter } from "./mq/mq.handler";
 import { r2Router } from "./r2/r2.handler";
 import { scriptRouter } from "./scripts/scripts.handler";
+import siteRoute from "./site/site.hanler";
 import gomtmProxyRouter from "./v1/v1_route";
 const app = createApp().basePath("/api");
 
@@ -82,5 +83,6 @@ app.route("/v1/*", gomtmProxyRouter);
 app.route("/mq", mqRouter);
 app.route("/", daytonaRouter);
 app.route("/", automateRoute);
+app.route("/", siteRoute);
 app.route("/agents/sessions/", agentSessionRouter);
 export default app;
