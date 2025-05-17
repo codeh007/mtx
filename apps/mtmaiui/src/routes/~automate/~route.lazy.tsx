@@ -1,6 +1,5 @@
 import { RootAppWrapper } from "@mtmaiui/components/RootAppWrapper";
 import { WorkbrenchProvider } from "@mtmaiui/stores/workbrench.store";
-import { WorkflowsProvider } from "@mtmaiui/stores/workflow-store";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { DashHeaders } from "mtxuilib/mt/DashContent";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
@@ -13,20 +12,18 @@ function RouteComponent() {
   return (
     <>
       <WorkbrenchProvider>
-        <WorkflowsProvider>
-          <RootAppWrapper>
-            <DashHeaders>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>自动化操作</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </DashHeaders>
-            <Outlet />
-          </RootAppWrapper>
-        </WorkflowsProvider>
+        <RootAppWrapper>
+          <DashHeaders>
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>自动化操作</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </DashHeaders>
+          <Outlet />
+        </RootAppWrapper>
       </WorkbrenchProvider>
     </>
   );

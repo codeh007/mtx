@@ -20,8 +20,6 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 
 // Create Virtual Routes
 
-const WorkflowsRouteLazyImport = createFileRoute('/workflows')()
-const WorkflowRunsRouteLazyImport = createFileRoute('/workflow-runs')()
 const TkRouteLazyImport = createFileRoute('/tk')()
 const TenantRouteLazyImport = createFileRoute('/tenant')()
 const SiteRouteLazyImport = createFileRoute('/site')()
@@ -60,8 +58,6 @@ const PlatformAccountPlatformAccountIdRouteLazyImport = createFileRoute(
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
-const WorkflowsIndexLazyImport = createFileRoute('/workflows/')()
-const WorkflowRunsIndexLazyImport = createFileRoute('/workflow-runs/')()
 const TkIndexLazyImport = createFileRoute('/tk/')()
 const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
@@ -264,22 +260,6 @@ const ComsComIdTeambuilderAgentAgentIdModelIndexLazyImport = createFileRoute(
 
 // Create/Update Routes
 
-const WorkflowsRouteLazyRoute = WorkflowsRouteLazyImport.update({
-  id: '/workflows',
-  path: '/workflows',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~workflows/~route.lazy').then((d) => d.Route),
-)
-
-const WorkflowRunsRouteLazyRoute = WorkflowRunsRouteLazyImport.update({
-  id: '/workflow-runs',
-  path: '/workflow-runs',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~workflow-runs/~route.lazy').then((d) => d.Route),
-)
-
 const TkRouteLazyRoute = TkRouteLazyImport.update({
   id: '/tk',
   path: '/tk',
@@ -412,18 +392,18 @@ const IndexRoute = IndexImport.update({
 
 const WorkflowsWorkflowIdRouteLazyRoute =
   WorkflowsWorkflowIdRouteLazyImport.update({
-    id: '/$workflowId',
-    path: '/$workflowId',
-    getParentRoute: () => WorkflowsRouteLazyRoute,
+    id: '/workflows/$workflowId',
+    path: '/workflows/$workflowId',
+    getParentRoute: () => rootRoute,
   } as any).lazy(() =>
     import('./routes/~workflows/~$workflowId/~route.lazy').then((d) => d.Route),
   )
 
 const WorkflowRunsWorkflowRunIdRouteLazyRoute =
   WorkflowRunsWorkflowRunIdRouteLazyImport.update({
-    id: '/$workflowRunId',
-    path: '/$workflowRunId',
-    getParentRoute: () => WorkflowRunsRouteLazyRoute,
+    id: '/workflow-runs/$workflowRunId',
+    path: '/workflow-runs/$workflowRunId',
+    getParentRoute: () => rootRoute,
   } as any).lazy(() =>
     import('./routes/~workflow-runs/~$workflowRunId/~route.lazy').then(
       (d) => d.Route,
@@ -520,22 +500,6 @@ const AdkSessionRouteLazyRoute = AdkSessionRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~adk/~session/~route.lazy').then((d) => d.Route),
-)
-
-const WorkflowsIndexLazyRoute = WorkflowsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => WorkflowsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~workflows/~index.lazy').then((d) => d.Route),
-)
-
-const WorkflowRunsIndexLazyRoute = WorkflowRunsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => WorkflowRunsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~workflow-runs/~index.lazy').then((d) => d.Route),
 )
 
 const TkIndexLazyRoute = TkIndexLazyImport.update({
@@ -1528,20 +1492,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TkRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/workflow-runs': {
-      id: '/workflow-runs'
-      path: '/workflow-runs'
-      fullPath: '/workflow-runs'
-      preLoaderRoute: typeof WorkflowRunsRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/workflows': {
-      id: '/workflows'
-      path: '/workflows'
-      fullPath: '/workflows'
-      preLoaderRoute: typeof WorkflowsRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/bundler/test111': {
       id: '/bundler/test111'
       path: '/test111'
@@ -1661,20 +1611,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TkIndexLazyImport
       parentRoute: typeof TkRouteLazyImport
     }
-    '/workflow-runs/': {
-      id: '/workflow-runs/'
-      path: '/'
-      fullPath: '/workflow-runs/'
-      preLoaderRoute: typeof WorkflowRunsIndexLazyImport
-      parentRoute: typeof WorkflowRunsRouteLazyImport
-    }
-    '/workflows/': {
-      id: '/workflows/'
-      path: '/'
-      fullPath: '/workflows/'
-      preLoaderRoute: typeof WorkflowsIndexLazyImport
-      parentRoute: typeof WorkflowsRouteLazyImport
-    }
     '/adk/session': {
       id: '/adk/session'
       path: '/adk/session'
@@ -1754,17 +1690,17 @@ declare module '@tanstack/react-router' {
     }
     '/workflow-runs/$workflowRunId': {
       id: '/workflow-runs/$workflowRunId'
-      path: '/$workflowRunId'
+      path: '/workflow-runs/$workflowRunId'
       fullPath: '/workflow-runs/$workflowRunId'
       preLoaderRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyImport
-      parentRoute: typeof WorkflowRunsRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/workflows/$workflowId': {
       id: '/workflows/$workflowId'
-      path: '/$workflowId'
+      path: '/workflows/$workflowId'
       fullPath: '/workflows/$workflowId'
       preLoaderRoute: typeof WorkflowsWorkflowIdRouteLazyImport
-      parentRoute: typeof WorkflowsRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/site/$siteId/': {
       id: '/site/$siteId/'
@@ -2767,6 +2703,34 @@ const TkRouteLazyRouteWithChildren = TkRouteLazyRoute._addFileChildren(
   TkRouteLazyRouteChildren,
 )
 
+interface AdkSessionSessionIdRouteLazyRouteChildren {
+  AdkSessionSessionIdIndexLazyRoute: typeof AdkSessionSessionIdIndexLazyRoute
+}
+
+const AdkSessionSessionIdRouteLazyRouteChildren: AdkSessionSessionIdRouteLazyRouteChildren =
+  {
+    AdkSessionSessionIdIndexLazyRoute: AdkSessionSessionIdIndexLazyRoute,
+  }
+
+const AdkSessionSessionIdRouteLazyRouteWithChildren =
+  AdkSessionSessionIdRouteLazyRoute._addFileChildren(
+    AdkSessionSessionIdRouteLazyRouteChildren,
+  )
+
+interface AdkSessionRouteLazyRouteChildren {
+  AdkSessionIndexLazyRoute: typeof AdkSessionIndexLazyRoute
+  AdkSessionSessionIdRouteLazyRoute: typeof AdkSessionSessionIdRouteLazyRouteWithChildren
+}
+
+const AdkSessionRouteLazyRouteChildren: AdkSessionRouteLazyRouteChildren = {
+  AdkSessionIndexLazyRoute: AdkSessionIndexLazyRoute,
+  AdkSessionSessionIdRouteLazyRoute:
+    AdkSessionSessionIdRouteLazyRouteWithChildren,
+}
+
+const AdkSessionRouteLazyRouteWithChildren =
+  AdkSessionRouteLazyRoute._addFileChildren(AdkSessionRouteLazyRouteChildren)
+
 interface WorkflowRunsWorkflowRunIdChatRouteLazyRouteChildren {
   WorkflowRunsWorkflowRunIdChatIndexLazyRoute: typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
 }
@@ -2843,22 +2807,6 @@ const WorkflowRunsWorkflowRunIdRouteLazyRouteChildren: WorkflowRunsWorkflowRunId
 const WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren =
   WorkflowRunsWorkflowRunIdRouteLazyRoute._addFileChildren(
     WorkflowRunsWorkflowRunIdRouteLazyRouteChildren,
-  )
-
-interface WorkflowRunsRouteLazyRouteChildren {
-  WorkflowRunsIndexLazyRoute: typeof WorkflowRunsIndexLazyRoute
-  WorkflowRunsWorkflowRunIdRouteLazyRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
-}
-
-const WorkflowRunsRouteLazyRouteChildren: WorkflowRunsRouteLazyRouteChildren = {
-  WorkflowRunsIndexLazyRoute: WorkflowRunsIndexLazyRoute,
-  WorkflowRunsWorkflowRunIdRouteLazyRoute:
-    WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren,
-}
-
-const WorkflowRunsRouteLazyRouteWithChildren =
-  WorkflowRunsRouteLazyRoute._addFileChildren(
-    WorkflowRunsRouteLazyRouteChildren,
   )
 
 interface WorkflowsWorkflowIdTriggerAgRouteLazyRouteChildren {
@@ -3058,48 +3006,6 @@ const WorkflowsWorkflowIdRouteLazyRouteWithChildren =
     WorkflowsWorkflowIdRouteLazyRouteChildren,
   )
 
-interface WorkflowsRouteLazyRouteChildren {
-  WorkflowsIndexLazyRoute: typeof WorkflowsIndexLazyRoute
-  WorkflowsWorkflowIdRouteLazyRoute: typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
-}
-
-const WorkflowsRouteLazyRouteChildren: WorkflowsRouteLazyRouteChildren = {
-  WorkflowsIndexLazyRoute: WorkflowsIndexLazyRoute,
-  WorkflowsWorkflowIdRouteLazyRoute:
-    WorkflowsWorkflowIdRouteLazyRouteWithChildren,
-}
-
-const WorkflowsRouteLazyRouteWithChildren =
-  WorkflowsRouteLazyRoute._addFileChildren(WorkflowsRouteLazyRouteChildren)
-
-interface AdkSessionSessionIdRouteLazyRouteChildren {
-  AdkSessionSessionIdIndexLazyRoute: typeof AdkSessionSessionIdIndexLazyRoute
-}
-
-const AdkSessionSessionIdRouteLazyRouteChildren: AdkSessionSessionIdRouteLazyRouteChildren =
-  {
-    AdkSessionSessionIdIndexLazyRoute: AdkSessionSessionIdIndexLazyRoute,
-  }
-
-const AdkSessionSessionIdRouteLazyRouteWithChildren =
-  AdkSessionSessionIdRouteLazyRoute._addFileChildren(
-    AdkSessionSessionIdRouteLazyRouteChildren,
-  )
-
-interface AdkSessionRouteLazyRouteChildren {
-  AdkSessionIndexLazyRoute: typeof AdkSessionIndexLazyRoute
-  AdkSessionSessionIdRouteLazyRoute: typeof AdkSessionSessionIdRouteLazyRouteWithChildren
-}
-
-const AdkSessionRouteLazyRouteChildren: AdkSessionRouteLazyRouteChildren = {
-  AdkSessionIndexLazyRoute: AdkSessionIndexLazyRoute,
-  AdkSessionSessionIdRouteLazyRoute:
-    AdkSessionSessionIdRouteLazyRouteWithChildren,
-}
-
-const AdkSessionRouteLazyRouteWithChildren =
-  AdkSessionRouteLazyRoute._addFileChildren(AdkSessionRouteLazyRouteChildren)
-
 interface ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren {
   ComsComIdTeambuilderv2InstagramteamIndexLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
 }
@@ -3149,8 +3055,6 @@ export interface FileRoutesByFullPath {
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
-  '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
-  '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
@@ -3168,8 +3072,6 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
-  '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
-  '/workflows/': typeof WorkflowsIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -3277,8 +3179,6 @@ export interface FileRoutesByTo {
   '/site': typeof SiteIndexLazyRoute
   '/tenant': typeof TenantIndexLazyRoute
   '/tk': typeof TkIndexLazyRoute
-  '/workflow-runs': typeof WorkflowRunsIndexLazyRoute
-  '/workflows': typeof WorkflowsIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
@@ -3350,8 +3250,6 @@ export interface FileRoutesById {
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
-  '/workflow-runs': typeof WorkflowRunsRouteLazyRouteWithChildren
-  '/workflows': typeof WorkflowsRouteLazyRouteWithChildren
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
@@ -3369,8 +3267,6 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexLazyRoute
   '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
-  '/workflow-runs/': typeof WorkflowRunsIndexLazyRoute
-  '/workflows/': typeof WorkflowsIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -3478,8 +3374,6 @@ export interface FileRouteTypes {
     | '/site'
     | '/tenant'
     | '/tk'
-    | '/workflow-runs'
-    | '/workflows'
     | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
@@ -3497,8 +3391,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/tenant/'
     | '/tk/'
-    | '/workflow-runs/'
-    | '/workflows/'
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
@@ -3605,8 +3497,6 @@ export interface FileRouteTypes {
     | '/site'
     | '/tenant'
     | '/tk'
-    | '/workflow-runs'
-    | '/workflows'
     | '/auth/register'
     | '/platform-account/new'
     | '/proxy/new'
@@ -3676,8 +3566,6 @@ export interface FileRouteTypes {
     | '/site'
     | '/tenant'
     | '/tk'
-    | '/workflow-runs'
-    | '/workflows'
     | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
@@ -3695,8 +3583,6 @@ export interface FileRouteTypes {
     | '/site/'
     | '/tenant/'
     | '/tk/'
-    | '/workflow-runs/'
-    | '/workflows/'
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
@@ -3803,9 +3689,9 @@ export interface RootRouteChildren {
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
-  WorkflowRunsRouteLazyRoute: typeof WorkflowRunsRouteLazyRouteWithChildren
-  WorkflowsRouteLazyRoute: typeof WorkflowsRouteLazyRouteWithChildren
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
+  WorkflowRunsWorkflowRunIdRouteLazyRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
+  WorkflowsWorkflowIdRouteLazyRoute: typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdModelRouteLazyRouteWithChildren
 }
@@ -3829,9 +3715,11 @@ const rootRouteChildren: RootRouteChildren = {
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
-  WorkflowRunsRouteLazyRoute: WorkflowRunsRouteLazyRouteWithChildren,
-  WorkflowsRouteLazyRoute: WorkflowsRouteLazyRouteWithChildren,
   AdkSessionRouteLazyRoute: AdkSessionRouteLazyRouteWithChildren,
+  WorkflowRunsWorkflowRunIdRouteLazyRoute:
+    WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren,
+  WorkflowsWorkflowIdRouteLazyRoute:
+    WorkflowsWorkflowIdRouteLazyRouteWithChildren,
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute:
     ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren,
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute:
@@ -3866,9 +3754,9 @@ export const routeTree = rootRoute
         "/site",
         "/tenant",
         "/tk",
-        "/workflow-runs",
-        "/workflows",
         "/adk/session",
+        "/workflow-runs/$workflowRunId",
+        "/workflows/$workflowId",
         "/coms/$comId/team_builderv2/instagram_team",
         "/coms/$comId/team_builder/agent/$agentId/model"
       ]
@@ -3991,20 +3879,6 @@ export const routeTree = rootRoute
         "/tk/"
       ]
     },
-    "/workflow-runs": {
-      "filePath": "~workflow-runs/~route.lazy.tsx",
-      "children": [
-        "/workflow-runs/",
-        "/workflow-runs/$workflowRunId"
-      ]
-    },
-    "/workflows": {
-      "filePath": "~workflows/~route.lazy.tsx",
-      "children": [
-        "/workflows/",
-        "/workflows/$workflowId"
-      ]
-    },
     "/bundler/test111": {
       "filePath": "~bundler/~test111.tsx",
       "parent": "/bundler"
@@ -4072,14 +3946,6 @@ export const routeTree = rootRoute
     "/tk/": {
       "filePath": "~tk/~index.lazy.tsx",
       "parent": "/tk"
-    },
-    "/workflow-runs/": {
-      "filePath": "~workflow-runs/~index.lazy.tsx",
-      "parent": "/workflow-runs"
-    },
-    "/workflows/": {
-      "filePath": "~workflows/~index.lazy.tsx",
-      "parent": "/workflows"
     },
     "/adk/session": {
       "filePath": "~adk/~session/~route.lazy.tsx",
@@ -4157,7 +4023,6 @@ export const routeTree = rootRoute
     },
     "/workflow-runs/$workflowRunId": {
       "filePath": "~workflow-runs/~$workflowRunId/~route.lazy.tsx",
-      "parent": "/workflow-runs",
       "children": [
         "/workflow-runs/$workflowRunId/",
         "/workflow-runs/$workflowRunId/additional-metadata",
@@ -4170,7 +4035,6 @@ export const routeTree = rootRoute
     },
     "/workflows/$workflowId": {
       "filePath": "~workflows/~$workflowId/~route.lazy.tsx",
-      "parent": "/workflows",
       "children": [
         "/workflows/$workflowId/",
         "/workflows/$workflowId/trigger"

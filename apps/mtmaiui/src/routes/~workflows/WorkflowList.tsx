@@ -5,7 +5,6 @@ import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { TaskDateBadge } from "mtxuilib/mt/relative-date";
 import { buttonVariants } from "mtxuilib/ui/button";
-import { useWorkflowsStore } from "../../stores/workflow-store";
 
 export function WorkflowListView() {
   const listWorkflowQuery = useWorkflowsStore((x) => x.listWorkflowQuery);

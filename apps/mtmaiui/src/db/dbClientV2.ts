@@ -10,3 +10,10 @@ export function getDb(env: Env | undefined = undefined) {
   const db = drizzle(`${env.HYPERDRIVE.connectionString}`);
   return db;
 }
+
+export const sql = (sqltext: string, ...args: any[]) => {
+  return {
+    sql: sqltext,
+    args,
+  } as any;
+};

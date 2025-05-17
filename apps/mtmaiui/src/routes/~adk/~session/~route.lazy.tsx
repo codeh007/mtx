@@ -1,7 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { RootAppWrapper } from "../../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../../stores/workbrench.store";
-import { WorkflowsProvider } from "../../../stores/workflow-store";
 import { NavAdkSession } from "./siderbar";
 
 export const Route = createLazyFileRoute("/adk/session")({
@@ -12,9 +11,8 @@ function RouteComponent() {
   return (
     <>
       <WorkbrenchProvider>
-        <WorkflowsProvider>
-          <RootAppWrapper secondSidebar={<NavAdkSession />}>
-            {/* <DashHeaders>
+        <RootAppWrapper secondSidebar={<NavAdkSession />}>
+          {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -23,9 +21,8 @@ function RouteComponent() {
                 </BreadcrumbList>
               </Breadcrumb>
             </DashHeaders> */}
-            <Outlet />
-          </RootAppWrapper>
-        </WorkflowsProvider>
+          <Outlet />
+        </RootAppWrapper>
       </WorkbrenchProvider>
     </>
   );

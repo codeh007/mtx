@@ -1,6 +1,5 @@
 import { RootAppWrapper } from "@mtmaiui/components/RootAppWrapper";
 import { WorkbrenchProvider } from "@mtmaiui/stores/workbrench.store";
-import { WorkflowsProvider } from "@mtmaiui/stores/workflow-store";
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { NavAdkSession } from "../~adk/~session/siderbar";
 
@@ -12,9 +11,8 @@ function RouteComponent() {
   return (
     <>
       <WorkbrenchProvider>
-        <WorkflowsProvider>
-          <RootAppWrapper secondSidebar={<NavAdkSession />}>
-            {/* <DashHeaders>
+        <RootAppWrapper secondSidebar={<NavAdkSession />}>
+          {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -23,9 +21,8 @@ function RouteComponent() {
                 </BreadcrumbList>
               </Breadcrumb>
             </DashHeaders> */}
-            <Outlet />
-          </RootAppWrapper>
-        </WorkflowsProvider>
+          <Outlet />
+        </RootAppWrapper>
       </WorkbrenchProvider>
     </>
   );

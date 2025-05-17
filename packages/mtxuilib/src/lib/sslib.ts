@@ -2,8 +2,8 @@ import { formatDistanceToNowStrict } from "date-fns";
 import {
   type EndpointList,
   type FrontendConfig,
-  endpointList,
-  frontendGetConfig,
+  // endpointList,
+  // frontendGetConfig,
   initMtiaiClient,
 } from "mtmaiapi";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
@@ -25,9 +25,7 @@ export function getBackendUrl(prefix = "") {
   const port = Number(process.env.PORT) || 3000;
 
   const localHost =
-    host?.includes("localhost") ||
-    host?.includes("ts.net") ||
-    host?.startsWith("100.");
+    host?.includes("localhost") || host?.includes("ts.net") || host?.startsWith("100.");
   if (localHost) {
     return `http://${host}:${port}${prefix}`;
   }
@@ -46,11 +44,9 @@ export async function getEndpointList() {
   }
   console.log(`getEndpointList, backendUrl: ${await getBackendUrl()}`);
   try {
-    cachedEndpointList = (await endpointList({})).data;
+    // cachedEndpointList = (await endpointList({})).data;
   } catch (e) {
-    console.error(
-      `getEndpointList error: ${e}, when backendUrl: ${await getBackendUrl()}`,
-    );
+    console.error(`getEndpointList error: ${e}, when backendUrl: ${await getBackendUrl()}`);
   }
 }
 
@@ -64,21 +60,14 @@ export async function loadRemoteEnv() {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `get remote env error: ${response.statusText}, from url: ${envUrl}`,
-    );
+    throw new Error(`get remote env error: ${response.statusText}, from url: ${envUrl}`);
   }
   const envText = await response.text();
   const env = envText.split("\n").map((line) => line.trim());
 
   const skipsComment = ["#", "//"];
   //防止覆盖重要本地变量
-  const skipsLocals = [
-    "NEXT_BUILD_OUTPUT",
-    "PORT",
-    "MTMAI_BACKEND",
-    "MTM_TOKEN",
-  ];
+  const skipsLocals = ["NEXT_BUILD_OUTPUT", "PORT", "MTMAI_BACKEND", "MTM_TOKEN"];
   for (const line of env) {
     const v = line.split("=");
     if (v.length !== 2) {
@@ -115,7 +104,7 @@ export async function getFrontendConfig() {
   }
   if (!cachedFrontendConfig) {
     try {
-      cachedFrontendConfig = (await frontendGetConfig({})).data;
+      // cachedFrontendConfig = (await frontendGetConfig({})).data;
     } catch (e) {
       console.error(`getFrontendConfig error: ${e}`);
       cachedFrontendConfig = undefined;
@@ -168,8 +157,7 @@ export function is_in_gitpod() {
 }
 
 export function get_gitpod_workspace_url(port: number) {
-  const gitpodWrokspaceHost = new URL(process.env.GITPOD_WORKSPACE_URL!)
-    .hostname;
+  const gitpodWrokspaceHost = new URL(process.env.GITPOD_WORKSPACE_URL!).hostname;
   const fullUrl = `https://${port}-${gitpodWrokspaceHost}`;
   return fullUrl;
 }
@@ -213,8 +201,7 @@ export const isInVercel = () => {
 export const randomString = (length: number) =>
   [...Array(length)].map(() => (~~(Math.random() * 36)).toString(36)).join("");
 
-export const sleep = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const delay = sleep;
 
 export const isSsr = () => {
@@ -253,10 +240,8 @@ export function isWebWorker() {
 }
 
 export const escapeStr = (name: string) => `"${name.replace(/"/g, '""')}"`;
-export const capitalize = (string: string) =>
-  string.charAt(0).toUpperCase() + string.slice(1);
-export const uncapitalize = (string: string) =>
-  string.charAt(0).toLowerCase() + string.slice(1);
+export const capitalize = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+export const uncapitalize = (string: string) => string.charAt(0).toLowerCase() + string.slice(1);
 
 export function generateUUID(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -267,13 +252,9 @@ export function generateUUID(): string {
 }
 
 export const calculateDelay = (attempts: number): number =>
-  Math.min(
-    1000 * 2 ** Math.max(1, attempts) + Math.random() * 100,
-    2 ** 31 - 1,
-  );
+  Math.min(1000 * 2 ** Math.max(1, attempts) + Math.random() * 100, 2 ** 31 - 1);
 
-export const getCurrentTimeZone = (): string =>
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
+export const getCurrentTimeZone = (): string => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const dateToTimeStamp = (date: Date) => {
   return Math.floor(date.getTime() / 1000);

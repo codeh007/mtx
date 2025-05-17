@@ -1,7 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
-// import { type Site } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useMemo } from "react";
@@ -17,7 +16,7 @@ function RouteComponent() {
   const listSites = useQuery({
     queryKey: ["sites"],
     queryFn: async () => {
-      const res = await fetch("/api/sites");
+      const res = await fetch(`/api/q/list_sites_json?params=${JSON.stringify({})}`);
       return res.json();
     },
   });

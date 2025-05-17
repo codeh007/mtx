@@ -1,7 +1,6 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
-import { WorkflowsProvider } from "../../stores/workflow-store";
 
 export const Route = createLazyFileRoute("/bundler")({
   component: RouteComponent,
@@ -11,9 +10,8 @@ function RouteComponent() {
   return (
     <>
       <WorkbrenchProvider>
-        <WorkflowsProvider>
-          <RootAppWrapper>
-            {/* <DashHeaders>
+        <RootAppWrapper>
+          {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -22,9 +20,8 @@ function RouteComponent() {
                 </BreadcrumbList>
               </Breadcrumb>
             </DashHeaders> */}
-            <Outlet />
-          </RootAppWrapper>
-        </WorkflowsProvider>
+          <Outlet />
+        </RootAppWrapper>
       </WorkbrenchProvider>
     </>
   );

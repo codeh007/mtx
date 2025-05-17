@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
-  adminReleaseConnMutation,
+  // adminReleaseConnMutation,
   adminResetDbMutation,
   frontendGetSiderbarOptions,
 } from "mtmaiapi";
@@ -140,14 +140,14 @@ const UserFABDropdownMenuContent = () => {
 
 const AdminFABDropdownMenuContent = () => {
   const toast = useToast();
-  const adminReleaseConn = useMutation({
-    ...adminReleaseConnMutation(),
-    onSuccess: () => {
-      toast.toast({
-        title: "释放数据库连接成功",
-      });
-    },
-  });
+  // const adminReleaseConn = useMutation({
+  //   ...adminReleaseConnMutation(),
+  //   onSuccess: () => {
+  //     toast.toast({
+  //       title: "释放数据库连接成功",
+  //     });
+  //   },
+  // });
 
   const adminResetDb = useMutation({
     ...adminResetDbMutation(),
@@ -166,7 +166,7 @@ const AdminFABDropdownMenuContent = () => {
           <DropdownMenuSubContent>
             <DropdownMenuItem
               onClick={() => {
-                adminReleaseConn.mutate({});
+                // adminReleaseConn.mutate({});
               }}
             >
               释放数据库连接
@@ -187,14 +187,14 @@ const AdminFABDropdownMenuContent = () => {
 
 const TestingMenuContent = () => {
   const toast = useToast();
-  const adminReleaseConn = useMutation({
-    ...adminReleaseConnMutation(),
-    onSuccess: () => {
-      toast.toast({
-        title: "释放数据库连接成功",
-      });
-    },
-  });
+  // const adminReleaseConn = useMutation({
+  //   ...adminReleaseConnMutation(),
+  //   onSuccess: () => {
+  //     toast.toast({
+  //       title: "释放数据库连接成功",
+  //     });
+  //   },
+  // });
 
   return (
     <DropdownMenuGroup>

@@ -2,7 +2,6 @@ import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
 import { WorkbrenchProvider } from "../../stores/workbrench.store";
-import { WorkflowsProvider } from "../../stores/workflow-store";
 import { NavChat } from "./siderbar";
 
 export const Route = createLazyFileRoute("/chat")({
@@ -19,9 +18,8 @@ function RouteComponent() {
         strategy="beforeInteractive"
         async={true}
       /> */}
-        <WorkflowsProvider>
-          <RootAppWrapper secondSidebar={<NavChat />}>
-            {/* <DashHeaders>
+        <RootAppWrapper secondSidebar={<NavChat />}>
+          {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
@@ -30,11 +28,10 @@ function RouteComponent() {
                 </BreadcrumbList>
               </Breadcrumb>
             </DashHeaders> */}
-            <MtSuspenseBoundary>
-              <Outlet />
-            </MtSuspenseBoundary>
-          </RootAppWrapper>
-        </WorkflowsProvider>
+          <MtSuspenseBoundary>
+            <Outlet />
+          </MtSuspenseBoundary>
+        </RootAppWrapper>
       </WorkbrenchProvider>
     </>
   );

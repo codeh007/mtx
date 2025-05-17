@@ -12,6 +12,17 @@ siteRoute.get("/sites", async (c) => {
     return c.json(list.at(0)?.list_sites_json);
   } catch (error) {
     console.error(error);
+    return c.json({ error: "Failed to query site" }, 500);
+  }
+});
+
+siteRoute.get("/sites/:siteId", async (c) => {
+  try {
+    const { siteId } = c.req.param();
+    const list = await sql`SELECT * from get_site(p_id => ${siteId}::text)`;
+    return c.json(list.at(0));
+  } catch (error) {
+    console.error(error);
     return c.json({ error: "Failed to query sites" }, 500);
   }
 });
