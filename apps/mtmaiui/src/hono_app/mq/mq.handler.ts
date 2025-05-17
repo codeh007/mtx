@@ -8,10 +8,6 @@ export const mqRouter = createRouter();
  */
 mqRouter.post("/taskmq_submit", async (c) => {
   try {
-    // const taskType = c.req.param("task_type");
-    // if (!taskType) {
-    //   return c.json({ error: "queue name is required" }, 400);
-    // }
     const body = await c.req.json();
     if (!body.task_type) {
       return c.json({ error: "task_type is required" }, 400);
