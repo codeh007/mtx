@@ -1,23 +1,23 @@
 import { sql } from "@mtmaiui/db/dbClientV3";
 import { Hono } from "hono";
-import { siteHostRoute } from "./host/host.hanler";
-export const siteRoute = new Hono<{ Bindings: Env }>();
-siteRoute.route("/sites", siteHostRoute);
+
+export const siteHostRoute = new Hono<{ Bindings: Env }>();
+
 /**
  * 自动化操作指引, agent 启动后,应该先访问这个网址,获取指引后进行一系列操作
  */
-siteRoute.get("/sites", async (c) => {
+siteHostRoute.get("", async (c) => {
   try {
-    const list = await sql`SELECT * from list_sites_json()`;
-    return c.json(list.at(0)?.list_sites_json);
+    const list = await sql`SELECT * from list_site_hosts_json()`;
+    return c.json(list.at(0)?.list_site_hosts_json);
   } catch (error) {
     console.error(error);
-    return c.json({ error: "Failed to query sites" }, 500);
+    return c.json({ error: "Failed to query site hosts" }, 500);
   }
 });
 
 /**创建 site */
-siteRoute.post("/sites", async (c) => {
+siteHostRoute.post("/hosts", async (c) => {
   const body = await c.req.json();
   try {
     const res = await sql`SELECT * from upsert_site(

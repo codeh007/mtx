@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import type { Site } from "mtmaiapi";
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 
-export const Route = createFileRoute("/site/create/")({
+export const Route = createLazyFileRoute("/site/create/")({
   component: RouteComponent,
 });
 

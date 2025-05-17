@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 
 import { useQuery } from "@tanstack/react-query";
 // import { type Site } from "mtmaiapi";
@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import type { Site } from "mtmaiapi";
 import { SiteListViewHeader } from "../../components/site/SiteListViewHeader";
 
-export const Route = createFileRoute("/site/")({
+export const Route = createLazyFileRoute("/site/")({
   component: RouteComponent,
 });
 
@@ -52,7 +52,7 @@ const SiteListItem = ({ site }: SiteListItemProps) => {
   return (
     <div className="flex bg-red-100 p-2 ">
       <div className="flex-1">
-        <CustomLink to={`/dash/site/${site.id}`}>{site.title}</CustomLink>
+        <CustomLink to={`/site/${site.id}`}>{site.title}</CustomLink>
       </div>
       <div className="flex-0">
         <DebugValue data={site} />
