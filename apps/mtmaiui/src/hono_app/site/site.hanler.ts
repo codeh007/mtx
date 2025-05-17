@@ -1,3 +1,4 @@
+import { sql } from "@mtmaiui/db/dbClientV3";
 import { Hono } from "hono";
 
 const siteRoute = new Hono<{ Bindings: Env }>();
@@ -5,19 +6,32 @@ const siteRoute = new Hono<{ Bindings: Env }>();
 /**
  * 自动化操作指引, agent 启动后,应该先访问这个网址,获取指引后进行一系列操作
  */
-siteRoute.get("/sites", (c) => {
-  return c.text(`
-***提示*
-- 当编写html文件时,必须添加css 样式, 系统已经内置支持 tailwindcss ^4.0.0 的语法
-
-""NOW BEGIN""
-
-
-If LLM training continues to scale up at the current rhythm until 2030, 
-what would be the electric power in GW required to power the biggest training runs by 2030? 
-What would that correspond to, compared to some countries? Please provide a source for any numbers used. 
-finnal report show in html format
-`);
+siteRoute.get("/sites", async (c) => {
+  try {
+    const list = await sql`SELECT * from list_sites_json()`;
+    return c.json(list.at(0)?.list_sites_json);
+  } catch (error) {
+    console.error(error);
+    return c.json({ error: "Failed to create site" }, 500);
+  }
 });
 
+/**创建 site */
+siteRoute.post("/sites", async (c) => {
+  const body = await c.req.json();
+  try {
+    const res = await sql`SELECT * from upsert_site(
+      p_title => ${body.title}::text,
+      p_host => ${body.host}::text
+    )`;
+    const item = res?.at(0);
+    return c.json({
+      item,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return c.json({ error: "Failed to create site" }, 500);
+  }
+});
 export default siteRoute;

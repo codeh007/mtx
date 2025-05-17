@@ -36,3 +36,5 @@ export async function closeDbPool() {
     globalInstance = undefined;
   }
 }
+
+export const sql = postgres(process.env.MTM_DATABASE_URL!);

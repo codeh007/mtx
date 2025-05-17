@@ -14,10 +14,13 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
+import { Route as SiteSiteIdRouteImport } from './routes/~site/~$siteId/~route'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
 import { Route as BundlerTest111Import } from './routes/~bundler/~test111'
 import { Route as SiteIndexImport } from './routes/~site/~index'
 import { Route as SiteSiteIdHostRouteImport } from './routes/~site/~$siteId/~host/~route'
+import { Route as SiteCreateIndexImport } from './routes/~site/~create/~index'
+import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 import { Route as SiteSiteIdHostIndexImport } from './routes/~site/~$siteId/~host/~index'
 
 // Create Virtual Routes
@@ -641,6 +644,12 @@ const AgentsIndexLazyRoute = AgentsIndexLazyImport.update({
   import('./routes/~agents/~index.lazy').then((d) => d.Route),
 )
 
+const SiteSiteIdRouteRoute = SiteSiteIdRouteImport.update({
+  id: '/$siteId',
+  path: '/$siteId',
+  getParentRoute: () => SiteRouteLazyRoute,
+} as any)
+
 const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
@@ -898,9 +907,21 @@ const AdkSessionIndexLazyRoute = AdkSessionIndexLazyImport.update({
 )
 
 const SiteSiteIdHostRouteRoute = SiteSiteIdHostRouteImport.update({
-  id: '/$siteId/host',
-  path: '/$siteId/host',
+  id: '/host',
+  path: '/host',
+  getParentRoute: () => SiteSiteIdRouteRoute,
+} as any)
+
+const SiteCreateIndexRoute = SiteCreateIndexImport.update({
+  id: '/create/',
+  path: '/create/',
   getParentRoute: () => SiteRouteLazyRoute,
+} as any)
+
+const SiteSiteIdIndexRoute = SiteSiteIdIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SiteSiteIdRouteRoute,
 } as any)
 
 const WorkflowsWorkflowIdTriggerTestteamRouteLazyRoute =
@@ -1583,6 +1604,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnvsCreateImport
       parentRoute: typeof EnvsRouteLazyImport
     }
+    '/site/$siteId': {
+      id: '/site/$siteId'
+      path: '/$siteId'
+      fullPath: '/site/$siteId'
+      preLoaderRoute: typeof SiteSiteIdRouteImport
+      parentRoute: typeof SiteRouteLazyImport
+    }
     '/agents/': {
       id: '/agents/'
       path: '/'
@@ -1779,12 +1807,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkflowsWorkflowIdRouteLazyImport
       parentRoute: typeof WorkflowsRouteLazyImport
     }
+    '/site/$siteId/': {
+      id: '/site/$siteId/'
+      path: '/'
+      fullPath: '/site/$siteId/'
+      preLoaderRoute: typeof SiteSiteIdIndexImport
+      parentRoute: typeof SiteSiteIdRouteImport
+    }
+    '/site/create/': {
+      id: '/site/create/'
+      path: '/create'
+      fullPath: '/site/create'
+      preLoaderRoute: typeof SiteCreateIndexImport
+      parentRoute: typeof SiteRouteLazyImport
+    }
     '/site/$siteId/host': {
       id: '/site/$siteId/host'
-      path: '/$siteId/host'
+      path: '/host'
       fullPath: '/site/$siteId/host'
       preLoaderRoute: typeof SiteSiteIdHostRouteImport
-      parentRoute: typeof SiteRouteLazyImport
+      parentRoute: typeof SiteSiteIdRouteImport
     }
     '/adk/session/': {
       id: '/adk/session/'
@@ -2716,14 +2758,30 @@ const SiteSiteIdHostRouteRouteChildren: SiteSiteIdHostRouteRouteChildren = {
 const SiteSiteIdHostRouteRouteWithChildren =
   SiteSiteIdHostRouteRoute._addFileChildren(SiteSiteIdHostRouteRouteChildren)
 
+interface SiteSiteIdRouteRouteChildren {
+  SiteSiteIdIndexRoute: typeof SiteSiteIdIndexRoute
+  SiteSiteIdHostRouteRoute: typeof SiteSiteIdHostRouteRouteWithChildren
+}
+
+const SiteSiteIdRouteRouteChildren: SiteSiteIdRouteRouteChildren = {
+  SiteSiteIdIndexRoute: SiteSiteIdIndexRoute,
+  SiteSiteIdHostRouteRoute: SiteSiteIdHostRouteRouteWithChildren,
+}
+
+const SiteSiteIdRouteRouteWithChildren = SiteSiteIdRouteRoute._addFileChildren(
+  SiteSiteIdRouteRouteChildren,
+)
+
 interface SiteRouteLazyRouteChildren {
   SiteIndexRoute: typeof SiteIndexRoute
-  SiteSiteIdHostRouteRoute: typeof SiteSiteIdHostRouteRouteWithChildren
+  SiteSiteIdRouteRoute: typeof SiteSiteIdRouteRouteWithChildren
+  SiteCreateIndexRoute: typeof SiteCreateIndexRoute
 }
 
 const SiteRouteLazyRouteChildren: SiteRouteLazyRouteChildren = {
   SiteIndexRoute: SiteIndexRoute,
-  SiteSiteIdHostRouteRoute: SiteSiteIdHostRouteRouteWithChildren,
+  SiteSiteIdRouteRoute: SiteSiteIdRouteRouteWithChildren,
+  SiteCreateIndexRoute: SiteCreateIndexRoute,
 }
 
 const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
@@ -3210,6 +3268,7 @@ export interface FileRoutesByFullPath {
   '/site/': typeof SiteIndexRoute
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
+  '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/agents/': typeof AgentsIndexLazyRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
@@ -3238,6 +3297,8 @@ export interface FileRoutesByFullPath {
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
+  '/site/$siteId/': typeof SiteSiteIdIndexRoute
+  '/site/create': typeof SiteCreateIndexRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
@@ -3339,6 +3400,8 @@ export interface FileRoutesByTo {
   '/auth/register': typeof AuthRegisterLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/site/$siteId': typeof SiteSiteIdIndexRoute
+  '/site/create': typeof SiteCreateIndexRoute
   '/adk/session': typeof AdkSessionIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
@@ -3411,6 +3474,7 @@ export interface FileRoutesById {
   '/site/': typeof SiteIndexRoute
   '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
+  '/site/$siteId': typeof SiteSiteIdRouteRouteWithChildren
   '/agents/': typeof AgentsIndexLazyRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
@@ -3439,6 +3503,8 @@ export interface FileRoutesById {
   '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
+  '/site/$siteId/': typeof SiteSiteIdIndexRoute
+  '/site/create/': typeof SiteCreateIndexRoute
   '/site/$siteId/host': typeof SiteSiteIdHostRouteRouteWithChildren
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
@@ -3540,6 +3606,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/bundler/test111'
     | '/envs/create'
+    | '/site/$siteId'
     | '/agents/'
     | '/automate/'
     | '/browser/'
@@ -3568,6 +3635,8 @@ export interface FileRouteTypes {
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
+    | '/site/$siteId/'
+    | '/site/create'
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
@@ -3668,6 +3737,8 @@ export interface FileRouteTypes {
     | '/auth/register'
     | '/proxy/new'
     | '/resource/new'
+    | '/site/$siteId'
+    | '/site/create'
     | '/adk/session'
     | '/auth/login'
     | '/chat/$sessionId'
@@ -3738,6 +3809,7 @@ export interface FileRouteTypes {
     | '/site/'
     | '/bundler/test111'
     | '/envs/create'
+    | '/site/$siteId'
     | '/agents/'
     | '/automate/'
     | '/browser/'
@@ -3766,6 +3838,8 @@ export interface FileRouteTypes {
     | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
+    | '/site/$siteId/'
+    | '/site/create/'
     | '/site/$siteId/host'
     | '/adk/session/'
     | '/auth/login/'
@@ -4032,7 +4106,8 @@ export const routeTree = rootRoute
       "filePath": "~site/~route.lazy.tsx",
       "children": [
         "/site/",
-        "/site/$siteId/host"
+        "/site/$siteId",
+        "/site/create/"
       ]
     },
     "/tenant": {
@@ -4073,6 +4148,14 @@ export const routeTree = rootRoute
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
       "parent": "/envs"
+    },
+    "/site/$siteId": {
+      "filePath": "~site/~$siteId/~route.tsx",
+      "parent": "/site",
+      "children": [
+        "/site/$siteId/",
+        "/site/$siteId/host"
+      ]
     },
     "/agents/": {
       "filePath": "~agents/~index.lazy.tsx",
@@ -4228,9 +4311,17 @@ export const routeTree = rootRoute
         "/workflows/$workflowId/trigger"
       ]
     },
+    "/site/$siteId/": {
+      "filePath": "~site/~$siteId/~index.tsx",
+      "parent": "/site/$siteId"
+    },
+    "/site/create/": {
+      "filePath": "~site/~create/~index.tsx",
+      "parent": "/site"
+    },
     "/site/$siteId/host": {
       "filePath": "~site/~$siteId/~host/~route.tsx",
-      "parent": "/site",
+      "parent": "/site/$siteId",
       "children": [
         "/site/$siteId/host/"
       ]

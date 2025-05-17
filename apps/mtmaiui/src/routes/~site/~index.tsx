@@ -14,15 +14,6 @@ export const Route = createFileRoute("/site/")({
 });
 
 function RouteComponent() {
-  // const tenant = useTenant();
-  // const listQuery = useSuspenseQuery({
-  //   ...siteListOptions({
-  //     path: {
-  //       tenant: tenant!.metadata.id,
-  //     },
-  //   }),
-  // });
-
   const listSites = useQuery({
     queryKey: ["sites"],
     queryFn: async () => {
@@ -31,8 +22,8 @@ function RouteComponent() {
     },
   });
   const isEmpty = useMemo(() => {
-    return listSites.data?.rows?.length === 0;
-  }, [listSites.data?.rows]);
+    return listSites.data?.data?.length === 0;
+  }, [listSites.data?.data]);
   return (
     <div className="flex flex-col h-full w-full ">
       {isEmpty ? (
@@ -44,8 +35,8 @@ function RouteComponent() {
           <SiteListViewHeader />
 
           <div className="flex flex-col gap-2">
-            {listSites.data?.rows?.map((site) => (
-              <SiteListItem key={site.metadata.id} site={site} />
+            {listSites.data?.data?.map((site) => (
+              <SiteListItem key={site.id} site={site} />
             ))}
           </div>
         </>
@@ -61,7 +52,7 @@ const SiteListItem = ({ site }: SiteListItemProps) => {
   return (
     <div className="flex bg-red-100 p-2 ">
       <div className="flex-1">
-        <CustomLink to={`/dash/site/${site.metadata.id}`}>{site.title}</CustomLink>
+        <CustomLink to={`/dash/site/${site.id}`}>{site.title}</CustomLink>
       </div>
       <div className="flex-0">
         <DebugValue data={site} />

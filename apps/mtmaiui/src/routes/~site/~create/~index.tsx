@@ -1,17 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { type Site, siteCreateMutation } from "mtmaiapi";
+import type { Site } from "mtmaiapi";
 
 import { createFileRoute } from "@tanstack/react-router";
-import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
-import { useTenant } from "../../../hooks/useAuth";
 
 export const Route = createFileRoute("/site/create/")({
   component: RouteComponent,
@@ -27,31 +20,32 @@ interface SiteCreateViewProps {
 }
 export const SiteCreateView = (props: SiteCreateViewProps) => {
   const { onCancel, onSuccess } = props;
-  const tenant = useTenant();
+  // const tenant = useTenant();
   const form = useZodForm({
     defaultValues: {},
   });
 
   const createSiteMutation = useMutation({
-    ...siteCreateMutation(),
+    // ...siteCreateMutation(),
+    mutationFn: async (data) => {
+      const res = await fetch("/api/sites", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      return res.json();
+    },
     onSuccess: (data) => {
       onSuccess?.(data);
     },
   });
   const handleSubmit = async (data) => {
     createSiteMutation.mutate({
-      body: data,
-      path: {
-        tenant: tenant!.metadata.id,
-      },
+      title: data.title,
+      host: data.host,
     });
   };
   return (
-    <ZForm
-      form={form}
-      handleSubmit={handleSubmit}
-      className="flex flex-col space-y-2 px-2"
-    >
+    <ZForm form={form} handleSubmit={handleSubmit} className="flex flex-col space-y-2 px-2">
       <FormField
         control={form.control}
         name="title"
