@@ -522,6 +522,9 @@ import type {
   TkAccountLoginData,
   TkAccountLoginResponse,
   TkAccountLoginError,
+  MttaskListData,
+  MttaskListResponse,
+  MttaskListError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -6017,5 +6020,32 @@ export const tkAccountLogin = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Get the tasks for the tenant
+ */
+export const mttaskList = <ThrowOnError extends boolean = false>(
+  options: Options<MttaskListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<MttaskListResponse, MttaskListError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+      {
+        scheme: "basic",
+        type: "http",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/mttasks",
+    ...options,
   });
 };

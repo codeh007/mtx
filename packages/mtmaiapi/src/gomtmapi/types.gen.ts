@@ -4148,6 +4148,30 @@ export const VideoAspect = {
   "1:1": "1:1",
 } as const;
 
+export type MtWorkflowRunRequest = {
+  workflow_type?: string;
+  params?: {
+    [key: string]: unknown;
+  };
+};
+
+export type MtWorkflowRunResponse = {
+  workflow_id?: string;
+};
+
+export type MtTaskProperties = {
+  id?: string;
+  title?: string;
+  description?: string;
+};
+
+export type MtTask = ApiResourceMetaProperties & MtTaskProperties;
+
+export type MtTaskList = {
+  pagination?: PaginationResponse;
+  rows?: Array<MtTask>;
+};
+
 export type ReadinessGetData = {
   body?: never;
   path?: never;
@@ -7823,7 +7847,7 @@ export type SiteUpdateData = {
     /**
      * The tenant id
      */
-    tenant: string;
+    tenant: TenantParameter;
     /**
      * The site id
      */
@@ -7861,7 +7885,7 @@ export type SiteGetByHostData = {
     /**
      * The tenant id
      */
-    tenant: string;
+    tenant: TenantParameter;
     /**
      * host name
      */
@@ -8207,7 +8231,7 @@ export type ArtifactListData = {
     /**
      * The tenant id
      */
-    tenant: string;
+    tenant: TenantParameter;
   };
   query?: never;
   url: "/api/v1/tenants/{tenant}/artifacts";
@@ -10569,6 +10593,41 @@ export type TkAccountLoginResponses = {
 };
 
 export type TkAccountLoginResponse = TkAccountLoginResponses[keyof TkAccountLoginResponses];
+
+export type MttaskListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/mttasks";
+};
+
+export type MttaskListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type MttaskListError = MttaskListErrors[keyof MttaskListErrors];
+
+export type MttaskListResponses = {
+  200: MtTaskList;
+};
+
+export type MttaskListResponse = MttaskListResponses[keyof MttaskListResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -1,8 +1,8 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { type Site, siteUpdateMutation } from "mtmaiapi";
+import { type Site, siteGetOptions, siteUpdateMutation } from "mtmaiapi";
 import { Switch } from "mtxuilib/ui/switch";
 
 import { Icons } from "mtxuilib/icons/icons";
@@ -31,15 +31,15 @@ export const SiteEditor = (props: SiteEditorProps) => {
   if (!siteId) {
     throw new Error("siteId is required");
   }
-  // const tenant = useTenant();
-  // const siteQuery = useSuspenseQuery({
-  //   ...siteGetOptions({
-  //     path: {
-  //       site: siteId,
-  //       tenant: tenant!.metadata.id,
-  //     },
-  //   }),
-  // });
+  const tenant = useTenant();
+  const siteQuery = useSuspenseQuery({
+    ...siteGetOptions({
+      path: {
+        site: siteId,
+        tenant: tenant!.metadata.id,
+      },
+    }),
+  });
   return (
     <Suspense fallback={<div>loading from...</div>}>
       {/* <DebugValue data={{ data: siteQuery.data }} /> */}
@@ -76,11 +76,7 @@ const SiteEditorForm = (props: { site: Site }) => {
   };
   return (
     <>
-      <ZForm
-        form={form}
-        handleSubmit={handleSubmit}
-        className="flex flex-col space-y-2 px-2"
-      >
+      <ZForm form={form} handleSubmit={handleSubmit} className="flex flex-col space-y-2 px-2">
         <div className="flex justify-end p-2 gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
@@ -132,9 +128,7 @@ const SiteEditorForm = (props: { site: Site }) => {
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-xs">
               <div className="space-y-0.5">
                 <FormLabel>自动生产文章</FormLabel>
-                <FormDescription>
-                  开通后，会根据站点内容自动生成文章
-                </FormDescription>
+                <FormDescription>开通后，会根据站点内容自动生成文章</FormDescription>
               </div>
               <FormControl>
                 <Switch
@@ -147,6 +141,10 @@ const SiteEditorForm = (props: { site: Site }) => {
             </FormItem>
           )}
         />
+
+        <div className="flex flex-row items-center justify-between">
+          <Button>发送site任务</Button>
+        </div>
       </ZForm>
     </>
   );

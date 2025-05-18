@@ -186,6 +186,7 @@ import {
   adkEventsGet,
   tkGetUserProfile,
   tkAccountLogin,
+  mttaskList,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -543,6 +544,7 @@ import type {
   TkAccountLoginData,
   TkAccountLoginError,
   TkAccountLoginResponse,
+  MttaskListData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -5231,4 +5233,22 @@ export const tkAccountLoginMutation = (options?: Partial<Options<TkAccountLoginD
     },
   };
   return mutationOptions;
+};
+
+export const mttaskListQueryKey = (options: Options<MttaskListData>) =>
+  createQueryKey("mttaskList", options);
+
+export const mttaskListOptions = (options: Options<MttaskListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await mttaskList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: mttaskListQueryKey(options),
+  });
 };

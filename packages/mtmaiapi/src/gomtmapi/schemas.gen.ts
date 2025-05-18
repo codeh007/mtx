@@ -8197,3 +8197,63 @@ export const VideoAspectSchema = {
   description: "Aspect ratio of the video",
   enum: ["16:9", "9:16", "1:1"],
 } as const;
+
+export const MtWorkflowRunRequestSchema = {
+  properties: {
+    workflow_type: {
+      type: "string",
+    },
+    params: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const MtWorkflowRunResponseSchema = {
+  properties: {
+    workflow_id: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MtTaskPropertiesSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    title: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MtTaskSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/MtTaskProperties",
+    },
+  ],
+} as const;
+
+export const MtTaskListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/MtTask",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;

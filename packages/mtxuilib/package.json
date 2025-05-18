@@ -72,7 +72,7 @@
     }
   },
   "scripts": {
-    "dev": "npx next dev",
+    "dev": "bun withEnv -- npx next dev",
     "build": "bun run ./src/cli/main.ts build",
     "withEnv": "dotenv -e ../../../gomtm/env/mtmaiui.env --",
     "gen": "bun src/cli/main.ts gen",

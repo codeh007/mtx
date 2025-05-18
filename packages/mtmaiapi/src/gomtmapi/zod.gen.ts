@@ -8477,6 +8477,28 @@ export const zMaterialInfo = z.object({
 
 export const zVideoAspect = z.enum(["16:9", "9:16", "1:1"]);
 
+export const zMtWorkflowRunRequest = z.object({
+  workflow_type: z.string().optional(),
+  params: z.object({}).optional(),
+});
+
+export const zMtWorkflowRunResponse = z.object({
+  workflow_id: z.string().optional(),
+});
+
+export const zMtTaskProperties = z.object({
+  id: z.string().optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+});
+
+export const zMtTask = zApiResourceMetaProperties.merge(zMtTaskProperties);
+
+export const zMtTaskList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zMtTask).optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zCloudMetadataGetResponse = zApiErrors;
@@ -8826,3 +8848,5 @@ export const zAdkEventsGetResponse = zAdkEvent;
 export const zTkGetUserProfileResponse = zTkUserProfile;
 
 export const zTkAccountLoginResponse = zTkAccountLoginResult;
+
+export const zMttaskListResponse = zMtTaskList;
