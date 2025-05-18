@@ -5042,8 +5042,8 @@ export const ModelRunUpsertSchema = {
   ],
 } as const;
 
-export const SiteSchema = {
-  description: "site",
+export const SitePropertiesSchema = {
+  required: ["metadata", "title", "description", "automation_enabled", "state"],
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
@@ -5056,8 +5056,32 @@ export const SiteSchema = {
       type: "string",
       description: "site 描述",
     },
+    automation_enabled: {
+      type: "boolean",
+      description: "是否启用自动化",
+    },
+    state: {
+      type: "object",
+      description: "站点状态",
+      properties: {
+        status: {
+          type: "string",
+          description: "站点状态",
+        },
+      },
+    },
   },
-  required: ["metadata", "title", "description"],
+} as const;
+
+export const SiteSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/SiteProperties",
+    },
+  ],
 } as const;
 
 export const SiteListSchema = {

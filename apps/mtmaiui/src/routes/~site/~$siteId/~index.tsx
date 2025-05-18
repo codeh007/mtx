@@ -1,5 +1,7 @@
+import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { siteGetOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 
 export const Route = createFileRoute("/site/$siteId/")({
@@ -8,13 +10,14 @@ export const Route = createFileRoute("/site/$siteId/")({
 
 function RouteComponent() {
   const { siteId } = Route.useParams();
-
+  const tid = useTenantId();
   const site = useQuery({
-    queryKey: ["site", siteId],
-    queryFn: async () => {
-      const res = await fetch(`/api/sites/${siteId}`);
-      return res.json();
-    },
+    ...siteGetOptions({
+      path: {
+        site: siteId,
+        tenant: tid,
+      },
+    }),
   });
   return (
     <div>

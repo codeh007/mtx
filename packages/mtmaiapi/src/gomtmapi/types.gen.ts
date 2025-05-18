@@ -2665,10 +2665,7 @@ export type ModelRunList = {
 
 export type ModelRunUpsert = ModelRunProperties;
 
-/**
- * site
- */
-export type Site = {
+export type SiteProperties = {
   metadata: ApiResourceMeta;
   /**
    * site 标题
@@ -2678,7 +2675,22 @@ export type Site = {
    * site 描述
    */
   description: string;
+  /**
+   * 是否启用自动化
+   */
+  automation_enabled: boolean;
+  /**
+   * 站点状态
+   */
+  state: {
+    /**
+     * 站点状态
+     */
+    status?: string;
+  };
 };
+
+export type Site = ApiResourceMetaProperties & SiteProperties;
 
 export type SiteList = {
   pagination?: PaginationResponse;

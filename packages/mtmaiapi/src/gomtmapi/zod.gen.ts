@@ -6781,11 +6781,17 @@ export const zModelRunList = z.object({
 
 export const zModelRunUpsert = zModelRunProperties;
 
-export const zSite = z.object({
+export const zSiteProperties = z.object({
   metadata: zApiResourceMeta,
   title: z.string(),
   description: z.string(),
+  automation_enabled: z.boolean(),
+  state: z.object({
+    status: z.string().optional(),
+  }),
 });
+
+export const zSite = zApiResourceMetaProperties.merge(zSiteProperties);
 
 export const zSiteList = z.object({
   pagination: zPaginationResponse.optional(),

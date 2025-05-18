@@ -53,12 +53,9 @@ function RouteComponent() {
           <div className="flex w-full flex-col justify-center space-y-6">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-2xl font-semibold tracking-tight">Log in</h1>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                {/* {prompt} */}
-              </p>
+              <p className="text-sm text-gray-700 dark:text-gray-300">{/* {prompt} */}</p>
             </div>
             {forms.map((form, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <Fragment key={index}>
                 {form}
                 {/* {index < schemes.length - 1 && <OrContinueWith />} */}
@@ -125,13 +122,7 @@ export function OrContinueWith() {
 function BasicLogin() {
   const { loginHandler, isPending, fieldErrors } = useLoginHandler();
 
-  return (
-    <UserLoginForm
-      isLoading={isPending}
-      onSubmit={loginHandler}
-      fieldErrors={fieldErrors}
-    />
-  );
+  return <UserLoginForm isLoading={isPending} onSubmit={loginHandler} fieldErrors={fieldErrors} />;
 }
 
 export function GoogleLogin() {
