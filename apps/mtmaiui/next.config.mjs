@@ -12,7 +12,7 @@ const nextConfig = {
   transpilePackages: ["mtmaiapi", "mtmaiui"],
   // Configure `pageExtensions` to include MDX files
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
-  // distDir: distDir, //输出路径
+  distDir: distDir, //输出路径
 
   eslint: {
     ignoreDuringBuilds: true,
