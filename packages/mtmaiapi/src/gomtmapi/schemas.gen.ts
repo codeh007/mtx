@@ -3820,11 +3820,239 @@ export const V1TaskEventSchema = {
   required: ["id", "taskId", "timestamp", "eventType", "message"],
 } as const;
 
+export const APIResourceMetaPropertiesSchema = {
+  required: ["metadata"],
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+  },
+} as const;
+
+export const CommonResultSchema = {
+  required: ["Success", "Message"],
+  properties: {
+    Success: {
+      type: "boolean",
+    },
+    Message: {
+      type: "string",
+    },
+  },
+} as const;
+
 export const TenantParameterSchema = {
   type: "string",
   format: "uuid",
   minLength: 36,
   maxLength: 36,
+} as const;
+
+export const ModelSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ModelProperties",
+    },
+  ],
+} as const;
+
+export const ModelFamilySchema = {
+  type: "string",
+  enum: ["r1", "openai", "unknown"],
+} as const;
+
+export const ModelTypesSchema = {
+  type: "string",
+  enum: ["OpenAIChatCompletionClient", "AzureOpenAIChatCompletionClient"],
+} as const;
+
+export const ModelPropertiesSchema = {
+  required: [
+    "name",
+    "family",
+    "provider",
+    "vendor",
+    "vision",
+    "functionCalling",
+    "jsonOutput",
+    "apiKey",
+    "apiBase",
+    "model",
+  ],
+  properties: {
+    name: {
+      type: "string",
+    },
+    model: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    apiKey: {
+      type: "string",
+    },
+    apiBase: {
+      type: "string",
+    },
+    vendor: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    family: {
+      type: "string",
+    },
+    vision: {
+      type: "boolean",
+    },
+    functionCalling: {
+      type: "boolean",
+    },
+    jsonOutput: {
+      type: "boolean",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+} as const;
+
+export const ModelListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Model",
+      },
+    },
+  },
+} as const;
+
+export const FormFieldSchema = {
+  required: ["type", "name"],
+  properties: {
+    type: {
+      type: "string",
+      enum: ["text", "number", "boolean", "array", "object"],
+      default: "text",
+    },
+    name: {
+      type: "string",
+    },
+    default_value: {
+      type: "string",
+    },
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    required: {
+      type: "boolean",
+    },
+    min: {
+      type: "number",
+    },
+    max: {
+      type: "number",
+    },
+    placeholder: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SchemaFormSchema = {
+  required: ["title", "fields"],
+  properties: {
+    form_type: {
+      type: "string",
+      enum: ["schema", "custom"],
+      default: "schema",
+    },
+    form_name: {
+      type: "string",
+    },
+    title: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    layout: {
+      type: "string",
+      enum: ["vertical", "horizontal"],
+      default: "vertical",
+    },
+    fields: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/FormField",
+      },
+    },
+  },
+} as const;
+
+export const ModelRunPropertiesSchema = {
+  properties: {
+    llmMessages: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+    llmResponse: {
+      type: "object",
+      additionalProperties: {
+        type: "string",
+      },
+    },
+  },
+} as const;
+
+export const ModelRunSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/ModelRunProperties",
+    },
+  ],
+} as const;
+
+export const ModelRunListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/ModelRun",
+      },
+    },
+  },
+} as const;
+
+export const ModelRunUpsertSchema = {
+  anyOf: [
+    {
+      $ref: "#/components/schemas/ModelRunProperties",
+    },
+  ],
 } as const;
 
 export const SitePropertiesSchema = {
@@ -3858,12 +4086,7 @@ export const SitePropertiesSchema = {
 export const SiteSchema = {
   allOf: [
     {
-      required: ["metadata"],
-      properties: {
-        metadata: {
-          $ref: "#/components/schemas/APIResourceMeta",
-        },
-      },
+      $ref: "#/components/schemas/APIResourceMetaProperties",
     },
     {
       $ref: "#/components/schemas/SiteProperties",
@@ -4023,6 +4246,28 @@ export const SiderbarConfigSchema = {
         $ref: "#/components/schemas/DashSidebarItem",
       },
     },
+    other: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/FlowNames",
+        },
+        {
+          $ref: "#/components/schemas/AgentEventType",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountList",
+        },
+        {
+          $ref: "#/components/schemas/Content",
+        },
+        {
+          $ref: "#/components/schemas/Part",
+        },
+        {
+          $ref: "#/components/schemas/AdkSessionList",
+        },
+      ],
+    },
   },
 } as const;
 
@@ -4149,6 +4394,809 @@ export const MtWorkerTaskSchema = {
     },
     name: {
       type: "string",
+    },
+  },
+} as const;
+
+export const AgentEventTypeSchema = {
+  type: "string",
+  enum: [
+    "ThoughtEvent",
+    "TextMessage",
+    "PlatformAccountFlowInput",
+    "ChatMessageInput",
+    "SocialAddFollowersInput",
+    "SocialLoginInput",
+    "TenantInitInput",
+    "AskUserFunctionCallInput",
+    "StartNewChatInput",
+  ],
+} as const;
+
+export const FlowNamesSchema = {
+  type: "string",
+  enum: [
+    "sys",
+    "tenant",
+    "assistant",
+    "ag",
+    "browser",
+    "resource",
+    "instagram",
+    "social",
+    "team",
+    "adk",
+  ],
+} as const;
+
+export const AgentPropertiesSchema = {
+  required: ["name", "description", "provider", "config", "teamId"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    provider: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+    },
+    teamId: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AgentSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AgentProperties",
+    },
+  ],
+} as const;
+
+export const AgentListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Agent",
+      },
+    },
+  },
+} as const;
+
+export const AgentTopicTypesSchema = {
+  type: "string",
+  enum: [
+    "user",
+    "human",
+    "instagram",
+    "browser",
+    "socioety",
+    "code",
+    "router",
+    "research",
+    "writer",
+    "tenant",
+    "closure",
+    "response",
+  ],
+} as const;
+
+export const BrowserTaskSchema = {
+  description: "浏览器(browser use)任务",
+  required: ["content"],
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserOpenTaskSchema = {
+  description: "打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.",
+  required: ["url"],
+  properties: {
+    url: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const BrowserConfigSchema = {
+  description: "浏览器配置(未完成)",
+  properties: {
+    persistent: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const ScheduledItemSchema = {
+  required: ["id", "type", "trigger", "nextTrigger", "description"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["cron", "scheduled", "delayed"],
+    },
+    trigger: {
+      type: "string",
+    },
+    nextTrigger: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AdkSessionStateSchema = {
+  properties: {
+    type: {
+      type: "string",
+      enum: ["RootAgentState"],
+    },
+  },
+} as const;
+
+export const ToolTypesSchema = {
+  type: "string",
+  enum: ["code_executor", "social_login"],
+} as const;
+
+export const CodeExecutionInputSchema = {
+  required: ["code"],
+  properties: {
+    code: {
+      type: "string",
+      description: "The contents of the Python code block that should be executed",
+    },
+  },
+} as const;
+
+export const CodeExecutionResultSchema = {
+  required: ["output", "success"],
+  properties: {
+    output: {
+      type: "string",
+      description: "The result of the code execution",
+    },
+    success: {
+      type: "boolean",
+      description: "Whether the code execution was successful",
+    },
+  },
+} as const;
+
+export const SocialLoginResultSchema = {
+  required: ["success"],
+  properties: {
+    success: {
+      type: "boolean",
+      description: "Whether the social login was successful",
+    },
+  },
+} as const;
+
+export const PlatformSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+    loginUrl: {
+      type: "string",
+    },
+    properties: {
+      type: "object",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+  required: ["metadata", "name", "url"],
+} as const;
+
+export const PlatformListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Platform",
+      },
+      type: "array",
+    },
+  },
+} as const;
+
+export const PlatformUpdateSchema = {
+  required: ["metadata", "name", "url"],
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+    loginUrl: {
+      type: "string",
+    },
+    properties: {
+      type: "object",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+  },
+} as const;
+
+export const PlatformAccountPropertiesSchema = {
+  required: ["username", "password", "platform"],
+  properties: {
+    label: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    username: {
+      type: "string",
+    },
+    email: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    token: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+    },
+    platform: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    state: {
+      type: "object",
+      additionalProperties: true,
+    },
+    error: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const PlatformAccountCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
+    },
+  ],
+} as const;
+
+export const PlatformAccountSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
+    },
+  ],
+} as const;
+
+export const PlatformAccountListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/PlatformAccount",
+      },
+      type: "array",
+    },
+  },
+} as const;
+
+export const PlatformAccountUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PlatformAccountProperties",
+    },
+  ],
+} as const;
+
+export const AdkEventPropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      $ref: "#/components/schemas/Content",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkEventListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkEvent",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const AdkEventSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkEventProperties",
+    },
+  ],
+} as const;
+
+export const AdkEventUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkEventProperties",
+    },
+  ],
+} as const;
+
+export const AdkEventOrderByFieldSchema = {
+  type: "string",
+  enum: ["createdAt"],
+} as const;
+
+export const AdkAppPropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkAppListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkApp",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const AdkAppSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkAppProperties",
+    },
+  ],
+} as const;
+
+export const AdkAppUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkAppProperties",
+    },
+  ],
+} as const;
+
+export const AdkAppTypesSchema = {
+  type: "string",
+  enum: ["root", "instagram_agent", "assistant", "open_deep_research"],
+} as const;
+
+export const AgentRunRequestV3Schema = {
+  required: ["app_name", "new_message"],
+  properties: {
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    init_state: {
+      type: "object",
+      additionalProperties: true,
+    },
+    new_message: {
+      $ref: "#/components/schemas/Content",
+    },
+    streaming: {
+      type: "boolean",
+      default: false,
+    },
+  },
+} as const;
+
+export const AdkSessionPropertiesSchema = {
+  required: ["id", "app_name", "user_id", "state", "create_time", "update_time"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    state: {
+      $ref: "#/components/schemas/AdkSessionState",
+    },
+    title: {
+      type: "string",
+    },
+    create_time: {
+      type: "string",
+    },
+    update_time: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AdkSessionSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkSessionProperties",
+    },
+  ],
+} as const;
+
+export const AdkSessionListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkSession",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const AdkSessionUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkSessionProperties",
+    },
+  ],
+} as const;
+
+export const AdkUserStatePropertiesSchema = {
+  required: [
+    "id",
+    "app_name",
+    "user_id",
+    "session_id",
+    "invocation_id",
+    "author",
+    "branch",
+    "timestamp",
+    "content",
+    "actions",
+  ],
+  properties: {
+    id: {
+      type: "string",
+    },
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    invocation_id: {
+      type: "string",
+    },
+    author: {
+      type: "string",
+    },
+    branch: {
+      type: "string",
+    },
+    timestamp: {
+      type: "string",
+    },
+    content: {
+      type: "object",
+    },
+    actions: {
+      type: "object",
+    },
+  },
+} as const;
+
+export const AdkUserStateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/AdkUserStateProperties",
+    },
+  ],
+} as const;
+
+export const AdkUserStateListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/AdkUserState",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const AdkUserStateUpsertSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/AdkUserStateProperties",
+    },
+  ],
+} as const;
+
+export const ContentSchema = {
+  properties: {
+    role: {
+      type: "string",
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
+    },
+  },
+} as const;
+
+export const UserContentSchema = {
+  required: ["role", "parts"],
+  properties: {
+    role: {
+      type: "string",
+      enum: ["user"],
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
+    },
+  },
+} as const;
+
+export const ModelContentSchema = {
+  required: ["role", "parts"],
+  properties: {
+    role: {
+      type: "string",
+      enum: ["model"],
+    },
+    parts: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Part",
+      },
+    },
+  },
+} as const;
+
+export const PartSchema = {
+  properties: {
+    text: {
+      type: "string",
+      description: "Optional. Text part (can be code)..",
+    },
+    video_metadata: {
+      type: "object",
+      description: "Metadata for a given video..",
+    },
+    thought: {
+      type: "boolean",
+      description: "Indicates if the part is thought from the model..",
+    },
+    code_execution_result: {
+      type: "object",
+    },
+    executable_code: {
+      type: "string",
+      description: "Optional. Executable code..",
+    },
+    file_data: {
+      type: "object",
+      description: "Optional. File data..",
+    },
+    function_call: {
+      type: "object",
+      additionalProperties: true,
+    },
+    function_response: {
+      type: "object",
+      additionalProperties: true,
+    },
+    inline_data: {
+      type: "object",
+      description: "Optional. Inlined bytes data..",
+    },
+  },
+} as const;
+
+export const FunctionResponseSchema = {
+  required: ["name", "response"],
+  properties: {
+    id: {
+      type: "string",
+      default: "",
+      description:
+        "The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.",
+    },
+    name: {
+      type: "string",
+      description:
+        "The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].",
+    },
+    response: {
+      type: "object",
+      additionalProperties: true,
+      description:
+        'Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.',
     },
   },
 } as const;

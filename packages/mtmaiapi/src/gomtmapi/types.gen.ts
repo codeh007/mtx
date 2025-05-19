@@ -2214,7 +2214,92 @@ export type V1TaskEvent = {
   attempt?: number;
 };
 
+export type ApiResourceMetaProperties = {
+  metadata: ApiResourceMeta;
+};
+
+export type CommonResult = {
+  Success: boolean;
+  Message: string;
+};
+
 export type TenantParameter = string;
+
+export type Model = ApiResourceMetaProperties & ModelProperties;
+
+export type ModelFamily = "r1" | "openai" | "unknown";
+
+export const ModelFamily = {
+  R1: "r1",
+  OPENAI: "openai",
+  UNKNOWN: "unknown",
+} as const;
+
+export type ModelTypes = "OpenAIChatCompletionClient" | "AzureOpenAIChatCompletionClient";
+
+export const ModelTypes = {
+  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
+  AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
+} as const;
+
+export type ModelProperties = {
+  name: string;
+  model: string;
+  provider: string;
+  apiKey: string;
+  apiBase: string;
+  vendor: string;
+  description?: string;
+  family: string;
+  vision: boolean;
+  functionCalling: boolean;
+  jsonOutput: boolean;
+  tags?: Array<string>;
+};
+
+export type ModelList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Model>;
+};
+
+export type FormField = {
+  type: "text" | "number" | "boolean" | "array" | "object";
+  name: string;
+  default_value?: string;
+  label?: string;
+  description?: string;
+  required?: boolean;
+  min?: number;
+  max?: number;
+  placeholder?: string;
+};
+
+export type SchemaForm = {
+  form_type?: "schema" | "custom";
+  form_name?: string;
+  title: string;
+  description?: string;
+  layout?: "vertical" | "horizontal";
+  fields: Array<FormField>;
+};
+
+export type ModelRunProperties = {
+  llmMessages?: {
+    [key: string]: string;
+  };
+  llmResponse?: {
+    [key: string]: string;
+  };
+};
+
+export type ModelRun = ApiResourceMetaProperties & ModelRunProperties;
+
+export type ModelRunList = {
+  pagination?: PaginationResponse;
+  rows?: Array<ModelRun>;
+};
+
+export type ModelRunUpsert = ModelRunProperties;
 
 export type SiteProperties = {
   /**
@@ -2240,9 +2325,7 @@ export type SiteProperties = {
   };
 };
 
-export type Site = {
-  metadata: ApiResourceMeta;
-} & SiteProperties;
+export type Site = ApiResourceMetaProperties & SiteProperties;
 
 export type SiteList = {
   pagination?: PaginationResponse;
@@ -2347,6 +2430,7 @@ export type SiderbarConfig = {
    */
   logo?: string;
   sideritems?: Array<DashSidebarItem>;
+  other?: FlowNames | AgentEventType | PlatformAccountList | Content | Part | AdkSessionList;
 };
 
 export type DashSidebarItem = {
@@ -2419,6 +2503,417 @@ export type MtWorkerProperties = {
 export type MtWorkerTask = {
   id?: string;
   name?: string;
+};
+
+export type AgentEventType =
+  | "ThoughtEvent"
+  | "TextMessage"
+  | "PlatformAccountFlowInput"
+  | "ChatMessageInput"
+  | "SocialAddFollowersInput"
+  | "SocialLoginInput"
+  | "TenantInitInput"
+  | "AskUserFunctionCallInput"
+  | "StartNewChatInput";
+
+export const AgentEventType = {
+  THOUGHT_EVENT: "ThoughtEvent",
+  TEXT_MESSAGE: "TextMessage",
+  PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
+  CHAT_MESSAGE_INPUT: "ChatMessageInput",
+  SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
+  SOCIAL_LOGIN_INPUT: "SocialLoginInput",
+  TENANT_INIT_INPUT: "TenantInitInput",
+  ASK_USER_FUNCTION_CALL_INPUT: "AskUserFunctionCallInput",
+  START_NEW_CHAT_INPUT: "StartNewChatInput",
+} as const;
+
+export type FlowNames =
+  | "sys"
+  | "tenant"
+  | "assistant"
+  | "ag"
+  | "browser"
+  | "resource"
+  | "instagram"
+  | "social"
+  | "team"
+  | "adk";
+
+export const FlowNames = {
+  SYS: "sys",
+  TENANT: "tenant",
+  ASSISTANT: "assistant",
+  AG: "ag",
+  BROWSER: "browser",
+  RESOURCE: "resource",
+  INSTAGRAM: "instagram",
+  SOCIAL: "social",
+  TEAM: "team",
+  ADK: "adk",
+} as const;
+
+export type AgentProperties = {
+  name: string;
+  description: string;
+  provider: string;
+  config: {
+    [key: string]: unknown;
+  };
+  teamId: string;
+};
+
+export type Agent = ApiResourceMetaProperties & AgentProperties;
+
+export type AgentList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Agent>;
+};
+
+export type AgentTopicTypes =
+  | "user"
+  | "human"
+  | "instagram"
+  | "browser"
+  | "socioety"
+  | "code"
+  | "router"
+  | "research"
+  | "writer"
+  | "tenant"
+  | "closure"
+  | "response";
+
+export const AgentTopicTypes = {
+  USER: "user",
+  HUMAN: "human",
+  INSTAGRAM: "instagram",
+  BROWSER: "browser",
+  SOCIOETY: "socioety",
+  CODE: "code",
+  ROUTER: "router",
+  RESEARCH: "research",
+  WRITER: "writer",
+  TENANT: "tenant",
+  CLOSURE: "closure",
+  RESPONSE: "response",
+} as const;
+
+/**
+ * 浏览器(browser use)任务
+ */
+export type BrowserTask = {
+  content: string;
+};
+
+/**
+ * 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.
+ */
+export type BrowserOpenTask = {
+  url: string;
+};
+
+/**
+ * 浏览器配置(未完成)
+ */
+export type BrowserConfig = {
+  persistent?: boolean;
+};
+
+export type ScheduledItem = {
+  id: string;
+  type: "cron" | "scheduled" | "delayed";
+  trigger: string;
+  nextTrigger: string;
+  description: string;
+};
+
+export type AdkSessionState = {
+  type?: "RootAgentState";
+};
+
+export type ToolTypes = "code_executor" | "social_login";
+
+export const ToolTypes = {
+  CODE_EXECUTOR: "code_executor",
+  SOCIAL_LOGIN: "social_login",
+} as const;
+
+export type CodeExecutionInput = {
+  /**
+   * The contents of the Python code block that should be executed
+   */
+  code: string;
+};
+
+export type CodeExecutionResult = {
+  /**
+   * The result of the code execution
+   */
+  output: string;
+  /**
+   * Whether the code execution was successful
+   */
+  success: boolean;
+};
+
+export type SocialLoginResult = {
+  /**
+   * Whether the social login was successful
+   */
+  success: boolean;
+};
+
+export type Platform = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
+export type PlatformList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Platform>;
+};
+
+export type PlatformUpdate = {
+  metadata: ApiResourceMeta;
+  name: string;
+  description?: string;
+  url: string;
+  loginUrl?: string;
+  properties?: {
+    [key: string]: unknown;
+  };
+  tags?: Array<string>;
+};
+
+export type PlatformAccountProperties = {
+  label?: string;
+  description?: string;
+  username: string;
+  email?: string;
+  password: string;
+  token?: string;
+  type?: string;
+  platform: string;
+  enabled?: boolean;
+  tags?: Array<string>;
+  state?: {
+    [key: string]: unknown;
+  };
+  error?: string;
+};
+
+export type PlatformAccountCreate = PlatformAccountProperties;
+
+export type PlatformAccount = ApiResourceMetaProperties & PlatformAccountProperties;
+
+export type PlatformAccountList = {
+  pagination?: PaginationResponse;
+  rows?: Array<PlatformAccount>;
+};
+
+export type PlatformAccountUpsert = PlatformAccountProperties;
+
+export type AdkEventProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch?: string;
+  timestamp: string;
+  content: Content;
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkEventList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkEvent>;
+};
+
+export type AdkEvent = ApiResourceMetaProperties & AdkEventProperties;
+
+export type AdkEventUpsert = AdkEventProperties;
+
+export type AdkEventOrderByField = "createdAt";
+
+export const AdkEventOrderByField = {
+  CREATED_AT: "createdAt",
+} as const;
+
+export type AdkAppProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkAppList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkApp>;
+};
+
+export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
+
+export type AdkAppUpsert = AdkAppProperties;
+
+export type AdkAppTypes = "root" | "instagram_agent" | "assistant" | "open_deep_research";
+
+export const AdkAppTypes = {
+  ROOT: "root",
+  INSTAGRAM_AGENT: "instagram_agent",
+  ASSISTANT: "assistant",
+  OPEN_DEEP_RESEARCH: "open_deep_research",
+} as const;
+
+export type AgentRunRequestV3 = {
+  app_name: string;
+  user_id?: string;
+  session_id?: string;
+  init_state?: {
+    [key: string]: unknown;
+  };
+  new_message: Content;
+  streaming?: boolean;
+};
+
+export type AdkSessionProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  state: AdkSessionState;
+  title?: string;
+  create_time: string;
+  update_time: string;
+};
+
+export type AdkSession = ApiResourceMetaProperties & AdkSessionProperties;
+
+export type AdkSessionList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkSession>;
+};
+
+export type AdkSessionUpsert = AdkSessionProperties;
+
+export type AdkUserStateProperties = {
+  id: string;
+  app_name: string;
+  user_id: string;
+  session_id: string;
+  invocation_id: string;
+  author: string;
+  branch: string;
+  timestamp: string;
+  content: {
+    [key: string]: unknown;
+  };
+  actions: {
+    [key: string]: unknown;
+  };
+};
+
+export type AdkUserState = ApiResourceMetaProperties & AdkUserStateProperties;
+
+export type AdkUserStateList = {
+  pagination?: PaginationResponse;
+  rows?: Array<AdkUserState>;
+};
+
+export type AdkUserStateUpsert = AdkUserStateProperties;
+
+export type Content = {
+  role?: string;
+  parts?: Array<Part>;
+};
+
+export type UserContent = {
+  role: "user";
+  parts: Array<Part>;
+};
+
+export type ModelContent = {
+  role: "model";
+  parts: Array<Part>;
+};
+
+export type Part = {
+  /**
+   * Optional. Text part (can be code)..
+   */
+  text?: string;
+  /**
+   * Metadata for a given video..
+   */
+  video_metadata?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Indicates if the part is thought from the model..
+   */
+  thought?: boolean;
+  code_execution_result?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Optional. Executable code..
+   */
+  executable_code?: string;
+  /**
+   * Optional. File data..
+   */
+  file_data?: {
+    [key: string]: unknown;
+  };
+  function_call?: {
+    [key: string]: unknown;
+  };
+  function_response?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Optional. Inlined bytes data..
+   */
+  inline_data?: {
+    [key: string]: unknown;
+  };
+};
+
+export type FunctionResponse = {
+  /**
+   * The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.
+   */
+  id?: string;
+  /**
+   * The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].
+   */
+  name: string;
+  /**
+   * Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.
+   */
+  response: {
+    [key: string]: unknown;
+  };
 };
 
 export type V1TaskGetData = {

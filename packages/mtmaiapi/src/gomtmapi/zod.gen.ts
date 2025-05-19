@@ -1723,7 +1723,95 @@ export const zV1TaskEvent = z.object({
   attempt: z.number().int().optional(),
 });
 
+export const zApiResourceMetaProperties = z.object({
+  metadata: zApiResourceMeta,
+});
+
+export const zCommonResult = z.object({
+  Success: z.boolean(),
+  Message: z.string(),
+});
+
 export const zTenantParameter = z.string().uuid().length(36);
+
+export const zModel = zApiResourceMetaProperties.merge(
+  z.object({
+    name: z.string(),
+    model: z.string(),
+    provider: z.string(),
+    apiKey: z.string(),
+    apiBase: z.string(),
+    vendor: z.string(),
+    description: z.string().optional(),
+    family: z.string(),
+    vision: z.boolean(),
+    functionCalling: z.boolean(),
+    jsonOutput: z.boolean(),
+    tags: z.array(z.string()).optional(),
+  }),
+);
+
+export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
+
+export const zModelTypes = z.enum([
+  "OpenAIChatCompletionClient",
+  "AzureOpenAIChatCompletionClient",
+]);
+
+export const zModelProperties = z.object({
+  name: z.string(),
+  model: z.string(),
+  provider: z.string(),
+  apiKey: z.string(),
+  apiBase: z.string(),
+  vendor: z.string(),
+  description: z.string().optional(),
+  family: z.string(),
+  vision: z.boolean(),
+  functionCalling: z.boolean(),
+  jsonOutput: z.boolean(),
+  tags: z.array(z.string()).optional(),
+});
+
+export const zModelList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zModel).optional(),
+});
+
+export const zFormField = z.object({
+  type: z.enum(["text", "number", "boolean", "array", "object"]),
+  name: z.string(),
+  default_value: z.string().optional(),
+  label: z.string().optional(),
+  description: z.string().optional(),
+  required: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  placeholder: z.string().optional(),
+});
+
+export const zSchemaForm = z.object({
+  form_type: z.enum(["schema", "custom"]).optional(),
+  form_name: z.string().optional(),
+  title: z.string(),
+  description: z.string().optional(),
+  layout: z.enum(["vertical", "horizontal"]).optional(),
+  fields: z.array(zFormField),
+});
+
+export const zModelRunProperties = z.object({
+  llmMessages: z.object({}).optional(),
+  llmResponse: z.object({}).optional(),
+});
+
+export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
+
+export const zModelRunList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zModelRun).optional(),
+});
+
+export const zModelRunUpsert = zModelRunProperties;
 
 export const zSiteProperties = z.object({
   title: z.string(),
@@ -1734,11 +1822,7 @@ export const zSiteProperties = z.object({
   }),
 });
 
-export const zSite = z
-  .object({
-    metadata: zApiResourceMeta,
-  })
-  .merge(zSiteProperties);
+export const zSite = zApiResourceMetaProperties.merge(zSiteProperties);
 
 export const zSiteList = z.object({
   pagination: zPaginationResponse.optional(),
@@ -1812,6 +1896,105 @@ export const zSiderbarConfig = z.object({
       }),
     )
     .optional(),
+  other: z
+    .union([
+      z.enum([
+        "sys",
+        "tenant",
+        "assistant",
+        "ag",
+        "browser",
+        "resource",
+        "instagram",
+        "social",
+        "team",
+        "adk",
+      ]),
+      z.enum([
+        "ThoughtEvent",
+        "TextMessage",
+        "PlatformAccountFlowInput",
+        "ChatMessageInput",
+        "SocialAddFollowersInput",
+        "SocialLoginInput",
+        "TenantInitInput",
+        "AskUserFunctionCallInput",
+        "StartNewChatInput",
+      ]),
+      z.object({
+        pagination: zPaginationResponse.optional(),
+        rows: z
+          .array(
+            zApiResourceMetaProperties.merge(
+              z.object({
+                label: z.string().optional(),
+                description: z.string().optional(),
+                username: z.string(),
+                email: z.string().optional(),
+                password: z.string(),
+                token: z.string().optional(),
+                type: z.string().optional(),
+                platform: z.string(),
+                enabled: z.boolean().optional(),
+                tags: z.array(z.string()).optional(),
+                state: z.object({}).optional(),
+                error: z.string().optional(),
+              }),
+            ),
+          )
+          .optional(),
+      }),
+      z.object({
+        role: z.string().optional(),
+        parts: z
+          .array(
+            z.object({
+              text: z.string().optional(),
+              video_metadata: z.object({}).optional(),
+              thought: z.boolean().optional(),
+              code_execution_result: z.object({}).optional(),
+              executable_code: z.string().optional(),
+              file_data: z.object({}).optional(),
+              function_call: z.object({}).optional(),
+              function_response: z.object({}).optional(),
+              inline_data: z.object({}).optional(),
+            }),
+          )
+          .optional(),
+      }),
+      z.object({
+        text: z.string().optional(),
+        video_metadata: z.object({}).optional(),
+        thought: z.boolean().optional(),
+        code_execution_result: z.object({}).optional(),
+        executable_code: z.string().optional(),
+        file_data: z.object({}).optional(),
+        function_call: z.object({}).optional(),
+        function_response: z.object({}).optional(),
+        inline_data: z.object({}).optional(),
+      }),
+      z.object({
+        pagination: zPaginationResponse.optional(),
+        rows: z
+          .array(
+            zApiResourceMetaProperties.merge(
+              z.object({
+                id: z.string(),
+                app_name: z.string(),
+                user_id: z.string(),
+                state: z.object({
+                  type: z.enum(["RootAgentState"]).optional(),
+                }),
+                title: z.string().optional(),
+                create_time: z.string(),
+                update_time: z.string(),
+              }),
+            ),
+          )
+          .optional(),
+      }),
+    ])
+    .optional(),
 });
 
 export const zDashSidebarItem = z.object({
@@ -1866,6 +2049,354 @@ export const zMtWorkerProperties = z.object({
 export const zMtWorkerTask = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
+});
+
+export const zAgentEventType = z.enum([
+  "ThoughtEvent",
+  "TextMessage",
+  "PlatformAccountFlowInput",
+  "ChatMessageInput",
+  "SocialAddFollowersInput",
+  "SocialLoginInput",
+  "TenantInitInput",
+  "AskUserFunctionCallInput",
+  "StartNewChatInput",
+]);
+
+export const zFlowNames = z.enum([
+  "sys",
+  "tenant",
+  "assistant",
+  "ag",
+  "browser",
+  "resource",
+  "instagram",
+  "social",
+  "team",
+  "adk",
+]);
+
+export const zAgentProperties = z.object({
+  name: z.string(),
+  description: z.string(),
+  provider: z.string(),
+  config: z.object({}),
+  teamId: z.string(),
+});
+
+export const zAgent = zApiResourceMetaProperties.merge(zAgentProperties);
+
+export const zAgentList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAgent).optional(),
+});
+
+export const zAgentTopicTypes = z.enum([
+  "user",
+  "human",
+  "instagram",
+  "browser",
+  "socioety",
+  "code",
+  "router",
+  "research",
+  "writer",
+  "tenant",
+  "closure",
+  "response",
+]);
+
+export const zBrowserTask = z.object({
+  content: z.string(),
+});
+
+export const zBrowserOpenTask = z.object({
+  url: z.string(),
+});
+
+export const zBrowserConfig = z.object({
+  persistent: z.boolean().optional(),
+});
+
+export const zScheduledItem = z.object({
+  id: z.string(),
+  type: z.enum(["cron", "scheduled", "delayed"]),
+  trigger: z.string(),
+  nextTrigger: z.string(),
+  description: z.string(),
+});
+
+export const zAdkSessionState = z.object({
+  type: z.enum(["RootAgentState"]).optional(),
+});
+
+export const zToolTypes = z.enum(["code_executor", "social_login"]);
+
+export const zCodeExecutionInput = z.object({
+  code: z.string(),
+});
+
+export const zCodeExecutionResult = z.object({
+  output: z.string(),
+  success: z.boolean(),
+});
+
+export const zSocialLoginResult = z.object({
+  success: z.boolean(),
+});
+
+export const zPlatform = z.object({
+  metadata: zApiResourceMeta,
+  name: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+  loginUrl: z.string().optional(),
+  properties: z.object({}).optional(),
+  tags: z.array(z.string()).optional(),
+});
+
+export const zPlatformList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zPlatform).optional(),
+});
+
+export const zPlatformUpdate = z.object({
+  metadata: zApiResourceMeta,
+  name: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+  loginUrl: z.string().optional(),
+  properties: z.object({}).optional(),
+  tags: z.array(z.string()).optional(),
+});
+
+export const zPlatformAccountProperties = z.object({
+  label: z.string().optional(),
+  description: z.string().optional(),
+  username: z.string(),
+  email: z.string().optional(),
+  password: z.string(),
+  token: z.string().optional(),
+  type: z.string().optional(),
+  platform: z.string(),
+  enabled: z.boolean().optional(),
+  tags: z.array(z.string()).optional(),
+  state: z.object({}).optional(),
+  error: z.string().optional(),
+});
+
+export const zPlatformAccountCreate = zPlatformAccountProperties;
+
+export const zPlatformAccount = zApiResourceMetaProperties.merge(zPlatformAccountProperties);
+
+export const zPlatformAccountList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zPlatformAccount).optional(),
+});
+
+export const zPlatformAccountUpsert = zPlatformAccountProperties;
+
+export const zAdkEventProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string().optional(),
+  timestamp: z.string(),
+  content: z.object({
+    role: z.string().optional(),
+    parts: z
+      .array(
+        z.object({
+          text: z.string().optional(),
+          video_metadata: z.object({}).optional(),
+          thought: z.boolean().optional(),
+          code_execution_result: z.object({}).optional(),
+          executable_code: z.string().optional(),
+          file_data: z.object({}).optional(),
+          function_call: z.object({}).optional(),
+          function_response: z.object({}).optional(),
+          inline_data: z.object({}).optional(),
+        }),
+      )
+      .optional(),
+  }),
+  actions: z.object({}),
+});
+
+export const zAdkEventList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zApiResourceMetaProperties.merge(zAdkEventProperties)).optional(),
+});
+
+export const zAdkEvent = zApiResourceMetaProperties.merge(zAdkEventProperties);
+
+export const zAdkEventUpsert = zAdkEventProperties;
+
+export const zAdkEventOrderByField = z.enum(["createdAt"]);
+
+export const zAdkAppProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkAppList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zApiResourceMetaProperties.merge(zAdkAppProperties)).optional(),
+});
+
+export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
+
+export const zAdkAppUpsert = zAdkAppProperties;
+
+export const zAdkAppTypes = z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]);
+
+export const zAgentRunRequestV3 = z.object({
+  app_name: z.string(),
+  user_id: z.string().optional(),
+  session_id: z.string().optional(),
+  init_state: z.object({}).optional(),
+  new_message: z.object({
+    role: z.string().optional(),
+    parts: z
+      .array(
+        z.object({
+          text: z.string().optional(),
+          video_metadata: z.object({}).optional(),
+          thought: z.boolean().optional(),
+          code_execution_result: z.object({}).optional(),
+          executable_code: z.string().optional(),
+          file_data: z.object({}).optional(),
+          function_call: z.object({}).optional(),
+          function_response: z.object({}).optional(),
+          inline_data: z.object({}).optional(),
+        }),
+      )
+      .optional(),
+  }),
+  streaming: z.boolean().optional().default(false),
+});
+
+export const zAdkSessionProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  state: zAdkSessionState,
+  title: z.string().optional(),
+  create_time: z.string(),
+  update_time: z.string(),
+});
+
+export const zAdkSession = zApiResourceMetaProperties.merge(zAdkSessionProperties);
+
+export const zAdkSessionList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAdkSession).optional(),
+});
+
+export const zAdkSessionUpsert = zAdkSessionProperties;
+
+export const zAdkUserStateProperties = z.object({
+  id: z.string(),
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string(),
+  invocation_id: z.string(),
+  author: z.string(),
+  branch: z.string(),
+  timestamp: z.string(),
+  content: z.object({}),
+  actions: z.object({}),
+});
+
+export const zAdkUserState = zApiResourceMetaProperties.merge(zAdkUserStateProperties);
+
+export const zAdkUserStateList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zAdkUserState).optional(),
+});
+
+export const zAdkUserStateUpsert = zAdkUserStateProperties;
+
+export const zContent = z.object({
+  role: z.string().optional(),
+  parts: z
+    .array(
+      z.object({
+        text: z.string().optional(),
+        video_metadata: z.object({}).optional(),
+        thought: z.boolean().optional(),
+        code_execution_result: z.object({}).optional(),
+        executable_code: z.string().optional(),
+        file_data: z.object({}).optional(),
+        function_call: z.object({}).optional(),
+        function_response: z.object({}).optional(),
+        inline_data: z.object({}).optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zUserContent = z.object({
+  role: z.enum(["user"]),
+  parts: z.array(
+    z.object({
+      text: z.string().optional(),
+      video_metadata: z.object({}).optional(),
+      thought: z.boolean().optional(),
+      code_execution_result: z.object({}).optional(),
+      executable_code: z.string().optional(),
+      file_data: z.object({}).optional(),
+      function_call: z.object({}).optional(),
+      function_response: z.object({}).optional(),
+      inline_data: z.object({}).optional(),
+    }),
+  ),
+});
+
+export const zModelContent = z.object({
+  role: z.enum(["model"]),
+  parts: z.array(
+    z.object({
+      text: z.string().optional(),
+      video_metadata: z.object({}).optional(),
+      thought: z.boolean().optional(),
+      code_execution_result: z.object({}).optional(),
+      executable_code: z.string().optional(),
+      file_data: z.object({}).optional(),
+      function_call: z.object({}).optional(),
+      function_response: z.object({}).optional(),
+      inline_data: z.object({}).optional(),
+    }),
+  ),
+});
+
+export const zPart = z.object({
+  text: z.string().optional(),
+  video_metadata: z.object({}).optional(),
+  thought: z.boolean().optional(),
+  code_execution_result: z.object({}).optional(),
+  executable_code: z.string().optional(),
+  file_data: z.object({}).optional(),
+  function_call: z.object({}).optional(),
+  function_response: z.object({}).optional(),
+  inline_data: z.object({}).optional(),
+});
+
+export const zFunctionResponse = z.object({
+  id: z.string().optional().default(""),
+  name: z.string(),
+  response: z.object({}),
 });
 
 export const zV1TaskGetResponse = zV1TaskSummary;
