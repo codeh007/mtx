@@ -1858,6 +1858,16 @@ export const zEndpointList = z.object({
   rows: z.array(zEndpoint).optional(),
 });
 
+export const zMtWorkerProperties = z.object({
+  id: z.string().optional(),
+  name: z.string().optional(),
+});
+
+export const zMtWorkerTask = z.object({
+  id: z.string().optional(),
+  name: z.string().optional(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2085,3 +2095,5 @@ export const zFrontendGetSiderbarResponse = zSiderbarConfig;
 export const zEndpointListResponse = zEndpointList;
 
 export const zEndpointUpdateResponse = zEndpoint;
+
+export const zGetApiV1MtworkerTasksResponse = zMtWorkerTask;

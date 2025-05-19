@@ -2411,6 +2411,16 @@ export type EndpointList = {
   rows?: Array<Endpoint>;
 };
 
+export type MtWorkerProperties = {
+  id?: string;
+  name?: string;
+};
+
+export type MtWorkerTask = {
+  id?: string;
+  name?: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -7314,6 +7324,23 @@ export type EndpointUpdateResponses = {
 };
 
 export type EndpointUpdateResponse = EndpointUpdateResponses[keyof EndpointUpdateResponses];
+
+export type GetApiV1MtworkerTasksData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/mtworker/tasks";
+};
+
+export type GetApiV1MtworkerTasksResponses = {
+  /**
+   * 获取mtworker任务成功
+   */
+  200: MtWorkerTask;
+};
+
+export type GetApiV1MtworkerTasksResponse =
+  GetApiV1MtworkerTasksResponses[keyof GetApiV1MtworkerTasksResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

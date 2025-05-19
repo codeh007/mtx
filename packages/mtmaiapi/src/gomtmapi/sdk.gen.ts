@@ -354,6 +354,8 @@ import type {
   EndpointUpdateData,
   EndpointUpdateResponse,
   EndpointUpdateError,
+  GetApiV1MtworkerTasksData,
+  GetApiV1MtworkerTasksResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3705,5 +3707,33 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * 获取mtworker任务
+ * 获取mtworker任务
+ */
+export const getApiV1MtworkerTasks = <ThrowOnError extends boolean = false>(
+  options?: Options<GetApiV1MtworkerTasksData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    GetApiV1MtworkerTasksResponse,
+    unknown,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/mtworker/tasks",
+    ...options,
   });
 };

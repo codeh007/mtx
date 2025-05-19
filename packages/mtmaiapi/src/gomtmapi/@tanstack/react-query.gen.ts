@@ -128,6 +128,7 @@ import {
   frontendGetSiderbar,
   endpointList,
   endpointUpdate,
+  getApiV1MtworkerTasks,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -385,6 +386,7 @@ import type {
   EndpointUpdateData,
   EndpointUpdateError,
   EndpointUpdateResponse,
+  GetApiV1MtworkerTasksData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -3987,4 +3989,22 @@ export const endpointUpdateMutation = (options?: Partial<Options<EndpointUpdateD
     },
   };
   return mutationOptions;
+};
+
+export const getApiV1MtworkerTasksQueryKey = (options?: Options<GetApiV1MtworkerTasksData>) =>
+  createQueryKey("getApiV1MtworkerTasks", options);
+
+export const getApiV1MtworkerTasksOptions = (options?: Options<GetApiV1MtworkerTasksData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await getApiV1MtworkerTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: getApiV1MtworkerTasksQueryKey(options),
+  });
 };

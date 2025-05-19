@@ -4128,3 +4128,27 @@ export const EndpointListSchema = {
     },
   },
 } as const;
+
+export const MtWorkerPropertiesSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const MtWorkerTaskSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    name: {
+      type: "string",
+    },
+  },
+} as const;
