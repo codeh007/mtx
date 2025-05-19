@@ -124,6 +124,10 @@ import {
   siteHostCreate,
   siteHostGet,
   siteHostUpdate,
+  frontendGetConfig,
+  frontendGetSiderbar,
+  endpointList,
+  endpointUpdate,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -375,6 +379,12 @@ import type {
   SiteHostUpdateData,
   SiteHostUpdateError,
   SiteHostUpdateResponse,
+  FrontendGetConfigData,
+  FrontendGetSiderbarData,
+  EndpointListData,
+  EndpointUpdateData,
+  EndpointUpdateError,
+  EndpointUpdateResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -3897,6 +3907,78 @@ export const siteHostUpdateMutation = (options?: Partial<Options<SiteHostUpdateD
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await siteHostUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const frontendGetConfigQueryKey = (options?: Options<FrontendGetConfigData>) =>
+  createQueryKey("frontendGetConfig", options);
+
+export const frontendGetConfigOptions = (options?: Options<FrontendGetConfigData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await frontendGetConfig({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: frontendGetConfigQueryKey(options),
+  });
+};
+
+export const frontendGetSiderbarQueryKey = (options?: Options<FrontendGetSiderbarData>) =>
+  createQueryKey("frontendGetSiderbar", options);
+
+export const frontendGetSiderbarOptions = (options?: Options<FrontendGetSiderbarData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await frontendGetSiderbar({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: frontendGetSiderbarQueryKey(options),
+  });
+};
+
+export const endpointListQueryKey = (options?: Options<EndpointListData>) =>
+  createQueryKey("endpointList", options);
+
+export const endpointListOptions = (options?: Options<EndpointListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await endpointList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: endpointListQueryKey(options),
+  });
+};
+
+export const endpointUpdateMutation = (options?: Partial<Options<EndpointUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    EndpointUpdateResponse,
+    EndpointUpdateError,
+    Options<EndpointUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await endpointUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,

@@ -339,9 +339,8 @@ export const TenantSchema = {
       description: "Whether to alert tenant members.",
     },
     version: {
+      $ref: "#/components/schemas/TenantVersion",
       description: "The version of the tenant.",
-      enum: ["V0", "V1"],
-      type: "string",
     },
   },
   required: ["metadata", "name", "slug", "version"],
@@ -776,7 +775,7 @@ export const UpdateTenantRequestSchema = {
       },
     },
     version: {
-      $ref: "#/components/schemas/Tenant/properties/version",
+      $ref: "#/components/schemas/TenantVersion",
       description: "The version of the tenant.",
     },
   },
@@ -3261,70 +3260,7 @@ export const V1TaskEventListSchema = {
     },
     rows: {
       items: {
-        type: "object",
-        properties: {
-          id: {
-            type: "integer",
-          },
-          taskId: {
-            type: "string",
-            format: "uuid",
-          },
-          timestamp: {
-            type: "string",
-            format: "date-time",
-          },
-          eventType: {
-            type: "string",
-            enum: [
-              "REQUEUED_NO_WORKER",
-              "REQUEUED_RATE_LIMIT",
-              "SCHEDULING_TIMED_OUT",
-              "ASSIGNED",
-              "STARTED",
-              "FINISHED",
-              "FAILED",
-              "RETRYING",
-              "CANCELLED",
-              "TIMED_OUT",
-              "REASSIGNED",
-              "SLOT_RELEASED",
-              "TIMEOUT_REFRESHED",
-              "RETRIED_BY_USER",
-              "SENT_TO_WORKER",
-              "RATE_LIMIT_ERROR",
-              "ACKNOWLEDGED",
-              "CREATED",
-              "QUEUED",
-              "SKIPPED",
-            ],
-          },
-          message: {
-            type: "string",
-          },
-          errorMessage: {
-            type: "string",
-          },
-          output: {
-            type: "string",
-          },
-          workerId: {
-            type: "string",
-            format: "uuid",
-          },
-          taskDisplayName: {
-            type: "string",
-          },
-          retryCount: {
-            type: "integer",
-            description: "The number of retries of the task.",
-          },
-          attempt: {
-            type: "integer",
-            description: "The attempt number of the task.",
-          },
-        },
-        required: ["id", "taskId", "timestamp", "eventType", "message"],
+        $ref: "#/components/schemas/V1TaskEvent",
       },
       type: "array",
     },
@@ -3558,7 +3494,7 @@ export const V1WorkflowRunDetailsSchema = {
     taskEvents: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/V1TaskEventList/properties/rows/items",
+        $ref: "#/components/schemas/V1TaskEvent",
       },
       description: "The list of task events for the workflow run",
     },
@@ -3812,6 +3748,78 @@ export const V1CreateFilterRequestSchema = {
   required: ["workflowId", "scope", "expression"],
 } as const;
 
+export const TenantVersionSchema = {
+  enum: ["V0", "V1"],
+  type: "string",
+} as const;
+
+export const V1TaskEventSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "integer",
+    },
+    taskId: {
+      type: "string",
+      format: "uuid",
+    },
+    timestamp: {
+      type: "string",
+      format: "date-time",
+    },
+    eventType: {
+      type: "string",
+      enum: [
+        "REQUEUED_NO_WORKER",
+        "REQUEUED_RATE_LIMIT",
+        "SCHEDULING_TIMED_OUT",
+        "ASSIGNED",
+        "STARTED",
+        "FINISHED",
+        "FAILED",
+        "RETRYING",
+        "CANCELLED",
+        "TIMED_OUT",
+        "REASSIGNED",
+        "SLOT_RELEASED",
+        "TIMEOUT_REFRESHED",
+        "RETRIED_BY_USER",
+        "SENT_TO_WORKER",
+        "RATE_LIMIT_ERROR",
+        "ACKNOWLEDGED",
+        "CREATED",
+        "QUEUED",
+        "SKIPPED",
+      ],
+    },
+    message: {
+      type: "string",
+    },
+    errorMessage: {
+      type: "string",
+    },
+    output: {
+      type: "string",
+    },
+    workerId: {
+      type: "string",
+      format: "uuid",
+    },
+    taskDisplayName: {
+      type: "string",
+    },
+    retryCount: {
+      type: "integer",
+      description: "The number of retries of the task.",
+    },
+    attempt: {
+      type: "integer",
+      description: "The attempt number of the task.",
+    },
+  },
+  required: ["id", "taskId", "timestamp", "eventType", "message"],
+} as const;
+
 export const TenantParameterSchema = {
   type: "string",
   format: "uuid",
@@ -3979,4 +3987,144 @@ export const UpdateSiteHostResponseSchema = {
 
 export const CreateSiteHostResponseSchema = {
   $ref: "#/components/schemas/SiteHost",
+} as const;
+
+export const FrontendConfigSchema = {
+  properties: {
+    cookieAccessToken: {
+      type: "string",
+      description: "Cookie access token",
+    },
+    dashPath: {
+      type: "string",
+      description: "Dashboard path",
+    },
+    hotKeyDebug: {
+      type: "string",
+      description: "Hot key debug",
+    },
+    defaultTenantAccessToken: {
+      type: "string",
+      description: "实验性质，默认租户的access token",
+    },
+  },
+  required: ["cookieAccessToken", "dashPath", "hotKeyDebug", "defaultTenantAccessToken"],
+} as const;
+
+export const SiderbarConfigSchema = {
+  properties: {
+    logo: {
+      type: "string",
+      description: "logo",
+    },
+    sideritems: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DashSidebarItem",
+      },
+    },
+  },
+} as const;
+
+export const DashSidebarItemSchema = {
+  properties: {
+    title: {
+      type: "string",
+      description: "名称",
+    },
+    url: {
+      type: "string",
+      description: "url 例如/login",
+    },
+    icon: {
+      type: "string",
+      description: "图标",
+    },
+    defaultExpanded: {
+      type: "boolean",
+      description: "默认展开",
+    },
+    adminOnly: {
+      type: "boolean",
+      description: "只允许超级管理员查看",
+    },
+    children: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DashSidebarItemLeaf",
+      },
+    },
+  },
+  required: ["title", "url"],
+} as const;
+
+export const DashSidebarItemLeafSchema = {
+  properties: {
+    title: {
+      type: "string",
+      description: "名称",
+    },
+    url: {
+      type: "string",
+      description: "url 例如/login",
+    },
+    icon: {
+      type: "string",
+      description: "图标",
+    },
+    adminOnly: {
+      type: "boolean",
+      description: "只允许超级管理员查看",
+    },
+  },
+  required: ["title", "url"],
+} as const;
+
+export const UpdateEndpointRequestSchema = {
+  properties: {
+    name: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+    token: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const EndpointSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    name: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+    token: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+    },
+  },
+  required: ["metadata", "name", "url", "token", "type"],
+} as const;
+
+export const EndpointListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Endpoint",
+      },
+      type: "array",
+    },
+  },
 } as const;

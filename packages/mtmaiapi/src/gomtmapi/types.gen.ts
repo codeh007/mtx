@@ -207,7 +207,7 @@ export type Tenant = {
   /**
    * The version of the tenant.
    */
-  version: "V0" | "V1";
+  version: TenantVersion;
 };
 
 export type TenantMember = {
@@ -485,7 +485,7 @@ export type UpdateTenantRequest = {
   /**
    * The version of the tenant.
    */
-  version?: Version;
+  version?: TenantVersion;
 };
 
 export type Event = {
@@ -1887,45 +1887,7 @@ export type V1DagChildren = {
 
 export type V1TaskEventList = {
   pagination?: PaginationResponse;
-  rows?: Array<{
-    id: number;
-    taskId: string;
-    timestamp: string;
-    eventType:
-      | "REQUEUED_NO_WORKER"
-      | "REQUEUED_RATE_LIMIT"
-      | "SCHEDULING_TIMED_OUT"
-      | "ASSIGNED"
-      | "STARTED"
-      | "FINISHED"
-      | "FAILED"
-      | "RETRYING"
-      | "CANCELLED"
-      | "TIMED_OUT"
-      | "REASSIGNED"
-      | "SLOT_RELEASED"
-      | "TIMEOUT_REFRESHED"
-      | "RETRIED_BY_USER"
-      | "SENT_TO_WORKER"
-      | "RATE_LIMIT_ERROR"
-      | "ACKNOWLEDGED"
-      | "CREATED"
-      | "QUEUED"
-      | "SKIPPED";
-    message: string;
-    errorMessage?: string;
-    output?: string;
-    workerId?: string;
-    taskDisplayName?: string;
-    /**
-     * The number of retries of the task.
-     */
-    retryCount?: number;
-    /**
-     * The attempt number of the task.
-     */
-    attempt?: number;
-  }>;
+  rows?: Array<V1TaskEvent>;
 };
 
 export type V1TaskStatus = "QUEUED" | "RUNNING" | "COMPLETED" | "CANCELLED" | "FAILED";
@@ -2039,7 +2001,7 @@ export type V1WorkflowRunDetails = {
   /**
    * The list of task events for the workflow run
    */
-  taskEvents: Array<Items>;
+  taskEvents: Array<V1TaskEvent>;
   shape: Array<{
     taskExternalId: string;
     stepId: string;
@@ -2205,6 +2167,53 @@ export type V1CreateFilterRequest = {
   };
 };
 
+export type TenantVersion = "V0" | "V1";
+
+export const TenantVersion = {
+  V0: "V0",
+  V1: "V1",
+} as const;
+
+export type V1TaskEvent = {
+  id: number;
+  taskId: string;
+  timestamp: string;
+  eventType:
+    | "REQUEUED_NO_WORKER"
+    | "REQUEUED_RATE_LIMIT"
+    | "SCHEDULING_TIMED_OUT"
+    | "ASSIGNED"
+    | "STARTED"
+    | "FINISHED"
+    | "FAILED"
+    | "RETRYING"
+    | "CANCELLED"
+    | "TIMED_OUT"
+    | "REASSIGNED"
+    | "SLOT_RELEASED"
+    | "TIMEOUT_REFRESHED"
+    | "RETRIED_BY_USER"
+    | "SENT_TO_WORKER"
+    | "RATE_LIMIT_ERROR"
+    | "ACKNOWLEDGED"
+    | "CREATED"
+    | "QUEUED"
+    | "SKIPPED";
+  message: string;
+  errorMessage?: string;
+  output?: string;
+  workerId?: string;
+  taskDisplayName?: string;
+  /**
+   * The number of retries of the task.
+   */
+  retryCount?: number;
+  /**
+   * The attempt number of the task.
+   */
+  attempt?: number;
+};
+
 export type TenantParameter = string;
 
 export type SiteProperties = {
@@ -2312,6 +2321,95 @@ export type UpdateSiteHostRequest = SiteHost;
 export type UpdateSiteHostResponse = SiteHost;
 
 export type CreateSiteHostResponse = SiteHost;
+
+export type FrontendConfig = {
+  /**
+   * Cookie access token
+   */
+  cookieAccessToken: string;
+  /**
+   * Dashboard path
+   */
+  dashPath: string;
+  /**
+   * Hot key debug
+   */
+  hotKeyDebug: string;
+  /**
+   * 实验性质，默认租户的access token
+   */
+  defaultTenantAccessToken: string;
+};
+
+export type SiderbarConfig = {
+  /**
+   * logo
+   */
+  logo?: string;
+  sideritems?: Array<DashSidebarItem>;
+};
+
+export type DashSidebarItem = {
+  /**
+   * 名称
+   */
+  title: string;
+  /**
+   * url 例如/login
+   */
+  url: string;
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 默认展开
+   */
+  defaultExpanded?: boolean;
+  /**
+   * 只允许超级管理员查看
+   */
+  adminOnly?: boolean;
+  children?: Array<DashSidebarItemLeaf>;
+};
+
+export type DashSidebarItemLeaf = {
+  /**
+   * 名称
+   */
+  title: string;
+  /**
+   * url 例如/login
+   */
+  url: string;
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 只允许超级管理员查看
+   */
+  adminOnly?: boolean;
+};
+
+export type UpdateEndpointRequest = {
+  name?: string;
+  url?: string;
+  token?: string;
+};
+
+export type Endpoint = {
+  metadata: ApiResourceMeta;
+  name: string;
+  url: string;
+  token: string;
+  type: string;
+};
+
+export type EndpointList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Endpoint>;
+};
 
 export type V1TaskGetData = {
   body?: never;
@@ -7120,6 +7218,102 @@ export type SiteHostUpdateResponses = {
 };
 
 export type SiteHostUpdateResponse = SiteHostUpdateResponses[keyof SiteHostUpdateResponses];
+
+export type FrontendGetConfigData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/frontend/config";
+};
+
+export type FrontendGetConfigResponses = {
+  /**
+   * frontend core config
+   */
+  200: FrontendConfig;
+};
+
+export type FrontendGetConfigResponse =
+  FrontendGetConfigResponses[keyof FrontendGetConfigResponses];
+
+export type FrontendGetSiderbarData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/frontend/siderbar";
+};
+
+export type FrontendGetSiderbarResponses = {
+  /**
+   * frontend siderbar config
+   */
+  200: SiderbarConfig;
+};
+
+export type FrontendGetSiderbarResponse =
+  FrontendGetSiderbarResponses[keyof FrontendGetSiderbarResponses];
+
+export type EndpointListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/endpoint";
+};
+
+export type EndpointListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type EndpointListError = EndpointListErrors[keyof EndpointListErrors];
+
+export type EndpointListResponses = {
+  200: EndpointList;
+};
+
+export type EndpointListResponse = EndpointListResponses[keyof EndpointListResponses];
+
+export type EndpointUpdateData = {
+  /**
+   * The tenant properties to update
+   */
+  body: UpdateEndpointRequest;
+  path?: never;
+  query?: never;
+  url: "/api/v1/endpoint";
+};
+
+export type EndpointUpdateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type EndpointUpdateError = EndpointUpdateErrors[keyof EndpointUpdateErrors];
+
+export type EndpointUpdateResponses = {
+  /**
+   * Successfully created the tenant
+   */
+  200: Endpoint;
+};
+
+export type EndpointUpdateResponse = EndpointUpdateResponses[keyof EndpointUpdateResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

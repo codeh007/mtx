@@ -42,7 +42,7 @@
     },
     "noImplicitAny": false
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  // "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules",
     "dist",

@@ -344,6 +344,16 @@ import type {
   SiteHostUpdateData,
   SiteHostUpdateResponse,
   SiteHostUpdateError,
+  FrontendGetConfigData,
+  FrontendGetConfigResponse,
+  FrontendGetSiderbarData,
+  FrontendGetSiderbarResponse,
+  EndpointListData,
+  EndpointListResponse,
+  EndpointListError,
+  EndpointUpdateData,
+  EndpointUpdateResponse,
+  EndpointUpdateError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3614,6 +3624,82 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+export const frontendGetConfig = <ThrowOnError extends boolean = false>(
+  options?: Options<FrontendGetConfigData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<FrontendGetConfigResponse, unknown, ThrowOnError>({
+    url: "/api/v1/frontend/config",
+    ...options,
+  });
+};
+
+export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
+  options?: Options<FrontendGetSiderbarData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<FrontendGetSiderbarResponse, unknown, ThrowOnError>(
+    {
+      url: "/api/v1/frontend/siderbar",
+      ...options,
+    },
+  );
+};
+
+export const endpointList = <ThrowOnError extends boolean = false>(
+  options?: Options<EndpointListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    EndpointListResponse,
+    EndpointListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/endpoint",
+    ...options,
+  });
+};
+
+/**
+ * Update endpoint
+ * Update an endpoint
+ */
+export const endpointUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EndpointUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<
+    EndpointUpdateResponse,
+    EndpointUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/endpoint",
     ...options,
     headers: {
       "Content-Type": "application/json",

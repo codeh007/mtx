@@ -1584,7 +1584,42 @@ export const zV1WorkflowRun = z.object({
 
 export const zV1WorkflowRunDetails = z.object({
   run: zV1WorkflowRun,
-  taskEvents: z.array(z.unknown()),
+  taskEvents: z.array(
+    z.object({
+      id: z.number().int(),
+      taskId: z.string().uuid(),
+      timestamp: z.string().datetime(),
+      eventType: z.enum([
+        "REQUEUED_NO_WORKER",
+        "REQUEUED_RATE_LIMIT",
+        "SCHEDULING_TIMED_OUT",
+        "ASSIGNED",
+        "STARTED",
+        "FINISHED",
+        "FAILED",
+        "RETRYING",
+        "CANCELLED",
+        "TIMED_OUT",
+        "REASSIGNED",
+        "SLOT_RELEASED",
+        "TIMEOUT_REFRESHED",
+        "RETRIED_BY_USER",
+        "SENT_TO_WORKER",
+        "RATE_LIMIT_ERROR",
+        "ACKNOWLEDGED",
+        "CREATED",
+        "QUEUED",
+        "SKIPPED",
+      ]),
+      message: z.string(),
+      errorMessage: z.string().optional(),
+      output: z.string().optional(),
+      workerId: z.string().uuid().optional(),
+      taskDisplayName: z.string().optional(),
+      retryCount: z.number().int().optional(),
+      attempt: z.number().int().optional(),
+    }),
+  ),
   shape: z.array(
     z.object({
       taskExternalId: z.string().uuid().length(36),
@@ -1651,6 +1686,43 @@ export const zV1CreateFilterRequest = z.object({
   payload: z.object({}).optional(),
 });
 
+export const zTenantVersion = z.enum(["V0", "V1"]);
+
+export const zV1TaskEvent = z.object({
+  id: z.number().int(),
+  taskId: z.string().uuid(),
+  timestamp: z.string().datetime(),
+  eventType: z.enum([
+    "REQUEUED_NO_WORKER",
+    "REQUEUED_RATE_LIMIT",
+    "SCHEDULING_TIMED_OUT",
+    "ASSIGNED",
+    "STARTED",
+    "FINISHED",
+    "FAILED",
+    "RETRYING",
+    "CANCELLED",
+    "TIMED_OUT",
+    "REASSIGNED",
+    "SLOT_RELEASED",
+    "TIMEOUT_REFRESHED",
+    "RETRIED_BY_USER",
+    "SENT_TO_WORKER",
+    "RATE_LIMIT_ERROR",
+    "ACKNOWLEDGED",
+    "CREATED",
+    "QUEUED",
+    "SKIPPED",
+  ]),
+  message: z.string(),
+  errorMessage: z.string().optional(),
+  output: z.string().optional(),
+  workerId: z.string().uuid().optional(),
+  taskDisplayName: z.string().optional(),
+  retryCount: z.number().int().optional(),
+  attempt: z.number().int().optional(),
+});
+
 export const zTenantParameter = z.string().uuid().length(36);
 
 export const zSiteProperties = z.object({
@@ -1709,6 +1781,82 @@ export const zUpdateSiteHostRequest = zSiteHost;
 export const zUpdateSiteHostResponse = zSiteHost;
 
 export const zCreateSiteHostResponse = zSiteHost;
+
+export const zFrontendConfig = z.object({
+  cookieAccessToken: z.string(),
+  dashPath: z.string(),
+  hotKeyDebug: z.string(),
+  defaultTenantAccessToken: z.string(),
+});
+
+export const zSiderbarConfig = z.object({
+  logo: z.string().optional(),
+  sideritems: z
+    .array(
+      z.object({
+        title: z.string(),
+        url: z.string(),
+        icon: z.string().optional(),
+        defaultExpanded: z.boolean().optional(),
+        adminOnly: z.boolean().optional(),
+        children: z
+          .array(
+            z.object({
+              title: z.string(),
+              url: z.string(),
+              icon: z.string().optional(),
+              adminOnly: z.boolean().optional(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zDashSidebarItem = z.object({
+  title: z.string(),
+  url: z.string(),
+  icon: z.string().optional(),
+  defaultExpanded: z.boolean().optional(),
+  adminOnly: z.boolean().optional(),
+  children: z
+    .array(
+      z.object({
+        title: z.string(),
+        url: z.string(),
+        icon: z.string().optional(),
+        adminOnly: z.boolean().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zDashSidebarItemLeaf = z.object({
+  title: z.string(),
+  url: z.string(),
+  icon: z.string().optional(),
+  adminOnly: z.boolean().optional(),
+});
+
+export const zUpdateEndpointRequest = z.object({
+  name: z.string().optional(),
+  url: z.string().optional(),
+  token: z.string().optional(),
+});
+
+export const zEndpoint = z.object({
+  metadata: zApiResourceMeta,
+  name: z.string(),
+  url: z.string(),
+  token: z.string(),
+  type: z.string(),
+});
+
+export const zEndpointList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zEndpoint).optional(),
+});
 
 export const zV1TaskGetResponse = zV1TaskSummary;
 
@@ -1929,3 +2077,11 @@ export const zSiteHostCreateResponse = zSiteHost;
 export const zSiteHostGetResponse = zSiteHost;
 
 export const zSiteHostUpdateResponse = zSiteHost;
+
+export const zFrontendGetConfigResponse = zFrontendConfig;
+
+export const zFrontendGetSiderbarResponse = zSiderbarConfig;
+
+export const zEndpointListResponse = zEndpointList;
+
+export const zEndpointUpdateResponse = zEndpoint;
