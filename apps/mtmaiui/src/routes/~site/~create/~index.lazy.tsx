@@ -1,10 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
-import type { Site } from "mtmaiapi";
+import { type Site, siteCreateMutation } from "mtmaiapi";
 
+import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { ZForm, ZFormToolbar, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
+import { useToast } from "mtxuilib/ui/use-toast";
 
 export const Route = createLazyFileRoute("/site/create/")({
   component: RouteComponent,
@@ -20,28 +22,53 @@ interface SiteCreateViewProps {
 }
 export const SiteCreateView = (props: SiteCreateViewProps) => {
   const { onCancel, onSuccess } = props;
-  // const tenant = useTenant();
+  const tid = useTenantId();
+  const { toast } = useToast();
+
+  const createSiteMu = useMutation({
+    ...siteCreateMutation({}),
+    onError(error, variables, context) {
+      // console.error(error);
+      toast({
+        title: "Site creation failed",
+        description: error.message,
+      });
+    },
+    onSuccess(data, variables, context) {
+      // onSuccess?.(data);
+      toast({
+        title: "Site created",
+        description: "Site created successfully",
+      });
+    },
+  });
   const form = useZodForm({
     defaultValues: {},
   });
 
-  const createSiteMutation = useMutation({
-    // ...siteCreateMutation(),
-    mutationFn: async (data) => {
-      const res = await fetch("/api/sites", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      return res.json();
-    },
-    onSuccess: (data) => {
-      onSuccess?.(data);
-    },
-  });
+  // const createSiteMutation = useMutation({
+  //   // ...siteCreateMutation(),
+  //   mutationFn: async (data) => {
+  //     const res = await fetch("/api/sites", {
+  //       method: "POST",
+  //       body: JSON.stringify(data),
+  //     });
+  //     return res.json();
+  //   },
+  //   onSuccess: (data) => {
+  //     onSuccess?.(data);
+  //   },
+  // });
   const handleSubmit = async (data) => {
-    createSiteMutation.mutate({
-      title: data.title,
-      host: data.host,
+    createSiteMu.mutate({
+      path: {
+        tenant: tid,
+      },
+      body: {
+        title: data.title,
+        host: data.host,
+        description: data.description,
+      },
     });
   };
   return (
