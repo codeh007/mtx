@@ -15,24 +15,17 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/~__root'
 import { Route as IndexImport } from './routes/~index'
 import { Route as EnvsCreateImport } from './routes/~envs/~create'
-import { Route as BundlerTest111Import } from './routes/~bundler/~test111'
 import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 
 // Create Virtual Routes
 
 const TkRouteLazyImport = createFileRoute('/tk')()
-const TenantRouteLazyImport = createFileRoute('/tenant')()
 const SiteRouteLazyImport = createFileRoute('/site')()
-const ScheduledRunsRouteLazyImport = createFileRoute('/scheduled-runs')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
-const RecurringRouteLazyImport = createFileRoute('/recurring')()
 const ProxyRouteLazyImport = createFileRoute('/proxy')()
 const PlatformAccountRouteLazyImport = createFileRoute('/platform-account')()
-const MttaskRouteLazyImport = createFileRoute('/mttask')()
-const EventsRouteLazyImport = createFileRoute('/events')()
 const EnvsRouteLazyImport = createFileRoute('/envs')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
-const BundlerRouteLazyImport = createFileRoute('/bundler')()
 const BrowserRouteLazyImport = createFileRoute('/browser')()
 const AutomateRouteLazyImport = createFileRoute('/automate')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
@@ -43,7 +36,6 @@ const WorkflowsWorkflowIdRouteLazyImport = createFileRoute(
 const WorkflowRunsWorkflowRunIdRouteLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId',
 )()
-const TenantSettingsRouteLazyImport = createFileRoute('/tenant/settings')()
 const SiteSiteIdRouteLazyImport = createFileRoute('/site/$siteId')()
 const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
@@ -59,15 +51,11 @@ const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
 const TkIndexLazyImport = createFileRoute('/tk/')()
-const TenantIndexLazyImport = createFileRoute('/tenant/')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
-const ScheduledRunsIndexLazyImport = createFileRoute('/scheduled-runs/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
-const RecurringIndexLazyImport = createFileRoute('/recurring/')()
 const ProxyIndexLazyImport = createFileRoute('/proxy/')()
 const PlatformAccountIndexLazyImport = createFileRoute('/platform-account/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
-const EventsIndexLazyImport = createFileRoute('/events/')()
 const EnvsIndexLazyImport = createFileRoute('/envs/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const BrowserIndexLazyImport = createFileRoute('/browser/')()
@@ -90,9 +78,6 @@ const WorkflowRunsWorkflowRunIdChatRouteLazyImport = createFileRoute(
 )()
 const WorkflowRunsWorkflowRunIdAdditionalMetadataLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/additional-metadata',
-)()
-const TenantSettingsNewRouteLazyImport = createFileRoute(
-  '/tenant/settings/new',
 )()
 const TenantSettingsTenantSettingIdRouteLazyImport = createFileRoute(
   '/tenant/settings/$tenantSettingId',
@@ -119,7 +104,6 @@ const WorkflowsWorkflowIdIndexLazyImport = createFileRoute(
 const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/',
 )()
-const TenantSettingsIndexLazyImport = createFileRoute('/tenant/settings/')()
 const SiteCreateIndexLazyImport = createFileRoute('/site/create/')()
 const ResourceResIdIndexLazyImport = createFileRoute('/resource/$resId/')()
 const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
@@ -187,9 +171,6 @@ const WorkflowRunsWorkflowRunIdVisualizationIndexLazyImport = createFileRoute(
 )()
 const WorkflowRunsWorkflowRunIdChatIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/chat/',
-)()
-const TenantSettingsNewIndexLazyImport = createFileRoute(
-  '/tenant/settings/new/',
 )()
 const TenantSettingsTenantSettingIdIndexLazyImport = createFileRoute(
   '/tenant/settings/$tenantSettingId/',
@@ -266,27 +247,11 @@ const TkRouteLazyRoute = TkRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~tk/~route.lazy').then((d) => d.Route))
 
-const TenantRouteLazyRoute = TenantRouteLazyImport.update({
-  id: '/tenant',
-  path: '/tenant',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~tenant/~route.lazy').then((d) => d.Route),
-)
-
 const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   id: '/site',
   path: '/site',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
-
-const ScheduledRunsRouteLazyRoute = ScheduledRunsRouteLazyImport.update({
-  id: '/scheduled-runs',
-  path: '/scheduled-runs',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~scheduled-runs/~route.lazy').then((d) => d.Route),
-)
 
 const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   id: '/resource',
@@ -294,14 +259,6 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
-)
-
-const RecurringRouteLazyRoute = RecurringRouteLazyImport.update({
-  id: '/recurring',
-  path: '/recurring',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~recurring/~route.lazy').then((d) => d.Route),
 )
 
 const ProxyRouteLazyRoute = ProxyRouteLazyImport.update({
@@ -318,22 +275,6 @@ const PlatformAccountRouteLazyRoute = PlatformAccountRouteLazyImport.update({
   import('./routes/~platform-account/~route.lazy').then((d) => d.Route),
 )
 
-const MttaskRouteLazyRoute = MttaskRouteLazyImport.update({
-  id: '/mttask',
-  path: '/mttask',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~mttask/~route.lazy').then((d) => d.Route),
-)
-
-const EventsRouteLazyRoute = EventsRouteLazyImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~events/~route.lazy').then((d) => d.Route),
-)
-
 const EnvsRouteLazyRoute = EnvsRouteLazyImport.update({
   id: '/envs',
   path: '/envs',
@@ -345,14 +286,6 @@ const ChatRouteLazyRoute = ChatRouteLazyImport.update({
   path: '/chat',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~chat/~route.lazy').then((d) => d.Route))
-
-const BundlerRouteLazyRoute = BundlerRouteLazyImport.update({
-  id: '/bundler',
-  path: '/bundler',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~bundler/~route.lazy').then((d) => d.Route),
-)
 
 const BrowserRouteLazyRoute = BrowserRouteLazyImport.update({
   id: '/browser',
@@ -409,14 +342,6 @@ const WorkflowRunsWorkflowRunIdRouteLazyRoute =
       (d) => d.Route,
     ),
   )
-
-const TenantSettingsRouteLazyRoute = TenantSettingsRouteLazyImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => TenantRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~tenant/~settings/~route.lazy').then((d) => d.Route),
-)
 
 const SiteSiteIdRouteLazyRoute = SiteSiteIdRouteLazyImport.update({
   id: '/$siteId',
@@ -508,27 +433,11 @@ const TkIndexLazyRoute = TkIndexLazyImport.update({
   getParentRoute: () => TkRouteLazyRoute,
 } as any).lazy(() => import('./routes/~tk/~index.lazy').then((d) => d.Route))
 
-const TenantIndexLazyRoute = TenantIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => TenantRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~tenant/~index.lazy').then((d) => d.Route),
-)
-
 const SiteIndexLazyRoute = SiteIndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => SiteRouteLazyRoute,
 } as any).lazy(() => import('./routes/~site/~index.lazy').then((d) => d.Route))
-
-const ScheduledRunsIndexLazyRoute = ScheduledRunsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ScheduledRunsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~scheduled-runs/~index.lazy').then((d) => d.Route),
-)
 
 const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   id: '/',
@@ -536,14 +445,6 @@ const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   getParentRoute: () => ResourceRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~index.lazy').then((d) => d.Route),
-)
-
-const RecurringIndexLazyRoute = RecurringIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RecurringRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~recurring/~index.lazy').then((d) => d.Route),
 )
 
 const ProxyIndexLazyRoute = ProxyIndexLazyImport.update({
@@ -561,19 +462,11 @@ const PlatformAccountIndexLazyRoute = PlatformAccountIndexLazyImport.update({
 )
 
 const MttaskIndexLazyRoute = MttaskIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => MttaskRouteLazyRoute,
+  id: '/mttask/',
+  path: '/mttask/',
+  getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~mttask/~index.lazy').then((d) => d.Route),
-)
-
-const EventsIndexLazyRoute = EventsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => EventsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~events/~index.lazy').then((d) => d.Route),
 )
 
 const EnvsIndexLazyRoute = EnvsIndexLazyImport.update({
@@ -616,12 +509,6 @@ const EnvsCreateRoute = EnvsCreateImport.update({
   id: '/create',
   path: '/create',
   getParentRoute: () => EnvsRouteLazyRoute,
-} as any)
-
-const BundlerTest111Route = BundlerTest111Import.update({
-  id: '/test111',
-  path: '/test111',
-  getParentRoute: () => BundlerRouteLazyRoute,
 } as any)
 
 const WorkflowsWorkflowIdTriggerRouteLazyRoute =
@@ -690,21 +577,11 @@ const WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute =
     ).then((d) => d.Route),
   )
 
-const TenantSettingsNewRouteLazyRoute = TenantSettingsNewRouteLazyImport.update(
-  {
-    id: '/new',
-    path: '/new',
-    getParentRoute: () => TenantSettingsRouteLazyRoute,
-  } as any,
-).lazy(() =>
-  import('./routes/~tenant/~settings/~new/~route.lazy').then((d) => d.Route),
-)
-
 const TenantSettingsTenantSettingIdRouteLazyRoute =
   TenantSettingsTenantSettingIdRouteLazyImport.update({
-    id: '/$tenantSettingId',
-    path: '/$tenantSettingId',
-    getParentRoute: () => TenantSettingsRouteLazyRoute,
+    id: '/tenant/settings/$tenantSettingId',
+    path: '/tenant/settings/$tenantSettingId',
+    getParentRoute: () => rootRoute,
   } as any).lazy(() =>
     import('./routes/~tenant/~settings/~$tenantSettingId/~route.lazy').then(
       (d) => d.Route,
@@ -793,14 +670,6 @@ const WorkflowRunsWorkflowRunIdIndexLazyRoute =
       (d) => d.Route,
     ),
   )
-
-const TenantSettingsIndexLazyRoute = TenantSettingsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => TenantSettingsRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~tenant/~settings/~index.lazy').then((d) => d.Route),
-)
 
 const SiteCreateIndexLazyRoute = SiteCreateIndexLazyImport.update({
   id: '/create/',
@@ -1091,16 +960,6 @@ const WorkflowRunsWorkflowRunIdChatIndexLazyRoute =
       (d) => d.Route,
     ),
   )
-
-const TenantSettingsNewIndexLazyRoute = TenantSettingsNewIndexLazyImport.update(
-  {
-    id: '/',
-    path: '/',
-    getParentRoute: () => TenantSettingsNewRouteLazyRoute,
-  } as any,
-).lazy(() =>
-  import('./routes/~tenant/~settings/~new/~index.lazy').then((d) => d.Route),
-)
 
 const TenantSettingsTenantSettingIdIndexLazyRoute =
   TenantSettingsTenantSettingIdIndexLazyImport.update({
@@ -1401,13 +1260,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowserRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/bundler': {
-      id: '/bundler'
-      path: '/bundler'
-      fullPath: '/bundler'
-      preLoaderRoute: typeof BundlerRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/chat': {
       id: '/chat'
       path: '/chat'
@@ -1420,20 +1272,6 @@ declare module '@tanstack/react-router' {
       path: '/envs'
       fullPath: '/envs'
       preLoaderRoute: typeof EnvsRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/events': {
-      id: '/events'
-      path: '/events'
-      fullPath: '/events'
-      preLoaderRoute: typeof EventsRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/mttask': {
-      id: '/mttask'
-      path: '/mttask'
-      fullPath: '/mttask'
-      preLoaderRoute: typeof MttaskRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/platform-account': {
@@ -1450,25 +1288,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProxyRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/recurring': {
-      id: '/recurring'
-      path: '/recurring'
-      fullPath: '/recurring'
-      preLoaderRoute: typeof RecurringRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/resource': {
       id: '/resource'
       path: '/resource'
       fullPath: '/resource'
       preLoaderRoute: typeof ResourceRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/scheduled-runs': {
-      id: '/scheduled-runs'
-      path: '/scheduled-runs'
-      fullPath: '/scheduled-runs'
-      preLoaderRoute: typeof ScheduledRunsRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/site': {
@@ -1478,26 +1302,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/tenant': {
-      id: '/tenant'
-      path: '/tenant'
-      fullPath: '/tenant'
-      preLoaderRoute: typeof TenantRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/tk': {
       id: '/tk'
       path: '/tk'
       fullPath: '/tk'
       preLoaderRoute: typeof TkRouteLazyImport
       parentRoute: typeof rootRoute
-    }
-    '/bundler/test111': {
-      id: '/bundler/test111'
-      path: '/test111'
-      fullPath: '/bundler/test111'
-      preLoaderRoute: typeof BundlerTest111Import
-      parentRoute: typeof BundlerRouteLazyImport
     }
     '/envs/create': {
       id: '/envs/create'
@@ -1541,19 +1351,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnvsIndexLazyImport
       parentRoute: typeof EnvsRouteLazyImport
     }
-    '/events/': {
-      id: '/events/'
-      path: '/'
-      fullPath: '/events/'
-      preLoaderRoute: typeof EventsIndexLazyImport
-      parentRoute: typeof EventsRouteLazyImport
-    }
     '/mttask/': {
       id: '/mttask/'
-      path: '/'
-      fullPath: '/mttask/'
+      path: '/mttask'
+      fullPath: '/mttask'
       preLoaderRoute: typeof MttaskIndexLazyImport
-      parentRoute: typeof MttaskRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/platform-account/': {
       id: '/platform-account/'
@@ -1569,13 +1372,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProxyIndexLazyImport
       parentRoute: typeof ProxyRouteLazyImport
     }
-    '/recurring/': {
-      id: '/recurring/'
-      path: '/'
-      fullPath: '/recurring/'
-      preLoaderRoute: typeof RecurringIndexLazyImport
-      parentRoute: typeof RecurringRouteLazyImport
-    }
     '/resource/': {
       id: '/resource/'
       path: '/'
@@ -1583,26 +1379,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceIndexLazyImport
       parentRoute: typeof ResourceRouteLazyImport
     }
-    '/scheduled-runs/': {
-      id: '/scheduled-runs/'
-      path: '/'
-      fullPath: '/scheduled-runs/'
-      preLoaderRoute: typeof ScheduledRunsIndexLazyImport
-      parentRoute: typeof ScheduledRunsRouteLazyImport
-    }
     '/site/': {
       id: '/site/'
       path: '/'
       fullPath: '/site/'
       preLoaderRoute: typeof SiteIndexLazyImport
       parentRoute: typeof SiteRouteLazyImport
-    }
-    '/tenant/': {
-      id: '/tenant/'
-      path: '/'
-      fullPath: '/tenant/'
-      preLoaderRoute: typeof TenantIndexLazyImport
-      parentRoute: typeof TenantRouteLazyImport
     }
     '/tk/': {
       id: '/tk/'
@@ -1681,13 +1463,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteSiteIdRouteLazyImport
       parentRoute: typeof SiteRouteLazyImport
     }
-    '/tenant/settings': {
-      id: '/tenant/settings'
-      path: '/settings'
-      fullPath: '/tenant/settings'
-      preLoaderRoute: typeof TenantSettingsRouteLazyImport
-      parentRoute: typeof TenantRouteLazyImport
-    }
     '/workflow-runs/$workflowRunId': {
       id: '/workflow-runs/$workflowRunId'
       path: '/workflow-runs/$workflowRunId'
@@ -1758,13 +1533,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteCreateIndexLazyImport
       parentRoute: typeof SiteRouteLazyImport
     }
-    '/tenant/settings/': {
-      id: '/tenant/settings/'
-      path: '/'
-      fullPath: '/tenant/settings/'
-      preLoaderRoute: typeof TenantSettingsIndexLazyImport
-      parentRoute: typeof TenantSettingsRouteLazyImport
-    }
     '/workflow-runs/$workflowRunId/': {
       id: '/workflow-runs/$workflowRunId/'
       path: '/'
@@ -1823,17 +1591,10 @@ declare module '@tanstack/react-router' {
     }
     '/tenant/settings/$tenantSettingId': {
       id: '/tenant/settings/$tenantSettingId'
-      path: '/$tenantSettingId'
+      path: '/tenant/settings/$tenantSettingId'
       fullPath: '/tenant/settings/$tenantSettingId'
       preLoaderRoute: typeof TenantSettingsTenantSettingIdRouteLazyImport
-      parentRoute: typeof TenantSettingsRouteLazyImport
-    }
-    '/tenant/settings/new': {
-      id: '/tenant/settings/new'
-      path: '/new'
-      fullPath: '/tenant/settings/new'
-      preLoaderRoute: typeof TenantSettingsNewRouteLazyImport
-      parentRoute: typeof TenantSettingsRouteLazyImport
+      parentRoute: typeof rootRoute
     }
     '/workflow-runs/$workflowRunId/additional-metadata': {
       id: '/workflow-runs/$workflowRunId/additional-metadata'
@@ -1932,13 +1693,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/tenant/settings/$tenantSettingId/'
       preLoaderRoute: typeof TenantSettingsTenantSettingIdIndexLazyImport
       parentRoute: typeof TenantSettingsTenantSettingIdRouteLazyImport
-    }
-    '/tenant/settings/new/': {
-      id: '/tenant/settings/new/'
-      path: '/'
-      fullPath: '/tenant/settings/new/'
-      preLoaderRoute: typeof TenantSettingsNewIndexLazyImport
-      parentRoute: typeof TenantSettingsNewRouteLazyImport
     }
     '/workflow-runs/$workflowRunId/chat/': {
       id: '/workflow-runs/$workflowRunId/chat/'
@@ -2316,17 +2070,6 @@ const BrowserRouteLazyRouteChildren: BrowserRouteLazyRouteChildren = {
 const BrowserRouteLazyRouteWithChildren =
   BrowserRouteLazyRoute._addFileChildren(BrowserRouteLazyRouteChildren)
 
-interface BundlerRouteLazyRouteChildren {
-  BundlerTest111Route: typeof BundlerTest111Route
-}
-
-const BundlerRouteLazyRouteChildren: BundlerRouteLazyRouteChildren = {
-  BundlerTest111Route: BundlerTest111Route,
-}
-
-const BundlerRouteLazyRouteWithChildren =
-  BundlerRouteLazyRoute._addFileChildren(BundlerRouteLazyRouteChildren)
-
 interface ChatRouteLazyRouteChildren {
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   ChatSessionIdIndexLazyRoute: typeof ChatSessionIdIndexLazyRoute
@@ -2353,30 +2096,6 @@ const EnvsRouteLazyRouteChildren: EnvsRouteLazyRouteChildren = {
 
 const EnvsRouteLazyRouteWithChildren = EnvsRouteLazyRoute._addFileChildren(
   EnvsRouteLazyRouteChildren,
-)
-
-interface EventsRouteLazyRouteChildren {
-  EventsIndexLazyRoute: typeof EventsIndexLazyRoute
-}
-
-const EventsRouteLazyRouteChildren: EventsRouteLazyRouteChildren = {
-  EventsIndexLazyRoute: EventsIndexLazyRoute,
-}
-
-const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
-  EventsRouteLazyRouteChildren,
-)
-
-interface MttaskRouteLazyRouteChildren {
-  MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
-}
-
-const MttaskRouteLazyRouteChildren: MttaskRouteLazyRouteChildren = {
-  MttaskIndexLazyRoute: MttaskIndexLazyRoute,
-}
-
-const MttaskRouteLazyRouteWithChildren = MttaskRouteLazyRoute._addFileChildren(
-  MttaskRouteLazyRouteChildren,
 )
 
 interface PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren {
@@ -2477,17 +2196,6 @@ const ProxyRouteLazyRouteWithChildren = ProxyRouteLazyRoute._addFileChildren(
   ProxyRouteLazyRouteChildren,
 )
 
-interface RecurringRouteLazyRouteChildren {
-  RecurringIndexLazyRoute: typeof RecurringIndexLazyRoute
-}
-
-const RecurringRouteLazyRouteChildren: RecurringRouteLazyRouteChildren = {
-  RecurringIndexLazyRoute: RecurringIndexLazyRoute,
-}
-
-const RecurringRouteLazyRouteWithChildren =
-  RecurringRouteLazyRoute._addFileChildren(RecurringRouteLazyRouteChildren)
-
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
 }
@@ -2567,20 +2275,6 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
 
-interface ScheduledRunsRouteLazyRouteChildren {
-  ScheduledRunsIndexLazyRoute: typeof ScheduledRunsIndexLazyRoute
-}
-
-const ScheduledRunsRouteLazyRouteChildren: ScheduledRunsRouteLazyRouteChildren =
-  {
-    ScheduledRunsIndexLazyRoute: ScheduledRunsIndexLazyRoute,
-  }
-
-const ScheduledRunsRouteLazyRouteWithChildren =
-  ScheduledRunsRouteLazyRoute._addFileChildren(
-    ScheduledRunsRouteLazyRouteChildren,
-  )
-
 interface SiteSiteIdRouteLazyRouteChildren {
   SiteSiteIdIndexRoute: typeof SiteSiteIdIndexRoute
   SiteSiteIdHostIndexLazyRoute: typeof SiteSiteIdHostIndexLazyRoute
@@ -2608,87 +2302,6 @@ const SiteRouteLazyRouteChildren: SiteRouteLazyRouteChildren = {
 
 const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
-)
-
-interface TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren {
-  TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
-}
-
-const TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren: TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren =
-  {
-    TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute:
-      TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute,
-  }
-
-const TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren =
-  TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute._addFileChildren(
-    TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren,
-  )
-
-interface TenantSettingsTenantSettingIdRouteLazyRouteChildren {
-  TenantSettingsTenantSettingIdIndexLazyRoute: typeof TenantSettingsTenantSettingIdIndexLazyRoute
-  TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren
-}
-
-const TenantSettingsTenantSettingIdRouteLazyRouteChildren: TenantSettingsTenantSettingIdRouteLazyRouteChildren =
-  {
-    TenantSettingsTenantSettingIdIndexLazyRoute:
-      TenantSettingsTenantSettingIdIndexLazyRoute,
-    TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute:
-      TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren,
-  }
-
-const TenantSettingsTenantSettingIdRouteLazyRouteWithChildren =
-  TenantSettingsTenantSettingIdRouteLazyRoute._addFileChildren(
-    TenantSettingsTenantSettingIdRouteLazyRouteChildren,
-  )
-
-interface TenantSettingsNewRouteLazyRouteChildren {
-  TenantSettingsNewIndexLazyRoute: typeof TenantSettingsNewIndexLazyRoute
-}
-
-const TenantSettingsNewRouteLazyRouteChildren: TenantSettingsNewRouteLazyRouteChildren =
-  {
-    TenantSettingsNewIndexLazyRoute: TenantSettingsNewIndexLazyRoute,
-  }
-
-const TenantSettingsNewRouteLazyRouteWithChildren =
-  TenantSettingsNewRouteLazyRoute._addFileChildren(
-    TenantSettingsNewRouteLazyRouteChildren,
-  )
-
-interface TenantSettingsRouteLazyRouteChildren {
-  TenantSettingsIndexLazyRoute: typeof TenantSettingsIndexLazyRoute
-  TenantSettingsTenantSettingIdRouteLazyRoute: typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
-  TenantSettingsNewRouteLazyRoute: typeof TenantSettingsNewRouteLazyRouteWithChildren
-}
-
-const TenantSettingsRouteLazyRouteChildren: TenantSettingsRouteLazyRouteChildren =
-  {
-    TenantSettingsIndexLazyRoute: TenantSettingsIndexLazyRoute,
-    TenantSettingsTenantSettingIdRouteLazyRoute:
-      TenantSettingsTenantSettingIdRouteLazyRouteWithChildren,
-    TenantSettingsNewRouteLazyRoute:
-      TenantSettingsNewRouteLazyRouteWithChildren,
-  }
-
-const TenantSettingsRouteLazyRouteWithChildren =
-  TenantSettingsRouteLazyRoute._addFileChildren(
-    TenantSettingsRouteLazyRouteChildren,
-  )
-
-interface TenantRouteLazyRouteChildren {
-  TenantIndexLazyRoute: typeof TenantIndexLazyRoute
-  TenantSettingsRouteLazyRoute: typeof TenantSettingsRouteLazyRouteWithChildren
-}
-
-const TenantRouteLazyRouteChildren: TenantRouteLazyRouteChildren = {
-  TenantIndexLazyRoute: TenantIndexLazyRoute,
-  TenantSettingsRouteLazyRoute: TenantSettingsRouteLazyRouteWithChildren,
-}
-
-const TenantRouteLazyRouteWithChildren = TenantRouteLazyRoute._addFileChildren(
-  TenantRouteLazyRouteChildren,
 )
 
 interface TkRouteLazyRouteChildren {
@@ -3006,6 +2619,39 @@ const WorkflowsWorkflowIdRouteLazyRouteWithChildren =
     WorkflowsWorkflowIdRouteLazyRouteChildren,
   )
 
+interface TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren {
+  TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
+}
+
+const TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren: TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren =
+  {
+    TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute:
+      TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute,
+  }
+
+const TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren =
+  TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute._addFileChildren(
+    TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren,
+  )
+
+interface TenantSettingsTenantSettingIdRouteLazyRouteChildren {
+  TenantSettingsTenantSettingIdIndexLazyRoute: typeof TenantSettingsTenantSettingIdIndexLazyRoute
+  TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren
+}
+
+const TenantSettingsTenantSettingIdRouteLazyRouteChildren: TenantSettingsTenantSettingIdRouteLazyRouteChildren =
+  {
+    TenantSettingsTenantSettingIdIndexLazyRoute:
+      TenantSettingsTenantSettingIdIndexLazyRoute,
+    TenantSettingsTenantSettingIdModelsettingsRouteLazyRoute:
+      TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteWithChildren,
+  }
+
+const TenantSettingsTenantSettingIdRouteLazyRouteWithChildren =
+  TenantSettingsTenantSettingIdRouteLazyRoute._addFileChildren(
+    TenantSettingsTenantSettingIdRouteLazyRouteChildren,
+  )
+
 interface ComsComIdTeambuilderv2InstagramteamRouteLazyRouteChildren {
   ComsComIdTeambuilderv2InstagramteamIndexLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamIndexLazyRoute
 }
@@ -3042,35 +2688,24 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
-  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
-  '/events': typeof EventsRouteLazyRouteWithChildren
-  '/mttask': typeof MttaskRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
-  '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
-  '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
-  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
-  '/events/': typeof EventsIndexLazyRoute
-  '/mttask/': typeof MttaskIndexLazyRoute
+  '/mttask': typeof MttaskIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
-  '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
-  '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
-  '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -3082,7 +2717,6 @@ export interface FileRoutesByFullPath {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/site/$siteId': typeof SiteSiteIdRouteLazyRouteWithChildren
-  '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -3093,7 +2727,6 @@ export interface FileRoutesByFullPath {
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/create': typeof SiteCreateIndexLazyRoute
-  '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
@@ -3103,7 +2736,6 @@ export interface FileRoutesByFullPath {
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
-  '/tenant/settings/new': typeof TenantSettingsNewRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -3118,7 +2750,6 @@ export interface FileRoutesByFullPath {
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexLazyRoute
   '/tenant/settings/$tenantSettingId/': typeof TenantSettingsTenantSettingIdIndexLazyRoute
-  '/tenant/settings/new/': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/workflows/$workflowId/trigger/': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
@@ -3161,23 +2792,17 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
-  '/bundler': typeof BundlerRouteLazyRouteWithChildren
-  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents': typeof AgentsIndexLazyRoute
   '/automate': typeof AutomateIndexLazyRoute
   '/browser': typeof BrowserIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/envs': typeof EnvsIndexLazyRoute
-  '/events': typeof EventsIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/platform-account': typeof PlatformAccountIndexLazyRoute
   '/proxy': typeof ProxyIndexLazyRoute
-  '/recurring': typeof RecurringIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
-  '/scheduled-runs': typeof ScheduledRunsIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
-  '/tenant': typeof TenantIndexLazyRoute
   '/tk': typeof TkIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/platform-account/new': typeof PlatformAccountNewRouteLazyRoute
@@ -3191,7 +2816,6 @@ export interface FileRoutesByTo {
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
   '/site/create': typeof SiteCreateIndexLazyRoute
-  '/tenant/settings': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
@@ -3205,7 +2829,6 @@ export interface FileRoutesByTo {
   '/resource/new/res': typeof ResourceNewResIndexLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexLazyRoute
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdIndexLazyRoute
-  '/tenant/settings/new': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/workflows/$workflowId/trigger': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
@@ -3237,35 +2860,24 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/browser': typeof BrowserRouteLazyRouteWithChildren
-  '/bundler': typeof BundlerRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/envs': typeof EnvsRouteLazyRouteWithChildren
-  '/events': typeof EventsRouteLazyRouteWithChildren
-  '/mttask': typeof MttaskRouteLazyRouteWithChildren
   '/platform-account': typeof PlatformAccountRouteLazyRouteWithChildren
   '/proxy': typeof ProxyRouteLazyRouteWithChildren
-  '/recurring': typeof RecurringRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
-  '/scheduled-runs': typeof ScheduledRunsRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/tenant': typeof TenantRouteLazyRouteWithChildren
   '/tk': typeof TkRouteLazyRouteWithChildren
-  '/bundler/test111': typeof BundlerTest111Route
   '/envs/create': typeof EnvsCreateRoute
   '/agents/': typeof AgentsIndexLazyRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/browser/': typeof BrowserIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/envs/': typeof EnvsIndexLazyRoute
-  '/events/': typeof EventsIndexLazyRoute
   '/mttask/': typeof MttaskIndexLazyRoute
   '/platform-account/': typeof PlatformAccountIndexLazyRoute
   '/proxy/': typeof ProxyIndexLazyRoute
-  '/recurring/': typeof RecurringIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
-  '/scheduled-runs/': typeof ScheduledRunsIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
-  '/tenant/': typeof TenantIndexLazyRoute
   '/tk/': typeof TkIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -3277,7 +2889,6 @@ export interface FileRoutesById {
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
   '/site/$siteId': typeof SiteSiteIdRouteLazyRouteWithChildren
-  '/tenant/settings': typeof TenantSettingsRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/workflows/$workflowId': typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -3288,7 +2899,6 @@ export interface FileRoutesById {
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/create/': typeof SiteCreateIndexLazyRoute
-  '/tenant/settings/': typeof TenantSettingsIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflows/$workflowId/': typeof WorkflowsWorkflowIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
@@ -3298,7 +2908,6 @@ export interface FileRoutesById {
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
   '/resource/new/res': typeof ResourceNewResRouteLazyRouteWithChildren
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
-  '/tenant/settings/new': typeof TenantSettingsNewRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/chat': typeof WorkflowRunsWorkflowRunIdChatRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -3313,7 +2922,6 @@ export interface FileRoutesById {
   '/resource/new/res/': typeof ResourceNewResIndexLazyRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexLazyRoute
   '/tenant/settings/$tenantSettingId/': typeof TenantSettingsTenantSettingIdIndexLazyRoute
-  '/tenant/settings/new/': typeof TenantSettingsNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/chat/': typeof WorkflowRunsWorkflowRunIdChatIndexLazyRoute
   '/workflow-runs/$workflowRunId/visualization/': typeof WorkflowRunsWorkflowRunIdVisualizationIndexLazyRoute
   '/workflows/$workflowId/trigger/': typeof WorkflowsWorkflowIdTriggerIndexLazyRoute
@@ -3361,35 +2969,24 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/browser'
-    | '/bundler'
     | '/chat'
     | '/envs'
-    | '/events'
-    | '/mttask'
     | '/platform-account'
     | '/proxy'
-    | '/recurring'
     | '/resource'
-    | '/scheduled-runs'
     | '/site'
-    | '/tenant'
     | '/tk'
-    | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
     | '/automate/'
     | '/browser/'
     | '/chat/'
     | '/envs/'
-    | '/events/'
-    | '/mttask/'
+    | '/mttask'
     | '/platform-account/'
     | '/proxy/'
-    | '/recurring/'
     | '/resource/'
-    | '/scheduled-runs/'
     | '/site/'
-    | '/tenant/'
     | '/tk/'
     | '/adk/session'
     | '/auth/login'
@@ -3401,7 +2998,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/site/$siteId'
-    | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
     | '/site/$siteId/'
@@ -3412,7 +3008,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/create'
-    | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
     | '/adk/session/$sessionId'
@@ -3422,7 +3017,6 @@ export interface FileRouteTypes {
     | '/resource/$resId/platform_account'
     | '/resource/new/res'
     | '/tenant/settings/$tenantSettingId'
-    | '/tenant/settings/new'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/input'
@@ -3437,7 +3031,6 @@ export interface FileRouteTypes {
     | '/resource/new/res/'
     | '/site/$siteId/host'
     | '/tenant/settings/$tenantSettingId/'
-    | '/tenant/settings/new/'
     | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
     | '/workflows/$workflowId/trigger/'
@@ -3479,23 +3072,17 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/bundler'
-    | '/bundler/test111'
     | '/envs/create'
     | '/agents'
     | '/automate'
     | '/browser'
     | '/chat'
     | '/envs'
-    | '/events'
     | '/mttask'
     | '/platform-account'
     | '/proxy'
-    | '/recurring'
     | '/resource'
-    | '/scheduled-runs'
     | '/site'
-    | '/tenant'
     | '/tk'
     | '/auth/register'
     | '/platform-account/new'
@@ -3509,7 +3096,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId'
     | '/resource/$resId'
     | '/site/create'
-    | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
     | '/workflow-runs/$workflowRunId/additional-metadata'
@@ -3523,7 +3109,6 @@ export interface FileRouteTypes {
     | '/resource/new/res'
     | '/site/$siteId/host'
     | '/tenant/settings/$tenantSettingId'
-    | '/tenant/settings/new'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/visualization'
     | '/workflows/$workflowId/trigger'
@@ -3553,35 +3138,24 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/browser'
-    | '/bundler'
     | '/chat'
     | '/envs'
-    | '/events'
-    | '/mttask'
     | '/platform-account'
     | '/proxy'
-    | '/recurring'
     | '/resource'
-    | '/scheduled-runs'
     | '/site'
-    | '/tenant'
     | '/tk'
-    | '/bundler/test111'
     | '/envs/create'
     | '/agents/'
     | '/automate/'
     | '/browser/'
     | '/chat/'
     | '/envs/'
-    | '/events/'
     | '/mttask/'
     | '/platform-account/'
     | '/proxy/'
-    | '/recurring/'
     | '/resource/'
-    | '/scheduled-runs/'
     | '/site/'
-    | '/tenant/'
     | '/tk/'
     | '/adk/session'
     | '/auth/login'
@@ -3593,7 +3167,6 @@ export interface FileRouteTypes {
     | '/resource/$resId'
     | '/resource/new'
     | '/site/$siteId'
-    | '/tenant/settings'
     | '/workflow-runs/$workflowRunId'
     | '/workflows/$workflowId'
     | '/site/$siteId/'
@@ -3604,7 +3177,6 @@ export interface FileRouteTypes {
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/create/'
-    | '/tenant/settings/'
     | '/workflow-runs/$workflowRunId/'
     | '/workflows/$workflowId/'
     | '/adk/session/$sessionId'
@@ -3614,7 +3186,6 @@ export interface FileRouteTypes {
     | '/resource/$resId/platform_account'
     | '/resource/new/res'
     | '/tenant/settings/$tenantSettingId'
-    | '/tenant/settings/new'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/chat'
     | '/workflow-runs/$workflowRunId/input'
@@ -3629,7 +3200,6 @@ export interface FileRouteTypes {
     | '/resource/new/res/'
     | '/site/$siteId/host/'
     | '/tenant/settings/$tenantSettingId/'
-    | '/tenant/settings/new/'
     | '/workflow-runs/$workflowRunId/chat/'
     | '/workflow-runs/$workflowRunId/visualization/'
     | '/workflows/$workflowId/trigger/'
@@ -3676,22 +3246,18 @@ export interface RootRouteChildren {
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   AutomateRouteLazyRoute: typeof AutomateRouteLazyRouteWithChildren
   BrowserRouteLazyRoute: typeof BrowserRouteLazyRouteWithChildren
-  BundlerRouteLazyRoute: typeof BundlerRouteLazyRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   EnvsRouteLazyRoute: typeof EnvsRouteLazyRouteWithChildren
-  EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
-  MttaskRouteLazyRoute: typeof MttaskRouteLazyRouteWithChildren
   PlatformAccountRouteLazyRoute: typeof PlatformAccountRouteLazyRouteWithChildren
   ProxyRouteLazyRoute: typeof ProxyRouteLazyRouteWithChildren
-  RecurringRouteLazyRoute: typeof RecurringRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
-  ScheduledRunsRouteLazyRoute: typeof ScheduledRunsRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
-  TenantRouteLazyRoute: typeof TenantRouteLazyRouteWithChildren
   TkRouteLazyRoute: typeof TkRouteLazyRouteWithChildren
+  MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
   WorkflowRunsWorkflowRunIdRouteLazyRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   WorkflowsWorkflowIdRouteLazyRoute: typeof WorkflowsWorkflowIdRouteLazyRouteWithChildren
+  TenantSettingsTenantSettingIdRouteLazyRoute: typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute: typeof ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute: typeof ComsComIdTeambuilderAgentAgentIdModelRouteLazyRouteWithChildren
 }
@@ -3702,24 +3268,21 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   AutomateRouteLazyRoute: AutomateRouteLazyRouteWithChildren,
   BrowserRouteLazyRoute: BrowserRouteLazyRouteWithChildren,
-  BundlerRouteLazyRoute: BundlerRouteLazyRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   EnvsRouteLazyRoute: EnvsRouteLazyRouteWithChildren,
-  EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
-  MttaskRouteLazyRoute: MttaskRouteLazyRouteWithChildren,
   PlatformAccountRouteLazyRoute: PlatformAccountRouteLazyRouteWithChildren,
   ProxyRouteLazyRoute: ProxyRouteLazyRouteWithChildren,
-  RecurringRouteLazyRoute: RecurringRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
-  ScheduledRunsRouteLazyRoute: ScheduledRunsRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
-  TenantRouteLazyRoute: TenantRouteLazyRouteWithChildren,
   TkRouteLazyRoute: TkRouteLazyRouteWithChildren,
+  MttaskIndexLazyRoute: MttaskIndexLazyRoute,
   AdkSessionRouteLazyRoute: AdkSessionRouteLazyRouteWithChildren,
   WorkflowRunsWorkflowRunIdRouteLazyRoute:
     WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren,
   WorkflowsWorkflowIdRouteLazyRoute:
     WorkflowsWorkflowIdRouteLazyRouteWithChildren,
+  TenantSettingsTenantSettingIdRouteLazyRoute:
+    TenantSettingsTenantSettingIdRouteLazyRouteWithChildren,
   ComsComIdTeambuilderv2InstagramteamRouteLazyRoute:
     ComsComIdTeambuilderv2InstagramteamRouteLazyRouteWithChildren,
   ComsComIdTeambuilderAgentAgentIdModelRouteLazyRoute:
@@ -3741,22 +3304,18 @@ export const routeTree = rootRoute
         "/auth",
         "/automate",
         "/browser",
-        "/bundler",
         "/chat",
         "/envs",
-        "/events",
-        "/mttask",
         "/platform-account",
         "/proxy",
-        "/recurring",
         "/resource",
-        "/scheduled-runs",
         "/site",
-        "/tenant",
         "/tk",
+        "/mttask/",
         "/adk/session",
         "/workflow-runs/$workflowRunId",
         "/workflows/$workflowId",
+        "/tenant/settings/$tenantSettingId",
         "/coms/$comId/team_builderv2/instagram_team",
         "/coms/$comId/team_builder/agent/$agentId/model"
       ]
@@ -3790,12 +3349,6 @@ export const routeTree = rootRoute
         "/browser/"
       ]
     },
-    "/bundler": {
-      "filePath": "~bundler/~route.lazy.tsx",
-      "children": [
-        "/bundler/test111"
-      ]
-    },
     "/chat": {
       "filePath": "~chat/~route.lazy.tsx",
       "children": [
@@ -3808,18 +3361,6 @@ export const routeTree = rootRoute
       "children": [
         "/envs/create",
         "/envs/"
-      ]
-    },
-    "/events": {
-      "filePath": "~events/~route.lazy.tsx",
-      "children": [
-        "/events/"
-      ]
-    },
-    "/mttask": {
-      "filePath": "~mttask/~route.lazy.tsx",
-      "children": [
-        "/mttask/"
       ]
     },
     "/platform-account": {
@@ -3838,24 +3379,12 @@ export const routeTree = rootRoute
         "/proxy/new"
       ]
     },
-    "/recurring": {
-      "filePath": "~recurring/~route.lazy.tsx",
-      "children": [
-        "/recurring/"
-      ]
-    },
     "/resource": {
       "filePath": "~resource/~route.lazy.tsx",
       "children": [
         "/resource/",
         "/resource/$resId",
         "/resource/new"
-      ]
-    },
-    "/scheduled-runs": {
-      "filePath": "~scheduled-runs/~route.lazy.tsx",
-      "children": [
-        "/scheduled-runs/"
       ]
     },
     "/site": {
@@ -3866,22 +3395,11 @@ export const routeTree = rootRoute
         "/site/create/"
       ]
     },
-    "/tenant": {
-      "filePath": "~tenant/~route.lazy.tsx",
-      "children": [
-        "/tenant/",
-        "/tenant/settings"
-      ]
-    },
     "/tk": {
       "filePath": "~tk/~route.lazy.tsx",
       "children": [
         "/tk/"
       ]
-    },
-    "/bundler/test111": {
-      "filePath": "~bundler/~test111.tsx",
-      "parent": "/bundler"
     },
     "/envs/create": {
       "filePath": "~envs/~create.tsx",
@@ -3907,13 +3425,8 @@ export const routeTree = rootRoute
       "filePath": "~envs/~index.lazy.tsx",
       "parent": "/envs"
     },
-    "/events/": {
-      "filePath": "~events/~index.lazy.tsx",
-      "parent": "/events"
-    },
     "/mttask/": {
-      "filePath": "~mttask/~index.lazy.tsx",
-      "parent": "/mttask"
+      "filePath": "~mttask/~index.lazy.tsx"
     },
     "/platform-account/": {
       "filePath": "~platform-account/~index.lazy.tsx",
@@ -3923,25 +3436,13 @@ export const routeTree = rootRoute
       "filePath": "~proxy/~index.lazy.tsx",
       "parent": "/proxy"
     },
-    "/recurring/": {
-      "filePath": "~recurring/~index.lazy.tsx",
-      "parent": "/recurring"
-    },
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
       "parent": "/resource"
     },
-    "/scheduled-runs/": {
-      "filePath": "~scheduled-runs/~index.lazy.tsx",
-      "parent": "/scheduled-runs"
-    },
     "/site/": {
       "filePath": "~site/~index.lazy.tsx",
       "parent": "/site"
-    },
-    "/tenant/": {
-      "filePath": "~tenant/~index.lazy.tsx",
-      "parent": "/tenant"
     },
     "/tk/": {
       "filePath": "~tk/~index.lazy.tsx",
@@ -4012,15 +3513,6 @@ export const routeTree = rootRoute
         "/site/$siteId/host/"
       ]
     },
-    "/tenant/settings": {
-      "filePath": "~tenant/~settings/~route.lazy.tsx",
-      "parent": "/tenant",
-      "children": [
-        "/tenant/settings/",
-        "/tenant/settings/$tenantSettingId",
-        "/tenant/settings/new"
-      ]
-    },
     "/workflow-runs/$workflowRunId": {
       "filePath": "~workflow-runs/~$workflowRunId/~route.lazy.tsx",
       "children": [
@@ -4071,10 +3563,6 @@ export const routeTree = rootRoute
     "/site/create/": {
       "filePath": "~site/~create/~index.lazy.tsx",
       "parent": "/site"
-    },
-    "/tenant/settings/": {
-      "filePath": "~tenant/~settings/~index.lazy.tsx",
-      "parent": "/tenant/settings"
     },
     "/workflow-runs/$workflowRunId/": {
       "filePath": "~workflow-runs/~$workflowRunId/~index.lazy.tsx",
@@ -4133,17 +3621,9 @@ export const routeTree = rootRoute
     },
     "/tenant/settings/$tenantSettingId": {
       "filePath": "~tenant/~settings/~$tenantSettingId/~route.lazy.tsx",
-      "parent": "/tenant/settings",
       "children": [
         "/tenant/settings/$tenantSettingId/",
         "/tenant/settings/$tenantSettingId/model_settings"
-      ]
-    },
-    "/tenant/settings/new": {
-      "filePath": "~tenant/~settings/~new/~route.lazy.tsx",
-      "parent": "/tenant/settings",
-      "children": [
-        "/tenant/settings/new/"
       ]
     },
     "/workflow-runs/$workflowRunId/additional-metadata": {
@@ -4220,10 +3700,6 @@ export const routeTree = rootRoute
     "/tenant/settings/$tenantSettingId/": {
       "filePath": "~tenant/~settings/~$tenantSettingId/~index.lazy.tsx",
       "parent": "/tenant/settings/$tenantSettingId"
-    },
-    "/tenant/settings/new/": {
-      "filePath": "~tenant/~settings/~new/~index.lazy.tsx",
-      "parent": "/tenant/settings/new"
     },
     "/workflow-runs/$workflowRunId/chat/": {
       "filePath": "~workflow-runs/~$workflowRunId/~chat/~index.lazy.tsx",

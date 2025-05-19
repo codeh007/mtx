@@ -2,6 +2,25 @@
 
 import {
   type Options,
+  v1TaskGet,
+  v1TaskEventList,
+  v1LogLineList,
+  v1TaskCancel,
+  v1TaskReplay,
+  v1DagListTasks,
+  v1WorkflowRunList,
+  v1WorkflowRunDisplayNamesList,
+  v1WorkflowRunCreate,
+  v1WorkflowRunGet,
+  v1WorkflowRunTaskEventsList,
+  v1WorkflowRunGetTimings,
+  v1TaskListStatusMetrics,
+  v1TaskGetPointMetrics,
+  v1EventList,
+  v1FilterList,
+  v1FilterCreate,
+  v1FilterDelete,
+  v1FilterGet,
   readinessGet,
   livenessGet,
   metadataGet,
@@ -14,12 +33,7 @@ import {
   userUpdateGithubOauthCallback,
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
-  tenantSettingsList,
-  tenantDefaultSettingGet,
-  tenantDefaultSetting,
-  tenantSettingsDelete,
-  tenantSettingsGet,
-  tenantSettingsUpsert,
+  snsUpdate,
   snsList,
   snsCreate,
   alertEmailGroupList,
@@ -51,6 +65,9 @@ import {
   tenantGetQueueMetrics,
   tenantGetStepRunQueueMetrics,
   eventList,
+  eventCreate,
+  eventCreateBulk,
+  eventUpdateReplay,
   eventUpdateCancel,
   rateLimitList,
   tenantMemberList,
@@ -59,10 +76,14 @@ import {
   eventDataGet,
   eventKeyList,
   workflowList,
+  scheduledWorkflowRunCreate,
   workflowScheduledList,
   workflowScheduledDelete,
   workflowScheduledGet,
+  cronWorkflowTriggerCreate,
   cronWorkflowList,
+  workflowCronDelete,
+  workflowCronGet,
   workflowRunCancel,
   workflowDelete,
   workflowGet,
@@ -92,11 +113,8 @@ import {
   webhookDelete,
   webhookRequestsList,
   workflowRunGetInput,
-  workflowGetByName,
-  blogList,
-  blogCreate,
-  blogGet,
-  blogUpdate,
+  monitoringPostRunProbe,
+  infoGetVersion,
   siteList,
   siteCreate,
   siteGet,
@@ -106,95 +124,51 @@ import {
   siteHostCreate,
   siteHostGet,
   siteHostUpdate,
-  postListPublic,
-  postGet,
-  postList,
-  postCreate,
-  artifactList,
-  artifactGet,
-  comsList,
-  comsUpsert,
-  comsGet,
-  galleryList,
-  galleryCreate,
-  galleryGet,
-  agEventList,
-  agEventGet,
-  modelList,
-  modelGet,
-  modelUpsert,
-  modelRunsList,
-  modelRunGet,
-  modelRunUpsert,
-  promptList,
-  promptGet,
-  adminReleaseConn,
-  adminResetDb,
-  frontendGetConfig,
-  frontendGetSiderbar,
-  hfAccountGet,
-  envList,
-  envUpdate,
-  envGet,
-  endpointList,
-  endpointUpdate,
-  platformList,
-  platformCreate,
-  platformGet,
-  platformUpdate,
-  platformAccountList,
-  platformAccountCreate,
-  platformAccountGet,
-  platformAccountUpsert,
-  browserList,
-  browserCreate,
-  browserOpen,
-  browserGet,
-  browserUpdate,
-  proxyList,
-  proxyGet,
-  proxyUpsert,
-  agStateList,
-  agStateGet,
-  agStateUpsert,
-  chatMessagesList,
-  chatSessionList,
-  chatMessageUpsert,
-  chatSessionGet,
-  chatSessionUpsert,
-  flowStateList,
-  flowStateGet,
-  flowStateUpsert,
-  uiAgentGet,
-  dispatcherListen,
-  resourceList,
-  resourceUpsert,
-  resourceDelete,
-  resourceGet,
-  instagramLogin,
-  adkAppList,
-  adkAppUpsert,
-  adkAppGet,
-  adkSessionList,
-  adkSessionUpsert,
-  adkSessionGet,
-  adkUserStateList,
-  adkUserStateUpsert,
-  adkUserStateGet,
-  adkEventsList,
-  adkEventsUpsert,
-  adkEventsGet,
-  tkGetUserProfile,
-  tkAccountLogin,
-  mttaskList,
 } from "../sdk.gen";
 import {
   queryOptions,
-  type UseMutationOptions,
   infiniteQueryOptions,
   type InfiniteData,
+  type UseMutationOptions,
 } from "@tanstack/react-query";
 import type {
+  V1TaskGetData,
+  V1TaskEventListData,
+  V1TaskEventListError,
+  V1TaskEventListResponse,
+  V1LogLineListData,
+  V1TaskCancelData,
+  V1TaskCancelError,
+  V1TaskReplayData,
+  V1TaskReplayError,
+  V1DagListTasksData,
+  V1WorkflowRunListData,
+  V1WorkflowRunListError,
+  V1WorkflowRunListResponse,
+  V1WorkflowRunDisplayNamesListData,
+  V1WorkflowRunCreateData,
+  V1WorkflowRunCreateError,
+  V1WorkflowRunCreateResponse,
+  V1WorkflowRunGetData,
+  V1WorkflowRunTaskEventsListData,
+  V1WorkflowRunTaskEventsListError,
+  V1WorkflowRunTaskEventsListResponse,
+  V1WorkflowRunGetTimingsData,
+  V1TaskListStatusMetricsData,
+  V1TaskGetPointMetricsData,
+  V1EventListData,
+  V1EventListError,
+  V1EventListResponse,
+  V1FilterListData,
+  V1FilterListError,
+  V1FilterListResponse,
+  V1FilterCreateData,
+  V1FilterCreateError,
+  V1FilterCreateResponse,
+  V1FilterDeleteData,
+  V1FilterDeleteError,
+  V1FilterDeleteResponse,
+  V1FilterGetData,
   ReadinessGetData,
   LivenessGetData,
   MetadataGetData,
@@ -209,18 +183,8 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  TenantSettingsListData,
-  TenantDefaultSettingGetData,
-  TenantDefaultSettingData,
-  TenantDefaultSettingError,
-  TenantDefaultSettingResponse,
-  TenantSettingsDeleteData,
-  TenantSettingsDeleteError,
-  TenantSettingsDeleteResponse,
-  TenantSettingsGetData,
-  TenantSettingsUpsertData,
-  TenantSettingsUpsertError,
-  TenantSettingsUpsertResponse,
+  SnsUpdateData,
+  SnsUpdateError,
   SnsListData,
   SnsCreateData,
   SnsCreateError,
@@ -288,6 +252,15 @@ import type {
   EventListData,
   EventListError,
   EventListResponse,
+  EventCreateData,
+  EventCreateError,
+  EventCreateResponse,
+  EventCreateBulkData,
+  EventCreateBulkError,
+  EventCreateBulkResponse,
+  EventUpdateReplayData,
+  EventUpdateReplayError,
+  EventUpdateReplayResponse,
   EventUpdateCancelData,
   EventUpdateCancelError,
   EventUpdateCancelResponse,
@@ -304,6 +277,9 @@ import type {
   WorkflowListData,
   WorkflowListError,
   WorkflowListResponse,
+  ScheduledWorkflowRunCreateData,
+  ScheduledWorkflowRunCreateError,
+  ScheduledWorkflowRunCreateResponse,
   WorkflowScheduledListData,
   WorkflowScheduledListError,
   WorkflowScheduledListResponse,
@@ -311,9 +287,16 @@ import type {
   WorkflowScheduledDeleteError,
   WorkflowScheduledDeleteResponse,
   WorkflowScheduledGetData,
+  CronWorkflowTriggerCreateData,
+  CronWorkflowTriggerCreateError,
+  CronWorkflowTriggerCreateResponse,
   CronWorkflowListData,
   CronWorkflowListError,
   CronWorkflowListResponse,
+  WorkflowCronDeleteData,
+  WorkflowCronDeleteError,
+  WorkflowCronDeleteResponse,
+  WorkflowCronGetData,
   WorkflowRunCancelData,
   WorkflowRunCancelError,
   WorkflowRunCancelResponse,
@@ -370,15 +353,9 @@ import type {
   WebhookDeleteError,
   WebhookRequestsListData,
   WorkflowRunGetInputData,
-  WorkflowGetByNameData,
-  BlogListData,
-  BlogCreateData,
-  BlogCreateError,
-  BlogCreateResponse,
-  BlogGetData,
-  BlogUpdateData,
-  BlogUpdateError,
-  BlogUpdateResponse,
+  MonitoringPostRunProbeData,
+  MonitoringPostRunProbeError,
+  InfoGetVersionData,
   SiteListData,
   SiteCreateData,
   SiteCreateError,
@@ -398,153 +375,6 @@ import type {
   SiteHostUpdateData,
   SiteHostUpdateError,
   SiteHostUpdateResponse,
-  PostListPublicData,
-  PostGetData,
-  PostListData,
-  PostCreateData,
-  PostCreateError,
-  PostCreateResponse,
-  ArtifactListData,
-  ArtifactGetData,
-  ComsListData,
-  ComsUpsertData,
-  ComsUpsertError,
-  ComsUpsertResponse,
-  ComsGetData,
-  GalleryListData,
-  GalleryCreateData,
-  GalleryCreateError,
-  GalleryCreateResponse,
-  GalleryGetData,
-  AgEventListData,
-  AgEventGetData,
-  ModelListData,
-  ModelGetData,
-  ModelUpsertData,
-  ModelUpsertError,
-  ModelUpsertResponse,
-  ModelRunsListData,
-  ModelRunGetData,
-  ModelRunUpsertData,
-  ModelRunUpsertError,
-  ModelRunUpsertResponse,
-  PromptListData,
-  PromptGetData,
-  AdminReleaseConnData,
-  AdminReleaseConnError,
-  AdminReleaseConnResponse,
-  AdminResetDbData,
-  AdminResetDbError,
-  AdminResetDbResponse,
-  FrontendGetConfigData,
-  FrontendGetSiderbarData,
-  HfAccountGetData,
-  EnvListData,
-  EnvUpdateData,
-  EnvUpdateError,
-  EnvUpdateResponse,
-  EnvGetData,
-  EndpointListData,
-  EndpointUpdateData,
-  EndpointUpdateError,
-  EndpointUpdateResponse,
-  PlatformListData,
-  PlatformCreateData,
-  PlatformCreateError,
-  PlatformCreateResponse,
-  PlatformGetData,
-  PlatformUpdateData,
-  PlatformUpdateError,
-  PlatformUpdateResponse,
-  PlatformAccountListData,
-  PlatformAccountCreateData,
-  PlatformAccountCreateError,
-  PlatformAccountCreateResponse,
-  PlatformAccountGetData,
-  PlatformAccountUpsertData,
-  PlatformAccountUpsertError,
-  PlatformAccountUpsertResponse,
-  BrowserListData,
-  BrowserCreateData,
-  BrowserCreateError,
-  BrowserCreateResponse,
-  BrowserOpenData,
-  BrowserOpenError,
-  BrowserOpenResponse,
-  BrowserGetData,
-  BrowserUpdateData,
-  BrowserUpdateError,
-  BrowserUpdateResponse,
-  ProxyListData,
-  ProxyGetData,
-  ProxyUpsertData,
-  ProxyUpsertError,
-  ProxyUpsertResponse,
-  AgStateListData,
-  AgStateGetData,
-  AgStateUpsertData,
-  AgStateUpsertError,
-  AgStateUpsertResponse,
-  ChatMessagesListData,
-  ChatSessionListData,
-  ChatMessageUpsertData,
-  ChatMessageUpsertError,
-  ChatMessageUpsertResponse,
-  ChatSessionGetData,
-  ChatSessionUpsertData,
-  ChatSessionUpsertError,
-  ChatSessionUpsertResponse,
-  FlowStateListData,
-  FlowStateGetData,
-  FlowStateUpsertData,
-  FlowStateUpsertError,
-  FlowStateUpsertResponse,
-  UiAgentGetData,
-  DispatcherListenData,
-  DispatcherListenError,
-  DispatcherListenResponse,
-  ResourceListData,
-  ResourceListError,
-  ResourceListResponse,
-  ResourceUpsertData,
-  ResourceUpsertError,
-  ResourceUpsertResponse,
-  ResourceDeleteData,
-  ResourceDeleteError,
-  ResourceDeleteResponse,
-  ResourceGetData,
-  InstagramLoginData,
-  InstagramLoginError,
-  InstagramLoginResponse,
-  AdkAppListData,
-  AdkAppUpsertData,
-  AdkAppUpsertError,
-  AdkAppUpsertResponse,
-  AdkAppGetData,
-  AdkSessionListData,
-  AdkSessionUpsertData,
-  AdkSessionUpsertError,
-  AdkSessionUpsertResponse,
-  AdkSessionGetData,
-  AdkUserStateListData,
-  AdkUserStateUpsertData,
-  AdkUserStateUpsertError,
-  AdkUserStateUpsertResponse,
-  AdkUserStateGetData,
-  AdkEventsListData,
-  AdkEventsListError,
-  AdkEventsListResponse,
-  AdkEventsUpsertData,
-  AdkEventsUpsertError,
-  AdkEventsUpsertResponse,
-  AdkEventsGetData,
-  TkGetUserProfileData,
-  TkGetUserProfileError,
-  TkGetUserProfileResponse,
-  TkAccountLoginData,
-  TkAccountLoginError,
-  TkAccountLoginResponse,
-  MttaskListData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -580,6 +410,675 @@ const createQueryKey = <TOptions extends Options>(
     params.query = options.query;
   }
   return [params];
+};
+
+export const v1TaskGetQueryKey = (options: Options<V1TaskGetData>) =>
+  createQueryKey("v1TaskGet", options);
+
+export const v1TaskGetOptions = (options: Options<V1TaskGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskGetQueryKey(options),
+  });
+};
+
+export const v1TaskEventListQueryKey = (options: Options<V1TaskEventListData>) =>
+  createQueryKey("v1TaskEventList", options);
+
+export const v1TaskEventListOptions = (options: Options<V1TaskEventListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskEventList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskEventListQueryKey(options),
+  });
+};
+
+const createInfiniteParams = <
+  K extends Pick<QueryKey<Options>[0], "body" | "headers" | "path" | "query">,
+>(
+  queryKey: QueryKey<Options>,
+  page: K,
+) => {
+  const params = queryKey[0];
+  if (page.body) {
+    params.body = {
+      ...(queryKey[0].body as any),
+      ...(page.body as any),
+    };
+  }
+  if (page.headers) {
+    params.headers = {
+      ...queryKey[0].headers,
+      ...page.headers,
+    };
+  }
+  if (page.path) {
+    params.path = {
+      ...(queryKey[0].path as any),
+      ...(page.path as any),
+    };
+  }
+  if (page.query) {
+    params.query = {
+      ...(queryKey[0].query as any),
+      ...(page.query as any),
+    };
+  }
+  return params as unknown as typeof page;
+};
+
+export const v1TaskEventListInfiniteQueryKey = (
+  options: Options<V1TaskEventListData>,
+): QueryKey<Options<V1TaskEventListData>> => createQueryKey("v1TaskEventList", options, true);
+
+export const v1TaskEventListInfiniteOptions = (options: Options<V1TaskEventListData>) => {
+  return infiniteQueryOptions<
+    V1TaskEventListResponse,
+    V1TaskEventListError,
+    InfiniteData<V1TaskEventListResponse>,
+    QueryKey<Options<V1TaskEventListData>>,
+    number | Pick<QueryKey<Options<V1TaskEventListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<V1TaskEventListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await v1TaskEventList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: v1TaskEventListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const v1LogLineListQueryKey = (options: Options<V1LogLineListData>) =>
+  createQueryKey("v1LogLineList", options);
+
+export const v1LogLineListOptions = (options: Options<V1LogLineListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1LogLineList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1LogLineListQueryKey(options),
+  });
+};
+
+export const v1TaskCancelQueryKey = (options: Options<V1TaskCancelData>) =>
+  createQueryKey("v1TaskCancel", options);
+
+export const v1TaskCancelOptions = (options: Options<V1TaskCancelData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskCancel({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskCancelQueryKey(options),
+  });
+};
+
+export const v1TaskCancelMutation = (options?: Partial<Options<V1TaskCancelData>>) => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    V1TaskCancelError,
+    Options<V1TaskCancelData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await v1TaskCancel({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const v1TaskReplayQueryKey = (options: Options<V1TaskReplayData>) =>
+  createQueryKey("v1TaskReplay", options);
+
+export const v1TaskReplayOptions = (options: Options<V1TaskReplayData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskReplay({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskReplayQueryKey(options),
+  });
+};
+
+export const v1TaskReplayMutation = (options?: Partial<Options<V1TaskReplayData>>) => {
+  const mutationOptions: UseMutationOptions<
+    unknown,
+    V1TaskReplayError,
+    Options<V1TaskReplayData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await v1TaskReplay({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const v1DagListTasksQueryKey = (options: Options<V1DagListTasksData>) =>
+  createQueryKey("v1DagListTasks", options);
+
+export const v1DagListTasksOptions = (options: Options<V1DagListTasksData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1DagListTasks({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1DagListTasksQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunListQueryKey = (options: Options<V1WorkflowRunListData>) =>
+  createQueryKey("v1WorkflowRunList", options);
+
+export const v1WorkflowRunListOptions = (options: Options<V1WorkflowRunListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunListQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunListInfiniteQueryKey = (
+  options: Options<V1WorkflowRunListData>,
+): QueryKey<Options<V1WorkflowRunListData>> => createQueryKey("v1WorkflowRunList", options, true);
+
+export const v1WorkflowRunListInfiniteOptions = (options: Options<V1WorkflowRunListData>) => {
+  return infiniteQueryOptions<
+    V1WorkflowRunListResponse,
+    V1WorkflowRunListError,
+    InfiniteData<V1WorkflowRunListResponse>,
+    QueryKey<Options<V1WorkflowRunListData>>,
+    | number
+    | Pick<QueryKey<Options<V1WorkflowRunListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<V1WorkflowRunListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await v1WorkflowRunList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: v1WorkflowRunListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const v1WorkflowRunDisplayNamesListQueryKey = (
+  options: Options<V1WorkflowRunDisplayNamesListData>,
+) => createQueryKey("v1WorkflowRunDisplayNamesList", options);
+
+export const v1WorkflowRunDisplayNamesListOptions = (
+  options: Options<V1WorkflowRunDisplayNamesListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunDisplayNamesList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunDisplayNamesListQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunCreateQueryKey = (options: Options<V1WorkflowRunCreateData>) =>
+  createQueryKey("v1WorkflowRunCreate", options);
+
+export const v1WorkflowRunCreateOptions = (options: Options<V1WorkflowRunCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunCreateQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunCreateMutation = (
+  options?: Partial<Options<V1WorkflowRunCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    V1WorkflowRunCreateResponse,
+    V1WorkflowRunCreateError,
+    Options<V1WorkflowRunCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await v1WorkflowRunCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const v1WorkflowRunGetQueryKey = (options: Options<V1WorkflowRunGetData>) =>
+  createQueryKey("v1WorkflowRunGet", options);
+
+export const v1WorkflowRunGetOptions = (options: Options<V1WorkflowRunGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunGetQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunTaskEventsListQueryKey = (
+  options: Options<V1WorkflowRunTaskEventsListData>,
+) => createQueryKey("v1WorkflowRunTaskEventsList", options);
+
+export const v1WorkflowRunTaskEventsListOptions = (
+  options: Options<V1WorkflowRunTaskEventsListData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunTaskEventsList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunTaskEventsListQueryKey(options),
+  });
+};
+
+export const v1WorkflowRunTaskEventsListInfiniteQueryKey = (
+  options: Options<V1WorkflowRunTaskEventsListData>,
+): QueryKey<Options<V1WorkflowRunTaskEventsListData>> =>
+  createQueryKey("v1WorkflowRunTaskEventsList", options, true);
+
+export const v1WorkflowRunTaskEventsListInfiniteOptions = (
+  options: Options<V1WorkflowRunTaskEventsListData>,
+) => {
+  return infiniteQueryOptions<
+    V1WorkflowRunTaskEventsListResponse,
+    V1WorkflowRunTaskEventsListError,
+    InfiniteData<V1WorkflowRunTaskEventsListResponse>,
+    QueryKey<Options<V1WorkflowRunTaskEventsListData>>,
+    | number
+    | Pick<
+        QueryKey<Options<V1WorkflowRunTaskEventsListData>>[0],
+        "body" | "headers" | "path" | "query"
+      >
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<V1WorkflowRunTaskEventsListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await v1WorkflowRunTaskEventsList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: v1WorkflowRunTaskEventsListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const v1WorkflowRunGetTimingsQueryKey = (options: Options<V1WorkflowRunGetTimingsData>) =>
+  createQueryKey("v1WorkflowRunGetTimings", options);
+
+export const v1WorkflowRunGetTimingsOptions = (options: Options<V1WorkflowRunGetTimingsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1WorkflowRunGetTimings({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1WorkflowRunGetTimingsQueryKey(options),
+  });
+};
+
+export const v1TaskListStatusMetricsQueryKey = (options: Options<V1TaskListStatusMetricsData>) =>
+  createQueryKey("v1TaskListStatusMetrics", options);
+
+export const v1TaskListStatusMetricsOptions = (options: Options<V1TaskListStatusMetricsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskListStatusMetrics({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskListStatusMetricsQueryKey(options),
+  });
+};
+
+export const v1TaskGetPointMetricsQueryKey = (options: Options<V1TaskGetPointMetricsData>) =>
+  createQueryKey("v1TaskGetPointMetrics", options);
+
+export const v1TaskGetPointMetricsOptions = (options: Options<V1TaskGetPointMetricsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1TaskGetPointMetrics({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1TaskGetPointMetricsQueryKey(options),
+  });
+};
+
+export const v1EventListQueryKey = (options: Options<V1EventListData>) =>
+  createQueryKey("v1EventList", options);
+
+export const v1EventListOptions = (options: Options<V1EventListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1EventList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1EventListQueryKey(options),
+  });
+};
+
+export const v1EventListInfiniteQueryKey = (
+  options: Options<V1EventListData>,
+): QueryKey<Options<V1EventListData>> => createQueryKey("v1EventList", options, true);
+
+export const v1EventListInfiniteOptions = (options: Options<V1EventListData>) => {
+  return infiniteQueryOptions<
+    V1EventListResponse,
+    V1EventListError,
+    InfiniteData<V1EventListResponse>,
+    QueryKey<Options<V1EventListData>>,
+    number | Pick<QueryKey<Options<V1EventListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<V1EventListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await v1EventList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: v1EventListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const v1FilterListQueryKey = (options: Options<V1FilterListData>) =>
+  createQueryKey("v1FilterList", options);
+
+export const v1FilterListOptions = (options: Options<V1FilterListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1FilterList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1FilterListQueryKey(options),
+  });
+};
+
+export const v1FilterListInfiniteQueryKey = (
+  options: Options<V1FilterListData>,
+): QueryKey<Options<V1FilterListData>> => createQueryKey("v1FilterList", options, true);
+
+export const v1FilterListInfiniteOptions = (options: Options<V1FilterListData>) => {
+  return infiniteQueryOptions<
+    V1FilterListResponse,
+    V1FilterListError,
+    InfiniteData<V1FilterListResponse>,
+    QueryKey<Options<V1FilterListData>>,
+    number | Pick<QueryKey<Options<V1FilterListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<V1FilterListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await v1FilterList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: v1FilterListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const v1FilterCreateQueryKey = (options: Options<V1FilterCreateData>) =>
+  createQueryKey("v1FilterCreate", options);
+
+export const v1FilterCreateOptions = (options: Options<V1FilterCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1FilterCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1FilterCreateQueryKey(options),
+  });
+};
+
+export const v1FilterCreateMutation = (options?: Partial<Options<V1FilterCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    V1FilterCreateResponse,
+    V1FilterCreateError,
+    Options<V1FilterCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await v1FilterCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const v1FilterDeleteMutation = (options?: Partial<Options<V1FilterDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    V1FilterDeleteResponse,
+    V1FilterDeleteError,
+    Options<V1FilterDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await v1FilterDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const v1FilterGetQueryKey = (options: Options<V1FilterGetData>) =>
+  createQueryKey("v1FilterGet", options);
+
+export const v1FilterGetOptions = (options: Options<V1FilterGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await v1FilterGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: v1FilterGetQueryKey(options),
+  });
 };
 
 export const readinessGetQueryKey = (options?: Options<ReadinessGetData>) =>
@@ -836,13 +1335,13 @@ export const userUpdateSlackOauthCallbackOptions = (
   });
 };
 
-export const tenantSettingsListQueryKey = (options: Options<TenantSettingsListData>) =>
-  createQueryKey("tenantSettingsList", options);
+export const snsUpdateQueryKey = (options: Options<SnsUpdateData>) =>
+  createQueryKey("snsUpdate", options);
 
-export const tenantSettingsListOptions = (options: Options<TenantSettingsListData>) => {
+export const snsUpdateOptions = (options: Options<SnsUpdateData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantSettingsList({
+      const { data } = await snsUpdate({
         ...options,
         ...queryKey[0],
         signal,
@@ -850,132 +1349,14 @@ export const tenantSettingsListOptions = (options: Options<TenantSettingsListDat
       });
       return data;
     },
-    queryKey: tenantSettingsListQueryKey(options),
+    queryKey: snsUpdateQueryKey(options),
   });
 };
 
-export const tenantDefaultSettingGetQueryKey = (options: Options<TenantDefaultSettingGetData>) =>
-  createQueryKey("tenantDefaultSettingGet", options);
-
-export const tenantDefaultSettingGetOptions = (options: Options<TenantDefaultSettingGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantDefaultSettingGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantDefaultSettingGetQueryKey(options),
-  });
-};
-
-export const tenantDefaultSettingQueryKey = (options: Options<TenantDefaultSettingData>) =>
-  createQueryKey("tenantDefaultSetting", options);
-
-export const tenantDefaultSettingOptions = (options: Options<TenantDefaultSettingData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantDefaultSetting({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantDefaultSettingQueryKey(options),
-  });
-};
-
-export const tenantDefaultSettingMutation = (
-  options?: Partial<Options<TenantDefaultSettingData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TenantDefaultSettingResponse,
-    TenantDefaultSettingError,
-    Options<TenantDefaultSettingData>
-  > = {
+export const snsUpdateMutation = (options?: Partial<Options<SnsUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<unknown, SnsUpdateError, Options<SnsUpdateData>> = {
     mutationFn: async (localOptions) => {
-      const { data } = await tenantDefaultSetting({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const tenantSettingsDeleteMutation = (
-  options?: Partial<Options<TenantSettingsDeleteData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TenantSettingsDeleteResponse,
-    TenantSettingsDeleteError,
-    Options<TenantSettingsDeleteData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tenantSettingsDelete({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const tenantSettingsGetQueryKey = (options: Options<TenantSettingsGetData>) =>
-  createQueryKey("tenantSettingsGet", options);
-
-export const tenantSettingsGetOptions = (options: Options<TenantSettingsGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantSettingsGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantSettingsGetQueryKey(options),
-  });
-};
-
-export const tenantSettingsUpsertQueryKey = (options: Options<TenantSettingsUpsertData>) =>
-  createQueryKey("tenantSettingsUpsert", options);
-
-export const tenantSettingsUpsertOptions = (options: Options<TenantSettingsUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tenantSettingsUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tenantSettingsUpsertQueryKey(options),
-  });
-};
-
-export const tenantSettingsUpsertMutation = (
-  options?: Partial<Options<TenantSettingsUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    TenantSettingsUpsertResponse,
-    TenantSettingsUpsertError,
-    Options<TenantSettingsUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tenantSettingsUpsert({
+      const { data } = await snsUpdate({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -1756,40 +2137,6 @@ export const eventListOptions = (options: Options<EventListData>) => {
   });
 };
 
-const createInfiniteParams = <
-  K extends Pick<QueryKey<Options>[0], "body" | "headers" | "path" | "query">,
->(
-  queryKey: QueryKey<Options>,
-  page: K,
-) => {
-  const params = queryKey[0];
-  if (page.body) {
-    params.body = {
-      ...(queryKey[0].body as any),
-      ...(page.body as any),
-    };
-  }
-  if (page.headers) {
-    params.headers = {
-      ...queryKey[0].headers,
-      ...page.headers,
-    };
-  }
-  if (page.path) {
-    params.path = {
-      ...(queryKey[0].path as any),
-      ...(page.path as any),
-    };
-  }
-  if (page.query) {
-    params.query = {
-      ...(queryKey[0].query as any),
-      ...(page.query as any),
-    };
-  }
-  return params as unknown as typeof page;
-};
-
 export const eventListInfiniteQueryKey = (
   options: Options<EventListData>,
 ): QueryKey<Options<EventListData>> => createQueryKey("eventList", options, true);
@@ -1829,6 +2176,114 @@ export const eventListInfiniteOptions = (options: Options<EventListData>) => {
       queryKey: eventListInfiniteQueryKey(options),
     },
   );
+};
+
+export const eventCreateQueryKey = (options: Options<EventCreateData>) =>
+  createQueryKey("eventCreate", options);
+
+export const eventCreateOptions = (options: Options<EventCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await eventCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: eventCreateQueryKey(options),
+  });
+};
+
+export const eventCreateMutation = (options?: Partial<Options<EventCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    EventCreateResponse,
+    EventCreateError,
+    Options<EventCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await eventCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const eventCreateBulkQueryKey = (options: Options<EventCreateBulkData>) =>
+  createQueryKey("eventCreateBulk", options);
+
+export const eventCreateBulkOptions = (options: Options<EventCreateBulkData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await eventCreateBulk({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: eventCreateBulkQueryKey(options),
+  });
+};
+
+export const eventCreateBulkMutation = (options?: Partial<Options<EventCreateBulkData>>) => {
+  const mutationOptions: UseMutationOptions<
+    EventCreateBulkResponse,
+    EventCreateBulkError,
+    Options<EventCreateBulkData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await eventCreateBulk({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const eventUpdateReplayQueryKey = (options: Options<EventUpdateReplayData>) =>
+  createQueryKey("eventUpdateReplay", options);
+
+export const eventUpdateReplayOptions = (options: Options<EventUpdateReplayData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await eventUpdateReplay({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: eventUpdateReplayQueryKey(options),
+  });
+};
+
+export const eventUpdateReplayMutation = (options?: Partial<Options<EventUpdateReplayData>>) => {
+  const mutationOptions: UseMutationOptions<
+    EventUpdateReplayResponse,
+    EventUpdateReplayError,
+    Options<EventUpdateReplayData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await eventUpdateReplay({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const eventUpdateCancelQueryKey = (options: Options<EventUpdateCancelData>) =>
@@ -2075,6 +2530,47 @@ export const workflowListInfiniteOptions = (options: Options<WorkflowListData>) 
   );
 };
 
+export const scheduledWorkflowRunCreateQueryKey = (
+  options: Options<ScheduledWorkflowRunCreateData>,
+) => createQueryKey("scheduledWorkflowRunCreate", options);
+
+export const scheduledWorkflowRunCreateOptions = (
+  options: Options<ScheduledWorkflowRunCreateData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await scheduledWorkflowRunCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: scheduledWorkflowRunCreateQueryKey(options),
+  });
+};
+
+export const scheduledWorkflowRunCreateMutation = (
+  options?: Partial<Options<ScheduledWorkflowRunCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    ScheduledWorkflowRunCreateResponse,
+    ScheduledWorkflowRunCreateError,
+    Options<ScheduledWorkflowRunCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await scheduledWorkflowRunCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const workflowScheduledListQueryKey = (options: Options<WorkflowScheduledListData>) =>
   createQueryKey("workflowScheduledList", options);
 
@@ -2176,6 +2672,47 @@ export const workflowScheduledGetOptions = (options: Options<WorkflowScheduledGe
   });
 };
 
+export const cronWorkflowTriggerCreateQueryKey = (
+  options: Options<CronWorkflowTriggerCreateData>,
+) => createQueryKey("cronWorkflowTriggerCreate", options);
+
+export const cronWorkflowTriggerCreateOptions = (
+  options: Options<CronWorkflowTriggerCreateData>,
+) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await cronWorkflowTriggerCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: cronWorkflowTriggerCreateQueryKey(options),
+  });
+};
+
+export const cronWorkflowTriggerCreateMutation = (
+  options?: Partial<Options<CronWorkflowTriggerCreateData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    CronWorkflowTriggerCreateResponse,
+    CronWorkflowTriggerCreateError,
+    Options<CronWorkflowTriggerCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await cronWorkflowTriggerCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const cronWorkflowListQueryKey = (options: Options<CronWorkflowListData>) =>
   createQueryKey("cronWorkflowList", options);
 
@@ -2233,6 +2770,42 @@ export const cronWorkflowListInfiniteOptions = (options: Options<CronWorkflowLis
       queryKey: cronWorkflowListInfiniteQueryKey(options),
     },
   );
+};
+
+export const workflowCronDeleteMutation = (options?: Partial<Options<WorkflowCronDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    WorkflowCronDeleteResponse,
+    WorkflowCronDeleteError,
+    Options<WorkflowCronDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await workflowCronDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const workflowCronGetQueryKey = (options: Options<WorkflowCronGetData>) =>
+  createQueryKey("workflowCronGet", options);
+
+export const workflowCronGetOptions = (options: Options<WorkflowCronGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await workflowCronGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: workflowCronGetQueryKey(options),
+  });
 };
 
 export const workflowRunCancelQueryKey = (options: Options<WorkflowRunCancelData>) =>
@@ -3039,13 +3612,13 @@ export const workflowRunGetInputOptions = (options: Options<WorkflowRunGetInputD
   });
 };
 
-export const workflowGetByNameQueryKey = (options: Options<WorkflowGetByNameData>) =>
-  createQueryKey("workflowGetByName", options);
+export const monitoringPostRunProbeQueryKey = (options: Options<MonitoringPostRunProbeData>) =>
+  createQueryKey("monitoringPostRunProbe", options);
 
-export const workflowGetByNameOptions = (options: Options<WorkflowGetByNameData>) => {
+export const monitoringPostRunProbeOptions = (options: Options<MonitoringPostRunProbeData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await workflowGetByName({
+      const { data } = await monitoringPostRunProbe({
         ...options,
         ...queryKey[0],
         signal,
@@ -3053,54 +3626,20 @@ export const workflowGetByNameOptions = (options: Options<WorkflowGetByNameData>
       });
       return data;
     },
-    queryKey: workflowGetByNameQueryKey(options),
+    queryKey: monitoringPostRunProbeQueryKey(options),
   });
 };
 
-export const blogListQueryKey = (options: Options<BlogListData>) =>
-  createQueryKey("blogList", options);
-
-export const blogListOptions = (options: Options<BlogListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await blogList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: blogListQueryKey(options),
-  });
-};
-
-export const blogCreateQueryKey = (options: Options<BlogCreateData>) =>
-  createQueryKey("blogCreate", options);
-
-export const blogCreateOptions = (options: Options<BlogCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await blogCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: blogCreateQueryKey(options),
-  });
-};
-
-export const blogCreateMutation = (options?: Partial<Options<BlogCreateData>>) => {
+export const monitoringPostRunProbeMutation = (
+  options?: Partial<Options<MonitoringPostRunProbeData>>,
+) => {
   const mutationOptions: UseMutationOptions<
-    BlogCreateResponse,
-    BlogCreateError,
-    Options<BlogCreateData>
+    unknown,
+    MonitoringPostRunProbeError,
+    Options<MonitoringPostRunProbeData>
   > = {
     mutationFn: async (localOptions) => {
-      const { data } = await blogCreate({
+      const { data } = await monitoringPostRunProbe({
         ...options,
         ...localOptions,
         throwOnError: true,
@@ -3111,13 +3650,13 @@ export const blogCreateMutation = (options?: Partial<Options<BlogCreateData>>) =
   return mutationOptions;
 };
 
-export const blogGetQueryKey = (options: Options<BlogGetData>) =>
-  createQueryKey("blogGet", options);
+export const infoGetVersionQueryKey = (options?: Options<InfoGetVersionData>) =>
+  createQueryKey("infoGetVersion", options);
 
-export const blogGetOptions = (options: Options<BlogGetData>) => {
+export const infoGetVersionOptions = (options?: Options<InfoGetVersionData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await blogGet({
+      const { data } = await infoGetVersion({
         ...options,
         ...queryKey[0],
         signal,
@@ -3125,26 +3664,8 @@ export const blogGetOptions = (options: Options<BlogGetData>) => {
       });
       return data;
     },
-    queryKey: blogGetQueryKey(options),
+    queryKey: infoGetVersionQueryKey(options),
   });
-};
-
-export const blogUpdateMutation = (options?: Partial<Options<BlogUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    BlogUpdateResponse,
-    BlogUpdateError,
-    Options<BlogUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await blogUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const siteListQueryKey = (options: Options<SiteListData>) =>
@@ -3384,1871 +3905,4 @@ export const siteHostUpdateMutation = (options?: Partial<Options<SiteHostUpdateD
     },
   };
   return mutationOptions;
-};
-
-export const postListPublicQueryKey = (options?: Options<PostListPublicData>) =>
-  createQueryKey("postListPublic", options);
-
-export const postListPublicOptions = (options?: Options<PostListPublicData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postListPublic({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: postListPublicQueryKey(options),
-  });
-};
-
-export const postGetQueryKey = (options: Options<PostGetData>) =>
-  createQueryKey("postGet", options);
-
-export const postGetOptions = (options: Options<PostGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: postGetQueryKey(options),
-  });
-};
-
-export const postListQueryKey = (options: Options<PostListData>) =>
-  createQueryKey("postList", options);
-
-export const postListOptions = (options: Options<PostListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: postListQueryKey(options),
-  });
-};
-
-export const postCreateQueryKey = (options: Options<PostCreateData>) =>
-  createQueryKey("postCreate", options);
-
-export const postCreateOptions = (options: Options<PostCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await postCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: postCreateQueryKey(options),
-  });
-};
-
-export const postCreateMutation = (options?: Partial<Options<PostCreateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    PostCreateResponse,
-    PostCreateError,
-    Options<PostCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await postCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const artifactListQueryKey = (options: Options<ArtifactListData>) =>
-  createQueryKey("artifactList", options);
-
-export const artifactListOptions = (options: Options<ArtifactListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await artifactList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: artifactListQueryKey(options),
-  });
-};
-
-export const artifactGetQueryKey = (options: Options<ArtifactGetData>) =>
-  createQueryKey("artifactGet", options);
-
-export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await artifactGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: artifactGetQueryKey(options),
-  });
-};
-
-export const comsListQueryKey = (options: Options<ComsListData>) =>
-  createQueryKey("comsList", options);
-
-export const comsListOptions = (options: Options<ComsListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await comsList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: comsListQueryKey(options),
-  });
-};
-
-export const comsUpsertMutation = (options?: Partial<Options<ComsUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ComsUpsertResponse,
-    ComsUpsertError,
-    Options<ComsUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await comsUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const comsGetQueryKey = (options: Options<ComsGetData>) =>
-  createQueryKey("comsGet", options);
-
-export const comsGetOptions = (options: Options<ComsGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await comsGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: comsGetQueryKey(options),
-  });
-};
-
-export const galleryListQueryKey = (options: Options<GalleryListData>) =>
-  createQueryKey("galleryList", options);
-
-export const galleryListOptions = (options: Options<GalleryListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await galleryList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: galleryListQueryKey(options),
-  });
-};
-
-export const galleryCreateQueryKey = (options: Options<GalleryCreateData>) =>
-  createQueryKey("galleryCreate", options);
-
-export const galleryCreateOptions = (options: Options<GalleryCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await galleryCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: galleryCreateQueryKey(options),
-  });
-};
-
-export const galleryCreateMutation = (options?: Partial<Options<GalleryCreateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    GalleryCreateResponse,
-    GalleryCreateError,
-    Options<GalleryCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await galleryCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const galleryGetQueryKey = (options: Options<GalleryGetData>) =>
-  createQueryKey("galleryGet", options);
-
-export const galleryGetOptions = (options: Options<GalleryGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await galleryGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: galleryGetQueryKey(options),
-  });
-};
-
-export const agEventListQueryKey = (options: Options<AgEventListData>) =>
-  createQueryKey("agEventList", options);
-
-export const agEventListOptions = (options: Options<AgEventListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agEventList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agEventListQueryKey(options),
-  });
-};
-
-export const agEventGetQueryKey = (options: Options<AgEventGetData>) =>
-  createQueryKey("agEventGet", options);
-
-export const agEventGetOptions = (options: Options<AgEventGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agEventGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agEventGetQueryKey(options),
-  });
-};
-
-export const modelListQueryKey = (options: Options<ModelListData>) =>
-  createQueryKey("modelList", options);
-
-export const modelListOptions = (options: Options<ModelListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await modelList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: modelListQueryKey(options),
-  });
-};
-
-export const modelGetQueryKey = (options: Options<ModelGetData>) =>
-  createQueryKey("modelGet", options);
-
-export const modelGetOptions = (options: Options<ModelGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await modelGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: modelGetQueryKey(options),
-  });
-};
-
-export const modelUpsertMutation = (options?: Partial<Options<ModelUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ModelUpsertResponse,
-    ModelUpsertError,
-    Options<ModelUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await modelUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const modelRunsListQueryKey = (options: Options<ModelRunsListData>) =>
-  createQueryKey("modelRunsList", options);
-
-export const modelRunsListOptions = (options: Options<ModelRunsListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await modelRunsList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: modelRunsListQueryKey(options),
-  });
-};
-
-export const modelRunGetQueryKey = (options: Options<ModelRunGetData>) =>
-  createQueryKey("modelRunGet", options);
-
-export const modelRunGetOptions = (options: Options<ModelRunGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await modelRunGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: modelRunGetQueryKey(options),
-  });
-};
-
-export const modelRunUpsertMutation = (options?: Partial<Options<ModelRunUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ModelRunUpsertResponse,
-    ModelRunUpsertError,
-    Options<ModelRunUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await modelRunUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const promptListQueryKey = (options: Options<PromptListData>) =>
-  createQueryKey("promptList", options);
-
-export const promptListOptions = (options: Options<PromptListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await promptList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: promptListQueryKey(options),
-  });
-};
-
-export const promptGetQueryKey = (options: Options<PromptGetData>) =>
-  createQueryKey("promptGet", options);
-
-export const promptGetOptions = (options: Options<PromptGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await promptGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: promptGetQueryKey(options),
-  });
-};
-
-export const adminReleaseConnQueryKey = (options?: Options<AdminReleaseConnData>) =>
-  createQueryKey("adminReleaseConn", options);
-
-export const adminReleaseConnOptions = (options?: Options<AdminReleaseConnData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adminReleaseConn({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adminReleaseConnQueryKey(options),
-  });
-};
-
-export const adminReleaseConnMutation = (options?: Partial<Options<AdminReleaseConnData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdminReleaseConnResponse,
-    AdminReleaseConnError,
-    Options<AdminReleaseConnData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adminReleaseConn({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adminResetDbQueryKey = (options?: Options<AdminResetDbData>) =>
-  createQueryKey("adminResetDb", options);
-
-export const adminResetDbOptions = (options?: Options<AdminResetDbData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adminResetDb({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adminResetDbQueryKey(options),
-  });
-};
-
-export const adminResetDbMutation = (options?: Partial<Options<AdminResetDbData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdminResetDbResponse,
-    AdminResetDbError,
-    Options<AdminResetDbData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adminResetDb({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const frontendGetConfigQueryKey = (options?: Options<FrontendGetConfigData>) =>
-  createQueryKey("frontendGetConfig", options);
-
-export const frontendGetConfigOptions = (options?: Options<FrontendGetConfigData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await frontendGetConfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: frontendGetConfigQueryKey(options),
-  });
-};
-
-export const frontendGetSiderbarQueryKey = (options?: Options<FrontendGetSiderbarData>) =>
-  createQueryKey("frontendGetSiderbar", options);
-
-export const frontendGetSiderbarOptions = (options?: Options<FrontendGetSiderbarData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await frontendGetSiderbar({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: frontendGetSiderbarQueryKey(options),
-  });
-};
-
-export const hfAccountGetQueryKey = (options?: Options<HfAccountGetData>) =>
-  createQueryKey("hfAccountGet", options);
-
-export const hfAccountGetOptions = (options?: Options<HfAccountGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await hfAccountGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: hfAccountGetQueryKey(options),
-  });
-};
-
-export const envListQueryKey = (options?: Options<EnvListData>) =>
-  createQueryKey("envList", options);
-
-export const envListOptions = (options?: Options<EnvListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await envList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: envListQueryKey(options),
-  });
-};
-
-export const envUpdateMutation = (options?: Partial<Options<EnvUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    EnvUpdateResponse,
-    EnvUpdateError,
-    Options<EnvUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await envUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const envGetQueryKey = (options: Options<EnvGetData>) => createQueryKey("envGet", options);
-
-export const envGetOptions = (options: Options<EnvGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await envGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: envGetQueryKey(options),
-  });
-};
-
-export const endpointListQueryKey = (options?: Options<EndpointListData>) =>
-  createQueryKey("endpointList", options);
-
-export const endpointListOptions = (options?: Options<EndpointListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await endpointList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: endpointListQueryKey(options),
-  });
-};
-
-export const endpointUpdateMutation = (options?: Partial<Options<EndpointUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    EndpointUpdateResponse,
-    EndpointUpdateError,
-    Options<EndpointUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await endpointUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const platformListQueryKey = (options: Options<PlatformListData>) =>
-  createQueryKey("platformList", options);
-
-export const platformListOptions = (options: Options<PlatformListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformListQueryKey(options),
-  });
-};
-
-export const platformCreateQueryKey = (options: Options<PlatformCreateData>) =>
-  createQueryKey("platformCreate", options);
-
-export const platformCreateOptions = (options: Options<PlatformCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformCreateQueryKey(options),
-  });
-};
-
-export const platformCreateMutation = (options?: Partial<Options<PlatformCreateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    PlatformCreateResponse,
-    PlatformCreateError,
-    Options<PlatformCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await platformCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const platformGetQueryKey = (options: Options<PlatformGetData>) =>
-  createQueryKey("platformGet", options);
-
-export const platformGetOptions = (options: Options<PlatformGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformGetQueryKey(options),
-  });
-};
-
-export const platformUpdateMutation = (options?: Partial<Options<PlatformUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    PlatformUpdateResponse,
-    PlatformUpdateError,
-    Options<PlatformUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await platformUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const platformAccountListQueryKey = (options: Options<PlatformAccountListData>) =>
-  createQueryKey("platformAccountList", options);
-
-export const platformAccountListOptions = (options: Options<PlatformAccountListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformAccountList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformAccountListQueryKey(options),
-  });
-};
-
-export const platformAccountCreateQueryKey = (options: Options<PlatformAccountCreateData>) =>
-  createQueryKey("platformAccountCreate", options);
-
-export const platformAccountCreateOptions = (options: Options<PlatformAccountCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformAccountCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformAccountCreateQueryKey(options),
-  });
-};
-
-export const platformAccountCreateMutation = (
-  options?: Partial<Options<PlatformAccountCreateData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    PlatformAccountCreateResponse,
-    PlatformAccountCreateError,
-    Options<PlatformAccountCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await platformAccountCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const platformAccountGetQueryKey = (options: Options<PlatformAccountGetData>) =>
-  createQueryKey("platformAccountGet", options);
-
-export const platformAccountGetOptions = (options: Options<PlatformAccountGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await platformAccountGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: platformAccountGetQueryKey(options),
-  });
-};
-
-export const platformAccountUpsertMutation = (
-  options?: Partial<Options<PlatformAccountUpsertData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    PlatformAccountUpsertResponse,
-    PlatformAccountUpsertError,
-    Options<PlatformAccountUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await platformAccountUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const browserListQueryKey = (options: Options<BrowserListData>) =>
-  createQueryKey("browserList", options);
-
-export const browserListOptions = (options: Options<BrowserListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await browserList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: browserListQueryKey(options),
-  });
-};
-
-export const browserCreateQueryKey = (options: Options<BrowserCreateData>) =>
-  createQueryKey("browserCreate", options);
-
-export const browserCreateOptions = (options: Options<BrowserCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await browserCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: browserCreateQueryKey(options),
-  });
-};
-
-export const browserCreateMutation = (options?: Partial<Options<BrowserCreateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    BrowserCreateResponse,
-    BrowserCreateError,
-    Options<BrowserCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await browserCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const browserOpenQueryKey = (options: Options<BrowserOpenData>) =>
-  createQueryKey("browserOpen", options);
-
-export const browserOpenOptions = (options: Options<BrowserOpenData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await browserOpen({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: browserOpenQueryKey(options),
-  });
-};
-
-export const browserOpenMutation = (options?: Partial<Options<BrowserOpenData>>) => {
-  const mutationOptions: UseMutationOptions<
-    BrowserOpenResponse,
-    BrowserOpenError,
-    Options<BrowserOpenData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await browserOpen({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const browserGetQueryKey = (options: Options<BrowserGetData>) =>
-  createQueryKey("browserGet", options);
-
-export const browserGetOptions = (options: Options<BrowserGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await browserGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: browserGetQueryKey(options),
-  });
-};
-
-export const browserUpdateMutation = (options?: Partial<Options<BrowserUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    BrowserUpdateResponse,
-    BrowserUpdateError,
-    Options<BrowserUpdateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await browserUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const proxyListQueryKey = (options: Options<ProxyListData>) =>
-  createQueryKey("proxyList", options);
-
-export const proxyListOptions = (options: Options<ProxyListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await proxyList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: proxyListQueryKey(options),
-  });
-};
-
-export const proxyGetQueryKey = (options: Options<ProxyGetData>) =>
-  createQueryKey("proxyGet", options);
-
-export const proxyGetOptions = (options: Options<ProxyGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await proxyGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: proxyGetQueryKey(options),
-  });
-};
-
-export const proxyUpsertMutation = (options?: Partial<Options<ProxyUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ProxyUpsertResponse,
-    ProxyUpsertError,
-    Options<ProxyUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await proxyUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const agStateListQueryKey = (options: Options<AgStateListData>) =>
-  createQueryKey("agStateList", options);
-
-export const agStateListOptions = (options: Options<AgStateListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agStateList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agStateListQueryKey(options),
-  });
-};
-
-export const agStateGetQueryKey = (options: Options<AgStateGetData>) =>
-  createQueryKey("agStateGet", options);
-
-export const agStateGetOptions = (options: Options<AgStateGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await agStateGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: agStateGetQueryKey(options),
-  });
-};
-
-export const agStateUpsertMutation = (options?: Partial<Options<AgStateUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AgStateUpsertResponse,
-    AgStateUpsertError,
-    Options<AgStateUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await agStateUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const chatMessagesListQueryKey = (options: Options<ChatMessagesListData>) =>
-  createQueryKey("chatMessagesList", options);
-
-export const chatMessagesListOptions = (options: Options<ChatMessagesListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatMessagesList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatMessagesListQueryKey(options),
-  });
-};
-
-export const chatSessionListQueryKey = (options: Options<ChatSessionListData>) =>
-  createQueryKey("chatSessionList", options);
-
-export const chatSessionListOptions = (options: Options<ChatSessionListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatSessionList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatSessionListQueryKey(options),
-  });
-};
-
-export const chatMessageUpsertQueryKey = (options: Options<ChatMessageUpsertData>) =>
-  createQueryKey("chatMessageUpsert", options);
-
-export const chatMessageUpsertOptions = (options: Options<ChatMessageUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatMessageUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatMessageUpsertQueryKey(options),
-  });
-};
-
-export const chatMessageUpsertMutation = (options?: Partial<Options<ChatMessageUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ChatMessageUpsertResponse,
-    ChatMessageUpsertError,
-    Options<ChatMessageUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatMessageUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const chatSessionGetQueryKey = (options: Options<ChatSessionGetData>) =>
-  createQueryKey("chatSessionGet", options);
-
-export const chatSessionGetOptions = (options: Options<ChatSessionGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await chatSessionGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: chatSessionGetQueryKey(options),
-  });
-};
-
-export const chatSessionUpsertMutation = (options?: Partial<Options<ChatSessionUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ChatSessionUpsertResponse,
-    ChatSessionUpsertError,
-    Options<ChatSessionUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await chatSessionUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const flowStateListQueryKey = (options: Options<FlowStateListData>) =>
-  createQueryKey("flowStateList", options);
-
-export const flowStateListOptions = (options: Options<FlowStateListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await flowStateList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: flowStateListQueryKey(options),
-  });
-};
-
-export const flowStateGetQueryKey = (options: Options<FlowStateGetData>) =>
-  createQueryKey("flowStateGet", options);
-
-export const flowStateGetOptions = (options: Options<FlowStateGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await flowStateGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: flowStateGetQueryKey(options),
-  });
-};
-
-export const flowStateUpsertMutation = (options?: Partial<Options<FlowStateUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    FlowStateUpsertResponse,
-    FlowStateUpsertError,
-    Options<FlowStateUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await flowStateUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const uiAgentGetQueryKey = (options: Options<UiAgentGetData>) =>
-  createQueryKey("uiAgentGet", options);
-
-export const uiAgentGetOptions = (options: Options<UiAgentGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await uiAgentGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: uiAgentGetQueryKey(options),
-  });
-};
-
-export const dispatcherListenQueryKey = (options: Options<DispatcherListenData>) =>
-  createQueryKey("dispatcherListen", options);
-
-export const dispatcherListenOptions = (options: Options<DispatcherListenData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await dispatcherListen({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: dispatcherListenQueryKey(options),
-  });
-};
-
-export const dispatcherListenMutation = (options?: Partial<Options<DispatcherListenData>>) => {
-  const mutationOptions: UseMutationOptions<
-    DispatcherListenResponse,
-    DispatcherListenError,
-    Options<DispatcherListenData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await dispatcherListen({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const resourceListQueryKey = (options: Options<ResourceListData>) =>
-  createQueryKey("resourceList", options);
-
-export const resourceListOptions = (options: Options<ResourceListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await resourceList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: resourceListQueryKey(options),
-  });
-};
-
-export const resourceListInfiniteQueryKey = (
-  options: Options<ResourceListData>,
-): QueryKey<Options<ResourceListData>> => createQueryKey("resourceList", options, true);
-
-export const resourceListInfiniteOptions = (options: Options<ResourceListData>) => {
-  return infiniteQueryOptions<
-    ResourceListResponse,
-    ResourceListError,
-    InfiniteData<ResourceListResponse>,
-    QueryKey<Options<ResourceListData>>,
-    number | Pick<QueryKey<Options<ResourceListData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<ResourceListData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                query: {
-                  offset: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await resourceList({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: resourceListInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const resourceUpsertQueryKey = (options: Options<ResourceUpsertData>) =>
-  createQueryKey("resourceUpsert", options);
-
-export const resourceUpsertOptions = (options: Options<ResourceUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await resourceUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: resourceUpsertQueryKey(options),
-  });
-};
-
-export const resourceUpsertMutation = (options?: Partial<Options<ResourceUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ResourceUpsertResponse,
-    ResourceUpsertError,
-    Options<ResourceUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await resourceUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const resourceDeleteMutation = (options?: Partial<Options<ResourceDeleteData>>) => {
-  const mutationOptions: UseMutationOptions<
-    ResourceDeleteResponse,
-    ResourceDeleteError,
-    Options<ResourceDeleteData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await resourceDelete({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const resourceGetQueryKey = (options: Options<ResourceGetData>) =>
-  createQueryKey("resourceGet", options);
-
-export const resourceGetOptions = (options: Options<ResourceGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await resourceGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: resourceGetQueryKey(options),
-  });
-};
-
-export const instagramLoginQueryKey = (options?: Options<InstagramLoginData>) =>
-  createQueryKey("instagramLogin", options);
-
-export const instagramLoginOptions = (options?: Options<InstagramLoginData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await instagramLogin({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: instagramLoginQueryKey(options),
-  });
-};
-
-export const instagramLoginMutation = (options?: Partial<Options<InstagramLoginData>>) => {
-  const mutationOptions: UseMutationOptions<
-    InstagramLoginResponse,
-    InstagramLoginError,
-    Options<InstagramLoginData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await instagramLogin({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adkAppListQueryKey = (options: Options<AdkAppListData>) =>
-  createQueryKey("adkAppList", options);
-
-export const adkAppListOptions = (options: Options<AdkAppListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkAppList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkAppListQueryKey(options),
-  });
-};
-
-export const adkAppUpsertQueryKey = (options: Options<AdkAppUpsertData>) =>
-  createQueryKey("adkAppUpsert", options);
-
-export const adkAppUpsertOptions = (options: Options<AdkAppUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkAppUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkAppUpsertQueryKey(options),
-  });
-};
-
-export const adkAppUpsertMutation = (options?: Partial<Options<AdkAppUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdkAppUpsertResponse,
-    AdkAppUpsertError,
-    Options<AdkAppUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adkAppUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adkAppGetQueryKey = (options: Options<AdkAppGetData>) =>
-  createQueryKey("adkAppGet", options);
-
-export const adkAppGetOptions = (options: Options<AdkAppGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkAppGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkAppGetQueryKey(options),
-  });
-};
-
-export const adkSessionListQueryKey = (options: Options<AdkSessionListData>) =>
-  createQueryKey("adkSessionList", options);
-
-export const adkSessionListOptions = (options: Options<AdkSessionListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkSessionList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkSessionListQueryKey(options),
-  });
-};
-
-export const adkSessionUpsertQueryKey = (options: Options<AdkSessionUpsertData>) =>
-  createQueryKey("adkSessionUpsert", options);
-
-export const adkSessionUpsertOptions = (options: Options<AdkSessionUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkSessionUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkSessionUpsertQueryKey(options),
-  });
-};
-
-export const adkSessionUpsertMutation = (options?: Partial<Options<AdkSessionUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdkSessionUpsertResponse,
-    AdkSessionUpsertError,
-    Options<AdkSessionUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adkSessionUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adkSessionGetQueryKey = (options: Options<AdkSessionGetData>) =>
-  createQueryKey("adkSessionGet", options);
-
-export const adkSessionGetOptions = (options: Options<AdkSessionGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkSessionGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkSessionGetQueryKey(options),
-  });
-};
-
-export const adkUserStateListQueryKey = (options: Options<AdkUserStateListData>) =>
-  createQueryKey("adkUserStateList", options);
-
-export const adkUserStateListOptions = (options: Options<AdkUserStateListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkUserStateList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkUserStateListQueryKey(options),
-  });
-};
-
-export const adkUserStateUpsertQueryKey = (options: Options<AdkUserStateUpsertData>) =>
-  createQueryKey("adkUserStateUpsert", options);
-
-export const adkUserStateUpsertOptions = (options: Options<AdkUserStateUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkUserStateUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkUserStateUpsertQueryKey(options),
-  });
-};
-
-export const adkUserStateUpsertMutation = (options?: Partial<Options<AdkUserStateUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdkUserStateUpsertResponse,
-    AdkUserStateUpsertError,
-    Options<AdkUserStateUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adkUserStateUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adkUserStateGetQueryKey = (options: Options<AdkUserStateGetData>) =>
-  createQueryKey("adkUserStateGet", options);
-
-export const adkUserStateGetOptions = (options: Options<AdkUserStateGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkUserStateGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkUserStateGetQueryKey(options),
-  });
-};
-
-export const adkEventsListQueryKey = (options: Options<AdkEventsListData>) =>
-  createQueryKey("adkEventsList", options);
-
-export const adkEventsListOptions = (options: Options<AdkEventsListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkEventsList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkEventsListQueryKey(options),
-  });
-};
-
-export const adkEventsListInfiniteQueryKey = (
-  options: Options<AdkEventsListData>,
-): QueryKey<Options<AdkEventsListData>> => createQueryKey("adkEventsList", options, true);
-
-export const adkEventsListInfiniteOptions = (options: Options<AdkEventsListData>) => {
-  return infiniteQueryOptions<
-    AdkEventsListResponse,
-    AdkEventsListError,
-    InfiniteData<AdkEventsListResponse>,
-    QueryKey<Options<AdkEventsListData>>,
-    number | Pick<QueryKey<Options<AdkEventsListData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<AdkEventsListData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                query: {
-                  offset: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await adkEventsList({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: adkEventsListInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const adkEventsUpsertQueryKey = (options: Options<AdkEventsUpsertData>) =>
-  createQueryKey("adkEventsUpsert", options);
-
-export const adkEventsUpsertOptions = (options: Options<AdkEventsUpsertData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkEventsUpsert({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkEventsUpsertQueryKey(options),
-  });
-};
-
-export const adkEventsUpsertMutation = (options?: Partial<Options<AdkEventsUpsertData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AdkEventsUpsertResponse,
-    AdkEventsUpsertError,
-    Options<AdkEventsUpsertData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await adkEventsUpsert({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const adkEventsGetQueryKey = (options: Options<AdkEventsGetData>) =>
-  createQueryKey("adkEventsGet", options);
-
-export const adkEventsGetOptions = (options: Options<AdkEventsGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await adkEventsGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: adkEventsGetQueryKey(options),
-  });
-};
-
-export const tkGetUserProfileQueryKey = (options: Options<TkGetUserProfileData>) =>
-  createQueryKey("tkGetUserProfile", options);
-
-export const tkGetUserProfileOptions = (options: Options<TkGetUserProfileData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tkGetUserProfile({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tkGetUserProfileQueryKey(options),
-  });
-};
-
-export const tkGetUserProfileMutation = (options?: Partial<Options<TkGetUserProfileData>>) => {
-  const mutationOptions: UseMutationOptions<
-    TkGetUserProfileResponse,
-    TkGetUserProfileError,
-    Options<TkGetUserProfileData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tkGetUserProfile({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const tkAccountLoginQueryKey = (options: Options<TkAccountLoginData>) =>
-  createQueryKey("tkAccountLogin", options);
-
-export const tkAccountLoginOptions = (options: Options<TkAccountLoginData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await tkAccountLogin({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: tkAccountLoginQueryKey(options),
-  });
-};
-
-export const tkAccountLoginMutation = (options?: Partial<Options<TkAccountLoginData>>) => {
-  const mutationOptions: UseMutationOptions<
-    TkAccountLoginResponse,
-    TkAccountLoginError,
-    Options<TkAccountLoginData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await tkAccountLogin({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const mttaskListQueryKey = (options: Options<MttaskListData>) =>
-  createQueryKey("mttaskList", options);
-
-export const mttaskListOptions = (options: Options<MttaskListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await mttaskList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: mttaskListQueryKey(options),
-  });
 };

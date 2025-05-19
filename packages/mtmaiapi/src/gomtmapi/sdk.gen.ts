@@ -2,6 +2,61 @@
 
 import type { Options as ClientOptions, TDataShape, Client } from "@hey-api/client-fetch";
 import type {
+  V1TaskGetData,
+  V1TaskGetResponse,
+  V1TaskGetError,
+  V1TaskEventListData,
+  V1TaskEventListResponse,
+  V1TaskEventListError,
+  V1LogLineListData,
+  V1LogLineListResponse,
+  V1LogLineListError,
+  V1TaskCancelData,
+  V1TaskCancelError,
+  V1TaskReplayData,
+  V1TaskReplayError,
+  V1DagListTasksData,
+  V1DagListTasksResponse,
+  V1DagListTasksError,
+  V1WorkflowRunListData,
+  V1WorkflowRunListResponse,
+  V1WorkflowRunListError,
+  V1WorkflowRunDisplayNamesListData,
+  V1WorkflowRunDisplayNamesListResponse,
+  V1WorkflowRunDisplayNamesListError,
+  V1WorkflowRunCreateData,
+  V1WorkflowRunCreateResponse,
+  V1WorkflowRunCreateError,
+  V1WorkflowRunGetData,
+  V1WorkflowRunGetResponse,
+  V1WorkflowRunGetError,
+  V1WorkflowRunTaskEventsListData,
+  V1WorkflowRunTaskEventsListResponse,
+  V1WorkflowRunTaskEventsListError,
+  V1WorkflowRunGetTimingsData,
+  V1WorkflowRunGetTimingsResponse,
+  V1WorkflowRunGetTimingsError,
+  V1TaskListStatusMetricsData,
+  V1TaskListStatusMetricsResponse,
+  V1TaskListStatusMetricsError,
+  V1TaskGetPointMetricsData,
+  V1TaskGetPointMetricsResponse,
+  V1TaskGetPointMetricsError,
+  V1EventListData,
+  V1EventListResponse,
+  V1EventListError,
+  V1FilterListData,
+  V1FilterListResponse,
+  V1FilterListError,
+  V1FilterCreateData,
+  V1FilterCreateResponse,
+  V1FilterCreateError,
+  V1FilterDeleteData,
+  V1FilterDeleteResponse,
+  V1FilterDeleteError,
+  V1FilterGetData,
+  V1FilterGetResponse,
+  V1FilterGetError,
   ReadinessGetData,
   LivenessGetData,
   MetadataGetData,
@@ -22,24 +77,8 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  TenantSettingsListData,
-  TenantSettingsListResponse,
-  TenantSettingsListError,
-  TenantDefaultSettingGetData,
-  TenantDefaultSettingGetResponse,
-  TenantDefaultSettingGetError,
-  TenantDefaultSettingData,
-  TenantDefaultSettingResponse,
-  TenantDefaultSettingError,
-  TenantSettingsDeleteData,
-  TenantSettingsDeleteResponse,
-  TenantSettingsDeleteError,
-  TenantSettingsGetData,
-  TenantSettingsGetResponse,
-  TenantSettingsGetError,
-  TenantSettingsUpsertData,
-  TenantSettingsUpsertResponse,
-  TenantSettingsUpsertError,
+  SnsUpdateData,
+  SnsUpdateError,
   SnsListData,
   SnsListResponse,
   SnsListError,
@@ -131,6 +170,15 @@ import type {
   EventListData,
   EventListResponse,
   EventListError,
+  EventCreateData,
+  EventCreateResponse,
+  EventCreateError,
+  EventCreateBulkData,
+  EventCreateBulkResponse,
+  EventCreateBulkError,
+  EventUpdateReplayData,
+  EventUpdateReplayResponse,
+  EventUpdateReplayError,
   EventUpdateCancelData,
   EventUpdateCancelResponse,
   EventUpdateCancelError,
@@ -155,6 +203,9 @@ import type {
   WorkflowListData,
   WorkflowListResponse,
   WorkflowListError,
+  ScheduledWorkflowRunCreateData,
+  ScheduledWorkflowRunCreateResponse,
+  ScheduledWorkflowRunCreateError,
   WorkflowScheduledListData,
   WorkflowScheduledListResponse,
   WorkflowScheduledListError,
@@ -164,9 +215,18 @@ import type {
   WorkflowScheduledGetData,
   WorkflowScheduledGetResponse,
   WorkflowScheduledGetError,
+  CronWorkflowTriggerCreateData,
+  CronWorkflowTriggerCreateResponse,
+  CronWorkflowTriggerCreateError,
   CronWorkflowListData,
   CronWorkflowListResponse,
   CronWorkflowListError,
+  WorkflowCronDeleteData,
+  WorkflowCronDeleteResponse,
+  WorkflowCronDeleteError,
+  WorkflowCronGetData,
+  WorkflowCronGetResponse,
+  WorkflowCronGetError,
   WorkflowRunCancelData,
   WorkflowRunCancelResponse,
   WorkflowRunCancelError,
@@ -253,20 +313,10 @@ import type {
   WorkflowRunGetInputData,
   WorkflowRunGetInputResponse,
   WorkflowRunGetInputError,
-  WorkflowGetByNameData,
-  WorkflowGetByNameResponse,
-  WorkflowGetByNameError,
-  BlogListData,
-  BlogListResponse,
-  BlogCreateData,
-  BlogCreateResponse,
-  BlogCreateError,
-  BlogGetData,
-  BlogGetResponse,
-  BlogGetError,
-  BlogUpdateData,
-  BlogUpdateResponse,
-  BlogUpdateError,
+  MonitoringPostRunProbeData,
+  MonitoringPostRunProbeError,
+  InfoGetVersionData,
+  InfoGetVersionResponse,
   SiteListData,
   SiteListResponse,
   SiteListError,
@@ -294,237 +344,6 @@ import type {
   SiteHostUpdateData,
   SiteHostUpdateResponse,
   SiteHostUpdateError,
-  PostListPublicData,
-  PostListPublicResponse,
-  PostListPublicError,
-  PostGetData,
-  PostGetResponse,
-  PostGetError,
-  PostListData,
-  PostListResponse,
-  PostListError,
-  PostCreateData,
-  PostCreateResponse,
-  PostCreateError,
-  ArtifactListData,
-  ArtifactListResponse,
-  ArtifactGetData,
-  ArtifactGetResponse,
-  ArtifactGetError,
-  ComsListData,
-  ComsListResponse,
-  ComsListError,
-  ComsUpsertData,
-  ComsUpsertResponse,
-  ComsUpsertError,
-  ComsGetData,
-  ComsGetResponse,
-  ComsGetError,
-  GalleryListData,
-  GalleryListResponse,
-  GalleryCreateData,
-  GalleryCreateResponse,
-  GalleryCreateError,
-  GalleryGetData,
-  GalleryGetResponse,
-  AgEventListData,
-  AgEventListResponse,
-  AgEventGetData,
-  AgEventGetResponse,
-  ModelListData,
-  ModelListResponse,
-  ModelListError,
-  ModelGetData,
-  ModelGetResponse,
-  ModelGetError,
-  ModelUpsertData,
-  ModelUpsertResponse,
-  ModelUpsertError,
-  ModelRunsListData,
-  ModelRunsListResponse,
-  ModelRunsListError,
-  ModelRunGetData,
-  ModelRunGetResponse,
-  ModelRunGetError,
-  ModelRunUpsertData,
-  ModelRunUpsertResponse,
-  ModelRunUpsertError,
-  PromptListData,
-  PromptListResponse,
-  PromptListError,
-  PromptGetData,
-  PromptGetResponse,
-  PromptGetError,
-  AdminReleaseConnData,
-  AdminReleaseConnResponse,
-  AdminReleaseConnError,
-  AdminResetDbData,
-  AdminResetDbResponse,
-  AdminResetDbError,
-  FrontendGetConfigData,
-  FrontendGetConfigResponse,
-  FrontendGetSiderbarData,
-  FrontendGetSiderbarResponse,
-  HfAccountGetData,
-  HfAccountGetResponse,
-  HfAccountGetError,
-  EnvListData,
-  EnvListResponse,
-  EnvListError,
-  EnvUpdateData,
-  EnvUpdateResponse,
-  EnvUpdateError,
-  EnvGetData,
-  EnvGetResponse,
-  EnvGetError,
-  EndpointListData,
-  EndpointListResponse,
-  EndpointListError,
-  EndpointUpdateData,
-  EndpointUpdateResponse,
-  EndpointUpdateError,
-  PlatformListData,
-  PlatformListResponse,
-  PlatformListError,
-  PlatformCreateData,
-  PlatformCreateResponse,
-  PlatformCreateError,
-  PlatformGetData,
-  PlatformGetResponse,
-  PlatformUpdateData,
-  PlatformUpdateResponse,
-  PlatformUpdateError,
-  PlatformAccountListData,
-  PlatformAccountListResponse,
-  PlatformAccountListError,
-  PlatformAccountCreateData,
-  PlatformAccountCreateResponse,
-  PlatformAccountCreateError,
-  PlatformAccountGetData,
-  PlatformAccountGetResponse,
-  PlatformAccountUpsertData,
-  PlatformAccountUpsertResponse,
-  PlatformAccountUpsertError,
-  BrowserListData,
-  BrowserListResponse,
-  BrowserListError,
-  BrowserCreateData,
-  BrowserCreateResponse,
-  BrowserCreateError,
-  BrowserOpenData,
-  BrowserOpenResponse,
-  BrowserOpenError,
-  BrowserGetData,
-  BrowserGetResponse,
-  BrowserUpdateData,
-  BrowserUpdateResponse,
-  BrowserUpdateError,
-  ProxyListData,
-  ProxyListResponse,
-  ProxyListError,
-  ProxyGetData,
-  ProxyGetResponse,
-  ProxyGetError,
-  ProxyUpsertData,
-  ProxyUpsertResponse,
-  ProxyUpsertError,
-  AgStateListData,
-  AgStateListResponse,
-  AgStateGetData,
-  AgStateGetResponse,
-  AgStateGetError,
-  AgStateUpsertData,
-  AgStateUpsertResponse,
-  AgStateUpsertError,
-  ChatMessagesListData,
-  ChatMessagesListResponse,
-  ChatMessagesListError,
-  ChatSessionListData,
-  ChatSessionListResponse,
-  ChatSessionListError,
-  ChatMessageUpsertData,
-  ChatMessageUpsertResponse,
-  ChatMessageUpsertError,
-  ChatSessionGetData,
-  ChatSessionGetResponse,
-  ChatSessionGetError,
-  ChatSessionUpsertData,
-  ChatSessionUpsertResponse,
-  ChatSessionUpsertError,
-  FlowStateListData,
-  FlowStateListResponse,
-  FlowStateGetData,
-  FlowStateGetResponse,
-  FlowStateGetError,
-  FlowStateUpsertData,
-  FlowStateUpsertResponse,
-  FlowStateUpsertError,
-  UiAgentGetData,
-  UiAgentGetResponse,
-  UiAgentGetError,
-  DispatcherListenData,
-  DispatcherListenResponse,
-  DispatcherListenError,
-  ResourceListData,
-  ResourceListResponse,
-  ResourceListError,
-  ResourceUpsertData,
-  ResourceUpsertResponse,
-  ResourceUpsertError,
-  ResourceDeleteData,
-  ResourceDeleteResponse,
-  ResourceDeleteError,
-  ResourceGetData,
-  ResourceGetResponse,
-  ResourceGetError,
-  InstagramLoginData,
-  InstagramLoginResponse,
-  InstagramLoginError,
-  AdkAppListData,
-  AdkAppListResponse,
-  AdkAppListError,
-  AdkAppUpsertData,
-  AdkAppUpsertResponse,
-  AdkAppUpsertError,
-  AdkAppGetData,
-  AdkAppGetResponse,
-  AdkAppGetError,
-  AdkSessionListData,
-  AdkSessionListResponse,
-  AdkSessionListError,
-  AdkSessionUpsertData,
-  AdkSessionUpsertResponse,
-  AdkSessionUpsertError,
-  AdkSessionGetData,
-  AdkSessionGetResponse,
-  AdkSessionGetError,
-  AdkUserStateListData,
-  AdkUserStateListResponse,
-  AdkUserStateListError,
-  AdkUserStateUpsertData,
-  AdkUserStateUpsertResponse,
-  AdkUserStateUpsertError,
-  AdkUserStateGetData,
-  AdkUserStateGetResponse,
-  AdkUserStateGetError,
-  AdkEventsListData,
-  AdkEventsListResponse,
-  AdkEventsListError,
-  AdkEventsUpsertData,
-  AdkEventsUpsertResponse,
-  AdkEventsUpsertError,
-  AdkEventsGetData,
-  AdkEventsGetResponse,
-  AdkEventsGetError,
-  TkGetUserProfileData,
-  TkGetUserProfileResponse,
-  TkGetUserProfileError,
-  TkAccountLoginData,
-  TkAccountLoginResponse,
-  TkAccountLoginError,
-  MttaskListData,
-  MttaskListResponse,
-  MttaskListError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -543,6 +362,537 @@ export type Options<
    * used to access values that aren't defined as part of the SDK function.
    */
   meta?: Record<string, unknown>;
+};
+
+/**
+ * Get a task
+ * Get a task by id
+ */
+export const v1TaskGet = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<V1TaskGetResponse, V1TaskGetError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tasks/{task}",
+    ...options,
+  });
+};
+
+/**
+ * List events for a task
+ * List events for a task
+ */
+export const v1TaskEventList = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskEventListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1TaskEventListResponse,
+    V1TaskEventListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tasks/{task}/task-events",
+    ...options,
+  });
+};
+
+/**
+ * List log lines
+ * Lists log lines for a task
+ */
+export const v1LogLineList = <ThrowOnError extends boolean = false>(
+  options: Options<V1LogLineListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1LogLineListResponse,
+    V1LogLineListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tasks/{task}/logs",
+    ...options,
+  });
+};
+
+/**
+ * Cancel tasks
+ * Cancel tasks
+ */
+export const v1TaskCancel = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskCancelData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, V1TaskCancelError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/tasks/cancel",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Replay tasks
+ * Replay tasks
+ */
+export const v1TaskReplay = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskReplayData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<unknown, V1TaskReplayError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/tasks/replay",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List tasks
+ * Lists all tasks that belong a specific list of dags
+ */
+export const v1DagListTasks = <ThrowOnError extends boolean = false>(
+  options: Options<V1DagListTasksData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1DagListTasksResponse,
+    V1DagListTasksError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/dags/tasks",
+    ...options,
+  });
+};
+
+/**
+ * List workflow runs
+ * Lists workflow runs for a tenant.
+ */
+export const v1WorkflowRunList = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1WorkflowRunListResponse,
+    V1WorkflowRunListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/workflow-runs",
+    ...options,
+  });
+};
+
+/**
+ * List workflow runs
+ * Lists displayable names of workflow runs for a tenant
+ */
+export const v1WorkflowRunDisplayNamesList = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunDisplayNamesListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1WorkflowRunDisplayNamesListResponse,
+    V1WorkflowRunDisplayNamesListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/workflow-runs/display-names",
+    ...options,
+  });
+};
+
+/**
+ * Create workflow run
+ * Trigger a new workflow run
+ */
+export const v1WorkflowRunCreate = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    V1WorkflowRunCreateResponse,
+    V1WorkflowRunCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/workflow-runs/trigger",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List tasks
+ * Get a workflow run and its metadata to display on the "detail" page
+ */
+export const v1WorkflowRunGet = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1WorkflowRunGetResponse,
+    V1WorkflowRunGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/workflow-runs/{v1-workflow-run}",
+    ...options,
+  });
+};
+
+/**
+ * List tasks
+ * List all tasks for a workflow run
+ */
+export const v1WorkflowRunTaskEventsList = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunTaskEventsListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1WorkflowRunTaskEventsListResponse,
+    V1WorkflowRunTaskEventsListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/workflow-runs/{v1-workflow-run}/task-events",
+    ...options,
+  });
+};
+
+/**
+ * List timings for a workflow run
+ * Get the timings for a workflow run
+ */
+export const v1WorkflowRunGetTimings = <ThrowOnError extends boolean = false>(
+  options: Options<V1WorkflowRunGetTimingsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1WorkflowRunGetTimingsResponse,
+    V1WorkflowRunGetTimingsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/workflow-runs/{v1-workflow-run}/task-timings",
+    ...options,
+  });
+};
+
+/**
+ * Get task metrics
+ * Get a summary of task run metrics for a tenant
+ */
+export const v1TaskListStatusMetrics = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskListStatusMetricsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1TaskListStatusMetricsResponse,
+    V1TaskListStatusMetricsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/task-metrics",
+    ...options,
+  });
+};
+
+/**
+ * Get task point metrics
+ * Get a minute by minute breakdown of task metrics for a tenant
+ */
+export const v1TaskGetPointMetrics = <ThrowOnError extends boolean = false>(
+  options: Options<V1TaskGetPointMetricsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1TaskGetPointMetricsResponse,
+    V1TaskGetPointMetricsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/task-point-metrics",
+    ...options,
+  });
+};
+
+/**
+ * List events
+ * Lists all events for a tenant.
+ */
+export const v1EventList = <ThrowOnError extends boolean = false>(
+  options: Options<V1EventListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<V1EventListResponse, V1EventListError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/stable/tenants/{tenant}/events",
+      ...options,
+    },
+  );
+};
+
+/**
+ * List filters
+ * Lists all filters for a tenant.
+ */
+export const v1FilterList = <ThrowOnError extends boolean = false>(
+  options: Options<V1FilterListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    V1FilterListResponse,
+    V1FilterListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/filters",
+    ...options,
+  });
+};
+
+/**
+ * Create a filter
+ * Create a new filter
+ */
+export const v1FilterCreate = <ThrowOnError extends boolean = false>(
+  options: Options<V1FilterCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    V1FilterCreateResponse,
+    V1FilterCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/filters",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete a filter
+ */
+export const v1FilterDelete = <ThrowOnError extends boolean = false>(
+  options: Options<V1FilterDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    V1FilterDeleteResponse,
+    V1FilterDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/stable/tenants/{tenant}/filters/{v1-filter}",
+    ...options,
+  });
+};
+
+/**
+ * Get a filter
+ * Get a filter by its id
+ */
+export const v1FilterGet = <ThrowOnError extends boolean = false>(
+  options: Options<V1FilterGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<V1FilterGetResponse, V1FilterGetError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/stable/tenants/{tenant}/filters/{v1-filter}",
+      ...options,
+    },
+  );
 };
 
 /**
@@ -627,10 +977,6 @@ export const metadataListIntegrations = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/meta/integrations",
     ...options,
@@ -711,6 +1057,7 @@ export const userUpdateGithubOauthCallback = <ThrowOnError extends boolean = fal
 };
 
 /**
+ * Start OAuth flow
  * Starts the OAuth flow
  */
 export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
@@ -719,17 +1066,9 @@ export const userUpdateSlackOauthStart = <ThrowOnError extends boolean = false>(
   return (options.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
     security: [
       {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/slack/start",
@@ -747,17 +1086,9 @@ export const userUpdateSlackOauthCallback = <ThrowOnError extends boolean = fals
   return (options?.client ?? _heyApiClient).get<unknown, unknown, ThrowOnError>({
     security: [
       {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/slack/callback",
@@ -765,175 +1096,16 @@ export const userUpdateSlackOauthCallback = <ThrowOnError extends boolean = fals
   });
 };
 
-export const tenantSettingsList = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSettingsListData, ThrowOnError>,
+/**
+ * Github app tenant webhook
+ * SNS event
+ */
+export const snsUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<SnsUpdateData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).get<
-    TenantSettingsListResponse,
-    TenantSettingsListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings",
+  return (options.client ?? _heyApiClient).post<unknown, SnsUpdateError, ThrowOnError>({
+    url: "/api/v1/sns/{tenant}/{event}",
     ...options,
-  });
-};
-
-export const tenantDefaultSettingGet = <ThrowOnError extends boolean = false>(
-  options: Options<TenantDefaultSettingGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    TenantDefaultSettingGetResponse,
-    TenantDefaultSettingGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/{setting}/default",
-    ...options,
-  });
-};
-
-export const tenantDefaultSetting = <ThrowOnError extends boolean = false>(
-  options: Options<TenantDefaultSettingData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TenantDefaultSettingResponse,
-    TenantDefaultSettingError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/{setting}/default",
-    ...options,
-  });
-};
-
-export const tenantSettingsDelete = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSettingsDeleteData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    TenantSettingsDeleteResponse,
-    TenantSettingsDeleteError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings/{setting}",
-    ...options,
-  });
-};
-
-export const tenantSettingsGet = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSettingsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    TenantSettingsGetResponse,
-    TenantSettingsGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings/{setting}",
-    ...options,
-  });
-};
-
-export const tenantSettingsUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<TenantSettingsUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TenantSettingsUpsertResponse,
-    TenantSettingsUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/settings/{setting}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
@@ -954,10 +1126,6 @@ export const snsList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/sns",
@@ -982,10 +1150,6 @@ export const snsCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/sns",
@@ -1019,10 +1183,6 @@ export const alertEmailGroupList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
     ...options,
@@ -1050,10 +1210,6 @@ export const alertEmailGroupCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/alerting-email-groups",
@@ -1087,10 +1243,6 @@ export const tenantResourcePolicyGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/resource-policy",
     ...options,
@@ -1118,10 +1270,6 @@ export const alertEmailGroupDelete = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
@@ -1151,10 +1299,6 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/alerting-email-groups/{alert-email-group}",
     ...options,
@@ -1182,10 +1326,6 @@ export const snsDelete = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/sns/{sns}",
@@ -1215,10 +1355,6 @@ export const slackWebhookList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/slack",
     ...options,
@@ -1246,10 +1382,6 @@ export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/slack/{slack}",
@@ -1342,17 +1474,9 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
   >({
     security: [
       {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/logout",
@@ -1361,6 +1485,7 @@ export const userUpdateLogout = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * List tenant memberships
  * Lists all tenant memberships for the current user
  */
 export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
@@ -1373,17 +1498,9 @@ export const tenantMembershipsList = <ThrowOnError extends boolean = false>(
   >({
     security: [
       {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/memberships",
@@ -1405,17 +1522,9 @@ export const userListTenantInvites = <ThrowOnError extends boolean = false>(
   >({
     security: [
       {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/invites",
@@ -1440,10 +1549,6 @@ export const tenantInviteAccept = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/invites/accept",
@@ -1472,10 +1577,6 @@ export const tenantInviteReject = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/users/invites/reject",
@@ -1509,10 +1610,6 @@ export const tenantCreate = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants",
     ...options,
@@ -1544,10 +1641,6 @@ export const tenantUpdate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}",
@@ -1581,10 +1674,6 @@ export const tenantAlertingSettingsGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/alerting/settings",
     ...options,
@@ -1613,10 +1702,6 @@ export const tenantInviteList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/invites",
     ...options,
@@ -1644,10 +1729,6 @@ export const tenantInviteCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites",
@@ -1681,10 +1762,6 @@ export const tenantInviteDelete = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
     ...options,
@@ -1712,10 +1789,6 @@ export const tenantInviteUpdate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/invites/{tenant-invite}",
@@ -1749,10 +1822,6 @@ export const apiTokenList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/api-tokens",
     ...options,
@@ -1780,10 +1849,6 @@ export const apiTokenCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/api-tokens",
@@ -1817,10 +1882,6 @@ export const apiTokenUpdateRevoke = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/api-tokens/{api-token}",
     ...options,
@@ -1848,10 +1909,6 @@ export const tenantGetQueueMetrics = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/queue-metrics",
@@ -1881,10 +1938,6 @@ export const tenantGetStepRunQueueMetrics = <ThrowOnError extends boolean = fals
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/step-run-queue-metrics",
     ...options,
@@ -1909,13 +1962,105 @@ export const eventList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
+    ],
+    url: "/api/v1/tenants/{tenant}/events",
+    ...options,
+  });
+};
+
+/**
+ * Create event
+ * Creates a new event.
+ */
+export const eventCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EventCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    EventCreateResponse,
+    EventCreateError,
+    ThrowOnError
+  >({
+    security: [
       {
-        scheme: "basic",
+        scheme: "bearer",
         type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
       },
     ],
     url: "/api/v1/tenants/{tenant}/events",
     ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Bulk Create events
+ * Bulk creates new events.
+ */
+export const eventCreateBulk = <ThrowOnError extends boolean = false>(
+  options: Options<EventCreateBulkData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    EventCreateBulkResponse,
+    EventCreateBulkError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/events/bulk",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Replay events
+ * Replays a list of events.
+ */
+export const eventUpdateReplay = <ThrowOnError extends boolean = false>(
+  options: Options<EventUpdateReplayData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    EventUpdateReplayResponse,
+    EventUpdateReplayError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/events/replay",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1940,10 +2085,6 @@ export const eventUpdateCancel = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/cancel",
@@ -1977,10 +2118,6 @@ export const rateLimitList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/rate-limits",
     ...options,
@@ -2008,10 +2145,6 @@ export const tenantMemberList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/members",
@@ -2041,10 +2174,6 @@ export const tenantMemberDelete = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/members/{member}",
     ...options,
@@ -2068,10 +2197,6 @@ export const eventGet = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/events/{event}",
@@ -2101,10 +2226,6 @@ export const eventDataGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/events/{event}/data",
     ...options,
@@ -2132,10 +2253,6 @@ export const eventKeyList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/events/keys",
@@ -2165,13 +2282,41 @@ export const workflowList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflows",
     ...options,
+  });
+};
+
+/**
+ * Trigger workflow run
+ * Schedule a new workflow run for a tenant
+ */
+export const scheduledWorkflowRunCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ScheduledWorkflowRunCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ScheduledWorkflowRunCreateResponse,
+    ScheduledWorkflowRunCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/{workflow}/scheduled",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2196,10 +2341,6 @@ export const workflowScheduledList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/scheduled",
@@ -2229,12 +2370,8 @@ export const workflowScheduledDelete = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
-    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
+    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduled-workflow-run}",
     ...options,
   });
 };
@@ -2261,19 +2398,47 @@ export const workflowScheduledGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
-    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}",
+    url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduled-workflow-run}",
     ...options,
   });
 };
 
 /**
+ * Create cron job workflow trigger
+ * Create a new cron job workflow trigger for a tenant
+ */
+export const cronWorkflowTriggerCreate = <ThrowOnError extends boolean = false>(
+  options: Options<CronWorkflowTriggerCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    CronWorkflowTriggerCreateResponse,
+    CronWorkflowTriggerCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/{workflow}/crons",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * Get cron job workflows
- * Get all cron job workflow runs for a tenant
+ * Get all cron job workflow triggers for a tenant
  */
 export const cronWorkflowList = <ThrowOnError extends boolean = false>(
   options: Options<CronWorkflowListData, ThrowOnError>,
@@ -2293,12 +2458,64 @@ export const cronWorkflowList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/crons",
+    ...options,
+  });
+};
+
+/**
+ * Delete cron job workflow run
+ * Delete a cron job workflow run for a tenant
+ */
+export const workflowCronDelete = <ThrowOnError extends boolean = false>(
+  options: Options<WorkflowCronDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    WorkflowCronDeleteResponse,
+    WorkflowCronDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/crons/{cron-workflow}",
+    ...options,
+  });
+};
+
+/**
+ * Get cron job workflow run
+ * Get a cron job workflow run for a tenant
+ */
+export const workflowCronGet = <ThrowOnError extends boolean = false>(
+  options: Options<WorkflowCronGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    WorkflowCronGetResponse,
+    WorkflowCronGetError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/workflows/crons/{cron-workflow}",
     ...options,
   });
 };
@@ -2324,10 +2541,6 @@ export const workflowRunCancel = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/cancel",
@@ -2361,10 +2574,6 @@ export const workflowDelete = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/workflows/{workflow}",
     ...options,
@@ -2389,10 +2598,6 @@ export const workflowGet = <ThrowOnError extends boolean = false>(
           in: "cookie",
           name: "hatchet",
           type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
         },
       ],
       url: "/api/v1/workflows/{workflow}",
@@ -2422,10 +2627,6 @@ export const workflowUpdate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/workflows/{workflow}",
@@ -2459,10 +2660,6 @@ export const workflowVersionGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/workflows/{workflow}/versions",
     ...options,
@@ -2490,10 +2687,6 @@ export const workflowRunCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/workflows/{workflow}/trigger",
@@ -2527,10 +2720,6 @@ export const workflowGetMetrics = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/workflows/{workflow}/metrics",
     ...options,
@@ -2555,10 +2744,6 @@ export const logLineList = <ThrowOnError extends boolean = false>(
           in: "cookie",
           name: "hatchet",
           type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
         },
       ],
       url: "/api/v1/step-runs/{step-run}/logs",
@@ -2589,10 +2774,6 @@ export const stepRunListEvents = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/step-runs/{step-run}/events",
     ...options,
@@ -2620,10 +2801,6 @@ export const workflowRunListStepRunEvents = <ThrowOnError extends boolean = fals
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/step-run-events",
@@ -2653,10 +2830,6 @@ export const stepRunListArchives = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/step-runs/{step-run}/archives",
     ...options,
@@ -2684,10 +2857,6 @@ export const workflowGetWorkersCount = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/{workflow}/worker-count",
@@ -2717,10 +2886,6 @@ export const workflowRunList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/runs",
     ...options,
@@ -2748,10 +2913,6 @@ export const workflowRunUpdateReplay = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/replay",
@@ -2785,10 +2946,6 @@ export const workflowRunGetMetrics = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflows/runs/metrics",
     ...options,
@@ -2816,10 +2973,6 @@ export const workflowRunGet = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}",
@@ -2849,10 +3002,6 @@ export const workflowRunGetShape = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/shape",
     ...options,
@@ -2876,10 +3025,6 @@ export const stepRunGet = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}",
@@ -2908,10 +3053,6 @@ export const stepRunUpdateRerun = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/rerun",
@@ -2945,10 +3086,6 @@ export const stepRunUpdateCancel = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/cancel",
     ...options,
@@ -2977,10 +3114,6 @@ export const stepRunGetSchema = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/step-runs/{step-run}/schema",
     ...options,
@@ -3005,10 +3138,6 @@ export const workerList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/worker",
     ...options,
@@ -3032,10 +3161,6 @@ export const workerGet = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/workers/{worker}",
@@ -3064,10 +3189,6 @@ export const workerUpdate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/workers/{worker}",
@@ -3098,10 +3219,6 @@ export const webhookList = <ThrowOnError extends boolean = false>(
           name: "hatchet",
           type: "apiKey",
         },
-        {
-          scheme: "basic",
-          type: "http",
-        },
       ],
       url: "/api/v1/tenants/{tenant}/webhook-workers",
       ...options,
@@ -3131,10 +3248,6 @@ export const webhookCreate = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/webhook-workers",
     ...options,
@@ -3162,10 +3275,6 @@ export const webhookDelete = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/webhook-workers/{webhook}",
@@ -3195,10 +3304,6 @@ export const webhookRequestsList = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/webhook-workers/{webhook}/requests",
     ...options,
@@ -3227,10 +3332,6 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/workflow-runs/{workflow-run}/input",
     ...options,
@@ -3238,132 +3339,13 @@ export const workflowRunGetInput = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Get workflow version
- * Get a workflow by its name
+ * Detailed Health Probe For the Instance
+ * Triggers a workflow to check the status of the instance
  */
-export const workflowGetByName = <ThrowOnError extends boolean = false>(
-  options: Options<WorkflowGetByNameData, ThrowOnError>,
+export const monitoringPostRunProbe = <ThrowOnError extends boolean = false>(
+  options: Options<MonitoringPostRunProbeData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).get<
-    WorkflowGetByNameResponse,
-    WorkflowGetByNameError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/workflows/byName/{name}",
-    ...options,
-  });
-};
-
-/**
- * Get tenant blogs
- * Get the blogs for the tenant
- */
-export const blogList = <ThrowOnError extends boolean = false>(
-  options: Options<BlogListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<BlogListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/blogs",
-    ...options,
-  });
-};
-
-/**
- * Create blog post
- * Creates a new blog
- */
-export const blogCreate = <ThrowOnError extends boolean = false>(
-  options: Options<BlogCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<BlogCreateResponse, BlogCreateError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/blogs",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Get the blogs for the tenant
- */
-export const blogGet = <ThrowOnError extends boolean = false>(
-  options: Options<BlogGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<BlogGetResponse, BlogGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/blogs/{blog}",
-    ...options,
-  });
-};
-
-/**
- * Update blog
- * Update an existing blog
- */
-export const blogUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<BlogUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<BlogUpdateResponse, BlogUpdateError, ThrowOnError>(
+  return (options.client ?? _heyApiClient).post<unknown, MonitoringPostRunProbeError, ThrowOnError>(
     {
       security: [
         {
@@ -3375,19 +3357,24 @@ export const blogUpdate = <ThrowOnError extends boolean = false>(
           name: "hatchet",
           type: "apiKey",
         },
-        {
-          scheme: "basic",
-          type: "http",
-        },
       ],
-      url: "/api/v1/tenants/{tenant}/blogs/{blog}",
+      url: "/api/v1/monitoring/{tenant}/probe",
       ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
     },
   );
+};
+
+/**
+ * We return the version for the currently running server
+ * Get the version of the server
+ */
+export const infoGetVersion = <ThrowOnError extends boolean = false>(
+  options?: Options<InfoGetVersionData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<InfoGetVersionResponse, unknown, ThrowOnError>({
+    url: "/api/v1/version",
+    ...options,
+  });
 };
 
 /**
@@ -3406,10 +3393,6 @@ export const siteList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites",
@@ -3433,10 +3416,6 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/sites",
@@ -3465,10 +3444,6 @@ export const siteGet = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/sites/{site}",
     ...options,
@@ -3493,10 +3468,6 @@ export const siteUpdate = <ThrowOnError extends boolean = false>(
           in: "cookie",
           name: "hatchet",
           type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
         },
       ],
       url: "/api/v1/tenants/{tenant}/sites/{site}",
@@ -3530,10 +3501,6 @@ export const siteGetByHost = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/sites/byHost/{host}",
     ...options,
@@ -3560,10 +3527,6 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
         in: "cookie",
         name: "hatchet",
         type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
       },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts",
@@ -3592,10 +3555,6 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts",
     ...options,
@@ -3623,10 +3582,6 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
           in: "cookie",
           name: "hatchet",
           type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
         },
       ],
       url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
@@ -3657,10 +3612,6 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
         name: "hatchet",
         type: "apiKey",
       },
-      {
-        scheme: "basic",
-        type: "http",
-      },
     ],
     url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
     ...options,
@@ -3668,2384 +3619,5 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
-  });
-};
-
-/**
- * Get the posts for the site
- */
-export const postListPublic = <ThrowOnError extends boolean = false>(
-  options?: Options<PostListPublicData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    PostListPublicResponse,
-    PostListPublicError,
-    ThrowOnError
-  >({
-    url: "/api/v1/posts/public",
-    ...options,
-  });
-};
-
-/**
- * Get the post for the tenant
- */
-export const postGet = <ThrowOnError extends boolean = false>(
-  options: Options<PostGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PostGetResponse, PostGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/posts/{post}",
-    ...options,
-  });
-};
-
-/**
- * Get the posts for the site
- */
-export const postList = <ThrowOnError extends boolean = false>(
-  options: Options<PostListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PostListResponse, PostListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/posts",
-    ...options,
-  });
-};
-
-/**
- * create post
- */
-export const postCreate = <ThrowOnError extends boolean = false>(
-  options: Options<PostCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<PostCreateResponse, PostCreateError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/posts",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的artifacts列表
- * Get the artifacts for the tenant
- */
-export const artifactList = <ThrowOnError extends boolean = false>(
-  options: Options<ArtifactListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ArtifactListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/artifacts",
-    ...options,
-  });
-};
-
-/**
- * Get step run
- * Get a blog post by id
- */
-export const artifactGet = <ThrowOnError extends boolean = false>(
-  options: Options<ArtifactGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ArtifactGetResponse, ArtifactGetError, ThrowOnError>(
-    {
-      security: [
-        {
-          scheme: "bearer",
-          type: "http",
-        },
-        {
-          in: "cookie",
-          name: "hatchet",
-          type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
-        },
-      ],
-      url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
-      ...options,
-    },
-  );
-};
-
-/**
- * 获取团队列表
- */
-export const comsList = <ThrowOnError extends boolean = false>(
-  options: Options<ComsListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ComsListResponse, ComsListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/comps",
-    ...options,
-  });
-};
-
-/**
- * Upsert an component
- */
-export const comsUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ComsUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<ComsUpsertResponse, ComsUpsertError, ThrowOnError>(
-    {
-      security: [
-        {
-          scheme: "bearer",
-          type: "http",
-        },
-        {
-          in: "cookie",
-          name: "hatchet",
-          type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
-        },
-      ],
-      url: "/api/v1/tenants/{tenant}/comps/{com}",
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...options?.headers,
-      },
-    },
-  );
-};
-
-export const comsGet = <ThrowOnError extends boolean = false>(
-  options: Options<ComsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ComsGetResponse, ComsGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/comps/get",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的画廊列表
- * 获取画廊列表
- */
-export const galleryList = <ThrowOnError extends boolean = false>(
-  options: Options<GalleryListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GalleryListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/galleries",
-    ...options,
-  });
-};
-
-/**
- * create gallery
- */
-export const galleryCreate = <ThrowOnError extends boolean = false>(
-  options: Options<GalleryCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    GalleryCreateResponse,
-    GalleryCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/galleries",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取画廊列表
- */
-export const galleryGet = <ThrowOnError extends boolean = false>(
-  options: Options<GalleryGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GalleryGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/gallery/{gallery}",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的agEvent列表
- * 获取agEvent列表
- */
-export const agEventList = <ThrowOnError extends boolean = false>(
-  options: Options<AgEventListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AgEventListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agEvents",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的agEvent列表
- * 获取agEvent列表
- */
-export const agEventGet = <ThrowOnError extends boolean = false>(
-  options: Options<AgEventGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AgEventGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agEvents/{agEvent}",
-    ...options,
-  });
-};
-
-export const modelList = <ThrowOnError extends boolean = false>(
-  options: Options<ModelListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ModelListResponse, ModelListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models",
-    ...options,
-  });
-};
-
-export const modelGet = <ThrowOnError extends boolean = false>(
-  options: Options<ModelGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ModelGetResponse, ModelGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models/{model}",
-    ...options,
-  });
-};
-
-/**
- * upsert an model
- */
-export const modelUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ModelUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    ModelUpsertResponse,
-    ModelUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/models/{model}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const modelRunsList = <ThrowOnError extends boolean = false>(
-  options: Options<ModelRunsListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ModelRunsListResponse,
-    ModelRunsListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/model_runs",
-    ...options,
-  });
-};
-
-export const modelRunGet = <ThrowOnError extends boolean = false>(
-  options: Options<ModelRunGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ModelRunGetResponse, ModelRunGetError, ThrowOnError>(
-    {
-      security: [
-        {
-          scheme: "bearer",
-          type: "http",
-        },
-        {
-          in: "cookie",
-          name: "hatchet",
-          type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
-        },
-      ],
-      url: "/api/v1/tenants/{tenant}/model_runs/{model_run}",
-      ...options,
-    },
-  );
-};
-
-/**
- * Update an model
- */
-export const modelRunUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ModelRunUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    ModelRunUpsertResponse,
-    ModelRunUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/model_runs/{model_run}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 提示词列表
- * Get the blogs for the tenant
- */
-export const promptList = <ThrowOnError extends boolean = false>(
-  options: Options<PromptListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PromptListResponse, PromptListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/prompts",
-    ...options,
-  });
-};
-
-/**
- * 获取单个提示词
- */
-export const promptGet = <ThrowOnError extends boolean = false>(
-  options: Options<PromptGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PromptGetResponse, PromptGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/prompts/{prompt}",
-    ...options,
-  });
-};
-
-export const adminReleaseConn = <ThrowOnError extends boolean = false>(
-  options?: Options<AdminReleaseConnData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    AdminReleaseConnResponse,
-    AdminReleaseConnError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/admin/releaseConn",
-    ...options,
-  });
-};
-
-/**
- * Reset the database
- */
-export const adminResetDb = <ThrowOnError extends boolean = false>(
-  options?: Options<AdminResetDbData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    AdminResetDbResponse,
-    AdminResetDbError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/admin/resetDb",
-    ...options,
-  });
-};
-
-export const frontendGetConfig = <ThrowOnError extends boolean = false>(
-  options?: Options<FrontendGetConfigData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<FrontendGetConfigResponse, unknown, ThrowOnError>({
-    url: "/api/v1/frontend/config",
-    ...options,
-  });
-};
-
-export const frontendGetSiderbar = <ThrowOnError extends boolean = false>(
-  options?: Options<FrontendGetSiderbarData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<FrontendGetSiderbarResponse, unknown, ThrowOnError>(
-    {
-      url: "/api/v1/frontend/siderbar",
-      ...options,
-    },
-  );
-};
-
-export const hfAccountGet = <ThrowOnError extends boolean = false>(
-  options?: Options<HfAccountGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    HfAccountGetResponse,
-    HfAccountGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/hf/account",
-    ...options,
-  });
-};
-
-/**
- * 环境变量
- */
-export const envList = <ThrowOnError extends boolean = false>(
-  options?: Options<EnvListData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<EnvListResponse, EnvListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/env",
-    ...options,
-  });
-};
-
-/**
- * Update blog
- * Update an existing env
- */
-export const envUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<EnvUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<EnvUpdateResponse, EnvUpdateError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/env",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 环境变量
- */
-export const envGet = <ThrowOnError extends boolean = false>(
-  options: Options<EnvGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<EnvGetResponse, EnvGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/env/{name}",
-    ...options,
-  });
-};
-
-export const endpointList = <ThrowOnError extends boolean = false>(
-  options?: Options<EndpointListData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    EndpointListResponse,
-    EndpointListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/endpoint",
-    ...options,
-  });
-};
-
-/**
- * Update endpoint
- * Update an endpoint
- */
-export const endpointUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<EndpointUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    EndpointUpdateResponse,
-    EndpointUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/endpoint",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const platformList = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    PlatformListResponse,
-    PlatformListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platforms",
-    ...options,
-  });
-};
-
-/**
- * create platform
- */
-export const platformCreate = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PlatformCreateResponse,
-    PlatformCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platforms",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const platformGet = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PlatformGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platforms/{platform}",
-    ...options,
-  });
-};
-
-/**
- * Update platform
- * Update an platform
- */
-export const platformUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    PlatformUpdateResponse,
-    PlatformUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platforms/{platform}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const platformAccountList = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformAccountListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    PlatformAccountListResponse,
-    PlatformAccountListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platform_accounts",
-    ...options,
-  });
-};
-
-export const platformAccountCreate = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformAccountCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    PlatformAccountCreateResponse,
-    PlatformAccountCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platform_accounts",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const platformAccountGet = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformAccountGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<PlatformAccountGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}",
-    ...options,
-  });
-};
-
-/**
- * Update an platform_account
- */
-export const platformAccountUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<PlatformAccountUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    PlatformAccountUpsertResponse,
-    PlatformAccountUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const browserList = <ThrowOnError extends boolean = false>(
-  options: Options<BrowserListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<BrowserListResponse, BrowserListError, ThrowOnError>(
-    {
-      security: [
-        {
-          scheme: "bearer",
-          type: "http",
-        },
-        {
-          in: "cookie",
-          name: "hatchet",
-          type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
-        },
-      ],
-      url: "/api/v1/tenants/{tenant}/browsers",
-      ...options,
-    },
-  );
-};
-
-/**
- * create browser
- */
-export const browserCreate = <ThrowOnError extends boolean = false>(
-  options: Options<BrowserCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    BrowserCreateResponse,
-    BrowserCreateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/browsers",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const browserOpen = <ThrowOnError extends boolean = false>(
-  options: Options<BrowserOpenData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    BrowserOpenResponse,
-    BrowserOpenError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/browsers/{browser}/open",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const browserGet = <ThrowOnError extends boolean = false>(
-  options: Options<BrowserGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<BrowserGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/browsers/{browser}",
-    ...options,
-  });
-};
-
-/**
- * Update an browser
- */
-export const browserUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<BrowserUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    BrowserUpdateResponse,
-    BrowserUpdateError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/browsers/{browser}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const proxyList = <ThrowOnError extends boolean = false>(
-  options: Options<ProxyListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ProxyListResponse, ProxyListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/proxies",
-    ...options,
-  });
-};
-
-export const proxyGet = <ThrowOnError extends boolean = false>(
-  options: Options<ProxyGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ProxyGetResponse, ProxyGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/proxies/{proxy}",
-    ...options,
-  });
-};
-
-export const proxyUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ProxyUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    ProxyUpsertResponse,
-    ProxyUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/proxies/{proxy}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的 agent 状态
- */
-export const agStateList = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AgStateListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agStates",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的 agent 状态
- */
-export const agStateGet = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AgStateGetResponse, AgStateGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agState/{state}",
-    ...options,
-  });
-};
-
-/**
- * Upsert an agState
- */
-export const agStateUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AgStateUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    AgStateUpsertResponse,
-    AgStateUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/agStateSave",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取聊天消息
- */
-export const chatMessagesList = <ThrowOnError extends boolean = false>(
-  options: Options<ChatMessagesListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatMessagesListResponse,
-    ChatMessagesListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/{chat}/messages",
-    ...options,
-  });
-};
-
-/**
- * 获取聊天列表
- */
-export const chatSessionList = <ThrowOnError extends boolean = false>(
-  options: Options<ChatSessionListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatSessionListResponse,
-    ChatSessionListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions",
-    ...options,
-  });
-};
-
-/**
- * 保存 聊天消息
- */
-export const chatMessageUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ChatMessageUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ChatMessageUpsertResponse,
-    ChatMessageUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的聊天列表
- * 获取聊天列表
- */
-export const chatSessionGet = <ThrowOnError extends boolean = false>(
-  options: Options<ChatSessionGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ChatSessionGetResponse,
-    ChatSessionGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
-    ...options,
-  });
-};
-
-/**
- * Upsert chat session
- */
-export const chatSessionUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ChatSessionUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    ChatSessionUpsertResponse,
-    ChatSessionUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/chat/sessions/{session}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的 flow 状态
- */
-export const flowStateList = <ThrowOnError extends boolean = false>(
-  options: Options<FlowStateListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<FlowStateListResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/flow-states",
-    ...options,
-  });
-};
-
-export const flowStateGet = <ThrowOnError extends boolean = false>(
-  options: Options<FlowStateGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    FlowStateGetResponse,
-    FlowStateGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}",
-    ...options,
-  });
-};
-
-/**
- * Upsert an flowState
- */
-export const flowStateUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<FlowStateUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).patch<
-    FlowStateUpsertResponse,
-    FlowStateUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取聊天界面状态
- */
-export const uiAgentGet = <ThrowOnError extends boolean = false>(
-  options: Options<UiAgentGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<UiAgentGetResponse, UiAgentGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/ag_ui",
-    ...options,
-  });
-};
-
-export const dispatcherListen = <ThrowOnError extends boolean = false>(
-  options: Options<DispatcherListenData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    DispatcherListenResponse,
-    DispatcherListenError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/dispatcher/listen/{workerId}",
-    ...options,
-  });
-};
-
-export const resourceList = <ThrowOnError extends boolean = false>(
-  options: Options<ResourceListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    ResourceListResponse,
-    ResourceListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/resources",
-    ...options,
-  });
-};
-
-/**
- * 保存 资源
- */
-export const resourceUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<ResourceUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    ResourceUpsertResponse,
-    ResourceUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/resources",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-export const resourceDelete = <ThrowOnError extends boolean = false>(
-  options: Options<ResourceDeleteData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    ResourceDeleteResponse,
-    ResourceDeleteError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/resources/{resource}",
-    ...options,
-  });
-};
-
-/**
- * 获取租户下的资源
- * 获取资源
- */
-export const resourceGet = <ThrowOnError extends boolean = false>(
-  options: Options<ResourceGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<ResourceGetResponse, ResourceGetError, ThrowOnError>(
-    {
-      security: [
-        {
-          scheme: "bearer",
-          type: "http",
-        },
-        {
-          in: "cookie",
-          name: "hatchet",
-          type: "apiKey",
-        },
-        {
-          scheme: "basic",
-          type: "http",
-        },
-      ],
-      url: "/api/v1/tenants/{tenant}/resources/{resource}",
-      ...options,
-    },
-  );
-};
-
-export const instagramLogin = <ThrowOnError extends boolean = false>(
-  options?: Options<InstagramLoginData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).post<
-    InstagramLoginResponse,
-    InstagramLoginError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/instagram/login",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取adk事件列表
- */
-export const adkAppList = <ThrowOnError extends boolean = false>(
-  options: Options<AdkAppListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AdkAppListResponse, AdkAppListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/app",
-    ...options,
-  });
-};
-
-/**
- * 保存 adk 应用
- */
-export const adkAppUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AdkAppUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AdkAppUpsertResponse,
-    AdkAppUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/app",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取adk应用
- * 获取adk应用
- */
-export const adkAppGet = <ThrowOnError extends boolean = false>(
-  options: Options<AdkAppGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<AdkAppGetResponse, AdkAppGetError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/app/{app}",
-    ...options,
-  });
-};
-
-/**
- * 获取adk事件列表
- */
-export const adkSessionList = <ThrowOnError extends boolean = false>(
-  options: Options<AdkSessionListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkSessionListResponse,
-    AdkSessionListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/session",
-    ...options,
-  });
-};
-
-/**
- * 保存 adk 会话
- */
-export const adkSessionUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AdkSessionUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AdkSessionUpsertResponse,
-    AdkSessionUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/session",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的adk用户状态
- * 获取adk会话
- */
-export const adkSessionGet = <ThrowOnError extends boolean = false>(
-  options: Options<AdkSessionGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkSessionGetResponse,
-    AdkSessionGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/app/{app}/session/{session}",
-    ...options,
-  });
-};
-
-/**
- * 获取adk用户状态列表
- */
-export const adkUserStateList = <ThrowOnError extends boolean = false>(
-  options: Options<AdkUserStateListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkUserStateListResponse,
-    AdkUserStateListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/user-state",
-    ...options,
-  });
-};
-
-/**
- * 保存 adk 用户状态
- */
-export const adkUserStateUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AdkUserStateUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AdkUserStateUpsertResponse,
-    AdkUserStateUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/user-state",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的adk用户状态
- * 获取adk用户状态
- */
-export const adkUserStateGet = <ThrowOnError extends boolean = false>(
-  options: Options<AdkUserStateGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkUserStateGetResponse,
-    AdkUserStateGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/user-state/{state}",
-    ...options,
-  });
-};
-
-/**
- * 获取adk事件列表
- */
-export const adkEventsList = <ThrowOnError extends boolean = false>(
-  options: Options<AdkEventsListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkEventsListResponse,
-    AdkEventsListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/events",
-    ...options,
-  });
-};
-
-/**
- * 保存 adk 事件
- */
-export const adkEventsUpsert = <ThrowOnError extends boolean = false>(
-  options: Options<AdkEventsUpsertData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    AdkEventsUpsertResponse,
-    AdkEventsUpsertError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/events",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取租户下的adk事件列表
- * 获取adk事件列表
- */
-export const adkEventsGet = <ThrowOnError extends boolean = false>(
-  options: Options<AdkEventsGetData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    AdkEventsGetResponse,
-    AdkEventsGetError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/adk/events/{event}",
-    ...options,
-  });
-};
-
-/**
- * Get a user profile
- */
-export const tkGetUserProfile = <ThrowOnError extends boolean = false>(
-  options: Options<TkGetUserProfileData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TkGetUserProfileResponse,
-    TkGetUserProfileError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/tk/getUserProfile",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Login to tk account
- */
-export const tkAccountLogin = <ThrowOnError extends boolean = false>(
-  options: Options<TkAccountLoginData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<
-    TkAccountLoginResponse,
-    TkAccountLoginError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/tk/tkAccountLogin",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * Get the tasks for the tenant
- */
-export const mttaskList = <ThrowOnError extends boolean = false>(
-  options: Options<MttaskListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<MttaskListResponse, MttaskListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-      {
-        scheme: "basic",
-        type: "http",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/mttasks",
-    ...options,
   });
 };

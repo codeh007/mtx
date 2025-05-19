@@ -131,10 +131,6 @@ export type User = {
    * A hash of the user's email address for use with Pylon Support Chat
    */
   emailHash?: string;
-  /**
-   * The user's token for use with Pylon Support Chat
-   */
-  userToken?: string;
 };
 
 export type UserTenantPublic = {
@@ -208,6 +204,10 @@ export type Tenant = {
    * Whether to alert tenant members.
    */
   alertMemberEmails?: boolean;
+  /**
+   * The version of the tenant.
+   */
+  version: "V0" | "V1";
 };
 
 export type TenantMember = {
@@ -239,12 +239,21 @@ export const TenantMemberRole = {
   MEMBER: "MEMBER",
 } as const;
 
-export type TenantResource = "WORKER" | "EVENT" | "WORKFLOW_RUN" | "CRON" | "SCHEDULE";
+export type TenantResource =
+  | "WORKER"
+  | "WORKER_SLOT"
+  | "EVENT"
+  | "WORKFLOW_RUN"
+  | "TASK_RUN"
+  | "CRON"
+  | "SCHEDULE";
 
 export const TenantResource = {
   WORKER: "WORKER",
+  WORKER_SLOT: "WORKER_SLOT",
   EVENT: "EVENT",
   WORKFLOW_RUN: "WORKFLOW_RUN",
+  TASK_RUN: "TASK_RUN",
   CRON: "CRON",
   SCHEDULE: "SCHEDULE",
 } as const;
@@ -416,7 +425,7 @@ export type TenantQueueMetrics = {
 
 export type TenantStepRunQueueMetrics = {
   queues?: {
-    [key: string]: number;
+    [key: string]: unknown;
   };
 };
 
@@ -473,24 +482,11 @@ export type UpdateTenantRequest = {
    * The max frequency at which to alert.
    */
   maxAlertingFrequency?: string;
+  /**
+   * The version of the tenant.
+   */
+  version?: Version;
 };
-
-export type TenantSettingContent = {
-  enabled_instagram_task?: boolean;
-};
-
-export type TenantSettingProperties = {
-  content?: TenantSettingContent;
-};
-
-export type TenantSetting = ApiResourceMetaProperties & TenantSettingProperties;
-
-export type TenantSettingList = {
-  pagination?: PaginationResponse;
-  rows?: Array<TenantSetting>;
-};
-
-export type TenantSettingUpsert = TenantSettingProperties;
 
 export type Event = {
   metadata: ApiResourceMeta;
@@ -542,6 +538,14 @@ export type CreateEventRequest = {
   additionalMetadata?: {
     [key: string]: unknown;
   };
+  /**
+   * The priority of the event.
+   */
+  priority?: number;
+  /**
+   * The scope for event filtering.
+   */
+  scope?: string;
 };
 
 export type BulkCreateEventRequest = {
@@ -577,6 +581,10 @@ export type EventWorkflowRunSummary = {
    * The number of failed runs.
    */
   failed?: number;
+  /**
+   * The number of cancelled runs.
+   */
+  cancelled?: number;
 };
 
 export type EventOrderByField = "createdAt";
@@ -612,6 +620,87 @@ export type WorkflowId = string;
 export type EventList = {
   pagination?: PaginationResponse;
   rows?: Array<Event>;
+};
+
+export type V1EventList = {
+  pagination?: PaginationResponse;
+  rows?: Array<{
+    metadata: ApiResourceMeta;
+    /**
+     * The key for the event.
+     */
+    key: string;
+    /**
+     * The tenant associated with this event.
+     */
+    tenant?: Tenant;
+    /**
+     * The ID of the tenant associated with this event.
+     */
+    tenantId: string;
+    /**
+     * The workflow run summary for this event.
+     */
+    workflowRunSummary: {
+      /**
+       * The number of running runs.
+       */
+      running: number;
+      /**
+       * The number of queued runs.
+       */
+      queued: number;
+      /**
+       * The number of succeeded runs.
+       */
+      succeeded: number;
+      /**
+       * The number of failed runs.
+       */
+      failed: number;
+      /**
+       * The number of cancelled runs.
+       */
+      cancelled: number;
+    };
+    /**
+     * Additional metadata for the event.
+     */
+    additionalMetadata?: {
+      [key: string]: unknown;
+    };
+  }>;
+};
+
+export type V1FilterList = {
+  pagination?: PaginationResponse;
+  rows?: Array<V1Filter>;
+};
+
+export type V1Filter = {
+  metadata: ApiResourceMeta;
+  /**
+   * The ID of the tenant associated with this filter.
+   */
+  tenantId: string;
+  /**
+   * The workflow id associated with this filter.
+   */
+  workflowId: string;
+  /**
+   * The scope associated with this filter. Used for subsetting candidate filters at evaluation time
+   */
+  scope: string;
+  /**
+   * The expression associated with this filter.
+   */
+  expression: string;
+  /**
+   * Additional payload data associated with the filter
+   */
+  payload: {
+    [key: string]: unknown;
+  };
 };
 
 export type RateLimit = {
@@ -692,6 +781,10 @@ export type Workflow = {
    * The jobs of the workflow.
    */
   jobs?: Array<Job>;
+  /**
+   * The tenant id of the workflow.
+   */
+  tenantId: string;
 };
 
 export type WorkflowUpdateRequest = {
@@ -829,31 +922,6 @@ export type WorkflowWorkersCount = {
   freeSlotCount?: number;
   maxSlotCount?: number;
   workflowRunId?: string;
-  other?:
-    | ToolTypes
-    | FlowNames
-    | AgentTopicTypes
-    | ComponentTypes
-    | ProviderTypes
-    | AgentEventType
-    | AgentStateTypes
-    | AgentTypes
-    | FlowError
-    | FlowTeamInput
-    | CodeExecutionResult
-    | SocialLoginInput
-    | SocialLoginResult
-    | FlowResult
-    | SocialTeam
-    | RootAgentState
-    | AgentIncomingEvent
-    | AgentOutgoingEvent
-    | AddSessionToEvalSetRequest
-    | AdkRawEvent
-    | AdkAppTypes
-    | Content
-    | AgentRunRequestV3
-    | VideoParams;
 };
 
 export type WorkflowRun = {
@@ -934,6 +1002,7 @@ export type ScheduledWorkflows = {
   workflowRunStatus?: WorkflowRunStatus;
   workflowRunId?: string;
   method: "DEFAULT" | "API";
+  priority?: number;
 };
 
 export type ScheduledWorkflowsList = {
@@ -983,6 +1052,7 @@ export type CronWorkflows = {
   };
   enabled: boolean;
   method: "DEFAULT" | "API";
+  priority?: number;
 };
 
 export type CronWorkflowsList = {
@@ -1128,9 +1198,6 @@ export type StepRun = {
   metadata: ApiResourceMeta;
   tenantId: string;
   jobRunId: string;
-  jobRun?: {
-    [key: string]: unknown;
-  };
   stepId: string;
   step?: Step;
   childWorkflowsCount?: number;
@@ -1434,6 +1501,29 @@ export type TriggerWorkflowRunRequest = {
   };
 };
 
+export type ScheduleWorkflowRunRequest = {
+  input: {
+    [key: string]: unknown;
+  };
+  additionalMetadata: {
+    [key: string]: unknown;
+  };
+  triggerAt: string;
+  priority?: number;
+};
+
+export type CreateCronWorkflowTriggerRequest = {
+  input: {
+    [key: string]: unknown;
+  };
+  additionalMetadata: {
+    [key: string]: unknown;
+  };
+  cronName: string;
+  cronExpression: string;
+  priority?: number;
+};
+
 export type CreatePullRequestFromStepRun = {
   branchName: string;
 };
@@ -1668,1005 +1758,456 @@ export type WebhookWorkerListResponse = {
   rows?: Array<WebhookWorker>;
 };
 
-export type ApiResourceMetaProperties = {
-  metadata: ApiResourceMeta;
+export type V1TaskSummaryList = {
+  pagination: PaginationResponse;
+  /**
+   * The list of tasks
+   */
+  rows: Array<V1TaskSummary>;
 };
 
-export type CommonResult = {
-  Success: boolean;
-  Message: string;
+export type V1WorkflowRunDisplayNameList = {
+  pagination: PaginationResponse;
+  /**
+   * The list of display names
+   */
+  rows: Array<{
+    metadata: ApiResourceMeta;
+    displayName: string;
+  }>;
+};
+
+export type V1TaskSummary = {
+  metadata: ApiResourceMeta;
+  /**
+   * The action ID of the task.
+   */
+  actionId?: string;
+  /**
+   * The number of retries of the task.
+   */
+  retryCount?: number;
+  /**
+   * The attempt number of the task.
+   */
+  attempt?: number;
+  /**
+   * Additional metadata for the task run.
+   */
+  additionalMetadata?: {
+    [key: string]: unknown;
+  };
+  /**
+   * The list of children tasks
+   */
+  children?: Array<{
+    [key: string]: unknown;
+  }>;
+  /**
+   * The timestamp the task was created.
+   */
+  createdAt: string;
+  /**
+   * The display name of the task run.
+   */
+  displayName: string;
+  /**
+   * The duration of the task run, in milliseconds.
+   */
+  duration?: number;
+  /**
+   * The error message of the task run (for the latest run)
+   */
+  errorMessage?: string;
+  /**
+   * The timestamp the task run finished.
+   */
+  finishedAt?: string;
+  /**
+   * The input of the task run.
+   */
+  input: {
+    [key: string]: unknown;
+  };
+  /**
+   * The number of spawned children tasks
+   */
+  numSpawnedChildren: number;
+  /**
+   * The output of the task run (for the latest run)
+   */
+  output: {
+    [key: string]: unknown;
+  };
+  status: V1TaskStatus;
+  /**
+   * The timestamp the task run started.
+   */
+  startedAt?: string;
+  /**
+   * The step ID of the task.
+   */
+  stepId?: string;
+  /**
+   * The external ID of the task.
+   */
+  taskExternalId: string;
+  /**
+   * The ID of the task.
+   */
+  taskId: number;
+  /**
+   * The timestamp the task was inserted.
+   */
+  taskInsertedAt: string;
+  /**
+   * The ID of the tenant.
+   */
+  tenantId: string;
+  /**
+   * The type of the workflow (whether it's a DAG or a task)
+   */
+  type: "DAG" | "TASK";
+  workflowId: string;
+  workflowName?: string;
+  /**
+   * The external ID of the workflow run
+   */
+  workflowRunExternalId: string;
+  /**
+   * The version ID of the workflow
+   */
+  workflowVersionId?: string;
+};
+
+export type V1DagChildren = {
+  dagId?: string;
+  children?: Array<V1TaskSummary>;
+};
+
+export type V1TaskEventList = {
+  pagination?: PaginationResponse;
+  rows?: Array<{
+    id: number;
+    taskId: string;
+    timestamp: string;
+    eventType:
+      | "REQUEUED_NO_WORKER"
+      | "REQUEUED_RATE_LIMIT"
+      | "SCHEDULING_TIMED_OUT"
+      | "ASSIGNED"
+      | "STARTED"
+      | "FINISHED"
+      | "FAILED"
+      | "RETRYING"
+      | "CANCELLED"
+      | "TIMED_OUT"
+      | "REASSIGNED"
+      | "SLOT_RELEASED"
+      | "TIMEOUT_REFRESHED"
+      | "RETRIED_BY_USER"
+      | "SENT_TO_WORKER"
+      | "RATE_LIMIT_ERROR"
+      | "ACKNOWLEDGED"
+      | "CREATED"
+      | "QUEUED"
+      | "SKIPPED";
+    message: string;
+    errorMessage?: string;
+    output?: string;
+    workerId?: string;
+    taskDisplayName?: string;
+    /**
+     * The number of retries of the task.
+     */
+    retryCount?: number;
+    /**
+     * The attempt number of the task.
+     */
+    attempt?: number;
+  }>;
+};
+
+export type V1TaskStatus = "QUEUED" | "RUNNING" | "COMPLETED" | "CANCELLED" | "FAILED";
+
+export const V1TaskStatus = {
+  QUEUED: "QUEUED",
+  RUNNING: "RUNNING",
+  COMPLETED: "COMPLETED",
+  CANCELLED: "CANCELLED",
+  FAILED: "FAILED",
+} as const;
+
+export type V1TaskRunMetrics = Array<{
+  status: V1TaskStatus;
+  count: number;
+}>;
+
+export type V1TaskPointMetric = {
+  time: string;
+  SUCCEEDED: number;
+  FAILED: number;
+};
+
+export type V1TaskPointMetrics = {
+  results?: Array<V1TaskPointMetric>;
+};
+
+export type V1TaskFilter = {
+  since: string;
+  until?: string;
+  statuses?: Array<V1TaskStatus>;
+  workflowIds?: Array<string>;
+  additionalMetadata?: Array<string>;
+};
+
+export type V1CancelTaskRequest = {
+  /**
+   * A list of external IDs, which can refer to either task or workflow run external IDs
+   */
+  externalIds?: Array<string>;
+  filter?: V1TaskFilter;
+};
+
+export type V1ReplayTaskRequest = {
+  /**
+   * A list of external IDs, which can refer to either task or workflow run external IDs
+   */
+  externalIds?: Array<string>;
+  filter?: V1TaskFilter;
+};
+
+export type V1WorkflowRun = {
+  metadata: ApiResourceMeta;
+  status: V1TaskStatus;
+  /**
+   * The timestamp the task run started.
+   */
+  startedAt?: string;
+  /**
+   * The timestamp the task run finished.
+   */
+  finishedAt?: string;
+  /**
+   * The duration of the task run, in milliseconds.
+   */
+  duration?: number;
+  /**
+   * The ID of the tenant.
+   */
+  tenantId: string;
+  /**
+   * Additional metadata for the task run.
+   */
+  additionalMetadata?: {
+    [key: string]: unknown;
+  };
+  /**
+   * The display name of the task run.
+   */
+  displayName: string;
+  workflowId: string;
+  /**
+   * The output of the task run (for the latest run)
+   */
+  output: {
+    [key: string]: unknown;
+  };
+  /**
+   * The error message of the task run (for the latest run)
+   */
+  errorMessage?: string;
+  /**
+   * The ID of the workflow version.
+   */
+  workflowVersionId?: string;
+  /**
+   * The input of the task run.
+   */
+  input: {
+    [key: string]: unknown;
+  };
+  /**
+   * The timestamp the task run was created.
+   */
+  createdAt?: string;
+  parentTaskExternalId?: string;
+};
+
+export type V1WorkflowRunDetails = {
+  run: V1WorkflowRun;
+  /**
+   * The list of task events for the workflow run
+   */
+  taskEvents: Array<Items>;
+  shape: Array<{
+    taskExternalId: string;
+    stepId: string;
+    childrenStepIds: Array<string>;
+    taskName: string;
+  }>;
+  tasks: Array<V1TaskSummary>;
+};
+
+export type V1TaskRunStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED" | "CANCELLED";
+
+export const V1TaskRunStatus = {
+  PENDING: "PENDING",
+  RUNNING: "RUNNING",
+  COMPLETED: "COMPLETED",
+  FAILED: "FAILED",
+  CANCELLED: "CANCELLED",
+} as const;
+
+export type V1TriggerWorkflowRunRequest = {
+  /**
+   * The name of the workflow.
+   */
+  workflowName: string;
+  input: {
+    [key: string]: unknown;
+  };
+  additionalMetadata?: {
+    [key: string]: unknown;
+  };
+  /**
+   * The priority of the workflow run.
+   */
+  priority?: number;
+};
+
+export type V1LogLine = {
+  /**
+   * The creation date of the log line.
+   */
+  createdAt: string;
+  /**
+   * The log message.
+   */
+  message: string;
+  /**
+   * The log metadata.
+   */
+  metadata: {
+    [key: string]: unknown;
+  };
+  /**
+   * The retry count of the log line.
+   */
+  retryCount?: number;
+  /**
+   * The attempt number of the log line.
+   */
+  attempt?: number;
+  /**
+   * The log level.
+   */
+  level?: V1LogLineLevel;
+};
+
+export type V1LogLineLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
+
+export const V1LogLineLevel = {
+  DEBUG: "DEBUG",
+  INFO: "INFO",
+  WARN: "WARN",
+  ERROR: "ERROR",
+} as const;
+
+export type V1LogLineList = {
+  pagination?: PaginationResponse;
+  rows?: Array<V1LogLine>;
+};
+
+export type V1TaskTiming = {
+  metadata: ApiResourceMeta;
+  /**
+   * The depth of the task in the waterfall.
+   */
+  depth: number;
+  status: V1TaskStatus;
+  /**
+   * The display name of the task run.
+   */
+  taskDisplayName: string;
+  /**
+   * The external ID of the task.
+   */
+  taskExternalId: string;
+  /**
+   * The ID of the task.
+   */
+  taskId: number;
+  /**
+   * The timestamp the task was inserted.
+   */
+  taskInsertedAt: string;
+  /**
+   * The ID of the tenant.
+   */
+  tenantId: string;
+  /**
+   * The external ID of the parent task.
+   */
+  parentTaskExternalId?: string;
+  /**
+   * The timestamp the task run was queued.
+   */
+  queuedAt?: string;
+  /**
+   * The timestamp the task run started.
+   */
+  startedAt?: string;
+  /**
+   * The timestamp the task run finished.
+   */
+  finishedAt?: string;
+  /**
+   * The external ID of the workflow run.
+   */
+  workflowRunId?: string;
+  /**
+   * The number of retries of the task.
+   */
+  retryCount?: number;
+  /**
+   * The attempt number of the task.
+   */
+  attempt?: number;
+};
+
+export type V1TaskTimingList = {
+  pagination: PaginationResponse;
+  /**
+   * The list of task timings
+   */
+  rows: Array<V1TaskTiming>;
+};
+
+export type V1CreateFilterRequest = {
+  /**
+   * The workflow id
+   */
+  workflowId: string;
+  /**
+   * The expression for the filter
+   */
+  expression: string;
+  /**
+   * The scope associated with this filter. Used for subsetting candidate filters at evaluation time
+   */
+  scope: string;
+  /**
+   * The payload for the filter
+   */
+  payload?: {
+    [key: string]: unknown;
+  };
 };
 
 export type TenantParameter = string;
 
-export type HttpCommonStatusResponse = unknown;
-
-export type BadRequest = unknown;
-
-/**
- * Forbidden
- */
-export type Forbidden = unknown;
-
-/**
- * Not found
- */
-export type NotFound = unknown;
-
-export type ChatMessageProperties = {
-  type: LlmMessageTypes;
-  content: string;
-  llm_message: LlmMessage;
-  content_type: "text" | "function_call";
-  source: string;
-  topic: string;
-  thread_id: string;
-  config?: {
-    message_type?: string;
-    source?: string;
-  };
-  model_usage?: ModelUsage;
-};
-
-export type ChatMessage = ApiResourceMetaProperties & ChatMessageProperties;
-
-export type ModelUsage = {
-  model?: string;
-  prompt_tokens?: number;
-  completion_tokens?: number;
-};
-
-export type ChatMessageList = {
-  metadata?: ApiResourceMeta;
-  rows?: Array<ChatMessage>;
-  pagination?: PaginationResponse;
-};
-
-export type ChatSessionProperties = {
-  metadata?: ApiResourceMeta;
-  title: string;
-  name: string;
-  state: {
-    [key: string]: unknown;
-  };
-  state_type: string;
-};
-
-export type ChatUpsert = ChatSessionProperties;
-
-export type ChatHistoryList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatMessage>;
-};
-
-export type ChatSession = ApiResourceMetaProperties & ChatSessionProperties;
-
-/**
- * 聊天 Session 列表
- */
-export type ChatSessionList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ChatSession>;
-};
-
-export type ChatMessageUpsert = ChatMessageProperties;
-
-/**
- * 浏览器(browser use)任务
- */
-export type BrowserTask = {
-  content: string;
-};
-
-/**
- * 打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.
- */
-export type BrowserOpenTask = {
-  url: string;
-};
-
-/**
- * 浏览器配置(未完成)
- */
-export type BrowserConfig = {
-  persistent?: boolean;
-};
-
-/**
- * worker 启动时所需的关键配置
- */
-export type WorkerConfig = {
-  workerToken?: string;
-  /**
-   * token
-   */
-  token: string;
-  /**
-   * grpcHostPort
-   */
-  grpcHostPort: string;
-  /**
-   * searxng url
-   */
-  searxng?: string;
-};
-
-export type CreateBlogPostRequest = {
-  /**
-   * The blog id.
-   */
-  blogId: string;
-  /**
-   * The authord id.
-   */
-  authorId?: string;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  content: string;
-};
-
-export type BlogList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Blog>;
-};
-
-export type Blog = {
-  metadata: ApiResourceMeta;
-  title: string;
-  description?: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  tenant?: Tenant;
-  config?: {
-    /**
-     * The number of posts to publish per day.
-     */
-    dayPublishCount?: number;
-    /**
-     * The description of the blog.
-     */
-    description?: string;
-  };
-  /**
-   * The status of the blog.
-   */
-  status?: string;
-  /**
-   * Whether the blog is enabled.
-   */
-  enabled?: boolean;
-  /**
-   * The slug of the blog.
-   */
-  slug?: string;
-};
-
-export type CreateBlogRequest = {
-  /**
-   * blog title to create.
-   */
-  title?: string;
-};
-
-export type UpdateBlogRequest = {
-  title: string;
-  description?: string;
-};
-
-export type BlogPost = {
-  metadata: ApiResourceMeta;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog
-   */
-  content: string;
-  state?: {
-    /**
-     * post title
-     */
-    title?: string;
-    /**
-     * post topic
-     */
-    topic?: string;
-    /**
-     * post outlines
-     */
-    outlines?: Array<{
-      /**
-       * post outline title
-       */
-      title?: string;
-      /**
-       * post outline content
-       */
-      content?: string;
-    }>;
-  };
-};
-
-export type BlogPostList = {
-  pagination?: PaginationResponse;
-  rows?: Array<BlogPost>;
-};
-
-export type UpdatePostRequest = {
-  /**
-   * The blog id.
-   */
-  blogId: string;
-  /**
-   * The authord id.
-   */
-  authorId?: string;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  content: string;
-};
-
-export type ArtifactList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Artifact>;
-};
-
-export type Artifact = {
-  metadata: ApiResourceMeta;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  state: {
-    [key: string]: unknown;
-  };
-  nextId?: string;
-  prevId?: string;
-};
-
-export type AgStateProperties = {
-  type: AgentStateTypes;
-  chatId?: string;
-  topic: string;
-  source: string;
-  state: AgentStates;
-};
-
-export type AgState = ApiResourceMetaProperties & AgStateProperties;
-
-export type AgStateList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AgState>;
-};
-
-export type RootAgentState = BaseState & {
-  type: string;
-  is_agent_run_local?: boolean;
-  counter?: number;
-  color?: string;
-  mainViewType?: "chat" | "scheduler";
-  chatHistoryIds?: Array<string>;
-  currentChatHistoryIds?: string;
-  currentChatHistory?: {
-    [key: string]: unknown;
-  };
-  mcpServers?: Array<McpServer>;
-  mcpTools?: Array<{
-    [key: string]: unknown;
-  }>;
-  mcpPrompts?: Array<{
-    [key: string]: unknown;
-  }>;
-  mcpResources?: Array<unknown>;
-};
-
-export type McpServer = {
-  url?: string;
-  state?: "authenticating" | "connecting" | "ready" | "discovering" | "failed";
-  auth_url?: string;
-};
-
-export type AgStateUpsert = AgStateProperties;
-
-export type BaseState = {
-  type: AgentStateTypes;
-  version?: string;
-};
-
-export type AssistantAgentState = BaseState & {
-  type: "AssistantAgentState";
-  llm_context?: unknown;
-};
-
-export type InstagramAgentState = BaseState & {
-  type: "InstagramAgentState";
-  llm_context?: unknown;
-  username?: string;
-  password?: string;
-  otp_key?: string;
-  session_state?: {
-    [key: string]: unknown;
-  };
-  is_wait_user_input?: boolean;
-  ig_settings?: {
-    [key: string]: unknown;
-  };
-  proxy_url?: string;
-  platform_account_id?: string;
-  credentials?: InstagramCredentials;
-};
-
-export type BaseGroupChatManagerState = BaseState & {
-  type?: "BaseGroupChatManagerState";
-  message_thread?: Array<{
-    [key: string]: unknown;
-  }>;
-  current_turn?: number;
-};
-
-export type AgentStates =
-  | ({
-      type?: "InstagramAgentState";
-    } & InstagramAgentState)
-  | ({
-      type?: "SocialTeamManagerState";
-    } & SocialTeamManagerState)
-  | ({
-      type?: "ChatAgentContainerState";
-    } & ChatAgentContainerState);
-
-export type SocialTeamManagerState = BaseState & {
-  type: "SocialTeamManagerState";
-  next_speaker_index?: number;
-  previous_speaker?: string;
-  current_speaker?: string;
-  selector_prompt?: string;
-  allow_repeated_speaker?: boolean;
-  max_selector_attempts?: number;
-  selector_func?: string;
-  current_turn?: number;
-  message_thread?: MessageThread;
-};
-
-export type InstagramCredentials = {
-  username: string;
-  password: string;
-  otp_key?: string;
-};
-
-export type AgentStateTypes =
-  | "InstagramAgentState"
-  | "SocialTeamManagerState"
-  | "TeamState"
-  | "RuntimeState"
-  | "AssistantAgentState"
-  | "RoundRobinManagerState"
-  | "SelectorManagerState"
-  | "SwarmManagerState"
-  | "MagenticOneOrchestratorState"
-  | "SocietyOfMindAgentState"
-  | "ChatAgentContainerState"
-  | "BaseGroupChatManagerState";
-
-export const AgentStateTypes = {
-  INSTAGRAM_AGENT_STATE: "InstagramAgentState",
-  SOCIAL_TEAM_MANAGER_STATE: "SocialTeamManagerState",
-  TEAM_STATE: "TeamState",
-  RUNTIME_STATE: "RuntimeState",
-  ASSISTANT_AGENT_STATE: "AssistantAgentState",
-  ROUND_ROBIN_MANAGER_STATE: "RoundRobinManagerState",
-  SELECTOR_MANAGER_STATE: "SelectorManagerState",
-  SWARM_MANAGER_STATE: "SwarmManagerState",
-  MAGENTIC_ONE_ORCHESTRATOR_STATE: "MagenticOneOrchestratorState",
-  SOCIETY_OF_MIND_AGENT_STATE: "SocietyOfMindAgentState",
-  CHAT_AGENT_CONTAINER_STATE: "ChatAgentContainerState",
-  BASE_GROUP_CHAT_MANAGER_STATE: "BaseGroupChatManagerState",
-} as const;
-
-export type TeamState = {
-  agent_states: {
-    [key: string]: unknown;
-  };
-  type: "TeamState";
-};
-
-export type ChatAgentContainerState = BaseState & {
-  type: "ChatAgentContainerState";
-  agent_state?: {
-    [key: string]: unknown;
-  };
-  message_buffer?: Array<unknown>;
-};
-
-export type MessageThread = Array<AgEvents>;
-
-export type ScheduledItem = {
-  id: string;
-  type: "cron" | "scheduled" | "delayed";
-  trigger: string;
-  nextTrigger: string;
-  description: string;
-};
-
-export type AdkSessionState = {
-  type?: "RootAgentState";
-} & RootAgentState;
-
-export type ToolTypes = "code_executor" | "social_login";
-
-export const ToolTypes = {
-  CODE_EXECUTOR: "code_executor",
-  SOCIAL_LOGIN: "social_login",
-} as const;
-
-export type CodeExecutionInput = {
-  /**
-   * The contents of the Python code block that should be executed
-   */
-  code: string;
-};
-
-export type CodeExecutionResult = {
-  /**
-   * The result of the code execution
-   */
-  output: string;
-  /**
-   * Whether the code execution was successful
-   */
-  success: boolean;
-};
-
-export type SocialLoginResult = {
-  /**
-   * Whether the social login was successful
-   */
-  success: boolean;
-};
-
-export type Component = ApiResourceMetaProperties & ComponentProperties;
-
-export type ComponentList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Component>;
-};
-
-export type ComponentUpsert = ComponentProperties;
-
-export type TeamConfig = {
-  participants: Array<Agents>;
-  termination_condition: Terminations;
-  max_turns: number;
-};
-
-export type ComponentTypes = "agent" | "team" | "termination";
-
-export const ComponentTypes = {
-  AGENT: "agent",
-  TEAM: "team",
-  TERMINATION: "termination",
-} as const;
-
-export type ComponentProperties = {
-  label: string;
-  description: string;
-  provider: string;
-  component_type: string;
-  version: number;
-  component_version: number;
-  config: {
-    [key: string]: unknown;
-  };
-};
-
-export type AssistantAgent = ComponentModel & {
-  provider: "AssistantAgent";
-  component_type: "agent";
-  config?: AssistantAgentConfig;
-};
-
-export type AssistantAgentConfig = {
-  name: string;
-  description: string;
-  model_context?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  memory?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-  model_client_stream?: boolean;
-  system_message?: string;
-  model_client: OpenAiChatCompletionClient;
-  tools: Array<{
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  }>;
-  handoffs?: Array<string>;
-  reflect_on_tool_use: boolean;
-  tool_call_summary_format: string;
-  metadata?: {
-    [key: string]: unknown;
-  };
-};
-
-export type ProviderTypes =
-  | "SelectorGroupChat"
-  | "SocialTeam"
-  | "AssistantAgent"
-  | "InstagramAgent"
-  | "UserProxyAgent"
-  | "CodeExecutorAgent"
-  | "SocietyOfMindAgent"
-  | "OpenAIChatCompletionClient"
-  | "TextMentionTermination"
-  | "HandoffTermination"
-  | "TimeoutTermination"
-  | "SourceMatchTermination"
-  | "FunctionCallTermination"
-  | "TokenUsageTermination"
-  | "MaxMessageTermination"
-  | "StopMessageTermination"
-  | "TextMessageTermination";
-
-export const ProviderTypes = {
-  SELECTOR_GROUP_CHAT: "SelectorGroupChat",
-  SOCIAL_TEAM: "SocialTeam",
-  ASSISTANT_AGENT: "AssistantAgent",
-  INSTAGRAM_AGENT: "InstagramAgent",
-  USER_PROXY_AGENT: "UserProxyAgent",
-  CODE_EXECUTOR_AGENT: "CodeExecutorAgent",
-  SOCIETY_OF_MIND_AGENT: "SocietyOfMindAgent",
-  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
-  TEXT_MENTION_TERMINATION: "TextMentionTermination",
-  HANDOFF_TERMINATION: "HandoffTermination",
-  TIMEOUT_TERMINATION: "TimeoutTermination",
-  SOURCE_MATCH_TERMINATION: "SourceMatchTermination",
-  FUNCTION_CALL_TERMINATION: "FunctionCallTermination",
-  TOKEN_USAGE_TERMINATION: "TokenUsageTermination",
-  MAX_MESSAGE_TERMINATION: "MaxMessageTermination",
-  STOP_MESSAGE_TERMINATION: "StopMessageTermination",
-  TEXT_MESSAGE_TERMINATION: "TextMessageTermination",
-} as const;
-
-export type CodeExecutorAgent = AssistantAgent & {
-  config?: CodeExecutorAgentConfig;
-};
-
-export type CodeExecutorAgentConfig = {
-  provider: "CodeExecutorAgent";
-  code: string;
-};
-
-export type SocietyOfMindAgent = AssistantAgent & {
-  config?: SocietyOfMindAgentConfig;
-};
-
-export type SocietyOfMindAgentConfig = {
-  code: string;
-  provider: "SocietyOfMindAgent";
-};
-
-export type UserProxyAgent = ComponentModel & {
-  provider: "UserProxyAgent";
-  config: UserProxyAgentConfig;
-};
-
-export type UserProxyAgentConfig = {
-  name: string;
-  description: string;
-  input_func?: string;
-};
-
-export type Agents =
-  | ({
-      provider?: "AssistantAgent";
-    } & AssistantAgent)
-  | ({
-      provider?: "InstagramAgent";
-    } & InstagramAgent)
-  | ({
-      provider?: "UserProxyAgent";
-    } & UserProxyAgent);
-
-export type OpenAiClientConfigurationConfigModel = BaseOpenAiClientConfigurationConfigModel & {
-  organization?: string;
-  base_url?: string;
-};
-
-export type BaseOpenAiClientConfigurationConfigModel = CreateArgumentsConfigModel & {
-  model?: string;
-  api_key?: string;
-  timeout?: number;
-  max_retries?: number;
-  model_capabilities?: {
-    [key: string]: unknown;
-  };
-  model_info?: {
-    [key: string]: unknown;
-  };
-  add_name_prefixes?: boolean;
-  default_headers?: {
-    [key: string]: unknown;
-  };
-};
-
-export type CreateArgumentsConfigModel = {
-  frequency_penalty?: number;
-  logit_bias?: {
-    [key: string]: number;
-  };
-  max_tokens?: number;
-  n?: number;
-  presence_penalty?: number;
-  response_format?: string;
-  seed?: number;
-  stop?: Array<string>;
-  temperature?: number;
-  top_p?: number;
-  user?: string;
-  stream_options?: {
-    [key: string]: {
-      [key: string]: unknown;
-    };
-  };
-};
-
-export type GalleryComponents = {
-  agents: Array<{
-    [key: string]: unknown;
-  }>;
-  models: Array<{
-    [key: string]: unknown;
-  }>;
-  tools: Array<{
-    [key: string]: unknown;
-  }>;
-  terminations: Array<{
-    [key: string]: unknown;
-  }>;
-};
-
-export type GalleryItems = {
-  teams: Array<{
-    [key: string]: unknown;
-  }>;
-  components: GalleryComponents;
-};
-
-export type Gallery = {
-  metadata: ApiResourceMeta;
-  name: string;
-  url: string;
-  author: string;
-  homepage: string;
-  description: string;
-  tags: Array<string>;
-  license: string;
-  lastSynced?: string;
-};
-
-export type GalleryList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Gallery>;
-};
-
-export type GalleryUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  userId: string;
-};
-
-export type GalleryMetadata = {
-  author: string;
-  created_at: string;
-  updated_at: string;
-  version: string;
-  description?: string;
-  tags?: Array<string>;
-  license?: string;
-  homepage?: string;
-  category?: string;
-  last_synced?: string;
-};
-
-export type FlowNames =
-  | "sys"
-  | "tenant"
-  | "assistant"
-  | "ag"
-  | "browser"
-  | "resource"
-  | "instagram"
-  | "social"
-  | "team"
-  | "adk";
-
-export const FlowNames = {
-  SYS: "sys",
-  TENANT: "tenant",
-  ASSISTANT: "assistant",
-  AG: "ag",
-  BROWSER: "browser",
-  RESOURCE: "resource",
-  INSTAGRAM: "instagram",
-  SOCIAL: "social",
-  TEAM: "team",
-  ADK: "adk",
-} as const;
-
-export type AgEvent = {
-  metadata?: ApiResourceMeta;
-  userId?: string;
-  data: {
-    [key: string]: unknown;
-  };
-  framework: string;
-  stepRunId: string;
-  meta?: unknown;
-};
-
-export type EventTypes =
-  | "WorkflowRunStart"
-  | "WorkflowRunEnd"
-  | "StepRun"
-  | "TextMessage"
-  | "ModelClientStreamingChunkEvent"
-  | "EventNewAgentState";
-
-export const EventTypes = {
-  WORKFLOW_RUN_START: "WorkflowRunStart",
-  WORKFLOW_RUN_END: "WorkflowRunEnd",
-  STEP_RUN: "StepRun",
-  TEXT_MESSAGE: "TextMessage",
-  MODEL_CLIENT_STREAMING_CHUNK_EVENT: "ModelClientStreamingChunkEvent",
-  EVENT_NEW_AGENT_STATE: "EventNewAgentState",
-} as const;
-
-export type AgentTypes =
-  | "closure"
-  | "router"
-  | "user_proxy"
-  | "assistant"
-  | "social"
-  | "browser"
-  | "resource"
-  | "instagram";
-
-export const AgentTypes = {
-  CLOSURE: "closure",
-  ROUTER: "router",
-  USER_PROXY: "user_proxy",
-  ASSISTANT: "assistant",
-  SOCIAL: "social",
-  BROWSER: "browser",
-  RESOURCE: "resource",
-  INSTAGRAM: "instagram",
-} as const;
-
-export type AgEventList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AgEvent>;
-};
-
-export type Outline = {
-  /**
-   * Title of the Wikipedia page
-   */
-  pageTitle: string;
-  /**
-   * Titles and descriptions for each section of the Wikipedia page
-   */
-  sections: Array<Section>;
-};
-
-export type BaseMessageConfig = {
-  source?: string;
-  models_usage?: RequestUsage;
-};
-
-export type ImageContent = {
-  url: string;
-  alt?: string;
-  data?: string;
-};
-
-export type StopMessageConfig = BaseMessageConfig & {
-  content: string;
-};
-
-export type HandoffMessageConfig = BaseMessageConfig & {
-  content: string;
-  target: string;
-};
-
-export type ToolCallMessageConfig = BaseMessageConfig & {
-  content: Array<FunctionCall>;
-};
-
-export type UpsertModel = ModelProperties;
-
-export type ToolConfig = {
-  name: string;
-  description?: string;
-  source_code?: string;
-  global_imports?: Array<string>;
-  has_cancellation_support?: boolean;
-};
-
-export type Section = {
-  /**
-   * Title of the section
-   */
-  section_title: string;
-  /**
-   * Content of the section
-   */
-  description: string;
-  /**
-   * Titles and descriptions for each subsection of the Wikipedia page
-   */
-  subsections?: Array<Subsection>;
-};
-
-export type Subsection = {
-  /**
-   * Title of the subsection
-   */
-  subsectionTitle: string;
-  /**
-   * Content of the subsection
-   */
-  description: string;
-};
-
-export type TextHighlight = {
-  fullMarkdown: string;
-  markdownBlock: string;
-  selectedText: string;
-};
-
-export type LlmMessageTypes =
-  | "AssistantMessage"
-  | "SystemMessage"
-  | "UserMessage"
-  | "FunctionExecutionResultMessage";
-
-export const LlmMessageTypes = {
-  ASSISTANT_MESSAGE: "AssistantMessage",
-  SYSTEM_MESSAGE: "SystemMessage",
-  USER_MESSAGE: "UserMessage",
-  FUNCTION_EXECUTION_RESULT_MESSAGE: "FunctionExecutionResultMessage",
-} as const;
-
-export type QuickStart = {
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 组件ID (团队ID)
-   */
-  com_id?: string;
-  /**
-   * 摘要
-   */
-  title?: string;
-  /**
-   * 提交跟 agent 的内容
-   */
-  content: string;
-  /**
-   * html class name
-   */
-  cn?: string;
-};
-
-export type Prompt = {
-  metadata: ApiResourceMeta;
-  title: string;
-  content: string;
-  tags: Array<string>;
-};
-
-export type PromptList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Artifact>;
-};
-
-export type Model = ApiResourceMetaProperties & ModelProperties;
-
-export type ModelFamily = "r1" | "openai" | "unknown";
-
-export const ModelFamily = {
-  R1: "r1",
-  OPENAI: "openai",
-  UNKNOWN: "unknown",
-} as const;
-
-export type ModelInfo = {
-  family: ModelFamily;
-  vision: boolean;
-  function_calling: boolean;
-  json_output: boolean;
-  structured_output: boolean;
-};
-
-export type ModelTypes = "OpenAIChatCompletionClient" | "AzureOpenAIChatCompletionClient";
-
-export const ModelTypes = {
-  OPEN_AI_CHAT_COMPLETION_CLIENT: "OpenAIChatCompletionClient",
-  AZURE_OPEN_AI_CHAT_COMPLETION_CLIENT: "AzureOpenAIChatCompletionClient",
-} as const;
-
-export type ModelProperties = {
-  name: string;
-  model: string;
-  provider: string;
-  apiKey: string;
-  apiBase: string;
-  vendor: string;
-  description?: string;
-  family: string;
-  vision: boolean;
-  functionCalling: boolean;
-  jsonOutput: boolean;
-  tags?: Array<string>;
-};
-
-export type ModelList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Model>;
-};
-
-export type FormField = {
-  type: "text" | "number" | "boolean" | "array" | "object";
-  name: string;
-  default_value?: string;
-  label?: string;
-  description?: string;
-  required?: boolean;
-  min?: number;
-  max?: number;
-  placeholder?: string;
-};
-
-export type SchemaForm = {
-  form_type?: "schema" | "custom";
-  form_name?: string;
-  title: string;
-  description?: string;
-  layout?: "vertical" | "horizontal";
-  fields: Array<FormField>;
-};
-
-export type ModelRunProperties = {
-  llmMessages?: {
-    [key: string]: string;
-  };
-  llmResponse?: {
-    [key: string]: string;
-  };
-};
-
-export type ModelRun = ApiResourceMetaProperties & ModelRunProperties;
-
-export type ModelRunList = {
-  pagination?: PaginationResponse;
-  rows?: Array<ModelRun>;
-};
-
-export type ModelRunUpsert = ModelRunProperties;
-
 export type SiteProperties = {
-  metadata: ApiResourceMeta;
   /**
    * site 标题
    */
@@ -2690,7 +2231,9 @@ export type SiteProperties = {
   };
 };
 
-export type Site = ApiResourceMetaProperties & SiteProperties;
+export type Site = {
+  metadata: ApiResourceMeta;
+} & SiteProperties;
 
 export type SiteList = {
   pagination?: PaginationResponse;
@@ -2764,1413 +2307,899 @@ export type CreateSiteHostRequest = {
   host: string;
 };
 
-export type CreateSiteHostResponse = SiteHost;
-
 export type UpdateSiteHostRequest = SiteHost;
 
 export type UpdateSiteHostResponse = SiteHost;
 
-export type Post = {
-  metadata: ApiResourceMeta;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog
-   */
-  content: string;
-};
+export type CreateSiteHostResponse = SiteHost;
 
-export type PostList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Post>;
-};
-
-export type CreatePostRequest = {
-  siteId: string;
-  title: string;
-  /**
-   * The tenant associated with this tenant blog.
-   */
-  content: string;
-  /**
-   * The slug of the post
-   */
-  slug: string;
-  authorId?: string;
-  status?: "draft" | "published";
-};
-
-export type FrontendConfig = {
-  /**
-   * Cookie access token
-   */
-  cookieAccessToken: string;
-  /**
-   * Dashboard path
-   */
-  dashPath: string;
-  /**
-   * Hot key debug
-   */
-  hotKeyDebug: string;
-  /**
-   * 实验性质，默认租户的access token
-   */
-  defaultTenantAccessToken: string;
-};
-
-export type SiderbarConfig = {
-  /**
-   * logo
-   */
-  logo?: string;
-  sideritems?: Array<DashSidebarItem>;
-};
-
-export type DashSidebarItem = {
-  /**
-   * 名称
-   */
-  title: string;
-  /**
-   * url 例如/login
-   */
-  url: string;
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 默认展开
-   */
-  defaultExpanded?: boolean;
-  /**
-   * 只允许超级管理员查看
-   */
-  adminOnly?: boolean;
-  children?: Array<DashSidebarItemLeaf>;
-};
-
-export type DashSidebarItemLeaf = {
-  /**
-   * 名称
-   */
-  title: string;
-  /**
-   * url 例如/login
-   */
-  url: string;
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 只允许超级管理员查看
-   */
-  adminOnly?: boolean;
-};
-
-export type HfAccount = {
-  metadata: ApiResourceMeta;
-  /**
-   * The username of the hf account.
-   */
-  username: string;
-  /**
-   * The token of the hf account.
-   */
-  token: string;
-};
-
-/**
- * 环境变量
- */
-export type Env = {
-  metadata: ApiResourceMeta;
-  /**
-   * 环境变量名称
-   */
-  name: string;
-  /**
-   * 环境变量值
-   */
-  value: string;
-};
-
-export type EnvList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Env>;
-};
-
-export type Endpoint = {
-  metadata: ApiResourceMeta;
-  name: string;
-  url: string;
-  token: string;
-  type: string;
-};
-
-export type EndpointList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Endpoint>;
-};
-
-export type UpdateEndpointRequest = {
-  name?: string;
-  url?: string;
-  token?: string;
-};
-
-export type Platform = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
+export type V1TaskGetData = {
+  body?: never;
+  path: {
+    /**
+     * The task id
+     */
+    task: string;
   };
-  tags?: Array<string>;
-};
-
-export type PlatformList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Platform>;
-};
-
-export type PlatformUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The attempt number
+     */
+    attempt?: number;
   };
-  tags?: Array<string>;
+  url: "/api/v1/stable/tasks/{task}";
 };
 
-export type PlatformAccountProperties = {
-  label?: string;
-  description?: string;
-  username: string;
-  email?: string;
-  password: string;
-  token?: string;
-  type?: string;
-  platform: string;
-  enabled?: boolean;
-  tags?: Array<string>;
-  state?: {
-    [key: string]: unknown;
+export type V1TaskGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * The task was not found
+   */
+  404: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
+};
+
+export type V1TaskGetError = V1TaskGetErrors[keyof V1TaskGetErrors];
+
+export type V1TaskGetResponses = {
+  /**
+   * Successfully retrieved the task
+   */
+  200: V1TaskSummary;
+};
+
+export type V1TaskGetResponse = V1TaskGetResponses[keyof V1TaskGetResponses];
+
+export type V1TaskEventListData = {
+  body?: never;
+  path: {
+    /**
+     * The task id
+     */
+    task: string;
   };
-  error?: string;
-};
-
-export type PlatformAccountCreate = PlatformAccountProperties;
-
-export type PlatformAccount = ApiResourceMetaProperties & PlatformAccountProperties;
-
-export type PlatformAccountList = {
-  pagination?: PaginationResponse;
-  rows?: Array<PlatformAccount>;
-};
-
-export type PlatformAccountUpsert = PlatformAccountProperties;
-
-export type Browser = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
   };
-  tags?: Array<string>;
+  url: "/api/v1/stable/tasks/{task}/task-events";
 };
 
-export type BrowserList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Browser>;
+export type V1TaskEventListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * The task was not found
+   */
+  404: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type BrowserUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
+export type V1TaskEventListError = V1TaskEventListErrors[keyof V1TaskEventListErrors];
+
+export type V1TaskEventListResponses = {
+  /**
+   * Successfully retrieved the events
+   */
+  200: V1TaskEventList;
+};
+
+export type V1TaskEventListResponse = V1TaskEventListResponses[keyof V1TaskEventListResponses];
+
+export type V1LogLineListData = {
+  body?: never;
+  path: {
+    /**
+     * The task id
+     */
+    task: string;
   };
-  tags?: Array<string>;
+  query?: never;
+  url: "/api/v1/stable/tasks/{task}/logs";
 };
 
-export type BrowserOpenRequest = {
-  urls: Array<string>;
-  title?: string;
-  proxyUrl?: string;
+export type V1LogLineListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
 };
 
-export type BrowserOpenResult = {
-  title?: string;
-  debugPort: number;
+export type V1LogLineListError = V1LogLineListErrors[keyof V1LogLineListErrors];
+
+export type V1LogLineListResponses = {
+  /**
+   * Successfully listed the events
+   */
+  200: V1LogLineList;
 };
 
-export type ProxyProperties = {
-  name: string;
-  description: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
+export type V1LogLineListResponse = V1LogLineListResponses[keyof V1LogLineListResponses];
+
+export type V1TaskCancelData = {
+  /**
+   * The tasks to cancel
+   */
+  body: V1CancelTaskRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  tags?: Array<string>;
-  enabled?: boolean;
-  provider?: string;
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/tasks/cancel";
 };
 
-export type Proxy = ApiResourceMetaProperties & ProxyProperties;
-
-export type ProxyList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Proxy>;
+export type V1TaskCancelErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * The task was not found
+   */
+  404: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type ProxyUpsert = ProxyProperties;
+export type V1TaskCancelError = V1TaskCancelErrors[keyof V1TaskCancelErrors];
 
-export type UiAgentState = {
-  welcome?: ChatWelcome;
+export type V1TaskCancelResponses = {
   /**
-   * 线程ID(sessionId)
+   * Successfully cancelled the tasks
    */
-  thread_id?: string;
-  /**
-   * 当前选定的 team id
-   */
-  team_id?: string;
+  200: unknown;
 };
 
-export type ChatWelcome = {
+export type V1TaskReplayData = {
   /**
-   * 欢迎语标题
+   * The tasks to replay
    */
-  title?: string;
-  /**
-   * 欢迎语内容
-   */
-  content?: string;
-  /**
-   * 主标题
-   */
-  subTitle?: string;
-  quick_starts?: Array<QuickStart>;
-};
-
-export type AssignedAction = {
-  tenantId: string;
-  workflowRunId?: string;
-  getGroupKeyRunId?: string;
-  jobId: string;
-  jobName?: string;
-  stepId: string;
-  stepRunId?: string;
-  actionId: string;
-  actionType: string;
-  actionPayload: string;
-  stepName: string;
-  retryCount: number;
-  additional_metadata?: string;
-  child_workflow_index?: number;
-  child_workflow_key?: string;
-  parent_workflow_run_id?: string;
-};
-
-export type ResourceProperties = {
-  title: string;
-  description?: string;
-  version?: string;
-  url?: string;
-  type: string;
-  content?: {
-    [key: string]: unknown;
+  body: V1ReplayTaskRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  enabled?: boolean;
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/tasks/replay";
 };
 
-export type Resource = ApiResourceMetaProperties & ResourceProperties;
-
-export type ResourceList = {
-  metadata?: ApiResourceMeta;
-  rows?: Array<Resource>;
-  pagination?: PaginationResponse;
+export type V1TaskReplayErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * The task was not found
+   */
+  404: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type ResourceUpsert = ResourceProperties;
+export type V1TaskReplayError = V1TaskReplayErrors[keyof V1TaskReplayErrors];
 
-export type PlatformAccountData = {
-  type?: "platform_account";
-  email?: string;
-  password?: string;
-  username?: string;
-  api_token?: string;
+export type V1TaskReplayResponses = {
+  /**
+   * Successfully replayed the tasks
+   */
+  200: unknown;
 };
 
-export type BrowserData = {
-  type?: "browser";
-  cookies?: string;
-  session?: string;
-};
-
-export type InstagramTask = {
-  resourceId?: string;
-  content?: string;
-};
-
-export type ChatSessionStartEvent = {
-  type?: string;
-  threadId?: string;
-  source?: string;
-};
-
-export type ComponentModel = {
-  provider?: string;
-  component_type?: string;
-  version?: number;
-  component_version?: number;
-  description?: string;
-  label?: string;
-  config?: {
-    [key: string]: unknown;
+export type V1DagListTasksData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * The external id of the DAG
+     */
+    dag_ids: Array<string>;
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
+  url: "/api/v1/stable/dags/tasks";
 };
 
-export type TeamComponent = ComponentModel & {
-  component_type: "team";
-};
-
-export type SocialTeamConfig = TeamConfig & {
-  selector_prompt?: string;
-  allow_repeated_speaker?: boolean;
-  max_selector_attempts?: number;
-  selector_func?: string;
-  proxy_url?: string;
-  enable_swarm?: boolean;
-};
-
-export type SocialTeam = TeamComponent & {
-  provider: "SocialTeam";
-  component_type?: "team";
-  config: SocialTeamConfig;
-};
-
-export type AgentEventType =
-  | "ThoughtEvent"
-  | "TextMessage"
-  | "PlatformAccountFlowInput"
-  | "ChatMessageInput"
-  | "SocialAddFollowersInput"
-  | "SocialLoginInput"
-  | "TenantInitInput"
-  | "AskUserFunctionCallInput"
-  | "StartNewChatInput";
-
-export const AgentEventType = {
-  THOUGHT_EVENT: "ThoughtEvent",
-  TEXT_MESSAGE: "TextMessage",
-  PLATFORM_ACCOUNT_FLOW_INPUT: "PlatformAccountFlowInput",
-  CHAT_MESSAGE_INPUT: "ChatMessageInput",
-  SOCIAL_ADD_FOLLOWERS_INPUT: "SocialAddFollowersInput",
-  SOCIAL_LOGIN_INPUT: "SocialLoginInput",
-  TENANT_INIT_INPUT: "TenantInitInput",
-  ASK_USER_FUNCTION_CALL_INPUT: "AskUserFunctionCallInput",
-  START_NEW_CHAT_INPUT: "StartNewChatInput",
-} as const;
-
-export type AgEvents =
-  | ({
-      type?: "ThoughtEvent";
-    } & ThoughtEvent)
-  | ({
-      type?: "TextMessage";
-    } & TextMessage)
-  | ({
-      type?: "PlatformAccountFlowInput";
-    } & PlatformAccountFlowInput)
-  | ({
-      type?: "SocialAddFollowersInput";
-    } & SocialAddFollowersInput)
-  | ({
-      type?: "SocialLoginInput";
-    } & SocialLoginInput)
-  | ({
-      type?: "TenantInitInput";
-    } & TenantInitInput)
-  | ({
-      type?: "ChatMessageInput";
-    } & ChatMessageInput)
-  | ({
-      type?: "AskUserFunctionCallInput";
-    } & AskUserFunctionCallInput)
-  | ({
-      type?: "StartNewChatInput";
-    } & StartNewChatInput);
-
-export type TextMessage = BaseTextChatMessage & {
-  type: "TextMessage";
-  content: string;
-};
-
-export type ThoughtEvent = BaseAgentEvent & {
-  type: "ThoughtEvent";
-  content: string;
-};
-
-export type TenantInitInput = {
-  type: "TenantInitInput";
-  tenant_id: string;
-};
-
-export type ChatStartInput = {
-  type?: "ChatStartInput";
-  tenant_id?: string;
-};
-
-export type AskUserFunctionCall = {
-  type?: "AskUserFunctionCall";
-  id?: string;
-  title?: string;
-  description?: string;
-  fields?: Array<FormField>;
-};
-
-export type AskUserFunctionCallInput = {
-  type: "AskUserFunctionCallInput";
-  title: string;
-};
-
-export type AskUserFunctionCallInputFieldValue = {
-  name?: string;
-  value: string;
-};
-
-export type StartNewChatInput = {
-  type: "StartNewChatInput";
-  task: string;
-  config: SocialTeamConfig;
-};
-
-export type ToolCallRequestEvent = {
-  type: "ToolCallRequestEvent";
-  content: Array<FunctionCall>;
-};
-
-export type MyDemoAgentEvent = {
-  type: "MyDemoAgentEvent";
-  content: string;
-};
-
-export type UserInputRequestedEvent = {
-  type: "UserInputRequestedEvent";
-  request_id: string;
-  content: string;
-};
-
-export type ChatMessageInput = {
-  type: "ChatMessageInput";
-  content: string;
-};
-
-export type FlowError = {
-  type: string;
-  error: string;
-};
-
-export type SocialAddFollowersInput = {
-  type: "SocialAddFollowersInput";
-  platform_account_id?: string;
-  count_to_follow: number;
-};
-
-export type FlowTeamInput = {
-  app_name: string;
-  session_id: string;
+export type V1DagListTasksErrors = {
   /**
-   * deprecated
+   * A malformed or bad request
    */
-  component: TeamComponent;
+  400: ApiErrors;
   /**
-   * deprecated
+   * Forbidden
    */
-  task: AgEvents;
-  init_state?: AgentStates;
-  content?: Content;
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type PlatformAccountFlowInput = {
-  type: "PlatformAccountFlowInput";
-  platform_account_id?: string;
+export type V1DagListTasksError = V1DagListTasksErrors[keyof V1DagListTasksErrors];
+
+export type V1DagListTasksResponses = {
+  /**
+   * The list of tasks
+   */
+  200: Array<V1DagChildren>;
 };
 
-export type FunctionCall = {
-  id: string;
-  arguments: string;
-  name: string;
-};
+export type V1DagListTasksResponse = V1DagListTasksResponses[keyof V1DagListTasksResponses];
 
-export type FunctionExecutionResultMessage = {
-  type: "FunctionExecutionResultMessage";
-  content: Array<FunctionExecutionResult>;
-};
-
-export type FunctionExecutionResult = {
-  content: string;
-  name: string;
-  call_id: string;
-  is_error?: boolean;
-};
-
-export type FlowResult =
-  | ({
-      type?: "FlowLoginResult";
-    } & FlowLoginResult)
-  | ({
-      type?: "FlowHandoffResult";
-    } & FlowHandoffResult);
-
-export type FlowLoginResult = {
-  type: "FlowLoginResult";
-  success?: boolean;
-  source?: string;
-  account_id?: string;
-};
-
-export type FlowHandoffResult = {
-  type: "FlowHandoffResult";
-  success?: boolean;
-  name?: string;
-};
-
-export type LlmMessage =
-  | ({
-      type?: "UserMessage";
-    } & UserMessage)
-  | ({
-      type?: "SystemMessage";
-    } & SystemMessage)
-  | ({
-      type?: "AssistantMessage";
-    } & AssistantMessage)
-  | ({
-      type?: "FunctionExecutionResultMessage";
-    } & FunctionExecutionResultMessage);
-
-export type UserMessage = {
-  type: "UserMessage";
-  content: string;
-  source?: string;
-};
-
-export type SystemMessage = {
-  type: "SystemMessage";
-  content: string;
-};
-
-export type AssistantMessage = {
-  type: "AssistantMessage";
-  content: string | Array<FunctionCall>;
-  source?: string;
-  thought?: string;
-};
-
-export type RequestUsage = {
-  prompt_tokens: number;
-  completion_tokens: number;
-};
-
-export type BaseChatMessage = {
-  type?: string;
-  source: string;
-  models_usage?: RequestUsage;
-  metadata?: {
-    [key: string]: unknown;
+export type V1WorkflowRunListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  content: string;
-};
-
-export type BaseTextChatMessage = BaseChatMessage;
-
-export type StructuredMessage = BaseChatMessage & {
-  type: "StructuredMessage";
-  content: string;
-};
-
-export type MultiModalMessage = BaseChatMessage & {
-  type: "MultiModalMessage";
-  content: string;
-};
-
-export type BaseAgentEvent = {
-  type: string;
-  source: string;
-  models_usage?: RequestUsage;
-  metadata?: {
-    [key: string]: unknown;
+  query: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
+    /**
+     * A list of statuses to filter by
+     */
+    statuses?: Array<V1TaskStatus>;
+    /**
+     * The earliest date to filter by
+     */
+    since: string;
+    /**
+     * The latest date to filter by
+     */
+    until?: string;
+    /**
+     * Additional metadata k-v pairs to filter by
+     */
+    additional_metadata?: Array<string>;
+    /**
+     * The workflow ids to find runs for
+     */
+    workflow_ids?: Array<string>;
+    /**
+     * The worker id to filter by
+     */
+    worker_id?: string;
+    /**
+     * Whether to include DAGs or only to include tasks
+     */
+    only_tasks: boolean;
+    /**
+     * The parent task external id to filter by
+     */
+    parent_task_external_id?: string;
+    /**
+     * The external id of the event that triggered the workflow run
+     */
+    triggering_event_external_id?: string;
   };
+  url: "/api/v1/stable/tenants/{tenant}/workflow-runs";
 };
 
-export type HandoffMessage = BaseTextChatMessage & {
-  type: "HandoffMessage";
-  target?: string;
-  context?: Array<LlmMessage>;
+export type V1WorkflowRunListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type SocialLoginInput = {
-  type: "SocialLoginInput";
-  username: string;
-  password: string;
-  otp_key?: string;
+export type V1WorkflowRunListError = V1WorkflowRunListErrors[keyof V1WorkflowRunListErrors];
+
+export type V1WorkflowRunListResponses = {
+  /**
+   * Successfully listed the tasks
+   */
+  200: V1TaskSummaryList;
 };
 
-export type AgentIncomingEvent = AgentApprovalEvent;
+export type V1WorkflowRunListResponse =
+  V1WorkflowRunListResponses[keyof V1WorkflowRunListResponses];
 
-export type AgentOutgoingEvent =
-  | ({
-      type?: "AgentScheduledEvent";
-    } & AgentScheduledEvent)
-  | ({
-      type?: "AgentRunScheduledEvent";
-    } & AgentRunScheduledEvent)
-  | ({
-      type?: "AgentErrorEvent";
-    } & AgentErrorEvent)
-  | ({
-      type?: "AgentToastEvent";
-    } & AgentToastEvent)
-  | ({
-      type?: "AgentConnectedEvent";
-    } & AgentConnectedEvent);
-
-export type AgentApprovalEvent = "YES" | "NO";
-
-export const AgentApprovalEvent = {
-  YES: "YES",
-  NO: "NO",
-} as const;
-
-export type AgentScheduledEvent = {
-  type: "AgentScheduledEvent";
-  data: Array<ScheduledItem>;
-};
-
-export type AgentRunScheduledEvent = {
-  type: "AgentRunScheduledEvent";
-  data: Array<ScheduledItem>;
-};
-
-export type AgentErrorEvent = {
-  type: string;
-  data: {
-    [key: string]: unknown;
+export type V1WorkflowRunDisplayNamesListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-};
-
-export type AgentToastEvent = {
-  type: string;
-  title: string;
-  message: string;
-};
-
-export type AgentConnectedEvent = {
-  type: string;
-};
-
-export type AddSessionToEvalSetRequest = {
-  eval_id: string;
-  session_id: string;
-  user_id: string;
-};
-
-export type AdkRawEvent = AdkLlmResponse & {
-  invocation_id: string;
-  author: string;
-  actions: {
-    [key: string]: unknown;
+  query: {
+    /**
+     * The external ids of the workflow runs to get display names for
+     */
+    external_ids: Array<string>;
   };
-  long_running_tool_ids?: Array<string>;
-  branch?: string;
-  partial?: boolean;
-  timestamp?: string;
-  id?: string;
+  url: "/api/v1/stable/tenants/{tenant}/workflow-runs/display-names";
 };
 
-export type AdkLlmResponse = {
-  grounding_metadata?: {
-    [key: string]: unknown;
+export type V1WorkflowRunDisplayNamesListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
+};
+
+export type V1WorkflowRunDisplayNamesListError =
+  V1WorkflowRunDisplayNamesListErrors[keyof V1WorkflowRunDisplayNamesListErrors];
+
+export type V1WorkflowRunDisplayNamesListResponses = {
+  /**
+   * Successfully listed the tasks
+   */
+  200: V1WorkflowRunDisplayNameList;
+};
+
+export type V1WorkflowRunDisplayNamesListResponse =
+  V1WorkflowRunDisplayNamesListResponses[keyof V1WorkflowRunDisplayNamesListResponses];
+
+export type V1WorkflowRunCreateData = {
+  /**
+   * The workflow run to create
+   */
+  body: V1TriggerWorkflowRunRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  partial?: boolean;
-  turn_complete?: boolean;
-  error_code?: string;
-  error_message?: string;
-  interrupted?: boolean;
-  custom_metadata?: {
-    [key: string]: unknown;
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/workflow-runs/trigger";
+};
+
+export type V1WorkflowRunCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+};
+
+export type V1WorkflowRunCreateError = V1WorkflowRunCreateErrors[keyof V1WorkflowRunCreateErrors];
+
+export type V1WorkflowRunCreateResponses = {
+  /**
+   * Successfully created the workflow run
+   */
+  200: V1WorkflowRunDetails;
+};
+
+export type V1WorkflowRunCreateResponse =
+  V1WorkflowRunCreateResponses[keyof V1WorkflowRunCreateResponses];
+
+export type V1WorkflowRunGetData = {
+  body?: never;
+  path: {
+    /**
+     * The workflow run id to get
+     */
+    "v1-workflow-run": string;
   };
-  content?: Content;
+  query?: never;
+  url: "/api/v1/stable/workflow-runs/{v1-workflow-run}";
 };
 
-export type FunctionCallDict = {
+export type V1WorkflowRunGetErrors = {
   /**
-   * Optional. The unique id of the function call. If populated, the client to execute the `function_call` and return the response with the matching `id`.
+   * A malformed or bad request
    */
-  id: string;
+  400: ApiErrors;
   /**
-   * Required. The name of the function to call. Matches [FunctionDeclaration.name].
+   * Forbidden
    */
-  name: string;
+  403: ApiErrors;
   /**
-   * Optional. The function parameters and values in JSON object format. See [FunctionDeclaration.parameters] for parameter details.
+   * Not implemented
    */
-  args?: {
-    [key: string]: unknown;
+  501: ApiErrors;
+};
+
+export type V1WorkflowRunGetError = V1WorkflowRunGetErrors[keyof V1WorkflowRunGetErrors];
+
+export type V1WorkflowRunGetResponses = {
+  /**
+   * Successfully listed the tasks
+   */
+  200: V1WorkflowRunDetails;
+};
+
+export type V1WorkflowRunGetResponse = V1WorkflowRunGetResponses[keyof V1WorkflowRunGetResponses];
+
+export type V1WorkflowRunTaskEventsListData = {
+  body?: never;
+  path: {
+    /**
+     * The workflow run id to find runs for
+     */
+    "v1-workflow-run": string;
   };
-};
-
-export type AgentProperties = {
-  name: string;
-  description: string;
-  provider: string;
-  config: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
   };
-  teamId: string;
+  url: "/api/v1/stable/workflow-runs/{v1-workflow-run}/task-events";
 };
 
-export type Agent = ApiResourceMetaProperties & AgentProperties;
-
-export type AgentList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Agent>;
+export type V1WorkflowRunTaskEventsListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type AgentTopicTypes =
-  | "user"
-  | "human"
-  | "instagram"
-  | "browser"
-  | "socioety"
-  | "code"
-  | "router"
-  | "research"
-  | "writer"
-  | "tenant"
-  | "closure"
-  | "response";
+export type V1WorkflowRunTaskEventsListError =
+  V1WorkflowRunTaskEventsListErrors[keyof V1WorkflowRunTaskEventsListErrors];
 
-export const AgentTopicTypes = {
-  USER: "user",
-  HUMAN: "human",
-  INSTAGRAM: "instagram",
-  BROWSER: "browser",
-  SOCIOETY: "socioety",
-  CODE: "code",
-  ROUTER: "router",
-  RESEARCH: "research",
-  WRITER: "writer",
-  TENANT: "tenant",
-  CLOSURE: "closure",
-  RESPONSE: "response",
-} as const;
-
-export type InstagramAgent = ComponentModel & {
-  provider: "InstagramAgent";
-  config: InstagramAgentConfig;
+export type V1WorkflowRunTaskEventsListResponses = {
+  /**
+   * Successfully listed the tasks
+   */
+  200: V1TaskEventList;
 };
 
-export type InstagramAgentConfig = AssistantAgentConfig & {
-  credentials?: InstagramCredentials;
-  proxy_url?: string;
-};
+export type V1WorkflowRunTaskEventsListResponse =
+  V1WorkflowRunTaskEventsListResponses[keyof V1WorkflowRunTaskEventsListResponses];
 
-export type OpenAiChatCompletionClient = ComponentModel & {
-  provider: "OpenAIChatCompletionClient";
-  config: OpenAiClientConfigurationConfigModel;
-};
-
-export type Terminations =
-  | ({
-      provider?: "TextMentionTermination";
-    } & TextMentionTermination)
-  | ({
-      provider?: "HandoffTermination";
-    } & HandoffTermination)
-  | ({
-      provider?: "TimeoutTermination";
-    } & TimeoutTermination)
-  | ({
-      provider?: "SourceMatchTermination";
-    } & SourceMatchTermination)
-  | ({
-      provider?: "FunctionCallTermination";
-    } & FunctionCallTermination)
-  | ({
-      provider?: "TokenUsageTermination";
-    } & TokenUsageTermination)
-  | ({
-      provider?: "MaxMessageTermination";
-    } & MaxMessageTermination)
-  | ({
-      provider?: "StopMessageTermination";
-    } & StopMessageTermination);
-
-export type TextMentionTermination = {
-  provider: "TextMentionTermination";
-  config: TextMentionTerminationConfig;
-};
-
-export type TextMentionTerminationConfig = {
-  text: string;
-};
-
-export type TextMessageTermination = {
-  provider: "TextMessageTermination";
-  config: TextMessageTerminationConfig;
-};
-
-export type TextMessageTerminationConfig = {
-  source: string;
-};
-
-export type HandoffTermination = {
-  provider: "HandoffTermination";
-  config: HandoffTerminationConfig;
-};
-
-export type HandoffTerminationConfig = {
-  target: string;
-};
-
-export type TimeoutTermination = {
-  provider: "TimeoutTermination";
-  config: TimeoutTerminationConfig;
-};
-
-export type TimeoutTerminationConfig = {
-  timeout_seconds: number;
-};
-
-export type SourceMatchTermination = {
-  provider: "SourceMatchTermination";
-  config: SourceMatchTerminationConfig;
-};
-
-export type SourceMatchTerminationConfig = {
-  sources: Array<string>;
-};
-
-export type FunctionCallTermination = {
-  provider: "FunctionCallTermination";
-  config: FunctionCallTerminationConfig;
-};
-
-export type FunctionCallTerminationConfig = {
-  function_name: string;
-};
-
-export type TokenUsageTermination = {
-  provider: "TokenUsageTermination";
-  config: TokenUsageTerminationConfig;
-};
-
-export type TokenUsageTerminationConfig = {
-  max_total_token?: number;
-  max_prompt_token?: number;
-  max_completion_token?: number;
-};
-
-export type MaxMessageTermination = {
-  provider: "MaxMessageTermination";
-  config: MaxMessageTerminationConfig;
-};
-
-export type MaxMessageTerminationConfig = {
-  max_messages: number;
-  include_agent_event?: boolean;
-};
-
-export type StopMessageTermination = {
-  provider: "StopMessageTermination";
-  config: StopMessageTerminationConfig;
-};
-
-export type StopMessageTerminationConfig = {
-  some_thing?: string;
-};
-
-export type Components =
-  | ({
-      provider?: "SocialTeam";
-    } & SocialTeam)
-  | ({
-      provider?: "AssistantAgent";
-    } & AssistantAgent)
-  | ({
-      provider?: "InstagramAgent";
-    } & InstagramAgent)
-  | ({
-      provider?: "UserProxyAgent";
-    } & UserProxyAgent);
-
-export type TeamProperties = {
-  id: string;
-  name: string;
-  description: string;
-  provider: string;
-  config: {
-    [key: string]: unknown;
+export type V1WorkflowRunGetTimingsData = {
+  body?: never;
+  path: {
+    /**
+     * The workflow run id to get
+     */
+    "v1-workflow-run": string;
   };
-  maxTurns: number;
-};
-
-export type Team = ApiResourceMetaProperties & TeamProperties;
-
-export type TeamList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Team>;
-};
-
-export type TeamRun = {
-  task?: string;
-  name?: string;
-};
-
-export type TeamRunResult = {
-  workflowRun?: WorkflowRun;
-};
-
-export type IgLogin = {
-  username?: string;
-  password?: string;
-  twofa_code?: string;
-};
-
-export type IgLoginResponse = {
-  message?: string;
-};
-
-export type FlowStateProperties = {
-  sessionId: string;
-  state: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The depth to retrieve children
+     */
+    depth?: number;
   };
+  url: "/api/v1/stable/workflow-runs/{v1-workflow-run}/task-timings";
 };
 
-export type FlowState = ApiResourceMetaProperties & FlowStateProperties;
-
-export type FlowStateList = {
-  pagination?: PaginationResponse;
-  rows?: Array<FlowState>;
+export type V1WorkflowRunGetTimingsErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type FlowStateUpsert = FlowStateProperties;
+export type V1WorkflowRunGetTimingsError =
+  V1WorkflowRunGetTimingsErrors[keyof V1WorkflowRunGetTimingsErrors];
 
-export type AdkEventProperties = {
-  id: string;
-  app_name: string;
-  user_id: string;
-  session_id: string;
-  invocation_id: string;
-  author: string;
-  branch?: string;
-  timestamp: string;
-  content: Content;
-  actions: {
-    [key: string]: unknown;
+export type V1WorkflowRunGetTimingsResponses = {
+  /**
+   * Successfully listed the tasks
+   */
+  200: V1TaskTimingList;
+};
+
+export type V1WorkflowRunGetTimingsResponse =
+  V1WorkflowRunGetTimingsResponses[keyof V1WorkflowRunGetTimingsResponses];
+
+export type V1TaskListStatusMetricsData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-};
-
-export type AdkEventList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AdkEvent>;
-};
-
-export type AdkEvent = ApiResourceMetaProperties & AdkEventProperties;
-
-export type AdkEventUpsert = AdkEventProperties;
-
-export type AdkEventOrderByField = "createdAt";
-
-export const AdkEventOrderByField = {
-  CREATED_AT: "createdAt",
-} as const;
-
-export type AdkAppProperties = {
-  id: string;
-  app_name: string;
-  user_id: string;
-  session_id: string;
-  invocation_id: string;
-  author: string;
-  branch: string;
-  timestamp: string;
-  content: {
-    [key: string]: unknown;
+  query: {
+    /**
+     * The start time to get metrics for
+     */
+    since: string;
+    /**
+     * The end time to get metrics for
+     */
+    until?: string;
+    /**
+     * The workflow id to find runs for
+     */
+    workflow_ids?: Array<string>;
+    /**
+     * The parent task's external id
+     */
+    parent_task_external_id?: string;
+    /**
+     * The id of the event that triggered the task
+     */
+    triggering_event_external_id?: string;
   };
-  actions: {
-    [key: string]: unknown;
+  url: "/api/v1/stable/tenants/{tenant}/task-metrics";
+};
+
+export type V1TaskListStatusMetricsErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
+};
+
+export type V1TaskListStatusMetricsError =
+  V1TaskListStatusMetricsErrors[keyof V1TaskListStatusMetricsErrors];
+
+export type V1TaskListStatusMetricsResponses = {
+  /**
+   * Successfully retrieved the task run metrics
+   */
+  200: V1TaskRunMetrics;
+};
+
+export type V1TaskListStatusMetricsResponse =
+  V1TaskListStatusMetricsResponses[keyof V1TaskListStatusMetricsResponses];
+
+export type V1TaskGetPointMetricsData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-};
-
-export type AdkAppList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AdkApp>;
-};
-
-export type AdkApp = ApiResourceMetaProperties & AdkAppProperties;
-
-export type AdkAppUpsert = AdkAppProperties;
-
-export type AdkAppTypes = "root" | "instagram_agent" | "assistant" | "open_deep_research";
-
-export const AdkAppTypes = {
-  ROOT: "root",
-  INSTAGRAM_AGENT: "instagram_agent",
-  ASSISTANT: "assistant",
-  OPEN_DEEP_RESEARCH: "open_deep_research",
-} as const;
-
-export type AgentRunRequestV3 = {
-  app_name: string;
-  user_id?: string;
-  session_id?: string;
-  init_state?: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The time after the task was created
+     */
+    createdAfter?: string;
+    /**
+     * The time before the task was completed
+     */
+    finishedBefore?: string;
   };
-  new_message: Content;
-  streaming?: boolean;
+  url: "/api/v1/stable/tenants/{tenant}/task-point-metrics";
 };
 
-export type AdkSessionProperties = {
-  id: string;
-  app_name: string;
-  user_id: string;
-  state: AdkSessionState;
-  title?: string;
-  create_time: string;
-  update_time: string;
+export type V1TaskGetPointMetricsErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not implemented
+   */
+  501: ApiErrors;
 };
 
-export type AdkSession = ApiResourceMetaProperties & AdkSessionProperties;
+export type V1TaskGetPointMetricsError =
+  V1TaskGetPointMetricsErrors[keyof V1TaskGetPointMetricsErrors];
 
-export type AdkSessionList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AdkSession>;
+export type V1TaskGetPointMetricsResponses = {
+  /**
+   * Successfully retrieved the task point metrics
+   */
+  200: V1TaskPointMetrics;
 };
 
-export type AdkSessionUpsert = AdkSessionProperties;
+export type V1TaskGetPointMetricsResponse =
+  V1TaskGetPointMetricsResponses[keyof V1TaskGetPointMetricsResponses];
 
-export type AdkUserStateProperties = {
-  id: string;
-  app_name: string;
-  user_id: string;
-  session_id: string;
-  invocation_id: string;
-  author: string;
-  branch: string;
-  timestamp: string;
-  content: {
-    [key: string]: unknown;
+export type V1EventListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  actions: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
+    /**
+     * A list of keys to filter by
+     */
+    keys?: Array<EventKey>;
   };
+  url: "/api/v1/stable/tenants/{tenant}/events";
 };
 
-export type AdkUserState = ApiResourceMetaProperties & AdkUserStateProperties;
-
-export type AdkUserStateList = {
-  pagination?: PaginationResponse;
-  rows?: Array<AdkUserState>;
-};
-
-export type AdkUserStateUpsert = AdkUserStateProperties;
-
-export type Content = {
-  role?: string;
-  parts?: Array<Part>;
-};
-
-export type UserContent = {
-  role: "user";
-  parts: Array<Part>;
-};
-
-export type ModelContent = {
-  role: "model";
-  parts: Array<Part>;
-};
-
-export type Part = {
+export type V1EventListErrors = {
   /**
-   * Optional. Text part (can be code)..
+   * A malformed or bad request
    */
-  text?: string;
+  400: ApiErrors;
   /**
-   * Metadata for a given video..
+   * Forbidden
    */
-  video_metadata?: {
-    [key: string]: unknown;
+  403: ApiErrors;
+};
+
+export type V1EventListError = V1EventListErrors[keyof V1EventListErrors];
+
+export type V1EventListResponses = {
+  /**
+   * Successfully listed the events
+   */
+  200: V1EventList;
+};
+
+export type V1EventListResponse = V1EventListResponses[keyof V1EventListResponses];
+
+export type V1FilterListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  /**
-   * Indicates if the part is thought from the model..
-   */
-  thought?: boolean;
-  code_execution_result?: {
-    [key: string]: unknown;
+  query?: {
+    /**
+     * The number to skip
+     */
+    offset?: number;
+    /**
+     * The number to limit by
+     */
+    limit?: number;
+    /**
+     * The workflow ids to filter by
+     */
+    workflowIds?: Array<string>;
+    /**
+     * The scopes to subset candidate filters by
+     */
+    scopes?: Array<string>;
   };
+  url: "/api/v1/stable/tenants/{tenant}/filters";
+};
+
+export type V1FilterListErrors = {
   /**
-   * Optional. Executable code..
+   * A malformed or bad request
    */
-  executable_code?: string;
+  400: ApiErrors;
   /**
-   * Optional. File data..
+   * Forbidden
    */
-  file_data?: {
-    [key: string]: unknown;
+  403: ApiErrors;
+};
+
+export type V1FilterListError = V1FilterListErrors[keyof V1FilterListErrors];
+
+export type V1FilterListResponses = {
+  /**
+   * Successfully listed the filters
+   */
+  200: V1FilterList;
+};
+
+export type V1FilterListResponse = V1FilterListResponses[keyof V1FilterListResponses];
+
+export type V1FilterCreateData = {
+  /**
+   * The input to the filter creation
+   */
+  body: V1CreateFilterRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
   };
-  function_call?: FunctionCallDict;
-  function_response?: FunctionResponse;
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/filters";
+};
+
+export type V1FilterCreateErrors = {
   /**
-   * Optional. Inlined bytes data..
+   * A malformed or bad request
    */
-  inline_data?: {
-    [key: string]: unknown;
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type V1FilterCreateError = V1FilterCreateErrors[keyof V1FilterCreateErrors];
+
+export type V1FilterCreateResponses = {
+  /**
+   * Successfully created the cron job workflow trigger
+   */
+  200: V1Filter;
+};
+
+export type V1FilterCreateResponse = V1FilterCreateResponses[keyof V1FilterCreateResponses];
+
+export type V1FilterDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The filter id to delete
+     */
+    "v1-filter": string;
   };
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/filters/{v1-filter}";
 };
 
-export type FunctionResponse = {
+export type V1FilterDeleteErrors = {
   /**
-   * The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.
+   * A malformed or bad request
    */
-  id?: string;
+  400: ApiErrors;
   /**
-   * The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].
+   * Forbidden
    */
-  name: string;
+  403: ApiErrors;
   /**
-   * Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.
+   * Not found
    */
-  response: {
-    [key: string]: unknown;
+  404: ApiErrors;
+};
+
+export type V1FilterDeleteError = V1FilterDeleteErrors[keyof V1FilterDeleteErrors];
+
+export type V1FilterDeleteResponses = {
+  /**
+   * Successfully created the cron job workflow trigger
+   */
+  200: V1Filter;
+};
+
+export type V1FilterDeleteResponse = V1FilterDeleteResponses[keyof V1FilterDeleteResponses];
+
+export type V1FilterGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The filter id
+     */
+    "v1-filter": string;
   };
+  query?: never;
+  url: "/api/v1/stable/tenants/{tenant}/filters/{v1-filter}";
 };
 
-export type TkGetUserProfileRequest = {
-  user: string;
+export type V1FilterGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
 };
 
-export type TkUserProfile = {
-  user: string;
-  data?: {
-    [key: string]: unknown;
-  };
+export type V1FilterGetError = V1FilterGetErrors[keyof V1FilterGetErrors];
+
+export type V1FilterGetResponses = {
+  /**
+   * Successfully got the filter
+   */
+  200: V1Filter;
 };
 
-export type TkAccountLoginRequest = {
-  username: string;
-  password: string;
-};
-
-export type TkAccountLoginResult = {
-  data: {
-    [key: string]: unknown;
-  };
-};
-
-export type VideoParams = {
-  video_subject?: string;
-  /**
-   * Script used to generate the video
-   */
-  video_script?: string;
-  /**
-   * Keywords used to generate the video
-   */
-  video_terms?: string;
-  /**
-   * Aspect ratio of the video
-   */
-  video_aspect?: string;
-  /**
-   * Mode of concatenation of the video
-   */
-  video_concat_mode?: string;
-  /**
-   * Mode of transition of the video
-   */
-  video_transition_mode?: string;
-  /**
-   * Duration of the video clip
-   */
-  video_clip_duration?: number;
-  /**
-   * Number of videos to generate
-   */
-  video_count?: number;
-  /**
-   * Source of the video
-   */
-  video_source?: string;
-  /**
-   * Materials used to generate the video
-   */
-  video_materials?: Array<MaterialInfo>;
-  /**
-   * Style of the video
-   */
-  video_style?: string;
-  /**
-   * Language of the video
-   */
-  video_language?: string;
-  /**
-   * Name of the voice
-   */
-  voice_name?: string;
-  /**
-   * Volume of the voice
-   */
-  voice_volume?: number;
-  /**
-   * Rate of the voice
-   */
-  voice_rate?: number;
-  /**
-   * Type of the background music
-   */
-  bgm_type?: string;
-  /**
-   * File of the background music
-   */
-  bgm_file?: string;
-  /**
-   * Volume of the background music
-   */
-  bgm_volume?: number;
-  /**
-   * Rate of the background music
-   */
-  bgm_rate?: number;
-  /**
-   * Start time of the background music
-   */
-  bgm_start_time?: number;
-  /**
-   * End time of the background music
-   */
-  bgm_end_time?: number;
-  /**
-   * Whether the background music is looped
-   */
-  bgm_loop?: boolean;
-  /**
-   * Whether the subtitle is enabled
-   */
-  subtitle_enabled?: boolean;
-  /**
-   * Position of the subtitle
-   */
-  subtitle_position?: string;
-  /**
-   * Custom position of the subtitle
-   */
-  custom_position?: number;
-  /**
-   * Name of the font
-   */
-  font_name?: string;
-  /**
-   * Foreground color of the text
-   */
-  text_fore_color?: string;
-  /**
-   * Background color of the text
-   */
-  text_background_color?: string;
-  /**
-   * Size of the font
-   */
-  font_size?: number;
-  /**
-   * Color of the stroke
-   */
-  stroke_color?: string;
-  /**
-   * Width of the stroke
-   */
-  stroke_width?: number;
-  /**
-   * Number of threads
-   */
-  n_threads?: number;
-  /**
-   * Number of paragraphs
-   */
-  paragraph_number?: number;
-};
-
-export type MaterialInfo = {
-  /**
-   * Provider of the material
-   */
-  provider?: string;
-  /**
-   * URL of the material
-   */
-  url?: string;
-  /**
-   * Duration of the material
-   */
-  duration?: number;
-};
-
-/**
- * Aspect ratio of the video
- */
-export type VideoAspect = "16:9" | "9:16" | "1:1";
-
-/**
- * Aspect ratio of the video
- */
-export const VideoAspect = {
-  "16:9": "16:9",
-  "9:16": "9:16",
-  "1:1": "1:1",
-} as const;
-
-export type MtWorkflowRunRequest = {
-  workflow_type?: string;
-  params?: {
-    [key: string]: unknown;
-  };
-};
-
-export type MtWorkflowRunResponse = {
-  workflow_id?: string;
-};
-
-export type MtTaskProperties = {
-  id?: string;
-  title?: string;
-  description?: string;
-};
-
-export type MtTask = ApiResourceMetaProperties & MtTaskProperties;
-
-export type MtTaskList = {
-  pagination?: PaginationResponse;
-  rows?: Array<MtTask>;
-};
+export type V1FilterGetResponse = V1FilterGetResponses[keyof V1FilterGetResponses];
 
 export type ReadinessGetData = {
   body?: never;
@@ -4371,121 +3400,23 @@ export type UserUpdateSlackOauthCallbackData = {
   url: "/api/v1/users/slack/callback";
 };
 
-export type TenantSettingsListData = {
+export type SnsUpdateData = {
   body?: never;
   path: {
     /**
      * The tenant id
      */
-    tenant: TenantParameter;
+    tenant: string;
+    /**
+     * The event key
+     */
+    event: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/settings";
+  url: "/api/v1/sns/{tenant}/{event}";
 };
 
-export type TenantSettingsListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type TenantSettingsListError = TenantSettingsListErrors[keyof TenantSettingsListErrors];
-
-export type TenantSettingsListResponses = {
-  200: TenantSettingList;
-};
-
-export type TenantSettingsListResponse =
-  TenantSettingsListResponses[keyof TenantSettingsListResponses];
-
-export type TenantDefaultSettingGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/{setting}/default";
-};
-
-export type TenantDefaultSettingGetErrors = {
-  400: ApiErrors;
-  404: ApiErrors;
-};
-
-export type TenantDefaultSettingGetError =
-  TenantDefaultSettingGetErrors[keyof TenantDefaultSettingGetErrors];
-
-export type TenantDefaultSettingGetResponses = {
-  200: TenantSetting;
-};
-
-export type TenantDefaultSettingGetResponse =
-  TenantDefaultSettingGetResponses[keyof TenantDefaultSettingGetResponses];
-
-export type TenantDefaultSettingData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/{setting}/default";
-};
-
-export type TenantDefaultSettingErrors = {
-  400: ApiErrors;
-  404: ApiErrors;
-};
-
-export type TenantDefaultSettingError =
-  TenantDefaultSettingErrors[keyof TenantDefaultSettingErrors];
-
-export type TenantDefaultSettingResponses = {
-  200: TenantSetting;
-};
-
-export type TenantDefaultSettingResponse =
-  TenantDefaultSettingResponses[keyof TenantDefaultSettingResponses];
-
-export type TenantSettingsDeleteData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings/{setting}";
-};
-
-export type TenantSettingsDeleteErrors = {
+export type SnsUpdateErrors = {
   /**
    * A malformed or bad request
    */
@@ -4500,88 +3431,14 @@ export type TenantSettingsDeleteErrors = {
   405: ApiErrors;
 };
 
-export type TenantSettingsDeleteError =
-  TenantSettingsDeleteErrors[keyof TenantSettingsDeleteErrors];
+export type SnsUpdateError = SnsUpdateErrors[keyof SnsUpdateErrors];
 
-export type TenantSettingsDeleteResponses = {
+export type SnsUpdateResponses = {
   /**
-   * Successfully deleted resource
+   * Successfully processed webhook
    */
-  204: void;
+  200: unknown;
 };
-
-export type TenantSettingsDeleteResponse =
-  TenantSettingsDeleteResponses[keyof TenantSettingsDeleteResponses];
-
-export type TenantSettingsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings/{setting}";
-};
-
-export type TenantSettingsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type TenantSettingsGetError = TenantSettingsGetErrors[keyof TenantSettingsGetErrors];
-
-export type TenantSettingsGetResponses = {
-  200: TenantSetting;
-};
-
-export type TenantSettingsGetResponse =
-  TenantSettingsGetResponses[keyof TenantSettingsGetResponses];
-
-export type TenantSettingsUpsertData = {
-  body: TenantSettingUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The setting id
-     */
-    setting: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/settings/{setting}";
-};
-
-export type TenantSettingsUpsertErrors = {
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type TenantSettingsUpsertError =
-  TenantSettingsUpsertErrors[keyof TenantSettingsUpsertErrors];
-
-export type TenantSettingsUpsertResponses = {
-  200: TenantSetting;
-};
-
-export type TenantSettingsUpsertResponse =
-  TenantSettingsUpsertResponses[keyof TenantSettingsUpsertResponses];
 
 export type SnsListData = {
   body?: never;
@@ -5232,6 +4089,9 @@ export type TenantCreateErrors = {
 export type TenantCreateError = TenantCreateErrors[keyof TenantCreateErrors];
 
 export type TenantCreateResponses = {
+  /**
+   * Successfully created the tenant
+   */
   200: Tenant;
 };
 
@@ -5723,6 +4583,130 @@ export type EventListResponses = {
 
 export type EventListResponse = EventListResponses[keyof EventListResponses];
 
+export type EventCreateData = {
+  /**
+   * The event to create
+   */
+  body: CreateEventRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/events";
+};
+
+export type EventCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Resource limit exceeded
+   */
+  429: ApiErrors;
+};
+
+export type EventCreateError = EventCreateErrors[keyof EventCreateErrors];
+
+export type EventCreateResponses = {
+  /**
+   * Successfully created the event
+   */
+  200: Event;
+};
+
+export type EventCreateResponse = EventCreateResponses[keyof EventCreateResponses];
+
+export type EventCreateBulkData = {
+  /**
+   * The events to create
+   */
+  body: BulkCreateEventRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/events/bulk";
+};
+
+export type EventCreateBulkErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Resource limit exceeded
+   */
+  429: ApiErrors;
+};
+
+export type EventCreateBulkError = EventCreateBulkErrors[keyof EventCreateBulkErrors];
+
+export type EventCreateBulkResponses = {
+  /**
+   * Successfully created the events
+   */
+  200: BulkCreateEventResponse;
+};
+
+export type EventCreateBulkResponse = EventCreateBulkResponses[keyof EventCreateBulkResponses];
+
+export type EventUpdateReplayData = {
+  /**
+   * The event ids to replay
+   */
+  body: ReplayEventRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/events/replay";
+};
+
+export type EventUpdateReplayErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Resource limit exceeded
+   */
+  429: ApiErrors;
+};
+
+export type EventUpdateReplayError = EventUpdateReplayErrors[keyof EventUpdateReplayErrors];
+
+export type EventUpdateReplayResponses = {
+  /**
+   * Successfully replayed the events
+   */
+  200: EventList;
+};
+
+export type EventUpdateReplayResponse =
+  EventUpdateReplayResponses[keyof EventUpdateReplayResponses];
+
 export type EventUpdateCancelData = {
   /**
    * The event ids to replay
@@ -6048,6 +5032,57 @@ export type WorkflowListResponses = {
 
 export type WorkflowListResponse = WorkflowListResponses[keyof WorkflowListResponses];
 
+export type ScheduledWorkflowRunCreateData = {
+  /**
+   * The input to the scheduled workflow run
+   */
+  body: ScheduleWorkflowRunRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The workflow name
+     */
+    workflow: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/workflows/{workflow}/scheduled";
+};
+
+export type ScheduledWorkflowRunCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+  /**
+   * Resource limit exceeded
+   */
+  429: ApiErrors;
+};
+
+export type ScheduledWorkflowRunCreateError =
+  ScheduledWorkflowRunCreateErrors[keyof ScheduledWorkflowRunCreateErrors];
+
+export type ScheduledWorkflowRunCreateResponses = {
+  /**
+   * Successfully created the scheduled workflow run
+   */
+  200: ScheduledWorkflows;
+};
+
+export type ScheduledWorkflowRunCreateResponse =
+  ScheduledWorkflowRunCreateResponses[keyof ScheduledWorkflowRunCreateResponses];
+
 export type WorkflowScheduledListData = {
   body?: never;
   path: {
@@ -6131,10 +5166,10 @@ export type WorkflowScheduledDeleteData = {
     /**
      * The scheduled workflow id
      */
-    scheduledId: string;
+    "scheduled-workflow-run": string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}";
+  url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduled-workflow-run}";
 };
 
 export type WorkflowScheduledDeleteErrors = {
@@ -6171,10 +5206,10 @@ export type WorkflowScheduledGetData = {
     /**
      * The scheduled workflow id
      */
-    scheduledId: string;
+    "scheduled-workflow-run": string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduledId}";
+  url: "/api/v1/tenants/{tenant}/workflows/scheduled/{scheduled-workflow-run}";
 };
 
 export type WorkflowScheduledGetErrors = {
@@ -6205,6 +5240,57 @@ export type WorkflowScheduledGetResponses = {
 export type WorkflowScheduledGetResponse =
   WorkflowScheduledGetResponses[keyof WorkflowScheduledGetResponses];
 
+export type CronWorkflowTriggerCreateData = {
+  /**
+   * The input to the cron job workflow trigger
+   */
+  body: CreateCronWorkflowTriggerRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The workflow name
+     */
+    workflow: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/workflows/{workflow}/crons";
+};
+
+export type CronWorkflowTriggerCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+  /**
+   * Resource limit exceeded
+   */
+  429: ApiErrors;
+};
+
+export type CronWorkflowTriggerCreateError =
+  CronWorkflowTriggerCreateErrors[keyof CronWorkflowTriggerCreateErrors];
+
+export type CronWorkflowTriggerCreateResponses = {
+  /**
+   * Successfully created the cron job workflow trigger
+   */
+  200: CronWorkflows;
+};
+
+export type CronWorkflowTriggerCreateResponse =
+  CronWorkflowTriggerCreateResponses[keyof CronWorkflowTriggerCreateResponses];
+
 export type CronWorkflowListData = {
   body?: never;
   path: {
@@ -6226,6 +5312,14 @@ export type CronWorkflowListData = {
      * The workflow id to get runs for.
      */
     workflowId?: string;
+    /**
+     * The workflow name to get runs for.
+     */
+    workflowName?: string;
+    /**
+     * The cron name to get runs for.
+     */
+    cronName?: string;
     /**
      * A list of metadata key value pairs to filter by
      */
@@ -6263,6 +5357,87 @@ export type CronWorkflowListResponses = {
 };
 
 export type CronWorkflowListResponse = CronWorkflowListResponses[keyof CronWorkflowListResponses];
+
+export type WorkflowCronDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The cron job id
+     */
+    "cron-workflow": string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/workflows/crons/{cron-workflow}";
+};
+
+export type WorkflowCronDeleteErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type WorkflowCronDeleteError = WorkflowCronDeleteErrors[keyof WorkflowCronDeleteErrors];
+
+export type WorkflowCronDeleteResponses = {
+  /**
+   * Successfully deleted the cron job workflow run
+   */
+  204: void;
+};
+
+export type WorkflowCronDeleteResponse =
+  WorkflowCronDeleteResponses[keyof WorkflowCronDeleteResponses];
+
+export type WorkflowCronGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The cron job id
+     */
+    "cron-workflow": string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/workflows/crons/{cron-workflow}";
+};
+
+export type WorkflowCronGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Forbidden
+   */
+  404: ApiErrors;
+};
+
+export type WorkflowCronGetError = WorkflowCronGetErrors[keyof WorkflowCronGetErrors];
+
+export type WorkflowCronGetResponses = {
+  /**
+   * Successfully retrieved the workflow runs
+   */
+  200: CronWorkflows;
+};
+
+export type WorkflowCronGetResponse = WorkflowCronGetResponses[keyof WorkflowCronGetResponses];
 
 export type WorkflowRunCancelData = {
   /**
@@ -7552,186 +6727,52 @@ export type WorkflowRunGetInputResponses = {
 export type WorkflowRunGetInputResponse =
   WorkflowRunGetInputResponses[keyof WorkflowRunGetInputResponses];
 
-export type WorkflowGetByNameData = {
+export type MonitoringPostRunProbeData = {
   body?: never;
   path: {
     /**
      * The tenant id
      */
     tenant: string;
-    /**
-     * The workflow name
-     */
-    name: FlowNames;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/workflows/byName/{name}";
+  url: "/api/v1/monitoring/{tenant}/probe";
 };
 
-export type WorkflowGetByNameErrors = {
+export type MonitoringPostRunProbeErrors = {
   /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
+   * Not authorized to perform this action
    */
   403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
 };
 
-export type WorkflowGetByNameError = WorkflowGetByNameErrors[keyof WorkflowGetByNameErrors];
+export type MonitoringPostRunProbeError =
+  MonitoringPostRunProbeErrors[keyof MonitoringPostRunProbeErrors];
 
-export type WorkflowGetByNameResponses = {
+export type MonitoringPostRunProbeResponses = {
   /**
-   * Successfully retrieved the workflow
+   * Successfully executed the probe.
    */
-  200: Workflow;
+  200: unknown;
 };
 
-export type WorkflowGetByNameResponse =
-  WorkflowGetByNameResponses[keyof WorkflowGetByNameResponses];
-
-export type BlogListData = {
+export type InfoGetVersionData = {
   body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
+  path?: never;
   query?: never;
-  url: "/api/v1/tenants/{tenant}/blogs";
+  url: "/api/v1/version";
 };
 
-export type BlogListResponses = {
+export type InfoGetVersionResponses = {
   /**
-   * Successfully retrieved the tenant blog list
+   * The version of the server
    */
-  200: BlogList;
-};
-
-export type BlogListResponse = BlogListResponses[keyof BlogListResponses];
-
-export type BlogCreateData = {
-  /**
-   * 创建博客
-   */
-  body: CreateBlogRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
+  200: {
+    version: string;
   };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/blogs";
 };
 
-export type BlogCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type BlogCreateError = BlogCreateErrors[keyof BlogCreateErrors];
-
-export type BlogCreateResponses = {
-  /**
-   * Successfully created the blog
-   */
-  200: Blog;
-};
-
-export type BlogCreateResponse = BlogCreateResponses[keyof BlogCreateResponses];
-
-export type BlogGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The blog id
-     */
-    blog: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/blogs/{blog}";
-};
-
-export type BlogGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type BlogGetError = BlogGetErrors[keyof BlogGetErrors];
-
-export type BlogGetResponses = {
-  200: Blog;
-};
-
-export type BlogGetResponse = BlogGetResponses[keyof BlogGetResponses];
-
-export type BlogUpdateData = {
-  /**
-   * The tenant properties to update
-   */
-  body: UpdateBlogRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The blog id
-     */
-    blog: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/blogs/{blog}";
-};
-
-export type BlogUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type BlogUpdateError = BlogUpdateErrors[keyof BlogUpdateErrors];
-
-export type BlogUpdateResponses = {
-  /**
-   * Successfully created the tenant
-   */
-  200: Blog;
-};
-
-export type BlogUpdateResponse = BlogUpdateResponses[keyof BlogUpdateResponses];
+export type InfoGetVersionResponse = InfoGetVersionResponses[keyof InfoGetVersionResponses];
 
 export type SiteListData = {
   body?: never;
@@ -8079,2555 +7120,6 @@ export type SiteHostUpdateResponses = {
 };
 
 export type SiteHostUpdateResponse = SiteHostUpdateResponses[keyof SiteHostUpdateResponses];
-
-export type PostListPublicData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * The site id
-     */
-    siteId?: string;
-  };
-  url: "/api/v1/posts/public";
-};
-
-export type PostListPublicErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PostListPublicError = PostListPublicErrors[keyof PostListPublicErrors];
-
-export type PostListPublicResponses = {
-  200: PostList;
-};
-
-export type PostListPublicResponse = PostListPublicResponses[keyof PostListPublicResponses];
-
-export type PostGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The post id
-     */
-    post: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/posts/{post}";
-};
-
-export type PostGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PostGetError = PostGetErrors[keyof PostGetErrors];
-
-export type PostGetResponses = {
-  200: Post;
-};
-
-export type PostGetResponse = PostGetResponses[keyof PostGetResponses];
-
-export type PostListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: {
-    /**
-     * The site id
-     */
-    siteId?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/posts";
-};
-
-export type PostListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PostListError = PostListErrors[keyof PostListErrors];
-
-export type PostListResponses = {
-  200: PostList;
-};
-
-export type PostListResponse = PostListResponses[keyof PostListResponses];
-
-export type PostCreateData = {
-  body: CreatePostRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/posts";
-};
-
-export type PostCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type PostCreateError = PostCreateErrors[keyof PostCreateErrors];
-
-export type PostCreateResponses = {
-  200: Post;
-};
-
-export type PostCreateResponse = PostCreateResponses[keyof PostCreateResponses];
-
-export type ArtifactListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/artifacts";
-};
-
-export type ArtifactListResponses = {
-  /**
-   * Successfully retrieved the tenant artifacts list
-   */
-  200: ArtifactList;
-};
-
-export type ArtifactListResponse = ArtifactListResponses[keyof ArtifactListResponses];
-
-export type ArtifactGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The tenant id
-     */
-    artifact: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/artifacts/{artifact}";
-};
-
-export type ArtifactGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * The step run was not found
-   */
-  404: ApiErrors;
-};
-
-export type ArtifactGetError = ArtifactGetErrors[keyof ArtifactGetErrors];
-
-export type ArtifactGetResponses = {
-  /**
-   * Successfully retrieved the step run
-   */
-  200: Artifact;
-};
-
-export type ArtifactGetResponse = ArtifactGetResponses[keyof ArtifactGetResponses];
-
-export type ComsListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * The team label
-     */
-    label?: string;
-    /**
-     * The gallery name
-     */
-    gallery?: string;
-    /**
-     * The gallery id
-     */
-    galleryId?: string;
-    /**
-     * The component type
-     */
-    type?: string;
-    /**
-     * The component provider
-     */
-    provider?: string;
-    /**
-     * The component description
-     */
-    description?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/comps";
-};
-
-export type ComsListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type ComsListError = ComsListErrors[keyof ComsListErrors];
-
-export type ComsListResponses = {
-  200: ComponentList;
-};
-
-export type ComsListResponse = ComsListResponses[keyof ComsListResponses];
-
-export type ComsUpsertData = {
-  /**
-   * The model properties to update
-   */
-  body: ComponentUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The mt component id
-     */
-    com: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/comps/{com}";
-};
-
-export type ComsUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ComsUpsertError = ComsUpsertErrors[keyof ComsUpsertErrors];
-
-export type ComsUpsertResponses = {
-  /**
-   * Successfully upserted the mt component
-   */
-  200: Component;
-};
-
-export type ComsUpsertResponse = ComsUpsertResponses[keyof ComsUpsertResponses];
-
-export type ComsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query: {
-    /**
-     * The component id
-     */
-    com: string;
-    /**
-     * The component type
-     */
-    type?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/comps/get";
-};
-
-export type ComsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ComsGetError = ComsGetErrors[keyof ComsGetErrors];
-
-export type ComsGetResponses = {
-  200: Component;
-};
-
-export type ComsGetResponse = ComsGetResponses[keyof ComsGetResponses];
-
-export type GalleryListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/galleries";
-};
-
-export type GalleryListResponses = {
-  200: GalleryList;
-};
-
-export type GalleryListResponse = GalleryListResponses[keyof GalleryListResponses];
-
-export type GalleryCreateData = {
-  body: Gallery;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/galleries";
-};
-
-export type GalleryCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type GalleryCreateError = GalleryCreateErrors[keyof GalleryCreateErrors];
-
-export type GalleryCreateResponses = {
-  200: Gallery;
-};
-
-export type GalleryCreateResponse = GalleryCreateResponses[keyof GalleryCreateResponses];
-
-export type GalleryGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The gallery id
-     */
-    gallery: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/gallery/{gallery}";
-};
-
-export type GalleryGetResponses = {
-  200: Gallery;
-};
-
-export type GalleryGetResponse = GalleryGetResponses[keyof GalleryGetResponses];
-
-export type AgEventListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agEvents";
-};
-
-export type AgEventListResponses = {
-  200: AgEventList;
-};
-
-export type AgEventListResponse = AgEventListResponses[keyof AgEventListResponses];
-
-export type AgEventGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The gallery id
-     */
-    agEvent: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agEvents/{agEvent}";
-};
-
-export type AgEventGetResponses = {
-  200: AgEvent;
-};
-
-export type AgEventGetResponse = AgEventGetResponses[keyof AgEventGetResponses];
-
-export type ModelListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models";
-};
-
-export type ModelListErrors = {
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type ModelListError = ModelListErrors[keyof ModelListErrors];
-
-export type ModelListResponses = {
-  200: ModelList;
-};
-
-export type ModelListResponse = ModelListResponses[keyof ModelListResponses];
-
-export type ModelGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model id
-     */
-    model: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models/{model}";
-};
-
-export type ModelGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ModelGetError = ModelGetErrors[keyof ModelGetErrors];
-
-export type ModelGetResponses = {
-  200: Model;
-};
-
-export type ModelGetResponse = ModelGetResponses[keyof ModelGetResponses];
-
-export type ModelUpsertData = {
-  body: UpsertModel;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model id
-     */
-    model: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/models/{model}";
-};
-
-export type ModelUpsertErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type ModelUpsertError = ModelUpsertErrors[keyof ModelUpsertErrors];
-
-export type ModelUpsertResponses = {
-  200: Model;
-};
-
-export type ModelUpsertResponse = ModelUpsertResponses[keyof ModelUpsertResponses];
-
-export type ModelRunsListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/model_runs";
-};
-
-export type ModelRunsListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type ModelRunsListError = ModelRunsListErrors[keyof ModelRunsListErrors];
-
-export type ModelRunsListResponses = {
-  200: ModelList;
-};
-
-export type ModelRunsListResponse = ModelRunsListResponses[keyof ModelRunsListResponses];
-
-export type ModelRunGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model run id
-     */
-    model_run: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/model_runs/{model_run}";
-};
-
-export type ModelRunGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ModelRunGetError = ModelRunGetErrors[keyof ModelRunGetErrors];
-
-export type ModelRunGetResponses = {
-  200: ModelRun;
-};
-
-export type ModelRunGetResponse = ModelRunGetResponses[keyof ModelRunGetResponses];
-
-export type ModelRunUpsertData = {
-  /**
-   * The model properties to update
-   */
-  body: ModelRun;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The model run id
-     */
-    model_run: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/model_runs/{model_run}";
-};
-
-export type ModelRunUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ModelRunUpsertError = ModelRunUpsertErrors[keyof ModelRunUpsertErrors];
-
-export type ModelRunUpsertResponses = {
-  /**
-   * Successfully created the model
-   */
-  200: ModelRun;
-};
-
-export type ModelRunUpsertResponse = ModelRunUpsertResponses[keyof ModelRunUpsertResponses];
-
-export type PromptListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/prompts";
-};
-
-export type PromptListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PromptListError = PromptListErrors[keyof PromptListErrors];
-
-export type PromptListResponses = {
-  /**
-   * 提示词列表
-   */
-  200: PromptList;
-};
-
-export type PromptListResponse = PromptListResponses[keyof PromptListResponses];
-
-export type PromptGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The prompt id
-     */
-    prompt: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/prompts/{prompt}";
-};
-
-export type PromptGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-  /**
-   * A malformed or bad request
-   */
-  404: unknown;
-};
-
-export type PromptGetError = PromptGetErrors[keyof PromptGetErrors];
-
-export type PromptGetResponses = {
-  /**
-   * 获取单个提示词
-   */
-  200: string;
-};
-
-export type PromptGetResponse = PromptGetResponses[keyof PromptGetResponses];
-
-export type AdminReleaseConnData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/admin/releaseConn";
-};
-
-export type AdminReleaseConnErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-};
-
-export type AdminReleaseConnError = AdminReleaseConnErrors[keyof AdminReleaseConnErrors];
-
-export type AdminReleaseConnResponses = {
-  200: CommonResult;
-};
-
-export type AdminReleaseConnResponse = AdminReleaseConnResponses[keyof AdminReleaseConnResponses];
-
-export type AdminResetDbData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/admin/resetDb";
-};
-
-export type AdminResetDbErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-};
-
-export type AdminResetDbError = AdminResetDbErrors[keyof AdminResetDbErrors];
-
-export type AdminResetDbResponses = {
-  200: CommonResult;
-};
-
-export type AdminResetDbResponse = AdminResetDbResponses[keyof AdminResetDbResponses];
-
-export type FrontendGetConfigData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/frontend/config";
-};
-
-export type FrontendGetConfigResponses = {
-  /**
-   * frontend core config
-   */
-  200: FrontendConfig;
-};
-
-export type FrontendGetConfigResponse =
-  FrontendGetConfigResponses[keyof FrontendGetConfigResponses];
-
-export type FrontendGetSiderbarData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/frontend/siderbar";
-};
-
-export type FrontendGetSiderbarResponses = {
-  /**
-   * frontend siderbar config
-   */
-  200: SiderbarConfig;
-};
-
-export type FrontendGetSiderbarResponse =
-  FrontendGetSiderbarResponses[keyof FrontendGetSiderbarResponses];
-
-export type HfAccountGetData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/hf/account";
-};
-
-export type HfAccountGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type HfAccountGetError = HfAccountGetErrors[keyof HfAccountGetErrors];
-
-export type HfAccountGetResponses = {
-  /**
-   * Successfully created the blog post
-   */
-  200: HfAccount;
-};
-
-export type HfAccountGetResponse = HfAccountGetResponses[keyof HfAccountGetResponses];
-
-export type EnvListData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/env";
-};
-
-export type EnvListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type EnvListError = EnvListErrors[keyof EnvListErrors];
-
-export type EnvListResponses = {
-  200: EnvList;
-};
-
-export type EnvListResponse = EnvListResponses[keyof EnvListResponses];
-
-export type EnvUpdateData = {
-  /**
-   * The tenant properties to update
-   */
-  body: UpdateBlogRequest;
-  path?: never;
-  query?: never;
-  url: "/api/v1/env";
-};
-
-export type EnvUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type EnvUpdateError = EnvUpdateErrors[keyof EnvUpdateErrors];
-
-export type EnvUpdateResponses = {
-  /**
-   * Successfully created the tenant
-   */
-  200: Blog;
-};
-
-export type EnvUpdateResponse = EnvUpdateResponses[keyof EnvUpdateResponses];
-
-export type EnvGetData = {
-  body?: never;
-  path: {
-    name: string;
-  };
-  query?: never;
-  url: "/api/v1/env/{name}";
-};
-
-export type EnvGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type EnvGetError = EnvGetErrors[keyof EnvGetErrors];
-
-export type EnvGetResponses = {
-  /**
-   * bash env text
-   */
-  200: Env;
-};
-
-export type EnvGetResponse = EnvGetResponses[keyof EnvGetResponses];
-
-export type EndpointListData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/endpoint";
-};
-
-export type EndpointListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type EndpointListError = EndpointListErrors[keyof EndpointListErrors];
-
-export type EndpointListResponses = {
-  200: EndpointList;
-};
-
-export type EndpointListResponse = EndpointListResponses[keyof EndpointListResponses];
-
-export type EndpointUpdateData = {
-  /**
-   * The tenant properties to update
-   */
-  body: UpdateEndpointRequest;
-  path?: never;
-  query?: never;
-  url: "/api/v1/endpoint";
-};
-
-export type EndpointUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type EndpointUpdateError = EndpointUpdateErrors[keyof EndpointUpdateErrors];
-
-export type EndpointUpdateResponses = {
-  /**
-   * Successfully created the tenant
-   */
-  200: Endpoint;
-};
-
-export type EndpointUpdateResponse = EndpointUpdateResponses[keyof EndpointUpdateResponses];
-
-export type PlatformListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platforms";
-};
-
-export type PlatformListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PlatformListError = PlatformListErrors[keyof PlatformListErrors];
-
-export type PlatformListResponses = {
-  200: PlatformList;
-};
-
-export type PlatformListResponse = PlatformListResponses[keyof PlatformListResponses];
-
-export type PlatformCreateData = {
-  body: Platform;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platforms";
-};
-
-export type PlatformCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type PlatformCreateError = PlatformCreateErrors[keyof PlatformCreateErrors];
-
-export type PlatformCreateResponses = {
-  200: Platform;
-};
-
-export type PlatformCreateResponse = PlatformCreateResponses[keyof PlatformCreateResponses];
-
-export type PlatformGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform id
-     */
-    platform: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platforms/{platform}";
-};
-
-export type PlatformGetResponses = {
-  200: Platform;
-};
-
-export type PlatformGetResponse = PlatformGetResponses[keyof PlatformGetResponses];
-
-export type PlatformUpdateData = {
-  /**
-   * The platform properties to update
-   */
-  body: Platform;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform id
-     */
-    platform: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platforms/{platform}";
-};
-
-export type PlatformUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type PlatformUpdateError = PlatformUpdateErrors[keyof PlatformUpdateErrors];
-
-export type PlatformUpdateResponses = {
-  /**
-   * Successfully created the platform
-   */
-  200: Platform;
-};
-
-export type PlatformUpdateResponse = PlatformUpdateResponses[keyof PlatformUpdateResponses];
-
-export type PlatformAccountListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platform_accounts";
-};
-
-export type PlatformAccountListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type PlatformAccountListError = PlatformAccountListErrors[keyof PlatformAccountListErrors];
-
-export type PlatformAccountListResponses = {
-  200: PlatformAccountList;
-};
-
-export type PlatformAccountListResponse =
-  PlatformAccountListResponses[keyof PlatformAccountListResponses];
-
-export type PlatformAccountCreateData = {
-  body: PlatformAccountCreate;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platform_accounts";
-};
-
-export type PlatformAccountCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type PlatformAccountCreateError =
-  PlatformAccountCreateErrors[keyof PlatformAccountCreateErrors];
-
-export type PlatformAccountCreateResponses = {
-  200: PlatformAccount;
-};
-
-export type PlatformAccountCreateResponse =
-  PlatformAccountCreateResponses[keyof PlatformAccountCreateResponses];
-
-export type PlatformAccountGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform_account id
-     */
-    platform_account: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}";
-};
-
-export type PlatformAccountGetResponses = {
-  200: PlatformAccount;
-};
-
-export type PlatformAccountGetResponse =
-  PlatformAccountGetResponses[keyof PlatformAccountGetResponses];
-
-export type PlatformAccountUpsertData = {
-  /**
-   * The platform_account properties to update
-   */
-  body: PlatformAccountUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform_account id
-     */
-    platform_account: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/platform_accounts/{platform_account}";
-};
-
-export type PlatformAccountUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type PlatformAccountUpsertError =
-  PlatformAccountUpsertErrors[keyof PlatformAccountUpsertErrors];
-
-export type PlatformAccountUpsertResponses = {
-  /**
-   * Successfully created the platform_account
-   */
-  200: PlatformAccount;
-};
-
-export type PlatformAccountUpsertResponse =
-  PlatformAccountUpsertResponses[keyof PlatformAccountUpsertResponses];
-
-export type BrowserListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/browsers";
-};
-
-export type BrowserListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type BrowserListError = BrowserListErrors[keyof BrowserListErrors];
-
-export type BrowserListResponses = {
-  200: BrowserList;
-};
-
-export type BrowserListResponse = BrowserListResponses[keyof BrowserListResponses];
-
-export type BrowserCreateData = {
-  body: Browser;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/browsers";
-};
-
-export type BrowserCreateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiError;
-};
-
-export type BrowserCreateError = BrowserCreateErrors[keyof BrowserCreateErrors];
-
-export type BrowserCreateResponses = {
-  200: Browser;
-};
-
-export type BrowserCreateResponse = BrowserCreateResponses[keyof BrowserCreateResponses];
-
-export type BrowserOpenData = {
-  body: BrowserOpenRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The browser id
-     */
-    browser: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/browsers/{browser}/open";
-};
-
-export type BrowserOpenErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type BrowserOpenError = BrowserOpenErrors[keyof BrowserOpenErrors];
-
-export type BrowserOpenResponses = {
-  200: BrowserOpenResult;
-};
-
-export type BrowserOpenResponse = BrowserOpenResponses[keyof BrowserOpenResponses];
-
-export type BrowserGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The browser id
-     */
-    browser: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/browsers/{browser}";
-};
-
-export type BrowserGetResponses = {
-  200: Browser;
-};
-
-export type BrowserGetResponse = BrowserGetResponses[keyof BrowserGetResponses];
-
-export type BrowserUpdateData = {
-  /**
-   * The browser properties to update
-   */
-  body: Browser;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The browser id
-     */
-    browser: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/browsers/{browser}";
-};
-
-export type BrowserUpdateErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type BrowserUpdateError = BrowserUpdateErrors[keyof BrowserUpdateErrors];
-
-export type BrowserUpdateResponses = {
-  /**
-   * Successfully created the browser
-   */
-  200: Browser;
-};
-
-export type BrowserUpdateResponse = BrowserUpdateResponses[keyof BrowserUpdateResponses];
-
-export type ProxyListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/proxies";
-};
-
-export type ProxyListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type ProxyListError = ProxyListErrors[keyof ProxyListErrors];
-
-export type ProxyListResponses = {
-  200: ProxyList;
-};
-
-export type ProxyListResponse = ProxyListResponses[keyof ProxyListResponses];
-
-export type ProxyGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform id
-     */
-    proxy: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/proxies/{proxy}";
-};
-
-export type ProxyGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type ProxyGetError = ProxyGetErrors[keyof ProxyGetErrors];
-
-export type ProxyGetResponses = {
-  200: Proxy;
-};
-
-export type ProxyGetResponse = ProxyGetResponses[keyof ProxyGetResponses];
-
-export type ProxyUpsertData = {
-  body: ProxyUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The platform id
-     */
-    proxy: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/proxies/{proxy}";
-};
-
-export type ProxyUpsertErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type ProxyUpsertError = ProxyUpsertErrors[keyof ProxyUpsertErrors];
-
-export type ProxyUpsertResponses = {
-  200: Proxy;
-};
-
-export type ProxyUpsertResponse = ProxyUpsertResponses[keyof ProxyUpsertResponses];
-
-export type AgStateListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * The topic
-     */
-    topic?: string;
-    /**
-     * The source
-     */
-    source?: string;
-    /**
-     * The session id
-     */
-    session?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/agStates";
-};
-
-export type AgStateListResponses = {
-  200: AgStateList;
-};
-
-export type AgStateListResponse = AgStateListResponses[keyof AgStateListResponses];
-
-export type AgStateGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The agState id
-     */
-    state: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agState/{state}";
-};
-
-export type AgStateGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type AgStateGetError = AgStateGetErrors[keyof AgStateGetErrors];
-
-export type AgStateGetResponses = {
-  200: AgState;
-};
-
-export type AgStateGetResponse = AgStateGetResponses[keyof AgStateGetResponses];
-
-export type AgStateUpsertData = {
-  /**
-   * The model properties to update
-   */
-  body: AgStateUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/agStateSave";
-};
-
-export type AgStateUpsertErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-};
-
-export type AgStateUpsertError = AgStateUpsertErrors[keyof AgStateUpsertErrors];
-
-export type AgStateUpsertResponses = {
-  /**
-   * Successfully created the AgState
-   */
-  200: AgState;
-};
-
-export type AgStateUpsertResponse = AgStateUpsertResponses[keyof AgStateUpsertResponses];
-
-export type ChatMessagesListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: string;
-    /**
-     * The chat id
-     */
-    chat: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/{chat}/messages";
-};
-
-export type ChatMessagesListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type ChatMessagesListError = ChatMessagesListErrors[keyof ChatMessagesListErrors];
-
-export type ChatMessagesListResponses = {
-  /**
-   * 返回聊天消息
-   */
-  200: ChatMessageList;
-};
-
-export type ChatMessagesListResponse = ChatMessagesListResponses[keyof ChatMessagesListResponses];
-
-export type ChatSessionListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/sessions";
-};
-
-export type ChatSessionListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type ChatSessionListError = ChatSessionListErrors[keyof ChatSessionListErrors];
-
-export type ChatSessionListResponses = {
-  200: ChatSessionList;
-};
-
-export type ChatSessionListResponse = ChatSessionListResponses[keyof ChatSessionListResponses];
-
-export type ChatMessageUpsertData = {
-  body: ChatMessageUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/sessions";
-};
-
-export type ChatMessageUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type ChatMessageUpsertError = ChatMessageUpsertErrors[keyof ChatMessageUpsertErrors];
-
-export type ChatMessageUpsertResponses = {
-  200: ChatMessage;
-};
-
-export type ChatMessageUpsertResponse =
-  ChatMessageUpsertResponses[keyof ChatMessageUpsertResponses];
-
-export type ChatSessionGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    session?: string;
-  };
-  query?: {
-    /**
-     * The topic id
-     */
-    topic?: string;
-    /**
-     * The message type
-     */
-    messageType?: string;
-    /**
-     * The role
-     */
-    role?: string;
-    /**
-     * The source
-     */
-    source?: string;
-    /**
-     * The step run id
-     */
-    stepRunId?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
-};
-
-export type ChatSessionGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type ChatSessionGetError = ChatSessionGetErrors[keyof ChatSessionGetErrors];
-
-export type ChatSessionGetResponses = {
-  200: ChatSession;
-};
-
-export type ChatSessionGetResponse = ChatSessionGetResponses[keyof ChatSessionGetResponses];
-
-export type ChatSessionUpsertData = {
-  body: ChatUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The chat session id
-     */
-    session: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/chat/sessions/{session}";
-};
-
-export type ChatSessionUpsertErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type ChatSessionUpsertError = ChatSessionUpsertErrors[keyof ChatSessionUpsertErrors];
-
-export type ChatSessionUpsertResponses = {
-  200: ChatSession;
-};
-
-export type ChatSessionUpsertResponse =
-  ChatSessionUpsertResponses[keyof ChatSessionUpsertResponses];
-
-export type FlowStateListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * The topic
-     */
-    topic?: string;
-    /**
-     * The source
-     */
-    source?: string;
-    /**
-     * The session id
-     */
-    session?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/flow-states";
-};
-
-export type FlowStateListResponses = {
-  200: FlowStateList;
-};
-
-export type FlowStateListResponse = FlowStateListResponses[keyof FlowStateListResponses];
-
-export type FlowStateGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    session: string;
-    /**
-     * The workflow id
-     */
-    workflow: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}";
-};
-
-export type FlowStateGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type FlowStateGetError = FlowStateGetErrors[keyof FlowStateGetErrors];
-
-export type FlowStateGetResponses = {
-  200: FlowState;
-};
-
-export type FlowStateGetResponse = FlowStateGetResponses[keyof FlowStateGetResponses];
-
-export type FlowStateUpsertData = {
-  /**
-   * The model properties to update
-   */
-  body: FlowStateUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The session id
-     */
-    session: string;
-    /**
-     * The workflow id
-     */
-    workflow: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/flow-states/{session}/{workflow}";
-};
-
-export type FlowStateUpsertErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type FlowStateUpsertError = FlowStateUpsertErrors[keyof FlowStateUpsertErrors];
-
-export type FlowStateUpsertResponses = {
-  200: FlowState;
-};
-
-export type FlowStateUpsertResponse = FlowStateUpsertResponses[keyof FlowStateUpsertResponses];
-
-export type UiAgentGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/ag_ui";
-};
-
-export type UiAgentGetErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type UiAgentGetError = UiAgentGetErrors[keyof UiAgentGetErrors];
-
-export type UiAgentGetResponses = {
-  200: UiAgentState;
-};
-
-export type UiAgentGetResponse = UiAgentGetResponses[keyof UiAgentGetResponses];
-
-export type DispatcherListenData = {
-  body?: never;
-  path: {
-    /**
-     * The worker id
-     */
-    workerId: string;
-  };
-  query?: never;
-  url: "/api/v1/dispatcher/listen/{workerId}";
-};
-
-export type DispatcherListenErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type DispatcherListenError = DispatcherListenErrors[keyof DispatcherListenErrors];
-
-export type DispatcherListenResponses = {
-  200: AssignedAction;
-};
-
-export type DispatcherListenResponse = DispatcherListenResponses[keyof DispatcherListenResponses];
-
-export type ResourceListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    enabled?: boolean;
-    limit?: number;
-    offset?: number;
-  };
-  url: "/api/v1/tenants/{tenant}/resources";
-};
-
-export type ResourceListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type ResourceListError = ResourceListErrors[keyof ResourceListErrors];
-
-export type ResourceListResponses = {
-  200: ResourceList;
-};
-
-export type ResourceListResponse = ResourceListResponses[keyof ResourceListResponses];
-
-export type ResourceUpsertData = {
-  body: ResourceUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/resources";
-};
-
-export type ResourceUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type ResourceUpsertError = ResourceUpsertErrors[keyof ResourceUpsertErrors];
-
-export type ResourceUpsertResponses = {
-  200: Resource;
-};
-
-export type ResourceUpsertResponse = ResourceUpsertResponses[keyof ResourceUpsertResponses];
-
-export type ResourceDeleteData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The resource id
-     */
-    resource: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/resources/{resource}";
-};
-
-export type ResourceDeleteErrors = {
-  400: ApiErrors;
-  /**
-   * Unauthorized
-   */
-  401: ApiErrors;
-  405: ApiErrors;
-};
-
-export type ResourceDeleteError = ResourceDeleteErrors[keyof ResourceDeleteErrors];
-
-export type ResourceDeleteResponses = {
-  /**
-   * Successfully deleted resource
-   */
-  204: void;
-};
-
-export type ResourceDeleteResponse = ResourceDeleteResponses[keyof ResourceDeleteResponses];
-
-export type ResourceGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The resource id
-     */
-    resource?: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/resources/{resource}";
-};
-
-export type ResourceGetErrors = {
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type ResourceGetError = ResourceGetErrors[keyof ResourceGetErrors];
-
-export type ResourceGetResponses = {
-  200: Resource;
-};
-
-export type ResourceGetResponse = ResourceGetResponses[keyof ResourceGetResponses];
-
-export type InstagramLoginData = {
-  body?: IgLogin;
-  path?: never;
-  query?: never;
-  url: "/api/v1/instagram/login";
-};
-
-export type InstagramLoginErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type InstagramLoginError = InstagramLoginErrors[keyof InstagramLoginErrors];
-
-export type InstagramLoginResponses = {
-  /**
-   * Successfully login to instagram
-   */
-  200: IgLoginResponse;
-};
-
-export type InstagramLoginResponse = InstagramLoginResponses[keyof InstagramLoginResponses];
-
-export type AdkAppListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/app";
-};
-
-export type AdkAppListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type AdkAppListError = AdkAppListErrors[keyof AdkAppListErrors];
-
-export type AdkAppListResponses = {
-  200: AdkEventList;
-};
-
-export type AdkAppListResponse = AdkAppListResponses[keyof AdkAppListResponses];
-
-export type AdkAppUpsertData = {
-  body: AdkAppUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/app";
-};
-
-export type AdkAppUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type AdkAppUpsertError = AdkAppUpsertErrors[keyof AdkAppUpsertErrors];
-
-export type AdkAppUpsertResponses = {
-  200: AdkApp;
-};
-
-export type AdkAppUpsertResponse = AdkAppUpsertResponses[keyof AdkAppUpsertResponses];
-
-export type AdkAppGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The app id
-     */
-    app: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/app/{app}";
-};
-
-export type AdkAppGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type AdkAppGetError = AdkAppGetErrors[keyof AdkAppGetErrors];
-
-export type AdkAppGetResponses = {
-  200: AdkApp;
-};
-
-export type AdkAppGetResponse = AdkAppGetResponses[keyof AdkAppGetResponses];
-
-export type AdkSessionListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/session";
-};
-
-export type AdkSessionListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type AdkSessionListError = AdkSessionListErrors[keyof AdkSessionListErrors];
-
-export type AdkSessionListResponses = {
-  200: AdkSessionList;
-};
-
-export type AdkSessionListResponse = AdkSessionListResponses[keyof AdkSessionListResponses];
-
-export type AdkSessionUpsertData = {
-  body: AdkSessionUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/session";
-};
-
-export type AdkSessionUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type AdkSessionUpsertError = AdkSessionUpsertErrors[keyof AdkSessionUpsertErrors];
-
-export type AdkSessionUpsertResponses = {
-  200: AdkSession;
-};
-
-export type AdkSessionUpsertResponse = AdkSessionUpsertResponses[keyof AdkSessionUpsertResponses];
-
-export type AdkSessionGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The app name
-     */
-    app: string;
-    /**
-     * The session id
-     */
-    session: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/app/{app}/session/{session}";
-};
-
-export type AdkSessionGetErrors = {
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type AdkSessionGetError = AdkSessionGetErrors[keyof AdkSessionGetErrors];
-
-export type AdkSessionGetResponses = {
-  200: AdkSession;
-};
-
-export type AdkSessionGetResponse = AdkSessionGetResponses[keyof AdkSessionGetResponses];
-
-export type AdkUserStateListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/user-state";
-};
-
-export type AdkUserStateListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type AdkUserStateListError = AdkUserStateListErrors[keyof AdkUserStateListErrors];
-
-export type AdkUserStateListResponses = {
-  200: AdkUserStateList;
-};
-
-export type AdkUserStateListResponse = AdkUserStateListResponses[keyof AdkUserStateListResponses];
-
-export type AdkUserStateUpsertData = {
-  body: AdkUserStateUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/user-state";
-};
-
-export type AdkUserStateUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type AdkUserStateUpsertError = AdkUserStateUpsertErrors[keyof AdkUserStateUpsertErrors];
-
-export type AdkUserStateUpsertResponses = {
-  200: AdkUserState;
-};
-
-export type AdkUserStateUpsertResponse =
-  AdkUserStateUpsertResponses[keyof AdkUserStateUpsertResponses];
-
-export type AdkUserStateGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The state id
-     */
-    state: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/user-state/{state}";
-};
-
-export type AdkUserStateGetErrors = {
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type AdkUserStateGetError = AdkUserStateGetErrors[keyof AdkUserStateGetErrors];
-
-export type AdkUserStateGetResponses = {
-  200: AdkUserState;
-};
-
-export type AdkUserStateGetResponse = AdkUserStateGetResponses[keyof AdkUserStateGetResponses];
-
-export type AdkEventsListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    app_name?: string;
-    session?: string;
-    limit?: number;
-    offset?: number;
-    orderByField?: AdkEventOrderByField;
-  };
-  url: "/api/v1/tenants/{tenant}/adk/events";
-};
-
-export type AdkEventsListErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-  404: ApiErrors;
-};
-
-export type AdkEventsListError = AdkEventsListErrors[keyof AdkEventsListErrors];
-
-export type AdkEventsListResponses = {
-  200: AdkEventList;
-};
-
-export type AdkEventsListResponse = AdkEventsListResponses[keyof AdkEventsListResponses];
-
-export type AdkEventsUpsertData = {
-  body: AdkEventUpsert;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/events";
-};
-
-export type AdkEventsUpsertErrors = {
-  400: ApiErrors;
-  403: ApiError;
-};
-
-export type AdkEventsUpsertError = AdkEventsUpsertErrors[keyof AdkEventsUpsertErrors];
-
-export type AdkEventsUpsertResponses = {
-  200: AdkEvent;
-};
-
-export type AdkEventsUpsertResponse = AdkEventsUpsertResponses[keyof AdkEventsUpsertResponses];
-
-export type AdkEventsGetData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-    /**
-     * The event id
-     */
-    event: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/adk/events/{event}";
-};
-
-export type AdkEventsGetErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  403: ApiError;
-  404: ApiErrors;
-};
-
-export type AdkEventsGetError = AdkEventsGetErrors[keyof AdkEventsGetErrors];
-
-export type AdkEventsGetResponses = {
-  200: AdkEvent;
-};
-
-export type AdkEventsGetResponse = AdkEventsGetResponses[keyof AdkEventsGetResponses];
-
-export type TkGetUserProfileData = {
-  body: TkGetUserProfileRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/tk/getUserProfile";
-};
-
-export type TkGetUserProfileErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type TkGetUserProfileError = TkGetUserProfileErrors[keyof TkGetUserProfileErrors];
-
-export type TkGetUserProfileResponses = {
-  200: TkUserProfile;
-};
-
-export type TkGetUserProfileResponse = TkGetUserProfileResponses[keyof TkGetUserProfileResponses];
-
-export type TkAccountLoginData = {
-  body: TkAccountLoginRequest;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/tk/tkAccountLogin";
-};
-
-export type TkAccountLoginErrors = {
-  400: ApiErrors;
-};
-
-export type TkAccountLoginError = TkAccountLoginErrors[keyof TkAccountLoginErrors];
-
-export type TkAccountLoginResponses = {
-  200: TkAccountLoginResult;
-};
-
-export type TkAccountLoginResponse = TkAccountLoginResponses[keyof TkAccountLoginResponses];
-
-export type MttaskListData = {
-  body?: never;
-  path: {
-    /**
-     * The tenant id
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/mttasks";
-};
-
-export type MttaskListErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: ApiErrors;
-  /**
-   * Forbidden
-   */
-  403: ApiErrors;
-  /**
-   * Not found
-   */
-  404: ApiErrors;
-};
-
-export type MttaskListError = MttaskListErrors[keyof MttaskListErrors];
-
-export type MttaskListResponses = {
-  200: MtTaskList;
-};
-
-export type MttaskListResponse = MttaskListResponses[keyof MttaskListResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
