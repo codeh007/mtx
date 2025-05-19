@@ -7325,22 +7325,21 @@ export type EndpointUpdateResponses = {
 
 export type EndpointUpdateResponse = EndpointUpdateResponses[keyof EndpointUpdateResponses];
 
-export type GetApiV1MtworkerTasksData = {
+export type MtworkerGetTasksData = {
   body?: never;
   path?: never;
   query?: never;
   url: "/api/v1/mtworker/tasks";
 };
 
-export type GetApiV1MtworkerTasksResponses = {
+export type MtworkerGetTasksResponses = {
   /**
    * 获取mtworker任务成功
    */
   200: MtWorkerTask;
 };
 
-export type GetApiV1MtworkerTasksResponse =
-  GetApiV1MtworkerTasksResponses[keyof GetApiV1MtworkerTasksResponses];
+export type MtworkerGetTasksResponse = MtworkerGetTasksResponses[keyof MtworkerGetTasksResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

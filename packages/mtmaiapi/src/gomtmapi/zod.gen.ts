@@ -2096,4 +2096,4 @@ export const zEndpointListResponse = zEndpointList;
 
 export const zEndpointUpdateResponse = zEndpoint;
 
-export const zGetApiV1MtworkerTasksResponse = zMtWorkerTask;
+export const zMtworkerGetTasksResponse = zMtWorkerTask;

@@ -128,7 +128,7 @@ import {
   frontendGetSiderbar,
   endpointList,
   endpointUpdate,
-  getApiV1MtworkerTasks,
+  mtworkerGetTasks,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -386,7 +386,7 @@ import type {
   EndpointUpdateData,
   EndpointUpdateError,
   EndpointUpdateResponse,
-  GetApiV1MtworkerTasksData,
+  MtworkerGetTasksData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -3991,13 +3991,13 @@ export const endpointUpdateMutation = (options?: Partial<Options<EndpointUpdateD
   return mutationOptions;
 };
 
-export const getApiV1MtworkerTasksQueryKey = (options?: Options<GetApiV1MtworkerTasksData>) =>
-  createQueryKey("getApiV1MtworkerTasks", options);
+export const mtworkerGetTasksQueryKey = (options?: Options<MtworkerGetTasksData>) =>
+  createQueryKey("mtworkerGetTasks", options);
 
-export const getApiV1MtworkerTasksOptions = (options?: Options<GetApiV1MtworkerTasksData>) => {
+export const mtworkerGetTasksOptions = (options?: Options<MtworkerGetTasksData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getApiV1MtworkerTasks({
+      const { data } = await mtworkerGetTasks({
         ...options,
         ...queryKey[0],
         signal,
@@ -4005,6 +4005,6 @@ export const getApiV1MtworkerTasksOptions = (options?: Options<GetApiV1MtworkerT
       });
       return data;
     },
-    queryKey: getApiV1MtworkerTasksQueryKey(options),
+    queryKey: mtworkerGetTasksQueryKey(options),
   });
 };

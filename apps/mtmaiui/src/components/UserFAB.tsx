@@ -19,11 +19,11 @@ import {
 } from "mtxuilib/ui/dropdown-menu";
 import { useState } from "react";
 
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import {
   // adminReleaseConnMutation,
-  adminResetDbMutation,
+  // adminResetDbMutation,
   frontendGetSiderbarOptions,
 } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
@@ -149,14 +149,14 @@ const AdminFABDropdownMenuContent = () => {
   //   },
   // });
 
-  const adminResetDb = useMutation({
-    ...adminResetDbMutation(),
-    onSuccess: () => {
-      toast.toast({
-        title: "清理数据库表成功",
-      });
-    },
-  });
+  // const adminResetDb = useMutation({
+  //   ...adminResetDbMutation(),
+  //   onSuccess: () => {
+  //     toast.toast({
+  //       title: "清理数据库表成功",
+  //     });
+  //   },
+  // });
 
   return (
     <DropdownMenuGroup>
@@ -171,13 +171,13 @@ const AdminFABDropdownMenuContent = () => {
             >
               释放数据库连接
             </DropdownMenuItem>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => {
-                adminResetDb.mutate({});
+                // adminResetDb.mutate({});
               }}
             >
               清理数据库表
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>

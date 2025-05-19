@@ -2,21 +2,20 @@
 
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { motion } from "framer-motion";
-import {
-  type AdkEvent,
-  type ChatMessage,
-  type Content,
-  type FunctionCall,
-  type LlmMessage,
-  type Part,
-  adkEventsListOptions,
+import type {
+  AdkEvent,
+  ChatMessage,
+  Content,
+  FunctionCall,
+  LlmMessage,
+  Part,
+  // adkEventsListOptions,
 } from "mtmaiapi";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { SparklesIcon } from "mtxuilib/icons/aichatbot.icons";
 import { Markdown } from "mtxuilib/markdown/Markdown";
 
-import { useQuery } from "@tanstack/react-query";
 import { camelCase } from "lodash-es";
 import { cn } from "mtxuilib/lib/utils";
 import { useTenantId } from "../../hooks/useAuth";
@@ -32,17 +31,17 @@ interface MtMessagesProps {
 export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
   const tid = useTenantId();
   const session = useWorkbenchStore((x) => x.sessionId);
-  const adkEventsQuery = useQuery({
-    ...adkEventsListOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        limit: 100,
-        session: session,
-      },
-    }),
-  });
+  // const adkEventsQuery = useQuery({
+  //   ...adkEventsListOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //     query: {
+  //       limit: 100,
+  //       session: session,
+  //     },
+  //   }),
+  // });
   return (
     <div className="p-1 px-2">
       <DebugValue data={{ messages }} />
@@ -53,9 +52,9 @@ export const ModelContextMessageView = ({ messages }: MtMessagesProps) => {
       ))}
 
       <div className="mt-4 space-y-2">
-        {adkEventsQuery.data?.rows?.map((event) => (
+        {/* {adkEventsQuery.data?.rows?.map((event) => (
           <AdkEventMessageView key={event.id} event={event} />
-        ))}
+        ))} */}
       </div>
     </div>
   );

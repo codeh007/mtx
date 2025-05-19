@@ -4,26 +4,14 @@ import { debounce } from "lodash";
 import {
   type AdkEvent,
   AgentEventType,
-  type Agents,
-  type AssistantAgent,
-  type AssistantAgentConfig,
   type ChatMessage,
   type ChatMessageList,
   type Content,
   FlowNames,
   type FlowTeamInput,
-  type InstagramAgent,
-  type InstagramAgentConfig,
-  ModelFamily,
-  type OpenAiChatCompletionClient,
-  ProviderTypes,
   type SocialTeam,
-  type SocialTeamConfig,
   type SocialTeamManagerState,
   type StartNewChatInput,
-  type Terminations,
-  type UserProxyAgent,
-  type UserProxyAgentConfig,
   workflowRunCreate,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
@@ -33,7 +21,6 @@ import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
-import { MtmaiuiConfig } from "../lib/core/config";
 
 export interface WorkbenchProps {
   threadId?: string;
@@ -120,19 +107,17 @@ export interface WorkbrenchState extends WorkbenchProps {
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
 }
 
-export const createWorkbrenchSlice: StateCreator<
-  WorkbrenchState,
-  [],
-  [],
-  WorkbrenchState
-> = (set, get, init) => {
+export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], WorkbrenchState> = (
+  set,
+  get,
+  init,
+) => {
   return {
     userAgentState: {},
     setInput: (input) => set({ input }),
     messages: [],
     firstUserInteraction: undefined,
-    setFirstUserInteraction: (firstUserInteraction) =>
-      set({ firstUserInteraction }),
+    setFirstUserInteraction: (firstUserInteraction) => set({ firstUserInteraction }),
     setAccessToken: (accessToken: string) => {
       set({ accessToken });
     },
@@ -146,131 +131,131 @@ export const createWorkbrenchSlice: StateCreator<
     setOpenChat: (openChat: boolean) => {
       set({ openChat });
     },
-    team: {
-      provider: ProviderTypes.SOCIAL_TEAM,
-      component_type: "team",
-      label: "social team",
-      description: "social team",
-      config: {
-        proxy_url: "http://localhost:10809",
-        max_turns: 25,
-        enable_swarm: true,
-        participants: [
-          {
-            provider: ProviderTypes.INSTAGRAM_AGENT,
-            label: "instagram",
-            component_type: "agent",
-            description: "instagram agent",
-            config: {
-              name: "instagram_agent",
-              description: "instagram agent",
-              tools: [],
-              handoffs: ["user"],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              system_message: "你是instagram agent",
-              credentials: {
-                username: "saibichquyenll2015",
-                password: "qSJPn07c7",
-                otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
-              },
-              proxy_url: "http://localhost:10809",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies InstagramAgentConfig,
-          } satisfies InstagramAgent,
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "useful_assistant",
-              description: "有用的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-          {
-            provider: ProviderTypes.ASSISTANT_AGENT,
-            label: "assistant",
-            component_type: "agent",
-            description: "assistant agent",
-            config: {
-              name: "joke_writer_assistant",
-              description: "擅长冷笑话创作的助手",
-              tools: [],
-              reflect_on_tool_use: false,
-              tool_call_summary_format: "{result}",
-              system_message: "你是擅长冷笑话创作的助手",
-              model_client: {
-                provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
-                config: {
-                  model: MtmaiuiConfig.default_open_model,
-                  api_key: MtmaiuiConfig.default_open_ai_key,
-                  base_url: MtmaiuiConfig.default_open_base_url,
-                  model_info: {
-                    vision: false,
-                    function_calling: true,
-                    json_output: true,
-                    structured_output: true,
-                    family: ModelFamily.UNKNOWN,
-                  },
-                },
-              } satisfies OpenAiChatCompletionClient,
-            } satisfies AssistantAgentConfig,
-          } satisfies AssistantAgent,
-          {
-            provider: ProviderTypes.USER_PROXY_AGENT,
-            label: "user_proxy",
-            component_type: "agent",
-            description: "user proxy agent",
-            config: {
-              name: "user",
-              description: "user proxy agent",
-            } satisfies UserProxyAgentConfig,
-          } satisfies UserProxyAgent,
-        ] satisfies Agents[],
-        termination_condition: {
-          provider: ProviderTypes.TEXT_MENTION_TERMINATION,
-          config: {
-            text: "TERMINATE",
-          },
-        } satisfies Terminations,
-      } satisfies SocialTeamConfig,
-    } satisfies SocialTeam,
-    setTeam: (team) => {
-      set({ team });
-    },
+    // team: {
+    //   provider: ProviderTypes.SOCIAL_TEAM,
+    //   component_type: "team",
+    //   label: "social team",
+    //   description: "social team",
+    //   config: {
+    //     proxy_url: "http://localhost:10809",
+    //     max_turns: 25,
+    //     enable_swarm: true,
+    //     participants: [
+    //       {
+    //         provider: ProviderTypes.INSTAGRAM_AGENT,
+    //         label: "instagram",
+    //         component_type: "agent",
+    //         description: "instagram agent",
+    //         config: {
+    //           name: "instagram_agent",
+    //           description: "instagram agent",
+    //           tools: [],
+    //           handoffs: ["user"],
+    //           reflect_on_tool_use: false,
+    //           tool_call_summary_format: "{result}",
+    //           system_message: "你是instagram agent",
+    //           credentials: {
+    //             username: "saibichquyenll2015",
+    //             password: "qSJPn07c7",
+    //             otp_key: "MCF3M4XZHTFWKYXUGV4CQX3LFXMKMWFP",
+    //           },
+    //           proxy_url: "http://localhost:10809",
+    //           model_client: {
+    //             provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+    //             config: {
+    //               model: MtmaiuiConfig.default_open_model,
+    //               api_key: MtmaiuiConfig.default_open_ai_key,
+    //               base_url: MtmaiuiConfig.default_open_base_url,
+    //               model_info: {
+    //                 vision: false,
+    //                 function_calling: true,
+    //                 json_output: true,
+    //                 structured_output: true,
+    //                 family: ModelFamily.UNKNOWN,
+    //               },
+    //             },
+    //           } satisfies OpenAiChatCompletionClient,
+    //         } satisfies InstagramAgentConfig,
+    //       } satisfies InstagramAgent,
+    //       {
+    //         provider: ProviderTypes.ASSISTANT_AGENT,
+    //         label: "assistant",
+    //         component_type: "agent",
+    //         description: "assistant agent",
+    //         config: {
+    //           name: "useful_assistant",
+    //           description: "有用的助手",
+    //           tools: [],
+    //           reflect_on_tool_use: false,
+    //           tool_call_summary_format: "{result}",
+    //           model_client: {
+    //             provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+    //             config: {
+    //               model: MtmaiuiConfig.default_open_model,
+    //               api_key: MtmaiuiConfig.default_open_ai_key,
+    //               base_url: MtmaiuiConfig.default_open_base_url,
+    //               model_info: {
+    //                 vision: false,
+    //                 function_calling: true,
+    //                 json_output: true,
+    //                 structured_output: true,
+    //                 family: ModelFamily.UNKNOWN,
+    //               },
+    //             },
+    //           } satisfies OpenAiChatCompletionClient,
+    //         } satisfies AssistantAgentConfig,
+    //       } satisfies AssistantAgent,
+    //       {
+    //         provider: ProviderTypes.ASSISTANT_AGENT,
+    //         label: "assistant",
+    //         component_type: "agent",
+    //         description: "assistant agent",
+    //         config: {
+    //           name: "joke_writer_assistant",
+    //           description: "擅长冷笑话创作的助手",
+    //           tools: [],
+    //           reflect_on_tool_use: false,
+    //           tool_call_summary_format: "{result}",
+    //           system_message: "你是擅长冷笑话创作的助手",
+    //           model_client: {
+    //             provider: ProviderTypes.OPEN_AI_CHAT_COMPLETION_CLIENT,
+    //             config: {
+    //               model: MtmaiuiConfig.default_open_model,
+    //               api_key: MtmaiuiConfig.default_open_ai_key,
+    //               base_url: MtmaiuiConfig.default_open_base_url,
+    //               model_info: {
+    //                 vision: false,
+    //                 function_calling: true,
+    //                 json_output: true,
+    //                 structured_output: true,
+    //                 family: ModelFamily.UNKNOWN,
+    //               },
+    //             },
+    //           } satisfies OpenAiChatCompletionClient,
+    //         } satisfies AssistantAgentConfig,
+    //       } satisfies AssistantAgent,
+    //       {
+    //         provider: ProviderTypes.USER_PROXY_AGENT,
+    //         label: "user_proxy",
+    //         component_type: "agent",
+    //         description: "user proxy agent",
+    //         config: {
+    //           name: "user",
+    //           description: "user proxy agent",
+    //         } satisfies UserProxyAgentConfig,
+    //       } satisfies UserProxyAgent,
+    //     ] satisfies Agents[],
+    //     termination_condition: {
+    //       provider: ProviderTypes.TEXT_MENTION_TERMINATION,
+    //       config: {
+    //         text: "TERMINATE",
+    //       },
+    //     } satisfies Terminations,
+    //   } satisfies SocialTeamConfig,
+    // } satisfies SocialTeam,
+    // setTeam: (team) => {
+    //   set({ team });
+    // },
 
     handleHumanInput: debounce(async (input: Content) => {
       get().setChatStarted(true);
@@ -446,13 +431,9 @@ const createWordbrenchStore = (initProps?: Partial<WorkbrenchState>) => {
     ),
   );
 };
-const mtmaiStoreContext = createContext<ReturnType<
-  typeof createWordbrenchStore
-> | null>(null);
+const mtmaiStoreContext = createContext<ReturnType<typeof createWordbrenchStore> | null>(null);
 
-export const WorkbrenchProvider = (
-  props: React.PropsWithChildren<WorkbenchProps>,
-) => {
+export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps>) => {
   const { children, ...etc } = props;
   const [isPending, startTransition] = useTransition();
   const mystore = useMemo(
@@ -464,27 +445,18 @@ export const WorkbrenchProvider = (
     [],
   );
 
-  return (
-    <mtmaiStoreContext.Provider value={mystore}>
-      {children}
-    </mtmaiStoreContext.Provider>
-  );
+  return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };
 
 const DEFAULT_USE_SHALLOW = false;
 export function useWorkbenchStore(): WorkbrenchState;
-export function useWorkbenchStore<T>(
-  selector: (state: WorkbrenchState) => T,
-): T;
+export function useWorkbenchStore<T>(selector: (state: WorkbrenchState) => T): T;
 export function useWorkbenchStore<T>(selector?: (state: WorkbrenchState) => T) {
   const store = useContext(mtmaiStoreContext);
   if (!store) throw new Error("useWorkbenchStore must in WorkbrenchProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useStore(
-      store,
-      DEFAULT_USE_SHALLOW ? useShallow(selector) : selector,
-    );
+    return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks

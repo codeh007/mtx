@@ -1,6 +1,6 @@
 "use client";
 
-import { type UseMutationResult, useMutation, useQuery } from "@tanstack/react-query";
+import { type UseMutationResult, useMutation } from "@tanstack/react-query";
 import type { Message } from "ai";
 import { debounce } from "lodash";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -20,14 +20,13 @@ import {
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
-  adkEventsListOptions,
+  // adkEventsListOptions,
   adkSessionGet,
-  adkSessionGetOptions,
   workflowRunCreateMutation,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
-import { createContext, useContext, useEffect, useMemo, useTransition } from "react";
+import { createContext, useContext, useMemo, useTransition } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -475,38 +474,38 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   //   );
   // }, [mystore, nav, search, tid]);
 
-  const adkEventsQuery = useQuery({
-    ...adkEventsListOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        session: etc.sessionId,
-      },
-    }),
-    enabled: !!etc.sessionId,
-  });
-  useEffect(() => {
-    if (adkEventsQuery.data) {
-      mystore.setState({ adkEvents: adkEventsQuery.data.rows });
-    }
-  }, [adkEventsQuery.data, mystore]);
+  // const adkEventsQuery = useQuery({
+  //   ...adkEventsListOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //     query: {
+  //       session: etc.sessionId,
+  //     },
+  //   }),
+  //   enabled: !!etc.sessionId,
+  // });
+  // useEffect(() => {
+  //   if (adkEventsQuery.data) {
+  //     mystore.setState({ adkEvents: adkEventsQuery.data.rows });
+  //   }
+  // }, [adkEventsQuery.data, mystore]);
 
-  const adkSessionQuery = useQuery({
-    ...adkSessionGetOptions({
-      path: {
-        tenant: tid,
-        session: etc.sessionId!,
-      },
-    }),
-    enabled: !!etc.sessionId,
-  });
-  useEffect(() => {
-    if (adkSessionQuery.data) {
-      console.log("adkSessionQuery.data", adkSessionQuery.data);
-      mystore.setState({ agentState: adkSessionQuery.data.state as RootAgentState });
-    }
-  }, [adkSessionQuery.data, mystore]);
+  // const adkSessionQuery = useQuery({
+  //   ...adkSessionGetOptions({
+  //     path: {
+  //       tenant: tid,
+  //       session: etc.sessionId!,
+  //     },
+  //   }),
+  //   enabled: !!etc.sessionId,
+  // });
+  // useEffect(() => {
+  //   if (adkSessionQuery.data) {
+  //     console.log("adkSessionQuery.data", adkSessionQuery.data);
+  //     mystore.setState({ agentState: adkSessionQuery.data.state as RootAgentState });
+  //   }
+  // }, [adkSessionQuery.data, mystore]);
 
   useHotkeys(
     "alt+.",
@@ -543,23 +542,23 @@ export const OnSessionChange = () => {
   const adkAppName = useWorkbenchStore((state) => state.adkAppName);
   const setAdkEvents = useWorkbenchStore((state) => state.setAdkEvents);
   const tid = useTenantId();
-  const adkEventsQuery = useQuery({
-    ...adkEventsListOptions({
-      path: {
-        tenant: tid,
-      },
-      query: {
-        app_name: adkAppName,
-        session: sessionId!,
-      },
-    }),
-  });
+  // const adkEventsQuery = useQuery({
+  //   ...adkEventsListOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //     query: {
+  //       app_name: adkAppName,
+  //       session: sessionId!,
+  //     },
+  //   }),
+  // });
 
-  useEffect(() => {
-    if (adkEventsQuery.data) {
-      console.log("adkEventsQuery.data", adkEventsQuery.data);
-      setAdkEvents(adkEventsQuery.data.rows || []);
-    }
-  }, [adkEventsQuery.data, setAdkEvents]);
+  // useEffect(() => {
+  //   if (adkEventsQuery.data) {
+  //     console.log("adkEventsQuery.data", adkEventsQuery.data);
+  //     setAdkEvents(adkEventsQuery.data.rows || []);
+  //   }
+  // }, [adkEventsQuery.data, setAdkEvents]);
   return null;
 };

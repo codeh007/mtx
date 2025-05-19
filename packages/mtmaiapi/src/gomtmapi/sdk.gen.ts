@@ -354,8 +354,8 @@ import type {
   EndpointUpdateData,
   EndpointUpdateResponse,
   EndpointUpdateError,
-  GetApiV1MtworkerTasksData,
-  GetApiV1MtworkerTasksResponse,
+  MtworkerGetTasksData,
+  MtworkerGetTasksResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3714,14 +3714,10 @@ export const endpointUpdate = <ThrowOnError extends boolean = false>(
  * 获取mtworker任务
  * 获取mtworker任务
  */
-export const getApiV1MtworkerTasks = <ThrowOnError extends boolean = false>(
-  options?: Options<GetApiV1MtworkerTasksData, ThrowOnError>,
+export const mtworkerGetTasks = <ThrowOnError extends boolean = false>(
+  options?: Options<MtworkerGetTasksData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).get<
-    GetApiV1MtworkerTasksResponse,
-    unknown,
-    ThrowOnError
-  >({
+  return (options?.client ?? _heyApiClient).get<MtworkerGetTasksResponse, unknown, ThrowOnError>({
     security: [
       {
         scheme: "bearer",
