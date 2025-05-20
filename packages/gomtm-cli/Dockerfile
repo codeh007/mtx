@@ -13,9 +13,9 @@ ENV PATH=/app/bin:/app/hack:/app/hack/dev:/app/hack:${HOME}/.local/bin:$PATH
 ENV SHELL=/bin/bash
 RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
     sudo git curl wget ca-certificates gnupg2 unzip lsb-release \
-    iptables iproute2 net-tools inetutils-ping dnsutils \
+    iptables net-tools inetutils-ping dnsutils \
     ncat socat \
-    openssh-server \
+    # openssh-server \
     make \
     cmake \
     gettext-base \
