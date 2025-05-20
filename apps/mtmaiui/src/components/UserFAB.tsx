@@ -164,20 +164,14 @@ const AdminFABDropdownMenuContent = () => {
         <DropdownMenuSubTrigger>管理</DropdownMenuSubTrigger>
         <DropdownMenuPortal>
           <DropdownMenuSubContent>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => {
                 // adminReleaseConn.mutate({});
               }}
             >
               释放数据库连接
             </DropdownMenuItem>
-            {/* <DropdownMenuItem
-              onClick={() => {
-                // adminResetDb.mutate({});
-              }}
-            >
-              清理数据库表
-            </DropdownMenuItem> */}
+             */}
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
