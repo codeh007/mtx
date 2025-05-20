@@ -2430,7 +2430,15 @@ export type SiderbarConfig = {
    */
   logo?: string;
   sideritems?: Array<DashSidebarItem>;
-  other?: FlowNames | AgentEventType | PlatformAccountList | Content | Part | AdkSessionList;
+  other?:
+    | FlowNames
+    | AgentEventType
+    | PlatformAccountList
+    | Content
+    | Part
+    | AdkSessionList
+    | AgentRunnerInput
+    | AgentRunnerOutput;
 };
 
 export type DashSidebarItem = {
@@ -2552,6 +2560,14 @@ export const FlowNames = {
   TEAM: "team",
   ADK: "adk",
 } as const;
+
+export type AgentRunnerInput = {
+  content?: string;
+};
+
+export type AgentRunnerOutput = {
+  content?: string;
+};
 
 export type AgentProperties = {
   name: string;
@@ -2785,17 +2801,6 @@ export const AdkAppTypes = {
   ASSISTANT: "assistant",
   OPEN_DEEP_RESEARCH: "open_deep_research",
 } as const;
-
-export type AgentRunRequestV3 = {
-  app_name: string;
-  user_id?: string;
-  session_id?: string;
-  init_state?: {
-    [key: string]: unknown;
-  };
-  new_message: Content;
-  streaming?: boolean;
-};
 
 export type AdkSessionProperties = {
   id: string;

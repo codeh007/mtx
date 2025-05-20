@@ -1993,6 +1993,12 @@ export const zSiderbarConfig = z.object({
           )
           .optional(),
       }),
+      z.object({
+        content: z.string().optional(),
+      }),
+      z.object({
+        content: z.string().optional(),
+      }),
     ])
     .optional(),
 });
@@ -2075,6 +2081,14 @@ export const zFlowNames = z.enum([
   "team",
   "adk",
 ]);
+
+export const zAgentRunnerInput = z.object({
+  content: z.string().optional(),
+});
+
+export const zAgentRunnerOutput = z.object({
+  content: z.string().optional(),
+});
 
 export const zAgentProperties = z.object({
   name: z.string(),
@@ -2260,32 +2274,6 @@ export const zAdkApp = zApiResourceMetaProperties.merge(zAdkAppProperties);
 export const zAdkAppUpsert = zAdkAppProperties;
 
 export const zAdkAppTypes = z.enum(["root", "instagram_agent", "assistant", "open_deep_research"]);
-
-export const zAgentRunRequestV3 = z.object({
-  app_name: z.string(),
-  user_id: z.string().optional(),
-  session_id: z.string().optional(),
-  init_state: z.object({}).optional(),
-  new_message: z.object({
-    role: z.string().optional(),
-    parts: z
-      .array(
-        z.object({
-          text: z.string().optional(),
-          video_metadata: z.object({}).optional(),
-          thought: z.boolean().optional(),
-          code_execution_result: z.object({}).optional(),
-          executable_code: z.string().optional(),
-          file_data: z.object({}).optional(),
-          function_call: z.object({}).optional(),
-          function_response: z.object({}).optional(),
-          inline_data: z.object({}).optional(),
-        }),
-      )
-      .optional(),
-  }),
-  streaming: z.boolean().optional().default(false),
-});
 
 export const zAdkSessionProperties = z.object({
   id: z.string(),

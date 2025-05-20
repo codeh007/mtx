@@ -4266,6 +4266,12 @@ export const SiderbarConfigSchema = {
         {
           $ref: "#/components/schemas/AdkSessionList",
         },
+        {
+          $ref: "#/components/schemas/AgentRunnerInput",
+        },
+        {
+          $ref: "#/components/schemas/AgentRunnerOutput",
+        },
       ],
     },
   },
@@ -4427,6 +4433,22 @@ export const FlowNamesSchema = {
     "team",
     "adk",
   ],
+} as const;
+
+export const AgentRunnerInputSchema = {
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const AgentRunnerOutputSchema = {
+  properties: {
+    content: {
+      type: "string",
+    },
+  },
 } as const;
 
 export const AgentPropertiesSchema = {
@@ -4922,32 +4944,6 @@ export const AdkAppUpsertSchema = {
 export const AdkAppTypesSchema = {
   type: "string",
   enum: ["root", "instagram_agent", "assistant", "open_deep_research"],
-} as const;
-
-export const AgentRunRequestV3Schema = {
-  required: ["app_name", "new_message"],
-  properties: {
-    app_name: {
-      type: "string",
-    },
-    user_id: {
-      type: "string",
-    },
-    session_id: {
-      type: "string",
-    },
-    init_state: {
-      type: "object",
-      additionalProperties: true,
-    },
-    new_message: {
-      $ref: "#/components/schemas/Content",
-    },
-    streaming: {
-      type: "boolean",
-      default: false,
-    },
-  },
 } as const;
 
 export const AdkSessionPropertiesSchema = {
