@@ -152,7 +152,6 @@ const nextConfig = {
     "edge-runtime",
     "ws",
     ".prisma/client",
-    "postgres",
   ],
 };
 
