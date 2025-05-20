@@ -19,7 +19,7 @@ RUN apt update -yqq --fix-missing && apt -yqq --no-install-recommends install \
     make \
     cmake \
     gettext-base \
-    libpcap-dev \
+    # libpcap-dev \
     make build-essential libssl-dev \
     zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
     llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
@@ -130,10 +130,10 @@ RUN curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.gpg | sudo apt-key
 
 
 # postgresql
-RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
-    && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - \
-    && apt-get update && apt-get install -yqq --no-install-recommends postgresql-16 postgresql-16-pgvector \
-    && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+# RUN sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
+#     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - \
+#     && apt-get update && apt-get install -yqq --no-install-recommends postgresql-16 postgresql-16-pgvector \
+#     && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
 
 
 WORKDIR ${WORK_DIR}
@@ -194,11 +194,11 @@ RUN apt update -q --fix-missing && apt -y install \
     ncat \
     socat \
     dnsutils \
-    openssh-server \
+    # openssh-server \
     make \
     gettext-base \
     sudo \
-    libpcap-dev \
+    # libpcap-dev \
     && apt -y autoremove && apt-get -y clean && rm -rf /tmp/* \
     && rm -rf /var/lib/apt/lists/*
 
@@ -215,9 +215,9 @@ COPY docker/bin/* /usr/bin/
 RUN chmod +x /usr/bin/*
 
 # cloudflared
-RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
-    && sudo dpkg -i cloudflared.deb \
-    && rm cloudflared.deb
+# RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb \
+#     && sudo dpkg -i cloudflared.deb \
+#     && rm cloudflared.deb
 
 ARG GOLANG_VERSION
 # 设置Go Path
@@ -240,7 +240,7 @@ RUN bun install -g gomtm@latest
 RUN uv venv
 RUN uv pip install --no-cache-dir -U mtxai
 # yakit(IDE, linux 版的无UI)
-RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
+# RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
 
 
 CMD ["./gomtm"]

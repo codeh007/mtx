@@ -11,3 +11,6 @@ export * from "./adk_events";
 export * from "./adk_sessions";
 export * from "./adk_user_states";
 export * from "./plateform_account";
+
+// blog posts
+export * from "./blogPosts";

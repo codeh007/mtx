@@ -180,6 +180,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:501
+          tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:502
           file: packages/gomtm-cli/Dockerfile
           target: gomtm
