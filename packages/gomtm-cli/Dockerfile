@@ -236,9 +236,8 @@ RUN echo 'export PATH="$PATH:$GOPATH/bin:/usr/local/go/bin"' >> /etc/profile \
 # gomtm
 FROM mtmbase AS gomtm
 WORKDIR /app
-RUN bun install -g gomtm@latest
-RUN uv venv
-RUN uv pip install --no-cache-dir -U mtxai
+RUN npm install -g gomtm@latest
+RUN uv venv && uv pip install --no-cache-dir -U mtxai
 # yakit(IDE, linux 版的无UI)
 # RUN curl -sS -L http://oss.yaklang.io/install-latest-yak.sh | bash -
 
