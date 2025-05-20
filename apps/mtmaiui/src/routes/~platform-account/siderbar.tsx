@@ -3,9 +3,7 @@
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Switch } from "mtxuilib/ui/switch";
 
-
-import { useQuery } from "@tanstack/react-query";
-import { platformAccountListOptions } from "mtmaiapi";
+// import { platformAccountListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { buttonVariants } from "mtxuilib/ui/button";
@@ -25,13 +23,13 @@ import { useTenantId } from "../../hooks/useAuth";
 export function NavPlatformAccount() {
   const { isMobile } = useSidebar();
   const tid = useTenantId();
-  const platformAccountQuery = useQuery({
-    ...platformAccountListOptions({
-      path: {
-        tenant: tid!,
-      },
-    }),
-  });
+  // const platformAccountQuery = useQuery({
+  //   ...platformAccountListOptions({
+  //     path: {
+  //       tenant: tid!,
+  //     },
+  //   }),
+  // });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -54,18 +52,15 @@ export function NavPlatformAccount() {
         <SidebarGroup className="px-1">
           <SidebarGroupContent className="px-1 space-y-1 border-b">
             {platformAccountQuery.data?.rows?.map((item) => (
-              <div key={item.metadata?.id} className="flex flex-col flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-              <CustomLink
-                to={`${item.metadata?.id}`}
+              <div
                 key={item.metadata?.id}
-                className=""
+                className="flex flex-col flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
-                
-                <span className="line-clamp-2 whitespace-break-spaces text-xs">
-                  {item.username || item.metadata?.id}
-                </span>
-              </CustomLink>
-              
+                <CustomLink to={`${item.metadata?.id}`} key={item.metadata?.id} className="">
+                  <span className="line-clamp-2 whitespace-break-spaces text-xs">
+                    {item.username || item.metadata?.id}
+                  </span>
+                </CustomLink>
               </div>
             ))}
           </SidebarGroupContent>

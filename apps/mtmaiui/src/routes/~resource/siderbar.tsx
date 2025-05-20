@@ -1,17 +1,8 @@
 "use client";
 
 import { Label } from "@radix-ui/react-dropdown-menu";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import {
-  type MtResource,
-  resourceDeleteMutation,
-  resourceListOptions,
-  resourceListQueryKey,
-} from "mtmaiapi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {} from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
@@ -35,13 +26,13 @@ import { useTenantId } from "../../hooks/useAuth";
 export function NavResource() {
   const { isMobile } = useSidebar();
   const tid = useTenantId();
-  const platformAccountQuery = useSuspenseQuery({
-    ...resourceListOptions({
-      path: {
-        tenant: tid!,
-      },
-    }),
-  });
+  // const platformAccountQuery = useSuspenseQuery({
+  //   ...resourceListOptions({
+  //     path: {
+  //       tenant: tid!,
+  //     },
+  //   }),
+  // });
 
   return (
     <Sidebar collapsible="none" className="hidden flex-1 md:flex">
@@ -63,9 +54,9 @@ export function NavResource() {
       <SidebarContent>
         <SidebarGroup className="px-0">
           <SidebarGroupContent>
-            {platformAccountQuery.data?.rows?.map((item) => (
+            {/* {platformAccountQuery.data?.rows?.map((item) => (
               <NavResourceItem key={item.metadata?.id} item={item} />
-            ))}
+            ))} */}
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
@@ -98,12 +89,12 @@ const NavResourceItem = ({ item }: { item: MtResource }) => {
     },
   });
   const handleDelete = () => {
-    resourceDeleteMu.mutate({
-      path: {
-        tenant: tid!,
-        resource: item.metadata?.id,
-      },
-    });
+    // resourceDeleteMu.mutate({
+    //   path: {
+    //     tenant: tid!,
+    //     resource: item.metadata?.id,
+    //   },
+    // });
   };
   return (
     <div className="justify-between border-b space-y-0.5 w-full rounded-md">

@@ -5,23 +5,24 @@ import type { Message } from "ai";
 import { debounce } from "lodash";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import type { RootAgentState } from "@mtmaiui/agent_state/root_agent_state";
 import {
   type AdkEvent,
-  type AgentRunRequestV3,
+  // type AgentRunRequestV3,
   type ApiErrors,
-  type ChatMessage,
-  type ChatMessageList,
+  // type ChatMessage,
+  // type ChatMessageList,
   type Content,
-  type FlowTeamInput,
+  // type FlowTeamInput,
   type Options,
-  type RootAgentState,
-  type SocialTeam,
-  type SocialTeamManagerState,
+  // type RootAgentState,
+  // type SocialTeam,
+  // type SocialTeamManagerState,
   type Tenant,
   type WorkflowRun,
   type WorkflowRunCreateData,
   // adkEventsListOptions,
-  adkSessionGet,
+  // adkSessionGet,
   workflowRunCreateMutation,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
@@ -306,17 +307,17 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
       if (!sessionId) {
         return;
       }
-      const adkSession = await adkSessionGet({
-        path: {
-          tenant: get().tenant.metadata.id,
-          app: get().adkAppName,
-          session: sessionId ?? "",
-        },
-      });
+      // const adkSession = await adkSessionGet({
+      //   path: {
+      //     tenant: get().tenant.metadata.id,
+      //     app: get().adkAppName,
+      //     session: sessionId ?? "",
+      //   },
+      // });
       // console.log("adkStateQuery Result", adkSession);
-      if (adkSession.data) {
-        set({ agentState: adkSession.data.state as RootAgentState });
-      }
+      // if (adkSession.data) {
+      //   set({ agentState: adkSession.data.state as RootAgentState });
+      // }
     },
     setWorkflowRunId: (workflowRunId) => {
       set({ workflowRunId });

@@ -1,25 +1,24 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { type Proxy as MtProxy, proxyListOptions } from "mtmaiapi";
+// import { type Proxy as MtProxy, proxyListOptions } from "mtmaiapi";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { TaskDateBadge } from "mtxuilib/mt/relative-date";
 import { useTenantId } from "../../hooks/useAuth";
 
 export function ProxyListView() {
   const tid = useTenantId();
-  const listProxyQuery = useSuspenseQuery({
-    ...proxyListOptions({
-      path: {
-        tenant: tid,
-      },
-    }),
-  });
+  // const listProxyQuery = useSuspenseQuery({
+  //   ...proxyListOptions({
+  //     path: {
+  //       tenant: tid,
+  //     },
+  //   }),
+  // });
   return (
     <div className="space-y-2 w-full flex flex-col gap-2">
-      {listProxyQuery.data?.rows?.map((row) => (
+      {/* {listProxyQuery.data?.rows?.map((row) => (
         <ProxyListItem key={row.metadata.id} row={row} />
-      ))}
+      ))} */}
     </div>
   );
 }

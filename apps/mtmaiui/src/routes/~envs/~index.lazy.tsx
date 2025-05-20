@@ -2,7 +2,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
-import { envGetOptions } from "mtmaiapi";
+// import { envGetOptions } from "mtmaiapi";
 import { DataTable } from "mtxuilib/data-table/data-table";
 import { Icons } from "mtxuilib/icons/icons";
 import { BiCard, BiTable } from "react-icons/bi";
@@ -56,11 +56,7 @@ function RouteComponent() {
       variant={"outline"}
       aria-label="Toggle card/table view"
     >
-      {!cardToggle ? (
-        <BiCard className="size-4" />
-      ) : (
-        <BiTable className="size-4" />
-      )}
+      {!cardToggle ? <BiCard className="size-4" /> : <BiTable className="size-4" />}
     </Button>,
     <Button
       key="refresh"
@@ -73,9 +69,7 @@ function RouteComponent() {
       variant={"outline"}
       aria-label="Refresh events list"
     >
-      <ArrowPathIcon
-        className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`}
-      />
+      <ArrowPathIcon className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`} />
     </Button>,
     <CustomLink
       key="create-env"

@@ -4,7 +4,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { proxyListOptions } from "mtmaiapi";
+// import { proxyListOptions } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import {
@@ -43,9 +43,7 @@ export function ProxySelect(props: React.ComponentProps<"input">) {
           className="w-[200px] justify-between"
         >
           {value
-            ? proxylistQuery.data?.rows?.find(
-                (row) => row.metadata.id === value,
-              )?.name
+            ? proxylistQuery.data?.rows?.find((row) => row.metadata.id === value)?.name
             : "选择代理"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
