@@ -14,5 +14,5 @@ function RouteComponent() {
 }
 
 const ButtonRun1 = () => {
-  return <Button>Click me</Button>;
+  return <Button>运行 python 并返回结果</Button>;
 };
