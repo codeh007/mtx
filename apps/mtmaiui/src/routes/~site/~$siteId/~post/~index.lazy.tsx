@@ -116,7 +116,7 @@ export function PostListView() {
 
   return (
     <>
-      post list
+      post list2
       {/* <DataTable
         columns={columns}
         data={tenantBlogListQuery.data?.rows || []}
