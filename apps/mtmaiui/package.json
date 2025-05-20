@@ -85,6 +85,10 @@
     }
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^15.17.1",
+    "@contentful/rich-text-types": "^16.2.1",
+    "@contentful/vercel-nextjs-toolkit": "latest",
+    "contentful-import": "^9.0.4",
     "@ai-sdk/google": "^1.2.11",
     "@ai-sdk/openai": "^1.1.5",
     "@auth/core": "^0.39.1",
