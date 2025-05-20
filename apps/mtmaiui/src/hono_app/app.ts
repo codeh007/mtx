@@ -93,4 +93,5 @@ app.route("/", siteRoute);
 app.route("/", queryRoute);
 app.route("/agents/sessions/", agentSessionRouter);
 app.route("/demo/", dbHelloRouter);
+app.route("/post/", postRouter);
 export default app;

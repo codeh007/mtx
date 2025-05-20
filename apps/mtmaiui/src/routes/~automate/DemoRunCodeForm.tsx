@@ -32,7 +32,7 @@ export default function DemoRunCodeForm() {
   });
   return (
     <>
-      <ZForm form={form.form}>
+      <ZForm {...form}>
         <pre>{JSON.stringify(taskResponse, null, 2)}</pre>
         <FormField
           control={form.form.control}

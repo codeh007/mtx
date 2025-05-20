@@ -21,6 +21,7 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 
 const SiteRouteLazyImport = createFileRoute('/site')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
+const PostRouteLazyImport = createFileRoute('/post')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
 const AutomateRouteLazyImport = createFileRoute('/automate')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
@@ -37,6 +38,7 @@ const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
+const PostIndexLazyImport = createFileRoute('/post/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AutomateIndexLazyImport = createFileRoute('/automate/')()
@@ -147,6 +149,12 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
 )
+
+const PostRouteLazyRoute = PostRouteLazyImport.update({
+  id: '/post',
+  path: '/post',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/~post/~route.lazy').then((d) => d.Route))
 
 const ChatRouteLazyRoute = ChatRouteLazyImport.update({
   id: '/chat',
@@ -262,6 +270,12 @@ const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~resource/~index.lazy').then((d) => d.Route),
 )
+
+const PostIndexLazyRoute = PostIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PostRouteLazyRoute,
+} as any).lazy(() => import('./routes/~post/~index.lazy').then((d) => d.Route))
 
 const MttaskIndexLazyRoute = MttaskIndexLazyImport.update({
   id: '/mttask/',
@@ -711,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/post': {
+      id: '/post'
+      path: '/post'
+      fullPath: '/post'
+      preLoaderRoute: typeof PostRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/resource': {
       id: '/resource'
       path: '/resource'
@@ -752,6 +773,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/mttask'
       preLoaderRoute: typeof MttaskIndexLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/post/': {
+      id: '/post/'
+      path: '/'
+      fullPath: '/post/'
+      preLoaderRoute: typeof PostIndexLazyImport
+      parentRoute: typeof PostRouteLazyImport
     }
     '/resource/': {
       id: '/resource/'
@@ -1151,6 +1179,18 @@ const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
   ChatRouteLazyRouteChildren,
 )
 
+interface PostRouteLazyRouteChildren {
+  PostIndexLazyRoute: typeof PostIndexLazyRoute
+}
+
+const PostRouteLazyRouteChildren: PostRouteLazyRouteChildren = {
+  PostIndexLazyRoute: PostIndexLazyRoute,
+}
+
+const PostRouteLazyRouteWithChildren = PostRouteLazyRoute._addFileChildren(
+  PostRouteLazyRouteChildren,
+)
+
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
 }
@@ -1464,12 +1504,14 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/post': typeof PostRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
+  '/post/': typeof PostIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
@@ -1528,6 +1570,7 @@ export interface FileRoutesByTo {
   '/automate': typeof AutomateIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
+  '/post': typeof PostIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -1568,12 +1611,14 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/post': typeof PostRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/mttask/': typeof MttaskIndexLazyRoute
+  '/post/': typeof PostIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
@@ -1632,12 +1677,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/chat'
+    | '/post'
     | '/resource'
     | '/site'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/mttask'
+    | '/post/'
     | '/resource/'
     | '/site/'
     | '/adk/session'
@@ -1695,6 +1742,7 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/mttask'
+    | '/post'
     | '/resource'
     | '/site'
     | '/auth/register'
@@ -1733,12 +1781,14 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/chat'
+    | '/post'
     | '/resource'
     | '/site'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/mttask/'
+    | '/post/'
     | '/resource/'
     | '/site/'
     | '/adk/session'
@@ -1796,6 +1846,7 @@ export interface RootRouteChildren {
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   AutomateRouteLazyRoute: typeof AutomateRouteLazyRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
+  PostRouteLazyRoute: typeof PostRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   EnvsCreateRoute: typeof EnvsCreateRoute
@@ -1815,6 +1866,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   AutomateRouteLazyRoute: AutomateRouteLazyRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
+  PostRouteLazyRoute: PostRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   EnvsCreateRoute: EnvsCreateRoute,
@@ -1848,6 +1900,7 @@ export const routeTree = rootRoute
         "/auth",
         "/automate",
         "/chat",
+        "/post",
         "/resource",
         "/site",
         "/envs/create",
@@ -1885,6 +1938,12 @@ export const routeTree = rootRoute
         "/chat/$sessionId/"
       ]
     },
+    "/post": {
+      "filePath": "~post/~route.lazy.tsx",
+      "children": [
+        "/post/"
+      ]
+    },
     "/resource": {
       "filePath": "~resource/~route.lazy.tsx",
       "children": [
@@ -1914,6 +1973,10 @@ export const routeTree = rootRoute
     },
     "/mttask/": {
       "filePath": "~mttask/~index.lazy.tsx"
+    },
+    "/post/": {
+      "filePath": "~post/~index.lazy.tsx",
+      "parent": "/post"
     },
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
