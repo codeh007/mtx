@@ -23,7 +23,8 @@ export const getDefaultSandbox = async () => {
   } else {
     sandbox = await daytona.create({
       // image: defaultImage,
-      language: "typescript",
+      // language: "typescript",
+      language: "python",
       autoStopInterval: 10, // n 分钟后自动停止
       envVars: { NODE_ENV: "development" },
       labels: { mtm_is_global: "true" },
