@@ -1,12 +1,12 @@
 "use client";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
 import { useState } from "react";
 import { BiCard, BiTable } from "react-icons/bi";
 
-// import { postListOptions } from "mtmaiapi";
+import { postListOptions } from "mtmaiapi";
 import { Icons } from "mtxuilib/icons/icons";
 import { cn } from "mtxuilib/lib/utils";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
@@ -24,23 +24,23 @@ export function PostListView() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rotate, setRotate] = useState(false);
   const optionalTenant = useTenant();
-  // const tenantBlogListQuery = useSuspenseQuery({
-  //   ...postListOptions({
-  //     path: {
-  //       tenant: optionalTenant?.metadata.id || "",
-  //     },
-  //     query: {
-  //       siteId: siteId,
-  //     },
-  //   }),
-  // });
-
-  const blogPostsQuery = useQuery({
-    queryKey: ["blogPosts"],
-    queryFn: () => {
-      return fetch("/api/post/list").then((res) => res.json());
-    },
+  const tenantBlogListQuery = useSuspenseQuery({
+    ...postListOptions({
+      path: {
+        tenant: optionalTenant?.metadata.id || "",
+      },
+      query: {
+        siteId: siteId,
+      },
+    }),
   });
+
+  // const blogPostsQuery = useQuery({
+  //   queryKey: ["blogPosts"],
+  //   queryFn: () => {
+  //     return fetch("/api/post/list").then((res) => res.json());
+  //   },
+  // });
 
   const emptyState = (
     <Card className="w-full text-justify">
@@ -91,7 +91,7 @@ export function PostListView() {
       className="h-8 px-2 lg:px-3"
       size="sm"
       onClick={() => {
-        blogPostsQuery.refetch();
+        tenantBlogListQuery.refetch();
         setRotate(!rotate);
       }}
       variant={"outline"}
@@ -138,7 +138,7 @@ export function PostListView() {
             : undefined
         }
       /> */}
-      <pre>{JSON.stringify(blogPostsQuery.data, null, 2)}</pre>
+      <pre>{JSON.stringify(tenantBlogListQuery.data, null, 2)}</pre>
     </>
   );
 }
