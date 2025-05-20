@@ -1,5 +1,6 @@
 import { Daytona } from "@daytonaio/sdk";
 
+const defaultImage = "gitgit188/gomtm";
 const exampleTask = `
 请自我介绍, 告诉我你的能力.
 `;
@@ -14,13 +15,8 @@ function getDaytona() {
 export const getDefaultSandbox = async () => {
   // Create a new sandbox
   const daytona = getDaytona();
-  //   const sandbox = await daytona.create({
-  //     language: "typescript",
-  //     envVars: { NODE_ENV: "development" },
-  //   });
-
   const sandbox = await daytona.create({
-    image: "gitgit188/gomtm",
+    image: defaultImage,
     language: "typescript",
     autoStopInterval: 10, // n 分钟后自动停止
     envVars: { NODE_ENV: "development" },

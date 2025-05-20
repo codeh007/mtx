@@ -13,7 +13,7 @@ import { envsRouter } from "./envs/envs.handler";
 import { mqRouter } from "./mq/mq.handler";
 import { queryRoute } from "./q/q.handler";
 import { r2Router } from "./r2/r2.handler";
-import { daytonaRouter } from "./sandbox/sandbox";
+import { sandboxRouter } from "./sandbox/sandbox";
 import { scriptRouter } from "./scripts/scripts.handler";
 import { siteRoute } from "./site/site.hanler";
 import gomtmProxyRouter from "./v1/v1_route";
@@ -23,7 +23,7 @@ const app = createApp().basePath("/api");
 app.use(async (c, next) => {
   try {
     await next();
-  } catch (error) {
+  } catch (error: any) {
     console.error(error.stack);
     return c.json({ error: `Internal Server Error, error: ${error.stack}` }, 500);
   }
@@ -87,7 +87,7 @@ app.route("/chat/messages", chatMessageRouter);
 app.route("/chat/", chatRouter);
 app.route("/v1/*", gomtmProxyRouter);
 app.route("/mq", mqRouter);
-app.route("/", daytonaRouter);
+app.route("/sandbox", sandboxRouter);
 app.route("/", automateRoute);
 app.route("/", siteRoute);
 app.route("/", queryRoute);

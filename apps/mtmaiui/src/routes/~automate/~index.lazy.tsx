@@ -14,5 +14,17 @@ function RouteComponent() {
 }
 
 const ButtonRun1 = () => {
-  return <Button>运行 python 并返回结果</Button>;
+  const runSandboxAgent = async (task: string) => {
+    const response = await fetch("/api/sandbox/run/agent", {
+      method: "POST",
+      body: JSON.stringify({ task }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+  return (
+    <Button onClick={() => runSandboxAgent("请自我介绍, 告诉我你的能力.")}>
+      运行 python 并返回结果
+    </Button>
+  );
 };

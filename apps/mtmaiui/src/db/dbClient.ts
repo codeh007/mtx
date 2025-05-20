@@ -1,4 +1,3 @@
-import { getCloudflareContext } from "@opennextjs/cloudflare";
 // import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 // import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -87,14 +86,14 @@ export function setupPostgres(conn: string) {
 // initOpenNextCloudflareForDev();
 
 export const getDb = cache(() => {
-  const { env } = getCloudflareContext();
-  if (env.HYPERDRIVE) {
-    return postgres(env.HYPERDRIVE.connectionString, {
-      max: 5, // Maximum number of connections
-      idle_timeout: 20, // Idle connection timeout in seconds
-      connect_timeout: 10, // Connection timeout in seconds
-    });
-  }
+  // const { env } = getCloudflareContext();
+  // if (env.HYPERDRIVE) {
+  //   return postgres(env.HYPERDRIVE.connectionString, {
+  //     max: 5, // Maximum number of connections
+  //     idle_timeout: 20, // Idle connection timeout in seconds
+  //     connect_timeout: 10, // Connection timeout in seconds
+  //   });
+  // }
   return postgres(process.env.MTM_DATABASE_URL!, {
     max: 5, // Maximum number of connections
     idle_timeout: 20, // Idle connection timeout in seconds

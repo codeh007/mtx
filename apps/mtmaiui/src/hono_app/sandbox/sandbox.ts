@@ -1,27 +1,13 @@
 import { getDefaultSandbox } from "@mtmaiui/lib/daytona_utils/daytona_utils";
 import { createRouter } from "../agent_api/lib/createApp";
 
-export const daytonaRouter = createRouter();
+export const sandboxRouter = createRouter();
 
 /**
  * 简单执行 bash 命令
  */
-daytonaRouter.get("/daytona/helloworld", async (c) => {
-  try {
-    // Execute a command
-    const sandbox = await getDefaultSandbox();
-    const response = await sandbox.process.executeCommand("echo 'Hello, World!'");
-    return c.json({
-      result: response.result,
-    });
-  } catch (error: any) {
-    return c.text(error);
-  }
-});
-
-daytonaRouter.get("/daytona/smolagent/hello", async (c) => {
+sandboxRouter.post("/run/agent", async (c) => {
   const sandbox = await getDefaultSandbox();
-
   try {
     // Create a new sandbox
 

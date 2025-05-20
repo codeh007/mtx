@@ -1,4 +1,4 @@
-import { sql } from "@mtmaiui/db/dbClient";
+import { getDb } from "@mtmaiui/db/dbClient";
 import { Hono } from "hono";
 export const queryRoute = new Hono<{ Bindings: Env }>();
 
@@ -7,6 +7,7 @@ queryRoute.get("/q/:function_name", async (c) => {
   const params = JSON.parse(c.req.query("params") || "{}");
   console.log(function_name, params);
   try {
+    const sql = getDb();
     if (Object.keys(params).length === 0) {
       const list = await sql`SELECT * from ${sql(function_name)}()`;
       return c.json(list.at(0)?.[function_name]);
@@ -30,6 +31,7 @@ queryRoute.get("/q/:function_name", async (c) => {
 queryRoute.post("/q", async (c) => {
   const body = await c.req.json();
   try {
+    const sql = getDb();
     const res = await sql`SELECT * from upsert_site(
       p_title => ${body.title}::text,
       p_host => ${body.host}::text

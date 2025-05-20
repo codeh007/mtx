@@ -4,9 +4,9 @@ const distDir = process.env.NEXT_BUILD_OUTPUT ?? ".next";
 console.log(`NEXTJS (mtmaiui)===================================
 mode : ${mode} output: ${distDir} disableChunk ${disableChunk}`);
 
-import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+// import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
-initOpenNextCloudflareForDev();
+// initOpenNextCloudflareForDev();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
