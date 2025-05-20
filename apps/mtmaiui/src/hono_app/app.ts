@@ -11,6 +11,7 @@ import { chatMessageRouter } from "./chat/message.handler";
 import { dbHelloRouter } from "./demo/dbHello.handler";
 import { envsRouter } from "./envs/envs.handler";
 import { mqRouter } from "./mq/mq.handler";
+import { postRouter } from "./post/post.handler";
 import { queryRoute } from "./q/q.handler";
 import { r2Router } from "./r2/r2.handler";
 import { sandboxRouter } from "./sandbox/sandbox";
