@@ -2,13 +2,8 @@ import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
 import type { ReactNode } from "react";
 
-import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { getAccessToken, getBackendUrl, getHostName } from "mtxuilib/lib/sslib";
+// import "../../styles/globals.css";
 import { cn } from "mtxuilib/lib/utils";
-import { MtmaiProvider } from "../../stores/StoreProvider";
-import { UIProviders } from "../../stores/UIProviders";
-import "../../styles/globals.css";
-import { WebLayoutHeader } from "./Header";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
@@ -30,25 +25,12 @@ export default async function Layout(props: {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ThemeHeaderScript />
+        {/* <ThemeHeaderScript /> */}
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <MtmaiProvider
-          // frontendConfig={await getFrontendConfig()}
-          hostName={await getHostName()}
-          serverUrl={await getBackendUrl()}
-          selfBackendUrl={await getBackendUrl()}
-          accessToken={await getAccessToken()}
-        >
-          <UIProviders>
-            <div className="flex flex-col min-h-screen h-full w-full">
-              <WebLayoutHeader />
-              {children}
-            </div>
-          </UIProviders>
-        </MtmaiProvider>
-      </body>
+      <body
+        className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}
+      ></body>
     </html>
   );
 }

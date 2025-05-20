@@ -1,4 +1,4 @@
-import { sql } from "@mtmaiui/db/dbClientV3";
+import { sql } from "@mtmaiui/db/dbClient";
 import { Hono } from "hono";
 
 export const siteHostRoute = new Hono<{ Bindings: Env }>();
