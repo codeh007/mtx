@@ -151,6 +151,8 @@ const nextConfig = {
     "cloudflare:workers",
     "edge-runtime",
     "ws",
+    ".prisma/client",
+    "postgres",
   ],
 };
 
