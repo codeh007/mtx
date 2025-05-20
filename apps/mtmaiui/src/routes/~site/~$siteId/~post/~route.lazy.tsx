@@ -1,17 +1,12 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
 import { DashContent, DashHeaders } from "mtxuilib/mt/DashContent";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-} from "mtxuilib/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
 import { SidebarInset } from "mtxuilib/ui/sidebar";
 import { Suspense } from "react";
-import { RootAppWrapper } from "../../components/RootAppWrapper";
-import { DashSidebar } from "../../components/sidebar/siderbar";
-export const Route = createLazyFileRoute("/post")({
+import { RootAppWrapper } from "../../../../components/RootAppWrapper";
+import { DashSidebar } from "../../../../components/sidebar/siderbar";
+export const Route = createLazyFileRoute("/site/$siteId/post")({
   component: RouteComponent,
 });
 

@@ -13,9 +13,9 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "mtxuilib/ui/card";
 
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant } from "../../../../hooks/useAuth";
 
-export const Route = createLazyFileRoute("/post/")({
+export const Route = createLazyFileRoute("/site/$siteId/post/")({
   component: PostListView,
 });
 
@@ -116,6 +116,7 @@ export function PostListView() {
 
   return (
     <>
+      post list
       {/* <DataTable
         columns={columns}
         data={tenantBlogListQuery.data?.rows || []}
@@ -137,7 +138,6 @@ export function PostListView() {
             : undefined
         }
       /> */}
-
       <pre>{JSON.stringify(blogPostsQuery.data, null, 2)}</pre>
     </>
   );

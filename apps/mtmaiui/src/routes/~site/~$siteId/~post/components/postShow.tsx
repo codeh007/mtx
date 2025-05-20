@@ -6,10 +6,10 @@ import { Button } from "mtxuilib/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
-import { DiffView } from "../../../aichatbot/diffview";
+import { DiffView } from "../../../../../aichatbot/diffview";
+import { useTenant } from "../../../../../hooks/useAuth";
+import { useWorkbenchStore } from "../../../../../stores/workbrench.store";
 import { Editor } from "../../../aichatbot/editor";
-import { useTenant } from "../../../hooks/useAuth";
-import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 const doc1 = `
 # title1

@@ -1,23 +1,17 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
+import { blogCreateOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
 import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "mtxuilib/ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
-import { BlogSelector } from "../../../components/blog/blog-selector";
-import { useTenant, useUser } from "../../../hooks/useAuth";
-import { blogCreateOptions } from "mtmaiapi";
-import { useMutation } from "@tanstack/react-query";
+import { BlogSelector } from "../../../../../components/blog/blog-selector";
+import { useTenant, useUser } from "../../../../../hooks/useAuth";
 
 const schema = z.object({
   blogId: z.string().uuid(),
@@ -35,17 +29,12 @@ interface CreateEventFormProps {
   fieldErrors?: Record<string, string>;
 }
 
-export function CreateBlogPostForm({
-  className,
-  ...props
-}: CreateEventFormProps) {
+export function CreateBlogPostForm({ className, ...props }: CreateEventFormProps) {
   const user = useUser();
   if (!user) throw new Error("user required");
   const [code, setCode] = useState<string | undefined>("{}");
   const [blogId, setBlogId] = useState<string>(props.blogId);
-  const [authorId, setAuthorId] = useState<string>(
-    props.authorId || user.metadata.id,
-  );
+  const [authorId, setAuthorId] = useState<string>(props.authorId || user.metadata.id);
 
   const tenant = useTenant();
   const tid = tenant?.metadata.id;
@@ -55,7 +44,7 @@ export function CreateBlogPostForm({
   //   "/api/v1/tenants/{tenant}/posts",
   // );
   const createBlogPostMutation = useMutation({
-    ...blogCreateOptions({})
+    ...blogCreateOptions({}),
   });
 
   const form = useZodForm({
@@ -68,9 +57,9 @@ export function CreateBlogPostForm({
   const handleSubmit = (values) => {
     console.log("handleSubmit", values);
     createBlogPostMutation.mutate({
-        path: {
-          tenant: tid,
-        },
+      path: {
+        tenant: tid,
+      },
       body: {
         ...values,
         blogId,
