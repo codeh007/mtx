@@ -1,9 +1,8 @@
-import { Daytona } from "@daytonaio/sdk";
+import { Daytona, type Sandbox } from "@daytonaio/sdk";
 
-const defaultImage = "gitgit188/gomtm";
-const exampleTask = `
-请自我介绍, 告诉我你的能力.
-`;
+// const defaultImage = "gitgit188/gomtm";
+const defaultImage = "gitgit188/gomtm:latest";
+const defaultSandboxLabel = "mtmai-sandbox";
 
 function getDaytona() {
   return new Daytona({
@@ -15,18 +14,28 @@ function getDaytona() {
 export const getDefaultSandbox = async () => {
   // Create a new sandbox
   const daytona = getDaytona();
-  const sandbox = await daytona.create({
-    image: defaultImage,
-    language: "typescript",
-    autoStopInterval: 10, // n 分钟后自动停止
-    envVars: { NODE_ENV: "development" },
-    resources: {
-      cpu: 1,
-      memory: 1, // 4GB RAM
-      disk: 1,
-    },
-  });
-
+  // find by label
+  // list(labels?: Record<string, string>): Promise<Sandbox[]>
+  let sandbox: Sandbox;
+  const sandboxies = await daytona.list({ mtm_is_global: "true" });
+  if (sandboxies.length > 0) {
+    sandbox = sandboxies[0];
+  } else {
+    sandbox = await daytona.create({
+      // image: defaultImage,
+      language: "typescript",
+      autoStopInterval: 10, // n 分钟后自动停止
+      envVars: { NODE_ENV: "development" },
+      resources: {
+        cpu: 1,
+        memory: 1, // 4GB RAM
+        disk: 1,
+      },
+    });
+  }
+  if (!sandbox) {
+    throw new Error("Failed to create sandbox");
+  }
   return sandbox;
 };
 

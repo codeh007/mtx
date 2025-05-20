@@ -1,4 +1,4 @@
-import { sql } from "@mtmaiui/db/dbClient";
+import { getDb } from "@mtmaiui/db/dbClient";
 import { Hono } from "hono";
 
 export const siteHostRoute = new Hono<{ Bindings: Env }>();
@@ -12,6 +12,7 @@ siteHostRoute.get("/hosts", async (c) => {
     return c.json({ error: "siteId is required" }, 400);
   }
   try {
+    const sql = getDb();
     const list = await sql`SELECT * from list_site_hosts_json(p_site_id => ${siteId})`;
     return c.json(list.at(0)?.list_site_hosts_json);
   } catch (error) {
@@ -24,6 +25,7 @@ siteHostRoute.get("/hosts", async (c) => {
 siteHostRoute.post("/hosts", async (c) => {
   const body = await c.req.json();
   try {
+    const sql = getDb();
     const res = await sql`SELECT * from upsert_site_host(
       p_site_id => ${body.siteId}::text,
       p_host => ${body.host}::text
