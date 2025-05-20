@@ -26,6 +26,7 @@ export const getDefaultSandbox = async () => {
       language: "typescript",
       autoStopInterval: 10, // n 分钟后自动停止
       envVars: { NODE_ENV: "development" },
+      labels: { mtm_is_global: "true" },
       resources: {
         cpu: 1,
         memory: 1, // 4GB RAM
