@@ -129,6 +129,13 @@ import {
   endpointList,
   endpointUpdate,
   mtworkerGetTasks,
+  postListPublic,
+  postGet,
+  postList,
+  postCreate,
+  artifactList,
+  artifactGet,
+  demoGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -387,6 +394,15 @@ import type {
   EndpointUpdateError,
   EndpointUpdateResponse,
   MtworkerGetTasksData,
+  PostListPublicData,
+  PostGetData,
+  PostListData,
+  PostCreateData,
+  PostCreateError,
+  PostCreateResponse,
+  ArtifactListData,
+  ArtifactGetData,
+  DemoGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4006,5 +4022,149 @@ export const mtworkerGetTasksOptions = (options?: Options<MtworkerGetTasksData>)
       return data;
     },
     queryKey: mtworkerGetTasksQueryKey(options),
+  });
+};
+
+export const postListPublicQueryKey = (options?: Options<PostListPublicData>) =>
+  createQueryKey("postListPublic", options);
+
+export const postListPublicOptions = (options?: Options<PostListPublicData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postListPublic({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postListPublicQueryKey(options),
+  });
+};
+
+export const postGetQueryKey = (options: Options<PostGetData>) =>
+  createQueryKey("postGet", options);
+
+export const postGetOptions = (options: Options<PostGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postGetQueryKey(options),
+  });
+};
+
+export const postListQueryKey = (options: Options<PostListData>) =>
+  createQueryKey("postList", options);
+
+export const postListOptions = (options: Options<PostListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postListQueryKey(options),
+  });
+};
+
+export const postCreateQueryKey = (options: Options<PostCreateData>) =>
+  createQueryKey("postCreate", options);
+
+export const postCreateOptions = (options: Options<PostCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await postCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: postCreateQueryKey(options),
+  });
+};
+
+export const postCreateMutation = (options?: Partial<Options<PostCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PostCreateResponse,
+    PostCreateError,
+    Options<PostCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await postCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const artifactListQueryKey = (options: Options<ArtifactListData>) =>
+  createQueryKey("artifactList", options);
+
+export const artifactListOptions = (options: Options<ArtifactListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await artifactList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: artifactListQueryKey(options),
+  });
+};
+
+export const artifactGetQueryKey = (options: Options<ArtifactGetData>) =>
+  createQueryKey("artifactGet", options);
+
+export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await artifactGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: artifactGetQueryKey(options),
+  });
+};
+
+export const demoGetQueryKey = (options?: Options<DemoGetData>) =>
+  createQueryKey("demoGet", options);
+
+export const demoGetOptions = (options?: Options<DemoGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await demoGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: demoGetQueryKey(options),
   });
 };

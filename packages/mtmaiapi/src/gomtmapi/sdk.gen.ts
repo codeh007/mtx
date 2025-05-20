@@ -356,6 +356,25 @@ import type {
   EndpointUpdateError,
   MtworkerGetTasksData,
   MtworkerGetTasksResponse,
+  PostListPublicData,
+  PostListPublicResponse,
+  PostListPublicError,
+  PostGetData,
+  PostGetResponse,
+  PostGetError,
+  PostListData,
+  PostListResponse,
+  PostListError,
+  PostCreateData,
+  PostCreateResponse,
+  PostCreateError,
+  ArtifactListData,
+  ArtifactListResponse,
+  ArtifactGetData,
+  ArtifactGetResponse,
+  ArtifactGetError,
+  DemoGetData,
+  DemoGetResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3730,6 +3749,169 @@ export const mtworkerGetTasks = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/mtworker/tasks",
+    ...options,
+  });
+};
+
+/**
+ * Get the posts for the site
+ */
+export const postListPublic = <ThrowOnError extends boolean = false>(
+  options?: Options<PostListPublicData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    PostListPublicResponse,
+    PostListPublicError,
+    ThrowOnError
+  >({
+    url: "/api/v1/posts/public",
+    ...options,
+  });
+};
+
+/**
+ * Get the post for the tenant
+ */
+export const postGet = <ThrowOnError extends boolean = false>(
+  options: Options<PostGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PostGetResponse, PostGetError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/posts/{post}",
+    ...options,
+  });
+};
+
+/**
+ * Get the posts for the site
+ */
+export const postList = <ThrowOnError extends boolean = false>(
+  options: Options<PostListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PostListResponse, PostListError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/posts",
+    ...options,
+  });
+};
+
+/**
+ * create post
+ */
+export const postCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PostCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<PostCreateResponse, PostCreateError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/posts",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 获取租户下的artifacts列表
+ * Get the artifacts for the tenant
+ */
+export const artifactList = <ThrowOnError extends boolean = false>(
+  options: Options<ArtifactListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ArtifactListResponse, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/artifacts",
+    ...options,
+  });
+};
+
+/**
+ * Get step run
+ * Get a blog post by id
+ */
+export const artifactGet = <ThrowOnError extends boolean = false>(
+  options: Options<ArtifactGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ArtifactGetResponse, ArtifactGetError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
+      ...options,
+    },
+  );
+};
+
+/**
+ * 测试
+ * 测试
+ */
+export const demoGet = <ThrowOnError extends boolean = false>(
+  options?: Options<DemoGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<DemoGetResponse, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/demo",
     ...options,
   });
 };

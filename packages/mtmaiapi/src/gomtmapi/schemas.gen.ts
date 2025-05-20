@@ -5196,3 +5196,119 @@ export const FunctionResponseSchema = {
     },
   },
 } as const;
+
+export const ArtifactSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    title: {
+      type: "string",
+    },
+    state: {
+      type: "object",
+      description: "The tenant associated with this tenant blog.",
+    },
+    nextId: {
+      type: "string",
+    },
+    prevId: {
+      type: "string",
+    },
+  },
+  required: ["metadata", "title", "state"],
+} as const;
+
+export const ArtifactListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Artifact",
+      },
+      type: "array",
+      "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const PostSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    title: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+      description: "The tenant associated with this tenant blog",
+    },
+  },
+  required: ["metadata", "title", "content"],
+} as const;
+
+export const PostListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Post",
+      },
+      type: "array",
+    },
+  },
+} as const;
+
+export const CreatePostRequestSchema = {
+  properties: {
+    siteId: {
+      type: "string",
+      format: "uuid",
+      minLength: 36,
+      maxLength: 36,
+    },
+    title: {
+      type: "string",
+      minLength: 3,
+      maxLength: 200,
+    },
+    content: {
+      type: "string",
+      description: "The tenant associated with this tenant blog.",
+      minLength: 50,
+      maxLength: 10240,
+    },
+    slug: {
+      type: "string",
+      description: "The slug of the post",
+      minLength: 3,
+      maxLength: 200,
+    },
+    authorId: {
+      type: "string",
+      format: "uuid",
+      minLength: 36,
+      maxLength: 36,
+    },
+    status: {
+      type: "string",
+      enum: ["draft", "published"],
+    },
+  },
+  required: ["siteId", "title", "content", "slug"],
+} as const;
+
+export const DemoResponseSchema = {
+  properties: {
+    message: {
+      type: "string",
+      description: "The message to return",
+    },
+  },
+  required: ["message"],
+} as const;

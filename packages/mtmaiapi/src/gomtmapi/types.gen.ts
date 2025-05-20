@@ -2921,6 +2921,60 @@ export type FunctionResponse = {
   };
 };
 
+export type Artifact = {
+  metadata: ApiResourceMeta;
+  title: string;
+  /**
+   * The tenant associated with this tenant blog.
+   */
+  state: {
+    [key: string]: unknown;
+  };
+  nextId?: string;
+  prevId?: string;
+};
+
+export type ArtifactList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Artifact>;
+};
+
+export type Post = {
+  metadata: ApiResourceMeta;
+  title: string;
+  /**
+   * The tenant associated with this tenant blog
+   */
+  content: string;
+};
+
+export type PostList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Post>;
+};
+
+export type CreatePostRequest = {
+  siteId: string;
+  title: string;
+  /**
+   * The tenant associated with this tenant blog.
+   */
+  content: string;
+  /**
+   * The slug of the post
+   */
+  slug: string;
+  authorId?: string;
+  status?: "draft" | "published";
+};
+
+export type DemoResponse = {
+  /**
+   * The message to return
+   */
+  message: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -7840,6 +7894,227 @@ export type MtworkerGetTasksResponses = {
 };
 
 export type MtworkerGetTasksResponse = MtworkerGetTasksResponses[keyof MtworkerGetTasksResponses];
+
+export type PostListPublicData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * The site id
+     */
+    siteId?: string;
+  };
+  url: "/api/v1/posts/public";
+};
+
+export type PostListPublicErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type PostListPublicError = PostListPublicErrors[keyof PostListPublicErrors];
+
+export type PostListPublicResponses = {
+  200: PostList;
+};
+
+export type PostListPublicResponse = PostListPublicResponses[keyof PostListPublicResponses];
+
+export type PostGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The post id
+     */
+    post: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/posts/{post}";
+};
+
+export type PostGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type PostGetError = PostGetErrors[keyof PostGetErrors];
+
+export type PostGetResponses = {
+  200: Post;
+};
+
+export type PostGetResponse = PostGetResponses[keyof PostGetResponses];
+
+export type PostListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: {
+    /**
+     * The site id
+     */
+    siteId?: string;
+  };
+  url: "/api/v1/tenants/{tenant}/posts";
+};
+
+export type PostListErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+};
+
+export type PostListError = PostListErrors[keyof PostListErrors];
+
+export type PostListResponses = {
+  200: PostList;
+};
+
+export type PostListResponse = PostListResponses[keyof PostListResponses];
+
+export type PostCreateData = {
+  body: CreatePostRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/posts";
+};
+
+export type PostCreateErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type PostCreateError = PostCreateErrors[keyof PostCreateErrors];
+
+export type PostCreateResponses = {
+  200: Post;
+};
+
+export type PostCreateResponse = PostCreateResponses[keyof PostCreateResponses];
+
+export type ArtifactListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/artifacts";
+};
+
+export type ArtifactListResponses = {
+  /**
+   * Successfully retrieved the tenant artifacts list
+   */
+  200: ArtifactList;
+};
+
+export type ArtifactListResponse = ArtifactListResponses[keyof ArtifactListResponses];
+
+export type ArtifactGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The tenant id
+     */
+    artifact: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/artifacts/{artifact}";
+};
+
+export type ArtifactGetErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * The step run was not found
+   */
+  404: ApiErrors;
+};
+
+export type ArtifactGetError = ArtifactGetErrors[keyof ArtifactGetErrors];
+
+export type ArtifactGetResponses = {
+  /**
+   * Successfully retrieved the step run
+   */
+  200: Artifact;
+};
+
+export type ArtifactGetResponse = ArtifactGetResponses[keyof ArtifactGetResponses];
+
+export type DemoGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/demo";
+};
+
+export type DemoGetResponses = {
+  200: DemoResponse;
+};
+
+export type DemoGetResponse = DemoGetResponses[keyof DemoGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

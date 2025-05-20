@@ -2387,6 +2387,43 @@ export const zFunctionResponse = z.object({
   response: z.object({}),
 });
 
+export const zArtifact = z.object({
+  metadata: zApiResourceMeta,
+  title: z.string(),
+  state: z.object({}),
+  nextId: z.string().optional(),
+  prevId: z.string().optional(),
+});
+
+export const zArtifactList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zArtifact).optional(),
+});
+
+export const zPost = z.object({
+  metadata: zApiResourceMeta,
+  title: z.string(),
+  content: z.string(),
+});
+
+export const zPostList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zPost).optional(),
+});
+
+export const zCreatePostRequest = z.object({
+  siteId: z.string().uuid().length(36),
+  title: z.string().min(3).max(200),
+  content: z.string().min(50).max(10240),
+  slug: z.string().min(3).max(200),
+  authorId: z.string().uuid().length(36).optional(),
+  status: z.enum(["draft", "published"]).optional(),
+});
+
+export const zDemoResponse = z.object({
+  message: z.string(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2616,3 +2653,17 @@ export const zEndpointListResponse = zEndpointList;
 export const zEndpointUpdateResponse = zEndpoint;
 
 export const zMtworkerGetTasksResponse = zMtWorkerTask;
+
+export const zPostListPublicResponse = zPostList;
+
+export const zPostGetResponse = zPost;
+
+export const zPostListResponse = zPostList;
+
+export const zPostCreateResponse = zPost;
+
+export const zArtifactListResponse = zArtifactList;
+
+export const zArtifactGetResponse = zArtifact;
+
+export const zDemoGetResponse = zDemoResponse;
