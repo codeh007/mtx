@@ -13,16 +13,6 @@ function RouteComponent() {
   return (
     <>
       <SiteHostListView siteId={siteId} tid={tid} />
-      <Dialog>
-        <DialogTrigger>
-          <Button>
-            <PlusIcon />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <SiteHostNewView siteId={siteId} tid={tid} />
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
