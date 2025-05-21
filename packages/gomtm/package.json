@@ -1,7 +1,7 @@
 {
   "name": "gomtm",
   "private": false,
-  "version": "0.7.1",
+  "version": "0.7.2",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -28,14 +28,5 @@
     "tailwindcss": "^4",
     "tailwindcss-animate": "^1",
     "typescript": "^5"
-  },
-  "other": {
-    "styled-jsx": "^5.1.6",
-    "commander": "^12.1.0",
-    "tailwind-scrollbar": "^3.1.0",
-    "tailwind-scrollbar-hide": "^1.1.7",
-    "redaxios": "^0.5.1",
-    "superjson": "^2.2.2",
-    "mtxuilib": "*"
   }
 }
