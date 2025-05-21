@@ -17,7 +17,6 @@ import { r2Router } from "./r2/r2.handler";
 import { sandboxRouter } from "./sandbox/sandbox";
 import { scriptRouter } from "./scripts/scripts.handler";
 import { siteRoute } from "./site/site.hanler";
-import gomtmProxyRouter from "./v1/v1_route";
 const app = createApp().basePath("/api");
 
 // 所有路径,所有方法的中间件
@@ -86,7 +85,7 @@ app.route("/adk/session/", sessionRouter);
 app.route("/adk/events/", eventRouter);
 app.route("/chat/messages", chatMessageRouter);
 app.route("/chat/", chatRouter);
-app.route("/v1/*", gomtmProxyRouter);
+// app.route("/v1/*", gomtmProxyRouter);
 app.route("/mq", mqRouter);
 app.route("/sandbox", sandboxRouter);
 app.route("/", automateRoute);

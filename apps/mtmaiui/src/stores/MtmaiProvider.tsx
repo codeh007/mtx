@@ -1,5 +1,6 @@
 "use client";
 
+import { MtmaiuiConfig } from "@mtmaiui/lib/config";
 import type { FrontendConfig, Site, Tenant } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -21,6 +22,7 @@ interface MtmaiBotProps {
   accessToken?: string;
   frontendConfig?: FrontendConfig;
   isDebug?: boolean;
+  gomtmApiEndpoint?: string;
 }
 interface MtmaiState extends MtmaiBotProps {
   _hasHydrated?: boolean;
@@ -37,7 +39,7 @@ interface MtmaiState extends MtmaiBotProps {
   site?: Site;
   setSite: (site: Site) => void;
   setIsDebug: (isDebug: boolean) => void;
-
+  setGomtmApiEndpoint: (gomtmApiEndpoint: string) => void;
   lastTenant?: Tenant;
   setLastTenant: (tenant: Tenant) => void;
   currentTenant?: Tenant;
@@ -52,6 +54,7 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
   return {
     debug: false,
     serverUrl: "",
+    gomtmApiEndpoint: MtmaiuiConfig.gomtmApiEndpoint,
     ...init,
     setHasHydrated: (_hasHydrated: boolean) => set({ _hasHydrated }),
     setFrontendConfig: (frontendConfig: FrontendConfig) => set({ frontendConfig }),
@@ -62,7 +65,7 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
     setSite: (site) => set({ site }),
     setSelfBackendUrl: (selfBackendUrl) => set({ selfBackendUrl }),
     setIsDebug: (isDebug) => set({ isDebug }),
-
+    setGomtmApiEndpoint: (gomtmApiEndpoint) => set({ gomtmApiEndpoint }),
     setLastTenant: (tenant: Tenant) => {
       set({ lastTenant: tenant });
       localStorage.setItem(lastTenantKey, JSON.stringify(tenant));
@@ -166,9 +169,10 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <ReactQueryProvider
-        serverUrl={etc.serverUrl as string}
-        accessToken={etc.accessToken as string}
-        host={etc.hostName as string}
+        serverUrl={mystore.getState().gomtmApiEndpoint}
+        accessToken={mystore.getState().accessToken as string}
+        host={mystore.getState().hostName as string}
+        debug={mystore.getState().isDebug}
       >
         <MtSession>{children}</MtSession>
       </ReactQueryProvider>
