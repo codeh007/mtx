@@ -37,7 +37,7 @@ import { parseEventStream } from "../agent_utils/agent_utils";
 import data from "../data/ig_settings_xiaoto33.json";
 import { useTenant, useTenantId } from "../hooks/useAuth";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
-import { exampleTeamConfig } from "./exampleTeamConfig";
+// import { exampleTeamConfig } from "./exampleTeamConfig";
 
 const DEFAULT_APP_NAME = "chat";
 const DEFAULT_AGENT_URL = "https://mtmag.yuepa8.com";
@@ -70,13 +70,13 @@ export interface WorkbrenchState extends WorkbenchProps {
   input?: string;
   setInput: (input: string) => void;
   handleHumanInput: (input: Content) => void;
-  handleRunTeam: (team: FlowTeamInput) => void;
+  // handleRunTeam: (team: FlowTeamInput) => void;
   workflowRunId?: string;
   setWorkflowRunId: (workflowRunId: string) => void;
   chatStarted: boolean;
   setChatStarted: (chatStarted: boolean) => void;
-  messages: ChatMessage[];
-  setMessages: (messages: ChatMessage[]) => void;
+  // messages: ChatMessage[];
+  // setMessages: (messages: ChatMessage[]) => void;
   isDebug: boolean;
   setIsDebug: (isDebug: boolean) => void;
   openWorkbench?: boolean;
