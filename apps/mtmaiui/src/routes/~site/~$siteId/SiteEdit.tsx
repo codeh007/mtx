@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { AgentEventType } from "mtmaiapi";
+// import { AgentEventType } from "mtmaiapi";
 import { zUpdateSiteRequest } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
@@ -22,20 +22,19 @@ export const SiteEdit = (props: SiteEditProps) => {
     toastValidateError: true,
     defaultValues: {},
     handleSubmit: (values) => {
-      handleHumanInput({
-        // component: values as TeamComponent,
-        // session_id: "123",
-        // task: "告诉我,您能帮我做什么事情?",
-        // init_state: {},
-        type: AgentEventType.CHAT_MESSAGE_INPUT,
-        content: "告诉我,您能帮我做什么事情?",
-      });
+      // handleHumanInput({
+      //   // component: values as TeamComponent,
+      //   // session_id: "123",
+      //   // task: "告诉我,您能帮我做什么事情?",
+      //   // init_state: {},
+      //   type: AgentEventType.CHAT_MESSAGE_INPUT,
+      //   content: "告诉我,您能帮我做什么事情?",
+      // });
     },
   });
 
   return (
-    <div>
-      SiteEdit
+    <>
       <DebugValue data={data} />
       <ZForm {...form}>
         <h1>编辑站点</h1>
@@ -53,6 +52,6 @@ export const SiteEdit = (props: SiteEditProps) => {
           )}
         />
       </ZForm>
-    </div>
+    </>
   );
 };
