@@ -13,7 +13,7 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "mtxuilib/ui/card";
 
-import { useTenant } from "../../../../hooks/useAuth";
+import { useTenantId } from "../../../../hooks/useAuth";
 
 export const Route = createLazyFileRoute("/site/$siteId/post/")({
   component: PostListView,
@@ -23,11 +23,11 @@ export function PostListView() {
   const { siteId } = Route.useParams();
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rotate, setRotate] = useState(false);
-  const optionalTenant = useTenant();
+  const tid = useTenantId();
   const tenantBlogListQuery = useSuspenseQuery({
     ...postListOptions({
       path: {
-        tenant: optionalTenant?.metadata.id || "",
+        tenant: tid,
       },
       query: {
         siteId: siteId,
@@ -116,6 +116,7 @@ export function PostListView() {
 
   return (
     <>
+      tid{tid}
       post list2
       {/* <DataTable
         columns={columns}
