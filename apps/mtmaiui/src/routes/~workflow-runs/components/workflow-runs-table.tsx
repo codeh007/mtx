@@ -39,23 +39,12 @@ import {
 } from "mtxuilib/data-table/data-table-toolbar";
 import { getCreatedAfterFromTimeRange } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "mtxuilib/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "mtxuilib/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "mtxuilib/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "mtxuilib/ui/select";
 import { Separator } from "mtxuilib/ui/separator";
 import { Skeleton } from "mtxuilib/ui/skeleton";
 import { useTenantId } from "../../../hooks/useAuth";
-import { useMtmaiV2 } from "../../../stores/StoreProvider";
+import { useMtmai } from "../../../stores/MtmaiProvider";
 import type { AdditionalMetadataClick } from "../../~events/additional-metadata";
 import { WorkflowRunsSideBarItem } from "./WorkflowRunsSideBarItem";
 import { workflowRunsColumns } from "./workflow-runs-columns";
@@ -91,20 +80,18 @@ export function WorkflowRunsTable({
 
   const [viewQueueMetrics, setViewQueueMetrics] = useState(false);
 
-  const defaultTimeRange = useMtmaiV2((x) => x.lastTimeRange);
-  const setDefaultTimeRange = useMtmaiV2((x) => x.setLastTimeRange);
+  const defaultTimeRange = useMtmai((x) => x.lastTimeRange);
+  const setDefaultTimeRange = useMtmai((x) => x.setLastTimeRange);
 
-  const [customTimeRange, setCustomTimeRange] = useState<string[] | undefined>(
-    () => {
-      const timeRangeParam = searchParams.get("customTimeRange");
-      if (timeRangeParam) {
-        return timeRangeParam.split(",").map((param) => {
-          return new Date(param).toISOString();
-        });
-      }
-      return undefined;
-    },
-  );
+  const [customTimeRange, setCustomTimeRange] = useState<string[] | undefined>(() => {
+    const timeRangeParam = searchParams.get("customTimeRange");
+    if (timeRangeParam) {
+      return timeRangeParam.split(",").map((param) => {
+        return new Date(param).toISOString();
+      });
+    }
+    return undefined;
+  });
 
   const [createdAfter, setCreatedAfter] = useState<string | undefined>(
     createdAfterProp ||
@@ -161,8 +148,7 @@ export function WorkflowRunsTable({
     return [];
   });
 
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>(initColumnVisibility);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(initColumnVisibility);
 
   const [pagination, setPagination] = useState<PaginationState>(() => {
     const pageIndex = Number(searchParams.get("pageIndex")) || 0;
@@ -251,16 +237,12 @@ export function WorkflowRunsTable({
     return filter?.value as Array<string>;
   }, [columnFilters]);
 
-  const orderByDirection = useMemo(():
-    | WorkflowRunOrderByDirection
-    | undefined => {
+  const orderByDirection = useMemo((): WorkflowRunOrderByDirection | undefined => {
     if (!sorting.length) {
       return;
     }
 
-    return sorting[0]?.desc
-      ? WorkflowRunOrderByDirection.DESC
-      : WorkflowRunOrderByDirection.ASC;
+    return sorting[0]?.desc ? WorkflowRunOrderByDirection.DESC : WorkflowRunOrderByDirection.ASC;
   }, [sorting]);
 
   const orderByField = useMemo((): WorkflowRunOrderByField | undefined => {
@@ -482,21 +464,14 @@ export function WorkflowRunsTable({
       variant={"outline"}
       aria-label="Refresh events list"
     >
-      <ArrowPathIcon
-        className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`}
-      />
+      <ArrowPathIcon className={`h-4 w-4 transition-transform ${rotate ? "rotate-180" : ""}`} />
     </Button>,
   ];
 
   const isLoading =
-    listWorkflowRunsQuery.isFetching ||
-    workflowKeysIsLoading ||
-    metricsQuery.isLoading;
+    listWorkflowRunsQuery.isFetching || workflowKeysIsLoading || metricsQuery.isLoading;
 
-  const onAdditionalMetadataClick = ({
-    key,
-    value,
-  }: AdditionalMetadataClick) => {
+  const onAdditionalMetadataClick = ({ key, value }: AdditionalMetadataClick) => {
     setColumnFilters((prev) => {
       let newFilters = prev;
       const metadataFilter = prev.find((filter) => filter.id === "Metadata");
@@ -535,16 +510,10 @@ export function WorkflowRunsTable({
                 {tenantMetricsQuery.data?.queues && (
                   <CodeHighlighter
                     language="json"
-                    code={JSON.stringify(
-                      tenantMetricsQuery.data?.queues || "{}",
-                      null,
-                      2,
-                    )}
+                    code={JSON.stringify(tenantMetricsQuery.data?.queues || "{}", null, 2)}
                   />
                 )}
-                {tenantMetricsQuery.isLoading && (
-                  <Skeleton className="w-full h-36" />
-                )}
+                {tenantMetricsQuery.isLoading && <Skeleton className="w-full h-36" />}
               </DialogContent>
             </Dialog>
           )}
@@ -592,9 +561,7 @@ export function WorkflowRunsTable({
                   } else {
                     setCustomTimeRange([
                       getCreatedAfterFromTimeRange(value) ||
-                        new Date(
-                          Date.now() - 24 * 60 * 60 * 1000,
-                        ).toISOString(),
+                        new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
                       new Date().toISOString(),
                     ]);
                   }
@@ -624,19 +591,12 @@ export function WorkflowRunsTable({
                 onClick={(status) => {
                   setColumnFilters((prev) => {
                     let newFilters = prev;
-                    const statusFilter = prev.find(
-                      (filter) => filter.id === "status",
-                    );
+                    const statusFilter = prev.find((filter) => filter.id === "status");
                     if (statusFilter) {
-                      newFilters = prev.filter(
-                        (filter) => filter.id !== "status",
-                      );
+                      newFilters = prev.filter((filter) => filter.id !== "status");
                     }
 
-                    if (
-                      JSON.stringify(statusFilter?.value) ===
-                      JSON.stringify([status])
-                    ) {
+                    if (JSON.stringify(statusFilter?.value) === JSON.stringify([status])) {
                       return newFilters;
                     }
 
@@ -682,10 +642,7 @@ export function WorkflowRunsTable({
       {viewType === "sidebar" && (
         <div className="flex flex-col gap-2">
           {listWorkflowRunsQuery.data?.rows?.map((workflowRun) => (
-            <WorkflowRunsSideBarItem
-              key={workflowRun.metadata.id}
-              workflowRun={workflowRun}
-            />
+            <WorkflowRunsSideBarItem key={workflowRun.metadata.id} workflowRun={workflowRun} />
           ))}
         </div>
       )}

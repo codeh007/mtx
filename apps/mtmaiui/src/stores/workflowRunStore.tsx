@@ -37,7 +37,7 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useTenantId } from "../hooks/useAuth";
 import type { AdditionalMetadataClick } from "../routes/~events/additional-metadata";
-import { useMtmaiV2 } from "./StoreProvider";
+import { useMtmai } from "./MtmaiProvider";
 
 export type ComponentsProps = {};
 
@@ -219,8 +219,8 @@ export const WorkflowRunProvider = (props: React.PropsWithChildren<ComponentsPro
     </Button>,
   ];
 
-  const defaultTimeRange = useMtmaiV2((x) => x.lastTimeRange);
-  const setDefaultTimeRange = useMtmaiV2((x) => x.setLastTimeRange);
+  const defaultTimeRange = useMtmai((x) => x.lastTimeRange);
+  const setDefaultTimeRange = useMtmai((x) => x.setLastTimeRange);
 
   useEffect(() => {
     const interval = setInterval(() => {

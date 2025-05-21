@@ -1,16 +1,19 @@
 "use client";
 
-import type { FrontendConfig, Site } from "mtmaiapi";
+import type { FrontendConfig, Site, Tenant } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useSessionLoader } from "../hooks/useAuth";
 import ReactQueryProvider from "./ReactQueryProvider";
-import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
-
+// import { type HatchetSliceState } from "./hatchet.slice";
+type ViewOptions = "graph" | "minimap";
+const lastTimeRange = "lastTimeRange";
+const lastTenantKey = "lastTenant";
 interface MtmaiBotProps {
   hostName?: string;
   serverUrl?: string;
@@ -34,6 +37,15 @@ interface MtmaiState extends MtmaiBotProps {
   site?: Site;
   setSite: (site: Site) => void;
   setIsDebug: (isDebug: boolean) => void;
+
+  lastTenant?: Tenant;
+  setLastTenant: (tenant: Tenant) => void;
+  currentTenant?: Tenant;
+  setCurrentTenant: (tenant: Tenant) => void;
+  lastTimeRange: string;
+  setLastTimeRange: (timeRange: string) => void;
+  preferredWorkflowRunView: ViewOptions;
+  setPreferredWorkflowRunView: (view: ViewOptions) => void;
 }
 
 const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, init) => {
@@ -50,21 +62,38 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
     setSite: (site) => set({ site }),
     setSelfBackendUrl: (selfBackendUrl) => set({ selfBackendUrl }),
     setIsDebug: (isDebug) => set({ isDebug }),
+
+    setLastTenant: (tenant: Tenant) => {
+      set({ lastTenant: tenant });
+      localStorage.setItem(lastTenantKey, JSON.stringify(tenant));
+    },
+    setCurrentTenant: (tenant: Tenant) => {
+      set({ currentTenant: tenant });
+    },
+    lastTimeRange: "1h",
+    setLastTimeRange: (timeRange: string) => {
+      set({ lastTimeRange: timeRange });
+      localStorage.setItem(lastTimeRange, JSON.stringify(timeRange));
+    },
+    preferredWorkflowRunView: "minimap",
+    setPreferredWorkflowRunView: (view: ViewOptions) => {
+      set({ preferredWorkflowRunView: view });
+    },
   };
 };
 
 type mtappStore = ReturnType<typeof createMtAppStore>;
-type MainStoreStateV2 = MtmaiState & HatchetSliceState;
+type MainStoreState = MtmaiState;
 
-const createMtAppStore = (initProps?: Partial<MainStoreStateV2>) => {
+const createMtAppStore = (initProps?: Partial<MainStoreState>) => {
   const initialState = { ...initProps };
-  return createStore<MainStoreStateV2>()(
+  return createStore<MainStoreState>()(
     subscribeWithSelector(
       // persist(
       devtools(
         immer((...a) => ({
           ...createAppSlice(...a),
-          ...createHatchetSlice(...a),
+          // ...createHatchetSlice(...a),
           ...initialState,
         })),
         {
@@ -127,6 +156,13 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createMtAppStore(etc), []);
 
+  useHotkeys(
+    "alt+.",
+    () => {
+      mystore.setState({ isDebug: !mystore.getState().isDebug });
+    },
+    [mystore],
+  );
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <ReactQueryProvider
@@ -141,11 +177,11 @@ export const MtmaiProvider = (props: AppProviderProps) => {
 };
 
 const DEFAULT_USE_SHALLOW = false;
-export function useMtmaiV2(): MainStoreStateV2;
-export function useMtmaiV2<T>(selector: (state: MainStoreStateV2) => T): T;
-export function useMtmaiV2<T>(selector?: (state: MainStoreStateV2) => T) {
+export function useMtmai(): MainStoreState;
+export function useMtmai<T>(selector: (state: MainStoreState) => T): T;
+export function useMtmai<T>(selector?: (state: MainStoreState) => T) {
   const store = useContext(mtmaiStoreContext);
-  if (!store) throw new Error("useMtmaiV2 must in MtmaiProvider");
+  if (!store) throw new Error("useMtmai must in MtmaiProvider");
   if (selector) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     return useStore(store, DEFAULT_USE_SHALLOW ? useShallow(selector) : selector);

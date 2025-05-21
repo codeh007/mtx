@@ -9,7 +9,7 @@ import {
 import { setCookie } from "mtxuilib/lib/clientlib";
 import { useEffect, useMemo, useState } from "react";
 import { Route } from "../routes/~__root";
-import { useMtmaiV2 } from "../stores/StoreProvider";
+import { useMtmai } from "../stores/MtmaiProvider";
 
 export const useUser = () => {
   const userQuery = useQuery({
@@ -18,11 +18,11 @@ export const useUser = () => {
   return userQuery.data;
 };
 export const useTenant = () => {
-  return useMtmaiV2((x) => x.currentTenant);
+  return useMtmai((x) => x.currentTenant);
 };
 
 export const useTenantId = () => {
-  return useMtmaiV2((x) => x.currentTenant?.metadata.id) as string;
+  return useMtmai((x) => x.currentTenant?.metadata.id) as string;
 };
 
 export const useIsAdmin = () => {
@@ -32,7 +32,7 @@ export const useIsAdmin = () => {
 
 export const useLoginHandler = () => {
   const nav = Route.useNavigate();
-  const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
+  const frontendConfig = useMtmai((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
 
@@ -66,9 +66,9 @@ export const useLoginHandler = () => {
  * @returns
  */
 export function useSessionLoader() {
-  const currentTenant = useMtmaiV2((x) => x.currentTenant);
-  const setCurrentTenant = useMtmaiV2((x) => x.setCurrentTenant);
-  const lastTenant = useMtmaiV2((x) => x.lastTenant);
+  const currentTenant = useMtmai((x) => x.currentTenant);
+  const setCurrentTenant = useMtmai((x) => x.setCurrentTenant);
+  const lastTenant = useMtmai((x) => x.lastTenant);
 
   const listMembershipsQuery = useQuery({
     ...tenantMembershipsListOptions(),

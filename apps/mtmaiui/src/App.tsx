@@ -2,7 +2,7 @@
 import { RouterProvider } from "@tanstack/react-router";
 import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";
-import { MtmaiProvider } from "./stores/StoreProvider";
+import { MtmaiProvider } from "./stores/MtmaiProvider";
 import { UIProviders } from "./stores/UIProviders";
 
 export function MtmClientApp() {

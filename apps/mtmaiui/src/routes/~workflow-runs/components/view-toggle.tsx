@@ -3,7 +3,7 @@
 import type { WorkflowRunShape } from "mtmaiapi";
 import { Button } from "mtxuilib/ui/button";
 import { BiExitFullscreen, BiExpand } from "react-icons/bi";
-import { useMtmaiV2 } from "../../../stores/StoreProvider";
+import { useMtmai } from "../../../stores/MtmaiProvider";
 import { hasChildSteps } from "./workflow_utils";
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 };
 
 export const ViewToggle: React.FC<Props> = ({ shape }) => {
-  const view = useMtmaiV2((x) => x.preferredWorkflowRunView);
-  const setView = useMtmaiV2((x) => x.setPreferredWorkflowRunView);
+  const view = useMtmai((x) => x.preferredWorkflowRunView);
+  const setView = useMtmai((x) => x.setPreferredWorkflowRunView);
   const otherView = view === "graph" ? "minimap" : "graph";
 
   // only render if there are at least two dependent steps, otherwise the view toggle is not needed

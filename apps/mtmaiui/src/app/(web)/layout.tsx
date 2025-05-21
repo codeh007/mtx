@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { cn } from "mtxuilib/lib/utils";
-import { MtmaiProvider } from "../../stores/StoreProvider";
+import { MtmaiProvider } from "../../stores/MtmaiProvider";
 import "../../styles/globals.css";
 import { AppLoader } from "@mtmaiui/AppLoader";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";

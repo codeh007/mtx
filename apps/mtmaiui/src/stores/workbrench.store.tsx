@@ -518,7 +518,7 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       {children}
-      <OnSessionChange />
+      {/* <OnSessionChange /> */}
     </mtmaiStoreContext.Provider>
   );
 };
@@ -538,28 +538,28 @@ export function useWorkbenchStore<T>(selector?: (state: WorkbrenchState) => T) {
   return useStore(store);
 }
 
-export const OnSessionChange = () => {
-  const sessionId = useWorkbenchStore((state) => state.sessionId);
-  const adkAppName = useWorkbenchStore((state) => state.adkAppName);
-  const setAdkEvents = useWorkbenchStore((state) => state.setAdkEvents);
-  const tid = useTenantId();
-  // const adkEventsQuery = useQuery({
-  //   ...adkEventsListOptions({
-  //     path: {
-  //       tenant: tid,
-  //     },
-  //     query: {
-  //       app_name: adkAppName,
-  //       session: sessionId!,
-  //     },
-  //   }),
-  // });
+// export const OnSessionChange = () => {
+//   const sessionId = useWorkbenchStore((state) => state.sessionId);
+//   const adkAppName = useWorkbenchStore((state) => state.adkAppName);
+//   const setAdkEvents = useWorkbenchStore((state) => state.setAdkEvents);
+//   const tid = useTenantId();
+//   // const adkEventsQuery = useQuery({
+//   //   ...adkEventsListOptions({
+//   //     path: {
+//   //       tenant: tid,
+//   //     },
+//   //     query: {
+//   //       app_name: adkAppName,
+//   //       session: sessionId!,
+//   //     },
+//   //   }),
+//   // });
 
-  // useEffect(() => {
-  //   if (adkEventsQuery.data) {
-  //     console.log("adkEventsQuery.data", adkEventsQuery.data);
-  //     setAdkEvents(adkEventsQuery.data.rows || []);
-  //   }
-  // }, [adkEventsQuery.data, setAdkEvents]);
-  return null;
-};
+//   // useEffect(() => {
+//   //   if (adkEventsQuery.data) {
+//   //     console.log("adkEventsQuery.data", adkEventsQuery.data);
+//   //     setAdkEvents(adkEventsQuery.data.rows || []);
+//   //   }
+//   // }, [adkEventsQuery.data, setAdkEvents]);
+//   return null;
+// };
