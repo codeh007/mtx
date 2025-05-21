@@ -18,7 +18,7 @@ export const Route = createLazyFileRoute("/site/$siteId/post/create")({
 });
 
 function CreatePostRouteComponent() {
-  const { siteId } = Route.useSearch();
+  const { siteId } = Route.useParams();
   const tid = useTenantId();
   const { toast } = useToast();
   const postUpdateMutation = useMutation({

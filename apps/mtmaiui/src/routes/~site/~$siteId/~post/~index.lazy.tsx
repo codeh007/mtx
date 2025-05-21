@@ -12,8 +12,8 @@ export function PostListViewComponent() {
   const { siteId } = Route.useParams();
   const tid = useTenantId();
   return (
-    <>
+    <div className="flex flex-col gap-2 p-2">
       <PostListView siteId={siteId} tid={tid} />
-    </>
+    </div>
   );
 }
