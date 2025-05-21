@@ -13,7 +13,10 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button, buttonVariants } from "mtxuilib/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "mtxuilib/ui/card";
 
+import { DataTable } from "mtxuilib/data-table/data-table";
 import { useTenantId } from "../../../../hooks/useAuth";
+import { PostCard } from "./components/PostCard";
+import { columns } from "./components/blog-post-columns";
 
 export const Route = createLazyFileRoute("/site/$siteId/post/")({
   component: PostListView,
@@ -34,13 +37,6 @@ export function PostListView() {
       },
     }),
   });
-
-  // const blogPostsQuery = useQuery({
-  //   queryKey: ["blogPosts"],
-  //   queryFn: () => {
-  //     return fetch("/api/post/list").then((res) => res.json());
-  //   },
-  // });
 
   const emptyState = (
     <Card className="w-full text-justify">
@@ -116,9 +112,7 @@ export function PostListView() {
 
   return (
     <>
-      tid{tid}
-      post list2
-      {/* <DataTable
+      <DataTable
         columns={columns}
         data={tenantBlogListQuery.data?.rows || []}
         pageCount={1}
@@ -138,8 +132,8 @@ export function PostListView() {
               }
             : undefined
         }
-      /> */}
-      <pre>{JSON.stringify(tenantBlogListQuery.data, null, 2)}</pre>
+      />
+      {/* <pre>{JSON.stringify(tenantBlogListQuery.data, null, 2)}</pre> */}
     </>
   );
 }
