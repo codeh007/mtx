@@ -1,56 +1,50 @@
-'use client'
-import { useMutation } from '@tanstack/react-query'
-import { postCreateMutation } from 'mtmaiapi/gomtmapi/@tanstack/react-query.gen'
+"use client";
+import { useMutation } from "@tanstack/react-query";
+import { postCreateMutation } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 
-import { createLazyFileRoute } from '@tanstack/react-router'
-import { ZForm, useZodForm } from 'mtxuilib/mt/form/ZodForm'
-import { TagsInput } from 'mtxuilib/mt/inputs/TagsInput'
-import { Button } from 'mtxuilib/ui/button'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from 'mtxuilib/ui/form'
-import { Input } from 'mtxuilib/ui/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from 'mtxuilib/ui/tabs'
-import { toast } from 'sonner'
-import { z } from 'zod'
-import { useTenant } from '../../hooks/useAuth'
+import { useTenant } from "@mtmaiui/hooks/useAuth";
+import { createLazyFileRoute } from "@tanstack/react-router";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
+import { Button } from "mtxuilib/ui/button";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
+import { toast } from "sonner";
+import { z } from "zod";
 
-export const Route = createLazyFileRoute('/post/create')({
+export const Route = createLazyFileRoute("/site/$siteId/post/create")({
   component: CreatePostRouteComponent,
-})
+});
 
 function CreatePostRouteComponent() {
-  const { siteId } = Route.useSearch()
-  const tenant = useTenant()
+  const { siteId } = Route.useSearch();
+  const tenant = useTenant();
   const postUpdateMutation = useMutation({
     // ...blogPostCreateMutation(),
     onSuccess: (data) => {
-      toast.success('操作成功')
+      toast.success("操作成功");
     },
     onError: (error) => {
-      console.log('失败', error)
+      console.log("失败", error);
     },
-  })
+  });
   const createPostMutation = useMutation({
     ...postCreateMutation(),
     onSuccess: (data) => {
-      toast.success('操作成功')
+      toast.success("操作成功");
     },
     onError: (error) => {
-      console.log('失败', error)
+      console.log("失败", error);
     },
-  })
+  });
 
   const form = useZodForm({
     schema: z.any(),
     // defaultValues: post,
-  })
+  });
   return (
-    <div>
+    <>
       <ZForm
         form={form}
         handleSubmit={(values) => {
@@ -62,7 +56,7 @@ function CreatePostRouteComponent() {
               ...values,
               siteId: siteId,
             },
-          })
+          });
         }}
         className="space-y-2"
       >
@@ -91,7 +85,7 @@ function CreatePostRouteComponent() {
                 <FormItem>
                   <FormLabel>标题</FormLabel>
                   <FormControl>
-                    <Input {...form.register('title')} placeholder="title" />
+                    <Input {...form.register("title")} placeholder="title" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,7 +116,7 @@ function CreatePostRouteComponent() {
                 className="w-full h-full"
                 value={form.getValues().content}
                 onChange={(e) => {
-                  form.setValue('content', e.target.value)
+                  form.setValue("content", e.target.value);
                 }}
               />
             </div>
@@ -130,6 +124,6 @@ function CreatePostRouteComponent() {
           <TabsContent value="options">not implemented</TabsContent>
         </Tabs>
       </ZForm>
-    </div>
-  )
+    </>
+  );
 }
