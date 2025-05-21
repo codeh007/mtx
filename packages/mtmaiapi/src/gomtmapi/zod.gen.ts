@@ -1841,30 +1841,22 @@ export const zUpdateSiteRequest = z.object({
   title: z.string().optional(),
 });
 
-export const zSiteHost = z.object({
-  metadata: zApiResourceMeta,
-  title: z.string(),
-  description: z.string(),
+export const zSiteHostProperties = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
   host: z.string(),
 });
+
+export const zSiteHost = zApiResourceMetaProperties.merge(zSiteHostProperties);
 
 export const zSiteHostList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zSiteHost).optional(),
 });
 
-export const zCreateSiteHostRequest = z.object({
-  siteId: z.string(),
-  title: z.string(),
-  description: z.string(),
-  host: z.string(),
-});
+export const zCreateSiteHostRequest = zSiteHostProperties;
 
 export const zUpdateSiteHostRequest = zSiteHost;
-
-export const zUpdateSiteHostResponse = zSiteHost;
-
-export const zCreateSiteHostResponse = zSiteHost;
 
 export const zFrontendConfig = z.object({
   cookieAccessToken: z.string(),

@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { siteHostListOptions } from "mtmaiapi";
+import { type SiteHost, siteHostListOptions } from "mtmaiapi";
 import { SiteHostCreateDialog } from "./SiteHostNewView";
 interface SiteHostListViewProps {
   siteId: string;
@@ -24,11 +24,17 @@ export function SiteHostListView({ siteId, tid }: SiteHostListViewProps) {
         <SiteHostCreateDialog siteId={siteId} tid={tid} />
       </div>
       {siteHostQuery.data?.rows?.map((host) => (
-        <div key={host.metadata.id} className="bg-slate-100 p-2 space-y-2">
-          {host.metadata.id}
-          <div>{host.host}</div>
-        </div>
+        <SiteHostItem key={host.metadata.id} host={host} />
       ))}
     </>
+  );
+}
+
+function SiteHostItem({ host }: { host: SiteHost }) {
+  return (
+    <div className="bg-slate-100 p-2 space-y-2">
+      {host.metadata.id}
+      <div>{host.host}</div>
+    </div>
   );
 }

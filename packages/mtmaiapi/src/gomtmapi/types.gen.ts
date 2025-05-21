@@ -2356,54 +2356,31 @@ export type UpdateSiteRequest = {
   title?: string;
 };
 
-/**
- * site-host
- */
-export type SiteHost = {
-  metadata: ApiResourceMeta;
+export type SiteHostProperties = {
   /**
    * site-host 标题
    */
-  title: string;
+  title?: string;
   /**
    * site-host 描述
    */
-  description: string;
+  description?: string;
   /**
    * 绑定域名
    */
   host: string;
 };
+
+export type SiteHost = ApiResourceMetaProperties & SiteHostProperties;
 
 export type SiteHostList = {
   pagination?: PaginationResponse;
   rows?: Array<SiteHost>;
 };
 
-export type CreateSiteHostRequest = {
-  /**
-   * 站点ID
-   */
-  siteId: string;
-  /**
-   * site-host 标题
-   */
-  title: string;
-  /**
-   * site-host 描述
-   */
-  description: string;
-  /**
-   * 绑定域名
-   */
-  host: string;
-};
+export type CreateSiteHostRequest = SiteHostProperties;
 
 export type UpdateSiteHostRequest = SiteHost;
-
-export type UpdateSiteHostResponse = SiteHost;
-
-export type CreateSiteHostResponse = SiteHost;
 
 export type FrontendConfig = {
   /**
@@ -7673,7 +7650,7 @@ export type SiteHostCreateData = {
   /**
    * 创建agentnode
    */
-  body: CreateSiteHostRequest;
+  body: SiteHostProperties;
   path: {
     /**
      * The tenant id

@@ -2,8 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { AgentEventType } from "mtmaiapi";
+import { zUpdateSiteRequest } from "mtmaiapi/gomtmapi/zod.gen";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { ZForm, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
+import { Input } from "mtxuilib/ui/input";
 
 interface SiteEditProps {
   siteId: string;
@@ -15,9 +18,9 @@ export const SiteEdit = (props: SiteEditProps) => {
     queryFn: () => fetch(`/api/sites/${siteId}`).then((res) => res.json()),
   });
   const form = useZodFormV2({
-    schema: zSocialTeam,
+    schema: zUpdateSiteRequest,
     toastValidateError: true,
-    defaultValues: team,
+    defaultValues: {},
     handleSubmit: (values) => {
       handleHumanInput({
         // component: values as TeamComponent,
@@ -34,11 +37,11 @@ export const SiteEdit = (props: SiteEditProps) => {
     <div>
       SiteEdit
       <DebugValue data={data} />
-      <ZForm form={form.form}>
-        <h1>团队编辑</h1>
+      <ZForm {...form}>
+        <h1>编辑站点</h1>
         <FormField
           control={form.form.control}
-          name="config.username"
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel>User name</FormLabel>

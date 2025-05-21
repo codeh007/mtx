@@ -4141,12 +4141,9 @@ export const UpdateSiteRequestSchema = {
   },
 } as const;
 
-export const SiteHostSchema = {
-  description: "site-host",
+export const SiteHostPropertiesSchema = {
+  required: ["host"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
     title: {
       type: "string",
       description: "site-host 标题",
@@ -4160,7 +4157,17 @@ export const SiteHostSchema = {
       description: "绑定域名",
     },
   },
-  required: ["metadata", "title", "description", "host"],
+} as const;
+
+export const SiteHostSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/SiteHostProperties",
+    },
+  ],
 } as const;
 
 export const SiteHostListSchema = {
@@ -4179,36 +4186,10 @@ export const SiteHostListSchema = {
 } as const;
 
 export const CreateSiteHostRequestSchema = {
-  properties: {
-    siteId: {
-      type: "string",
-      description: "站点ID",
-    },
-    title: {
-      type: "string",
-      description: "site-host 标题",
-    },
-    description: {
-      type: "string",
-      description: "site-host 描述",
-    },
-    host: {
-      type: "string",
-      description: "绑定域名",
-    },
-  },
-  required: ["title", "description", "host", "siteId"],
+  $ref: "#/components/schemas/SiteHostProperties",
 } as const;
 
 export const UpdateSiteHostRequestSchema = {
-  $ref: "#/components/schemas/SiteHost",
-} as const;
-
-export const UpdateSiteHostResponseSchema = {
-  $ref: "#/components/schemas/SiteHost",
-} as const;
-
-export const CreateSiteHostResponseSchema = {
   $ref: "#/components/schemas/SiteHost",
 } as const;
 

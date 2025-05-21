@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { siteHostCreateMutation } from "mtmaiapi";
-import { zUpdateSiteHostRequest } from "mtmaiapi/gomtmapi/zod.gen";
+import { zCreateSiteHostRequest } from "mtmaiapi/gomtmapi/zod.gen";
 import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
 import { Button } from "mtxuilib/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "mtxuilib/ui/dialog";
@@ -35,8 +35,8 @@ export function SiteHostNewView({ siteId, tid }: SiteHostNewViewProps) {
   const siteHostCreate = useMutation({
     ...siteHostCreateMutation(),
   });
+
   const handleSubmit = (values) => {
-    console.log("submit form", values);
     siteHostCreate.mutate({
       path: {
         tenant: tid,
@@ -49,29 +49,46 @@ export function SiteHostNewView({ siteId, tid }: SiteHostNewViewProps) {
   };
 
   const zform = useZodFormV2({
-    schema: zUpdateSiteHostRequest,
+    schema: zCreateSiteHostRequest,
     handleSubmit,
+    defaultValues: {
+      host: "",
+      title: "",
+      siteId: siteId,
+    },
+    toastValidateError: true,
   });
   return (
     <ZForm {...zform} handleSubmit={handleSubmit}>
-      <div className="p-8">
-        create site host
-        <FormField
-          control={zform.form.control}
-          name="host"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>input</FormLabel>
-              <FormControl>
-                <Input placeholder="域名" {...field} />
-              </FormControl>
-              {/* <FormDescription></FormDescription> */}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <ZFormToolbar form={zform.form} />
-      </div>
+      <FormField
+        control={zform.form.control}
+        name="host"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>域名</FormLabel>
+            <FormControl>
+              <Input placeholder="域名" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={zform.form.control}
+        name="title"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>标题</FormLabel>
+            <FormControl>
+              <Input placeholder="标题" {...field} />
+            </FormControl>
+            {/* <FormDescription></FormDescription> */}
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <ZFormToolbar form={zform.form} />
     </ZForm>
   );
 }
