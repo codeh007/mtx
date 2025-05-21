@@ -99,10 +99,10 @@ export interface WorkbrenchState extends WorkbenchProps {
   setIsStreaming: (isStreaming: boolean) => void;
   firstTokenReceived: boolean;
   setFirstTokenReceived: (firstTokenReceived: boolean) => void;
-  addMessage: (message: ChatMessage) => void;
+  // addMessage: (message: ChatMessage) => void;
   setResourceId: (resourceId: string) => void;
-  setTeamState: (teamState: SocialTeamManagerState) => void;
-  loadChatMessageList: (response?: ChatMessageList) => void;
+  // setTeamState: (teamState: SocialTeamManagerState) => void;
+  // loadChatMessageList: (response?: ChatMessageList) => void;
   workflowRunCreateMut: UseMutationResult<
     WorkflowRun,
     ApiErrors,
@@ -118,8 +118,8 @@ export interface WorkbrenchState extends WorkbenchProps {
   lastestWorkflowRun?: WorkflowRun;
   setLastestWorkflowRun: (lastestWorkflowRun: WorkflowRun) => void;
 
-  team: SocialTeam;
-  setTeam: (team: SocialTeam) => void;
+  // team: SocialTeam;
+  // setTeam: (team: SocialTeam) => void;
   adkEvents: AdkEvent[];
   setAdkEvents: (adkEvents: AdkEvent[]) => void;
 
@@ -168,10 +168,10 @@ export const createWorkbrenchSlice: StateCreator<WorkbrenchState, [], [], Workbr
     setIsDebug: (isDebug: boolean) => {
       set({ isDebug });
     },
-    team: exampleTeamConfig,
-    setTeam: (team) => {
-      set({ team });
-    },
+    // team: exampleTeamConfig,
+    // setTeam: (team) => {
+    //   set({ team });
+    // },
     agentState: undefined,
     setAgentState: (agentState) => {
       set({ agentState });
