@@ -6,6 +6,7 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/StoreProvider";
 import "../../styles/globals.css";
+import { AppLoader } from "@mtmaiui/AppLoader";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { WebLayoutHeader } from "./Header";
@@ -47,6 +48,7 @@ export default async function Layout(props: {
                 <div className="flex flex-col min-h-screen h-full w-full">
                   <WebLayoutHeader />
                   <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
+                  <AppLoader />
                 </div>
               </UIProviders>
             </MtSuspenseBoundary>

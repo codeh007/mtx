@@ -2,14 +2,13 @@
 
 import type { FrontendConfig, Site } from "mtmaiapi";
 import type React from "react";
-import { createContext, useContext, useEffect, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { type StateCreator, createStore, useStore } from "zustand";
 import { devtools, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useSessionLoader } from "../hooks/useAuth";
 import ReactQueryProvider from "./ReactQueryProvider";
-import { MtTransportProvider } from "./TransportProvider";
 import { type HatchetSliceState, createHatchetSlice } from "./hatchet.slice";
 
 interface MtmaiBotProps {
@@ -18,6 +17,7 @@ interface MtmaiBotProps {
   selfBackendUrl?: string;
   accessToken?: string;
   frontendConfig?: FrontendConfig;
+  isDebug?: boolean;
 }
 interface MtmaiState extends MtmaiBotProps {
   _hasHydrated?: boolean;
@@ -33,6 +33,7 @@ interface MtmaiState extends MtmaiBotProps {
   setSelfBackendUrl: (selfBackendUrl: string) => void;
   site?: Site;
   setSite: (site: Site) => void;
+  setIsDebug: (isDebug: boolean) => void;
 }
 
 const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, init) => {
@@ -48,6 +49,7 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
     setAccessToken: (accessToken) => set({ accessToken }),
     setSite: (site) => set({ site }),
     setSelfBackendUrl: (selfBackendUrl) => set({ selfBackendUrl }),
+    setIsDebug: (isDebug) => set({ isDebug }),
   };
 };
 
@@ -124,16 +126,6 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   const { children, ...etc } = props;
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const mystore = useMemo(() => createMtAppStore(etc), []);
-  useEffect(() => {
-    import("../AppLoader").then((x) => {
-      x;
-    });
-  }, []);
-
-  // initGomtmApp({
-  //   headers: headers,
-  //   cookies: cookies,
-  // });
 
   return (
     <mtmaiStoreContext.Provider value={mystore}>

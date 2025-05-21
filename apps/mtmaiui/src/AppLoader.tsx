@@ -1,6 +1,7 @@
 "use client";
 
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { MtmClientApp } from "./App";
 declare global {
@@ -25,6 +26,14 @@ function loadAppp() {
     if (!rootElement) {
       rootElement = document.createElement("div");
       rootElement.id = rootElementId;
+      rootElement.style.width = "0px";
+      rootElement.style.height = "0px";
+      rootElement.style.position = "absolute"; // 脱离文档流
+      rootElement.style.overflow = "hidden"; // 防止内容溢出
+      // rootElement.style.visibility = "hidden"; // 视觉上隐藏但保持功能
+      // rootElement.style.pointerEvents = "none"; // 防止鼠标交互
+      rootElement.style.margin = "0";
+      rootElement.style.padding = "0";
       document.body.appendChild(rootElement);
     }
     if (rootElement) {
@@ -37,3 +46,10 @@ if (typeof window !== "undefined") {
 }
 
 export default loadAppp;
+
+export function AppLoader() {
+  useEffect(() => {
+    loadAppp();
+  }, []);
+  return null;
+}
