@@ -1,4 +1,5 @@
 import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
+import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 
@@ -11,10 +12,10 @@ function RouteComponent() {
   return (
     <>
       <Tabs defaultValue="site" className="w-full h-full">
-        <TabsList className="flex w-full gap-2">
+        <TabsList className="flex w-full gap-2 justify-start">
           <CustomLink to={`/site/${siteId}/edit/`}>
             <TabsTrigger value="site" variant="underlined">
-              编辑
+              基本
             </TabsTrigger>
           </CustomLink>
           <CustomLink to={`/site/${siteId}/host/`}>
@@ -28,7 +29,9 @@ function RouteComponent() {
             </TabsTrigger>
           </CustomLink>
         </TabsList>
-        <Outlet />
+        <MtSuspenseBoundary>
+          <Outlet />
+        </MtSuspenseBoundary>
       </Tabs>
     </>
   );
