@@ -1,12 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  type PropsWithChildren,
-  forwardRef,
-  useId,
-  useMemo,
-  useState,
-} from "react";
+import { type PropsWithChildren, forwardRef, useId, useMemo, useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
   Controller,
@@ -133,13 +127,7 @@ export const ZFormToolbar = forwardRef<
   } & PropsWithChildren &
     React.HTMLAttributes<HTMLDivElement>
 >((props, forwardedRef) => {
-  const {
-    submitText,
-    onCancel,
-    enableCancelConform,
-    enableDeleteButton,
-    onDelete,
-  } = props;
+  const { submitText, onCancel, enableCancelConform, enableDeleteButton, onDelete } = props;
   const [openConform, setOpenConform] = useState(false);
   const context = useFormContext();
 
@@ -156,9 +144,7 @@ export const ZFormToolbar = forwardRef<
   }, [form]);
 
   if (!form) {
-    throw new Error(
-      "SubmitButton must be used within a Form or have a form prop",
-    );
+    throw new Error("SubmitButton must be used within a Form or have a form prop");
   }
   return (
     <div className="flex w-full flex-col  p-1">
@@ -262,12 +248,7 @@ interface SubmitButtonProps {
   className: string;
   pending?: boolean;
 }
-export function SubmitButton({
-  children,
-  isSuccessful,
-  className,
-  pending,
-}: SubmitButtonProps) {
+export function SubmitButton({ children, isSuccessful, className, pending }: SubmitButtonProps) {
   const { pending: formPadding } = useFormStatus();
 
   const finnalPaddding = pending || formPadding;

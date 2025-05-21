@@ -20,23 +20,22 @@ import { Input } from "mtxuilib/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { Suspense } from "react";
 import { toast } from "sonner";
-import { useTenant } from "../../hooks/useAuth";
+import { useTenant, useTenantId } from "../../hooks/useAuth";
 
 interface SiteEditorProps {
   siteId: string;
 }
-export const SiteEditor = (props: SiteEditorProps) => {
-  const { siteId } = props;
-
+export const SiteEditor = ({ siteId }: SiteEditorProps) => {
   if (!siteId) {
     throw new Error("siteId is required");
   }
-  const tenant = useTenant();
+  // const tenant = useTenant();
+  const tid = useTenantId();
   const siteQuery = useSuspenseQuery({
     ...siteGetOptions({
       path: {
         site: siteId,
-        tenant: tenant!.metadata.id,
+        tenant: tid,
       },
     }),
   });
