@@ -2,6 +2,7 @@ import { Outlet, createLazyFileRoute } from "@tanstack/react-router";
 
 import { WorkbrenchProvider } from "@mtmaiui/stores/workbrench.store";
 import { RootAppWrapper } from "../../components/RootAppWrapper";
+import { SiteSidebar } from "./siderbar";
 export const Route = createLazyFileRoute("/site")({
   component: RouteComponent,
 });
@@ -9,7 +10,7 @@ export const Route = createLazyFileRoute("/site")({
 function RouteComponent() {
   return (
     <WorkbrenchProvider>
-      <RootAppWrapper>
+      <RootAppWrapper secondSidebar={<SiteSidebar />}>
         {/* <DashHeaders>
               <Breadcrumb>
                 <BreadcrumbList>

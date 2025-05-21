@@ -17,8 +17,9 @@ export const DebugValue = (props: {
   title?: string;
   data;
   className?: string;
+  enable?: boolean;
 }) => {
-  const { title, data, className } = props;
+  const { title, data, className, enable = true } = props;
 
   const [open, setOpen] = useState(false);
   if (process.env.NODE_ENV === "production") {
@@ -28,6 +29,9 @@ export const DebugValue = (props: {
   const jsonFull = useMemo(() => JSON.stringify(data, null, 2), [data]);
   const jsonSummary = useMemo(() => JSON.stringify(data, null, 2), [data]);
 
+  if (!enable) {
+    return null;
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>

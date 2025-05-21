@@ -76,7 +76,7 @@ const AdkSessionSessionIdRouteLazyImport = createFileRoute(
 const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId/',
 )()
-const SiteCreateIndexLazyImport = createFileRoute('/site/create/')()
+const SiteNewIndexLazyImport = createFileRoute('/site/new/')()
 const ResourceResIdIndexLazyImport = createFileRoute('/resource/$resId/')()
 const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
 const ChatSessionIdIndexLazyImport = createFileRoute('/chat/$sessionId/')()
@@ -427,12 +427,12 @@ const WorkflowRunsWorkflowRunIdIndexLazyRoute =
     ),
   )
 
-const SiteCreateIndexLazyRoute = SiteCreateIndexLazyImport.update({
-  id: '/create/',
-  path: '/create/',
+const SiteNewIndexLazyRoute = SiteNewIndexLazyImport.update({
+  id: '/new/',
+  path: '/new/',
   getParentRoute: () => SiteRouteLazyRoute,
 } as any).lazy(() =>
-  import('./routes/~site/~create/~index.lazy').then((d) => d.Route),
+  import('./routes/~site/~new/~index.lazy').then((d) => d.Route),
 )
 
 const ResourceResIdIndexLazyRoute = ResourceResIdIndexLazyImport.update({
@@ -892,11 +892,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceResIdIndexLazyImport
       parentRoute: typeof ResourceResIdRouteLazyImport
     }
-    '/site/create/': {
-      id: '/site/create/'
-      path: '/create'
-      fullPath: '/site/create'
-      preLoaderRoute: typeof SiteCreateIndexLazyImport
+    '/site/new/': {
+      id: '/site/new/'
+      path: '/new'
+      fullPath: '/site/new'
+      preLoaderRoute: typeof SiteNewIndexLazyImport
       parentRoute: typeof SiteRouteLazyImport
     }
     '/workflow-runs/$workflowRunId/': {
@@ -1268,13 +1268,13 @@ const SiteSiteIdRouteLazyRouteWithChildren =
 interface SiteRouteLazyRouteChildren {
   SiteIndexLazyRoute: typeof SiteIndexLazyRoute
   SiteSiteIdRouteLazyRoute: typeof SiteSiteIdRouteLazyRouteWithChildren
-  SiteCreateIndexLazyRoute: typeof SiteCreateIndexLazyRoute
+  SiteNewIndexLazyRoute: typeof SiteNewIndexLazyRoute
 }
 
 const SiteRouteLazyRouteChildren: SiteRouteLazyRouteChildren = {
   SiteIndexLazyRoute: SiteIndexLazyRoute,
   SiteSiteIdRouteLazyRoute: SiteSiteIdRouteLazyRouteWithChildren,
-  SiteCreateIndexLazyRoute: SiteCreateIndexLazyRoute,
+  SiteNewIndexLazyRoute: SiteNewIndexLazyRoute,
 }
 
 const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
@@ -1525,7 +1525,7 @@ export interface FileRoutesByFullPath {
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
-  '/site/create': typeof SiteCreateIndexLazyRoute
+  '/site/new': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
@@ -1579,7 +1579,7 @@ export interface FileRoutesByTo {
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
-  '/site/create': typeof SiteCreateIndexLazyRoute
+  '/site/new': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
@@ -1633,7 +1633,7 @@ export interface FileRoutesById {
   '/chat/$sessionId/': typeof ChatSessionIdIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
-  '/site/create/': typeof SiteCreateIndexLazyRoute
+  '/site/new/': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
@@ -1699,7 +1699,7 @@ export interface FileRouteTypes {
     | '/chat/$sessionId'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
-    | '/site/create'
+    | '/site/new'
     | '/workflow-runs/$workflowRunId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
@@ -1752,7 +1752,7 @@ export interface FileRouteTypes {
     | '/chat/$sessionId'
     | '/proxy/$proxyId'
     | '/resource/$resId'
-    | '/site/create'
+    | '/site/new'
     | '/workflow-runs/$workflowRunId'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/input'
@@ -1804,7 +1804,7 @@ export interface FileRouteTypes {
     | '/chat/$sessionId/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
-    | '/site/create/'
+    | '/site/new/'
     | '/workflow-runs/$workflowRunId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
@@ -1948,7 +1948,7 @@ export const routeTree = rootRoute
       "children": [
         "/site/",
         "/site/$siteId",
-        "/site/create/"
+        "/site/new/"
       ]
     },
     "/envs/create": {
@@ -2064,8 +2064,8 @@ export const routeTree = rootRoute
       "filePath": "~resource/~$resId/~index.lazy.tsx",
       "parent": "/resource/$resId"
     },
-    "/site/create/": {
-      "filePath": "~site/~create/~index.lazy.tsx",
+    "/site/new/": {
+      "filePath": "~site/~new/~index.lazy.tsx",
       "parent": "/site"
     },
     "/workflow-runs/$workflowRunId/": {

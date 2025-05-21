@@ -1,3 +1,4 @@
+"use client";
 import { useMutation } from "@tanstack/react-query";
 import { type Site, siteCreateMutation } from "mtmaiapi";
 
@@ -8,7 +9,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuil
 import { Input } from "mtxuilib/ui/input";
 import { useToast } from "mtxuilib/ui/use-toast";
 
-export const Route = createLazyFileRoute("/site/create/")({
+export const Route = createLazyFileRoute("/site/new/")({
   component: RouteComponent,
 });
 
