@@ -40,10 +40,10 @@ export function SiteHostNewView({ siteId, tid }: SiteHostNewViewProps) {
     siteHostCreate.mutate({
       path: {
         tenant: tid,
+        site: siteId,
       },
       body: {
         ...values,
-        siteId: siteId,
       },
     });
   };
@@ -54,7 +54,7 @@ export function SiteHostNewView({ siteId, tid }: SiteHostNewViewProps) {
     defaultValues: {
       host: "",
       title: "",
-      siteId: siteId,
+      // siteId: siteId,
     },
     toastValidateError: true,
   });

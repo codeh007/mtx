@@ -12,9 +12,11 @@ export function SiteHostListView({ siteId, tid }: SiteHostListViewProps) {
     ...siteHostListOptions({
       path: {
         tenant: tid,
+        site: siteId,
       },
       query: {
-        siteId,
+        offset: 0,
+        // limit: 100,
       },
     }),
   });

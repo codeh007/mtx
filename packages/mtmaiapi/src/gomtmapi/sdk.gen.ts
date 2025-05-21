@@ -3560,7 +3560,7 @@ export const siteHostList = <ThrowOnError extends boolean = false>(
         type: "apiKey",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/site-hosts",
+    url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts",
     ...options,
   });
 };
@@ -3587,7 +3587,7 @@ export const siteHostCreate = <ThrowOnError extends boolean = false>(
         type: "apiKey",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/site-hosts",
+    url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts",
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -3615,7 +3615,7 @@ export const siteHostGet = <ThrowOnError extends boolean = false>(
           type: "apiKey",
         },
       ],
-      url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+      url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts/{host}",
       ...options,
     },
   );
@@ -3644,7 +3644,7 @@ export const siteHostUpdate = <ThrowOnError extends boolean = false>(
         type: "apiKey",
       },
     ],
-    url: "/api/v1/tenants/{tenant}/site-hosts/{host}",
+    url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts/{host}",
     ...options,
     headers: {
       "Content-Type": "application/json",

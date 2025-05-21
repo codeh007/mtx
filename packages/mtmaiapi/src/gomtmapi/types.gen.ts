@@ -7605,6 +7605,10 @@ export type SiteHostListData = {
      * The tenant id
      */
     tenant: string;
+    /**
+     * The site id
+     */
+    site?: string;
   };
   query?: {
     /**
@@ -7615,12 +7619,8 @@ export type SiteHostListData = {
      * The host name
      */
     host?: string;
-    /**
-     * The site id
-     */
-    siteId?: string;
   };
-  url: "/api/v1/tenants/{tenant}/site-hosts";
+  url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts";
 };
 
 export type SiteHostListErrors = {
@@ -7656,9 +7656,13 @@ export type SiteHostCreateData = {
      * The tenant id
      */
     tenant: TenantParameter;
+    /**
+     * The site id
+     */
+    site: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/site-hosts";
+  url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts";
 };
 
 export type SiteHostCreateErrors = {
@@ -7688,12 +7692,16 @@ export type SiteHostGetData = {
      */
     tenant: string;
     /**
+     * The site id
+     */
+    site: string;
+    /**
      * The site-host id
      */
     host: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/site-hosts/{host}";
+  url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts/{host}";
 };
 
 export type SiteHostGetErrors = {
@@ -7730,12 +7738,16 @@ export type SiteHostUpdateData = {
      */
     tenant: TenantParameter;
     /**
+     * The site id
+     */
+    site: string;
+    /**
      * The site-host id
      */
     host: string;
   };
   query?: never;
-  url: "/api/v1/tenants/{tenant}/site-hosts/{host}";
+  url: "/api/v1/tenants/{tenant}/sites/{site}/site-hosts/{host}";
 };
 
 export type SiteHostUpdateErrors = {
