@@ -1,11 +1,11 @@
 "use client";
+import { useMtmai } from "@mtmaiui/stores/MtmaiProvider";
 import { useQuery } from "@tanstack/react-query";
 import type { AdkEventProperties, Part } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
 import { adkEvents } from "../../db/schema";
-import { getAppConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
@@ -20,12 +20,14 @@ interface AgentChatViewProps {
 export default function AgentChatView({ sessionId }: AgentChatViewProps) {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
+  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
+
   const eventQuery = useQuery({
     queryKey: ["adkEvents"],
     queryFn: () => {
-      return fetch(
-        `${getAppConfig().apiEndpoint}/api/adk/events/list?session_id=${sessionId}`,
-      ).then((res) => res.json());
+      return fetch(`${gomtmApiEndpoint}/api/adk/events/list?session_id=${sessionId}`).then((res) =>
+        res.json(),
+      );
     },
   });
 

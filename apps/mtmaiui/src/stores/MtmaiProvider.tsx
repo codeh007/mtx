@@ -1,6 +1,5 @@
 "use client";
 
-import { getAppConfig } from "@mtmaiui/lib/config";
 import type { FrontendConfig, Site, Tenant } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -53,7 +52,6 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
   return {
     debug: false,
     serverUrl: "",
-    gomtmApiEndpoint: getAppConfig().gomtmApiEndpoint,
     ...init,
     setHasHydrated: (_hasHydrated: boolean) => set({ _hasHydrated }),
     setFrontendConfig: (frontendConfig: FrontendConfig) => set({ frontendConfig }),

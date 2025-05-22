@@ -3,7 +3,7 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
 import { z } from "zod";
-import { getAppConfig } from "../lib/config";
+// import { getAppConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
 export class ChatAgentBase<State = unknown> extends AIChatAgent<Env, State> {
   onMessage(connection: Connection, message: string): Promise<void> {
@@ -101,14 +101,14 @@ export class ChatAgentBase<State = unknown> extends AIChatAgent<Env, State> {
   // 发送消息到 MQ
   //=========================================================================================================
   async tool_pushTask(taskType: string, payload: any) {
-    const res = await fetch(`${getAppConfig().apiEndpoint}/api/mq/${taskType}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-    return res.json();
+    // const res = await fetch(`${getAppConfig().apiEndpoint}/api/mq/${taskType}`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(payload),
+    // });
+    // return res.json();
   }
 
   toolSmolagent() {
@@ -121,17 +121,17 @@ export class ChatAgentBase<State = unknown> extends AIChatAgent<Env, State> {
           `),
         }),
         execute: async ({ task }) => {
-          const res = await fetch(`${getAppConfig().apiEndpoint}/api/mq/smalagent`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              task_type: "smolagent",
-              input: task,
-            }),
-          });
-          return res.json();
+          // const res = await fetch(`${getAppConfig().apiEndpoint}/api/mq/smalagent`, {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     task_type: "smolagent",
+          //     input: task,
+          //   }),
+          // });
+          // return res.json();
         },
       }),
     };

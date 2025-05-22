@@ -12,18 +12,18 @@ import {
   SidebarHeader,
 } from "mtxuilib/ui/sidebar";
 
+import { useMtmai } from "@mtmaiui/stores/MtmaiProvider";
 import { useQuery } from "@tanstack/react-query";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
-import { getAppConfig } from "../../../lib/config";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
   const isDebug = useWorkbenchStore((x) => x.isDebug);
-
+  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
   const linkToNew = useMemo(() => {
     return "/adk/session";
   }, []);
@@ -31,7 +31,7 @@ export function NavAdkSession() {
   const adkSessionQuery = useQuery({
     queryKey: ["adkSessionList"],
     queryFn: async () => {
-      const response = await fetch(`${getAppConfig().apiEndpoint}/api/adk/session/list`);
+      const response = await fetch(`${gomtmApiEndpoint}/api/adk/session/list`);
       return response.json();
     },
   });

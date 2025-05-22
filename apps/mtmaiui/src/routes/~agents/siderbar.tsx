@@ -19,8 +19,8 @@ import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { type ChangeEvent, useMemo } from "react";
-import { getAppConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
+import { useMtmai } from "@mtmaiui/stores/MtmaiProvider";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
@@ -87,12 +87,11 @@ export function NavSession() {
 }
 
 const ChatSessionList = () => {
+  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
   const { data: sessions } = useQuery({
     queryKey: ["agents/sessions"],
     queryFn: () => {
-      return fetch(`${getAppConfig().apiEndpoint}/api/agents/sessions/list`).then((res) =>
-        res.json(),
-      );
+      return fetch(`${gomtmApiEndpoint}/api/agents/sessions/list`).then((res) => res.json());
     },
   });
   return (
