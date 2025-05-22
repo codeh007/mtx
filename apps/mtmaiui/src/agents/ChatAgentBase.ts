@@ -3,7 +3,6 @@ import { AIChatAgent } from "agents/ai-chat-agent";
 import { type StreamTextOnFinishCallback, type ToolSet, tool } from "ai";
 import type { Message } from "ai";
 import { z } from "zod";
-// import { getAppConfig } from "../lib/config";
 import { convertScheduleToScheduledItem } from "./utils";
 export class ChatAgentBase<State = unknown> extends AIChatAgent<Env, State> {
   onMessage(connection: Connection, message: string): Promise<void> {
