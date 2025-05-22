@@ -1,9 +1,23 @@
 import { type SQL, and, asc, count, desc, eq, gt, gte, inArray, lt } from "drizzle-orm";
-// import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 import { generateUUID } from "mtxuilib/lib/utils";
+import postgres from "postgres";
 import type { ArtifactKind } from "../aichatbot/artifact";
 import type { VisibilityType } from "../aichatbot/visibility-selector";
+import {
+  stream,
+  type Chat,
+  type DBChatMessage,
+  type Suggestion,
+  type User,
+  chat,
+  chatMessage,
+  document,
+  suggestion,
+  user,
+  vote,
+} from "./schema";
+import { generateHashedPassword } from "./utils";
 
 let globalInstance: ReturnType<typeof drizzle> | undefined;
 let globalPool: postgres.Sql | undefined;
@@ -31,20 +45,6 @@ export function getDbV3() {
 
   return db;
 }
-import {
-  stream,
-  type Chat,
-  type DBChatMessage,
-  type Suggestion,
-  type User,
-  chat,
-  chatMessage,
-  document,
-  suggestion,
-  user,
-  vote,
-} from "./schema";
-import { generateHashedPassword } from "./utils";
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
