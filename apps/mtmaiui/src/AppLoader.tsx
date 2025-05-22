@@ -9,6 +9,7 @@ import { MtmaiProvider } from "./stores/MtmaiProvider";
 import { UIProviders } from "./stores/UIProviders";
 export function MtmClientApp({ serverUrl }: { serverUrl: string }) {
   return (
+    
     <MtmaiProvider serverUrl={serverUrl}>
       <UIProviders>
         <RouterProvider
