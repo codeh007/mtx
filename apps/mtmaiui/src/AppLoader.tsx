@@ -4,21 +4,21 @@ import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { MtmClientApp } from "./App";
-declare global {
-  //可能没用了.
-  interface Window {
-    __POST_APP_STATE__: {
-      isAuthenticated: boolean;
-      userId: string;
-      posts: Array<{ id: string }>;
-    };
-  }
-}
-function loadAppp() {
+// declare global {
+//   //可能没用了.
+//   interface Window {
+//     __POST_APP_STATE__: {
+//       isAuthenticated: boolean;
+//       userId: string;
+//       posts: Array<{ id: string }>;
+//     };
+//   }
+// }
+function loadAppp({ serverUrl }: { serverUrl: string }) {
   const rootElementId = "gomtm-runtime-container";
 
   if (typeof window !== "undefined") {
-    console.log("AppLoader 加载");
+    console.log("👍 AppLoader load...");
     // window.addEventListener("load", () => {
     //   onMount();
     // });
@@ -37,19 +37,23 @@ function loadAppp() {
       document.body.appendChild(rootElement);
     }
     if (rootElement) {
-      createRoot(rootElement).render(<MtSuspenseBoundary>{<MtmClientApp />}</MtSuspenseBoundary>);
+      createRoot(rootElement).render(
+        <MtSuspenseBoundary>
+          <MtmClientApp serverUrl={serverUrl} />
+        </MtSuspenseBoundary>,
+      );
     }
   }
 }
-if (typeof window !== "undefined") {
-  loadAppp();
-}
+// if (typeof window !== "undefined") {
+//   // loadAppp({ serverUrl: getAppConfig().mtmServerUrl });
+// }
 
-export default loadAppp;
+// export default loadAppp;
 
-export function AppLoader() {
+export function AppLoader({ serverUrl }: { serverUrl: string }) {
   useEffect(() => {
-    loadAppp();
-  }, []);
+    loadAppp({ serverUrl });
+  }, [serverUrl]);
   return null;
 }

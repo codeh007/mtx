@@ -50,7 +50,7 @@ export default async function Layout(props: {
                 <div className="flex flex-col min-h-screen h-full w-full">
                   <WebLayoutHeader />
                   <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
-                  <AppLoader />
+                  <AppLoader serverUrl={getAppConfig().mtmServerUrl} />
                 </div>
               </UIProviders>
             </MtSuspenseBoundary>
