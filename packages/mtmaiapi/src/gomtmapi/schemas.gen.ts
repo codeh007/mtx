@@ -5315,3 +5315,18 @@ export const DemoResponseSchema = {
   },
   required: ["message"],
 } as const;
+
+export const SandboxSchema = {
+  required: ["id", "type", "url"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+    },
+    url: {
+      type: "string",
+    },
+  },
+} as const;
