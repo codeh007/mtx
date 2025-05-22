@@ -12,6 +12,7 @@ import {
   SidebarInput,
 } from "mtxuilib/ui/sidebar";
 
+import { useMtmai } from "@mtmaiui/stores/MtmaiProvider";
 import { useQuery } from "@tanstack/react-query";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { Icons } from "mtxuilib/icons/icons";
@@ -20,7 +21,6 @@ import { Switch } from "mtxuilib/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { type ChangeEvent, useMemo } from "react";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
-import { useMtmai } from "@mtmaiui/stores/MtmaiProvider";
 export function NavSession() {
   const linkToNew = useMemo(() => {
     return "new";
@@ -87,11 +87,11 @@ export function NavSession() {
 }
 
 const ChatSessionList = () => {
-  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
+  const mtmServerUrl = useMtmai((x) => x.serverUrl);
   const { data: sessions } = useQuery({
     queryKey: ["agents/sessions"],
     queryFn: () => {
-      return fetch(`${gomtmApiEndpoint}/api/agents/sessions/list`).then((res) => res.json());
+      return fetch(`${mtmServerUrl}/api/agents/sessions/list`).then((res) => res.json());
     },
   });
   return (

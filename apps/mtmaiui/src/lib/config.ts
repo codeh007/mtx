@@ -4,13 +4,11 @@ export const MtmaiuiConfig = {
   default_open_model: "nvidia/llama-3.3-nemotron-super-49b-v1",
 
   apiEndpoint: "https://mtmag.yuepa8.com",
-  // gomtmApiEndpoint: "http://localhost:8383",
 };
 
 export const getAppConfig = () => {
   return {
     ...MtmaiuiConfig,
-    gomtmApiEndpoint:
-      process.env?.GOMTM_API_ENDPOINT || process.env?.VERCEL_URL || "http://localhost:8383",
+    mtmServerUrl: process.env?.MTM_SERVER_URL || process.env?.VERCEL_URL || "http://localhost:8383",
   };
 };

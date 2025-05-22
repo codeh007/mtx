@@ -20,7 +20,6 @@ interface MtmaiBotProps {
   accessToken?: string;
   frontendConfig?: FrontendConfig;
   isDebug?: boolean;
-  gomtmApiEndpoint?: string;
 }
 interface MtmaiState extends MtmaiBotProps {
   _hasHydrated?: boolean;
@@ -37,7 +36,6 @@ interface MtmaiState extends MtmaiBotProps {
   site?: Site;
   setSite: (site: Site) => void;
   setIsDebug: (isDebug: boolean) => void;
-  setGomtmApiEndpoint: (gomtmApiEndpoint: string) => void;
   lastTenant?: Tenant;
   setLastTenant: (tenant: Tenant) => void;
   currentTenant?: Tenant;
@@ -62,7 +60,6 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
     setSite: (site) => set({ site }),
     setSelfBackendUrl: (selfBackendUrl) => set({ selfBackendUrl }),
     setIsDebug: (isDebug) => set({ isDebug }),
-    setGomtmApiEndpoint: (gomtmApiEndpoint) => set({ gomtmApiEndpoint }),
     setLastTenant: (tenant: Tenant) => {
       set({ lastTenant: tenant });
       localStorage.setItem(lastTenantKey, JSON.stringify(tenant));
@@ -166,7 +163,7 @@ export const MtmaiProvider = (props: AppProviderProps) => {
   return (
     <mtmaiStoreContext.Provider value={mystore}>
       <ReactQueryProvider
-        serverUrl={mystore.getState().gomtmApiEndpoint}
+        serverUrl={mystore.getState().serverUrl}
         accessToken={mystore.getState().accessToken as string}
         host={mystore.getState().hostName as string}
         debug={mystore.getState().isDebug}

@@ -7,6 +7,7 @@ import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/MtmaiProvider";
 import "../../styles/globals.css";
 import { AppLoader } from "@mtmaiui/AppLoader";
+import { getAppConfig } from "@mtmaiui/lib/config";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { WebLayoutHeader } from "./Header";
@@ -37,11 +38,12 @@ export default async function Layout(props: {
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <MtSuspenseBoundary>
           <MtmaiProvider
-          // frontendConfig={await getFrontendConfig()}
-          // hostName={await getHostName()}
-          // serverUrl={await getBackendUrl()}
-          // selfBackendUrl={await getBackendUrl()}
-          // accessToken={await getAccessToken()}
+            // frontendConfig={await getFrontendConfig()}
+            // hostName={await getHostName()}
+            // serverUrl={await getBackendUrl()}
+            // selfBackendUrl={await getBackendUrl()}
+            // accessToken={await getAccessToken()}
+            serverUrl={getAppConfig().mtmServerUrl}
           >
             <MtSuspenseBoundary>
               <UIProviders>

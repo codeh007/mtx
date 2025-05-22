@@ -20,12 +20,12 @@ interface AgentChatViewProps {
 export default function AgentChatView({ sessionId }: AgentChatViewProps) {
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
 
-  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
+  const serverUrl = useMtmai((x) => x.serverUrl);
 
   const eventQuery = useQuery({
     queryKey: ["adkEvents"],
     queryFn: () => {
-      return fetch(`${gomtmApiEndpoint}/api/adk/events/list?session_id=${sessionId}`).then((res) =>
+      return fetch(`${serverUrl}/api/adk/events/list?session_id=${sessionId}`).then((res) =>
         res.json(),
       );
     },

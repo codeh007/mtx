@@ -23,7 +23,7 @@ import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
   const isDebug = useWorkbenchStore((x) => x.isDebug);
-  const gomtmApiEndpoint = useMtmai((x) => x.gomtmApiEndpoint);
+  const mtmServerUrl = useMtmai((x) => x.serverUrl);
   const linkToNew = useMemo(() => {
     return "/adk/session";
   }, []);
@@ -31,7 +31,7 @@ export function NavAdkSession() {
   const adkSessionQuery = useQuery({
     queryKey: ["adkSessionList"],
     queryFn: async () => {
-      const response = await fetch(`${gomtmApiEndpoint}/api/adk/session/list`);
+      const response = await fetch(`${mtmServerUrl}/api/adk/session/list`);
       return response.json();
     },
   });
