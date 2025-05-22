@@ -4163,8 +4163,12 @@ export const UpdateSiteRequestSchema = {
 } as const;
 
 export const SiteHostPropertiesSchema = {
-  required: ["host"],
+  required: ["id", "host"],
   properties: {
+    id: {
+      type: "string",
+      description: "site-host id",
+    },
     title: {
       type: "string",
       description: "site-host 标题",
@@ -4182,9 +4186,6 @@ export const SiteHostPropertiesSchema = {
 
 export const SiteHostSchema = {
   allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
     {
       $ref: "#/components/schemas/SiteHostProperties",
     },

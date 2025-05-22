@@ -1848,12 +1848,13 @@ export const zUpdateSiteRequest = z.object({
 });
 
 export const zSiteHostProperties = z.object({
+  id: z.string(),
   title: z.string().optional(),
   description: z.string().optional(),
   host: z.string(),
 });
 
-export const zSiteHost = zApiResourceMetaProperties.merge(zSiteHostProperties);
+export const zSiteHost = zSiteHostProperties;
 
 export const zSiteHostList = z.object({
   pagination: zPaginationResponse.optional(),

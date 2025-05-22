@@ -2382,6 +2382,10 @@ export type UpdateSiteRequest = {
 
 export type SiteHostProperties = {
   /**
+   * site-host id
+   */
+  id: string;
+  /**
    * site-host 标题
    */
   title?: string;
@@ -2395,7 +2399,7 @@ export type SiteHostProperties = {
   host: string;
 };
 
-export type SiteHost = ApiResourceMetaProperties & SiteHostProperties;
+export type SiteHost = SiteHostProperties;
 
 export type SiteHostList = {
   pagination?: PaginationResponse;
