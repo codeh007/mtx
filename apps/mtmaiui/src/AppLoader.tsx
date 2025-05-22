@@ -12,9 +12,9 @@ export function MtmClientApp({ serverUrl }: { serverUrl: string }) {
     <MtmaiProvider serverUrl={serverUrl}>
       <UIProviders>
         <RouterProvider
-          router={createRouter()}
+          router={createRouter({ serverUrl })}
           context={{
-            tid: "",
+            serverUrl: serverUrl,
             queryClient: getQueryClient(),
           }}
         />
