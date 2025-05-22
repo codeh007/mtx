@@ -18,9 +18,7 @@
       }
     }
 *************************************************************************************/
-export function newStreamResponse(
-  asyncGenerator: AsyncGenerator<any, void, unknown>,
-) {
+export function newStreamResponse(asyncGenerator: AsyncGenerator<any, void, unknown>) {
   return new StreamingResponse(makeStream(asyncGenerator));
 }
 
@@ -57,3 +55,36 @@ export const makeStream = <T>(generator: AsyncGenerator<T, void, unknown>) => {
 export function emitText(text: string) {
   return `0:${JSON.stringify(text)}\n`;
 }
+
+export async function* sendSsePostRequest(url: string, data: any) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "text/event-stream",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      // Process the SSE event data
+      // console.log("Received SSE event:", value);
+      yield value;
+      // Update React state or perform other actions with the data
+    }
+  } catch (error) {
+    console.error("Error reading stream:", error);
+  } finally {
+    reader.releaseLock();
+  }
+};
