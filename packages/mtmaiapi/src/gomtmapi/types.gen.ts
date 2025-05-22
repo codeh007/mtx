@@ -2303,6 +2303,22 @@ export type ModelRunUpsert = ModelRunProperties;
 
 export type SiteProperties = {
   /**
+   * 站点ID
+   */
+  id?: string;
+  /**
+   * 租户ID
+   */
+  tenant_id?: string;
+  /**
+   * 更新时间
+   */
+  updated_at?: string;
+  /**
+   * 是否启用
+   */
+  enabled?: boolean;
+  /**
    * site 标题
    */
   title: string;
@@ -2325,7 +2341,7 @@ export type SiteProperties = {
   };
 };
 
-export type Site = ApiResourceMetaProperties & SiteProperties;
+export type Site = SiteProperties;
 
 export type SiteList = {
   pagination?: PaginationResponse;

@@ -1814,6 +1814,10 @@ export const zModelRunList = z.object({
 export const zModelRunUpsert = zModelRunProperties;
 
 export const zSiteProperties = z.object({
+  id: z.string().optional(),
+  tenant_id: z.string().optional(),
+  updated_at: z.string().optional(),
+  enabled: z.boolean().optional(),
   title: z.string(),
   description: z.string(),
   automation_enabled: z.boolean(),
@@ -1822,7 +1826,7 @@ export const zSiteProperties = z.object({
   }),
 });
 
-export const zSite = zApiResourceMetaProperties.merge(zSiteProperties);
+export const zSite = zSiteProperties;
 
 export const zSiteList = z.object({
   pagination: zPaginationResponse.optional(),

@@ -4056,8 +4056,24 @@ export const ModelRunUpsertSchema = {
 } as const;
 
 export const SitePropertiesSchema = {
-  required: ["metadata", "title", "description", "automation_enabled", "state"],
+  required: ["title", "description", "automation_enabled", "state"],
   properties: {
+    id: {
+      type: "string",
+      description: "站点ID",
+    },
+    tenant_id: {
+      type: "string",
+      description: "租户ID",
+    },
+    updated_at: {
+      type: "string",
+      description: "更新时间",
+    },
+    enabled: {
+      type: "boolean",
+      description: "是否启用",
+    },
     title: {
       type: "string",
       description: "site 标题",
@@ -4085,9 +4101,6 @@ export const SitePropertiesSchema = {
 
 export const SiteSchema = {
   allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
     {
       $ref: "#/components/schemas/SiteProperties",
     },

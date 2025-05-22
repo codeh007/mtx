@@ -61,7 +61,7 @@ export function SiteSidebar() {
           <SidebarGroupContent>
             {isDebug && <DebugValue data={{ data: sitesQuery.data }} />}
             {sitesQuery.data?.rows?.map((item) => (
-              <SiteSidebarItem key={item.metadata.id} site={item} />
+              <SiteSidebarItem key={item.id} site={item} />
             ))}
           </SidebarGroupContent>
         </SidebarGroup>
@@ -77,7 +77,7 @@ const SiteSidebarItem = ({ site }: SiteListItemProps) => {
   return (
     <div className="flex  p-2 ">
       <div className="flex-1">
-        <CustomLink to={`/site/${site.metadata?.id}`}>{site.title}</CustomLink>
+        <CustomLink to={`/site/${site.id}`}>{site.title}</CustomLink>
       </div>
       <div className="flex-0">
         <DebugValue data={site} enable={isDebug} />

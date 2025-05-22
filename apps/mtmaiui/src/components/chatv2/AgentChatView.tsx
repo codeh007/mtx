@@ -5,7 +5,7 @@ import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
 import { useScrollToBottom } from "mtxuilib/hooks/use-scroll-to-bottom";
 import { formatTime } from "mtxuilib/lib/utils";
 import { adkEvents } from "../../db/schema";
-import { MtmaiuiConfig } from "../../lib/config";
+import { getAppConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 import { ChatAvatar } from "../cloudflare-agents/components/avatar/ChatAvatar";
 import { Card } from "../cloudflare-agents/components/card/Card";
@@ -23,9 +23,9 @@ export default function AgentChatView({ sessionId }: AgentChatViewProps) {
   const eventQuery = useQuery({
     queryKey: ["adkEvents"],
     queryFn: () => {
-      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/events/list?session_id=${sessionId}`).then(
-        (res) => res.json(),
-      );
+      return fetch(
+        `${getAppConfig().apiEndpoint}/api/adk/events/list?session_id=${sessionId}`,
+      ).then((res) => res.json());
     },
   });
 

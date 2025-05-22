@@ -19,7 +19,7 @@ import { Label } from "mtxuilib/ui/label";
 import { Switch } from "mtxuilib/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { type ChangeEvent, useMemo } from "react";
-import { MtmaiuiConfig } from "../../lib/config";
+import { getAppConfig } from "../../lib/config";
 import { useWorkbenchStore } from "../../stores/workbrench.store";
 export function NavSession() {
   const linkToNew = useMemo(() => {
@@ -90,7 +90,7 @@ const ChatSessionList = () => {
   const { data: sessions } = useQuery({
     queryKey: ["agents/sessions"],
     queryFn: () => {
-      return fetch(`${MtmaiuiConfig.apiEndpoint}/api/agents/sessions/list`).then((res) =>
+      return fetch(`${getAppConfig().apiEndpoint}/api/agents/sessions/list`).then((res) =>
         res.json(),
       );
     },

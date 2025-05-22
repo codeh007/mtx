@@ -18,7 +18,7 @@ import { Icons } from "mtxuilib/icons/icons";
 import { Label } from "mtxuilib/ui/label";
 import { useMemo } from "react";
 import { AdkAppSelect } from "../../../components/chatv2/app_select";
-import { MtmaiuiConfig } from "../../../lib/config";
+import { getAppConfig } from "../../../lib/config";
 import { useWorkbenchStore } from "../../../stores/workbrench.store";
 
 export function NavAdkSession() {
@@ -31,7 +31,7 @@ export function NavAdkSession() {
   const adkSessionQuery = useQuery({
     queryKey: ["adkSessionList"],
     queryFn: async () => {
-      const response = await fetch(`${MtmaiuiConfig.apiEndpoint}/api/adk/session/list`);
+      const response = await fetch(`${getAppConfig().apiEndpoint}/api/adk/session/list`);
       return response.json();
     },
   });

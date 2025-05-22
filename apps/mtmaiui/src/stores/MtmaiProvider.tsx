@@ -1,6 +1,6 @@
 "use client";
 
-import { MtmaiuiConfig } from "@mtmaiui/lib/config";
+import { getAppConfig } from "@mtmaiui/lib/config";
 import type { FrontendConfig, Site, Tenant } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -11,7 +11,6 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useSessionLoader } from "../hooks/useAuth";
 import ReactQueryProvider from "./ReactQueryProvider";
-// import { type HatchetSliceState } from "./hatchet.slice";
 type ViewOptions = "graph" | "minimap";
 const lastTimeRange = "lastTimeRange";
 const lastTenantKey = "lastTenant";
@@ -54,7 +53,7 @@ const createAppSlice: StateCreator<MtmaiState, [], [], MtmaiState> = (set, get, 
   return {
     debug: false,
     serverUrl: "",
-    gomtmApiEndpoint: MtmaiuiConfig.gomtmApiEndpoint,
+    gomtmApiEndpoint: getAppConfig().gomtmApiEndpoint,
     ...init,
     setHasHydrated: (_hasHydrated: boolean) => set({ _hasHydrated }),
     setFrontendConfig: (frontendConfig: FrontendConfig) => set({ frontendConfig }),

@@ -6,3 +6,10 @@ export const MtmaiuiConfig = {
   apiEndpoint: "https://mtmag.yuepa8.com",
   gomtmApiEndpoint: "http://localhost:8383",
 };
+
+export const getAppConfig = () => {
+  return {
+    ...MtmaiuiConfig,
+    gomtmApiEndpoint: process.env.GOMTM_API_ENDPOINT || "",
+  };
+};
