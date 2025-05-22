@@ -9,6 +9,10 @@ export const MtmaiuiConfig = {
 export const getAppConfig = () => {
   return {
     ...MtmaiuiConfig,
-    mtmServerUrl: process.env?.MTM_SERVER_URL || process.env?.VERCEL_URL || "http://localhost:8383",
+    mtmServerUrl:
+      process.env?.MTM_SERVER_URL ||
+      `https://${process.env?.VERCEL_URL}` ||
+      "http://localhost:8383",
   };
 };
+1
