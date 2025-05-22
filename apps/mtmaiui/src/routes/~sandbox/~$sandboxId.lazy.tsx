@@ -1,3 +1,4 @@
+import { SandBoxViewAdk } from "@mtmaiui/components/sandbox/SandBoxViewAdk";
 import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
@@ -27,24 +28,12 @@ const SandboxView = ({ tid, sandboxId }: { tid: string; sandboxId: string }) => 
     }),
   });
   if (sandboxGetQuery.data?.type === "adk") {
-    return <SandBoxViewAdk />;
+    return <SandBoxViewAdk sandbox={sandboxGetQuery.data} />;
   }
   return (
     <div className="flex flex-col gap-4 bg-red-500">
       <DebugValue data={sandboxGetQuery.data} />
       unknown sandbox type
-    </div>
-  );
-};
-
-const SandBoxViewAdk = () => {
-  return (
-    <div className="flex flex-col gap-4 bg-blue-500">
-      <div>
-        <div>
-          <div>SandBoxViewAdk</div>
-        </div>
-      </div>
     </div>
   );
 };
