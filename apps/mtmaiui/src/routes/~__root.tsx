@@ -1,10 +1,10 @@
 "use client";
+import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
-// import appCss from "../styles/app.css?url"
 
 interface MyRouterContext {
   tid: string;
@@ -28,23 +28,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         title: "MtmAI UI",
       },
     ],
-    // links: [
-    //   {
-    //     rel: "stylesheet",
-    //     href: appCss,
-    //   },
-    // ],
   }),
 });
 
 export const RootRoute = Route;
 
 function RootComponent() {
+  const tid = useTenantId();
   return (
     <MtSuspenseBoundary>
       {/* <SessionProvider basePath="/api/auth"> */}
       <UserFAB />
-      <Outlet />
+      {tid && <Outlet />}
+
       {/* </SessionProvider> */}
     </MtSuspenseBoundary>
   );
