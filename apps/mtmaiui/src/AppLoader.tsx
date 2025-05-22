@@ -1,19 +1,29 @@
 "use client";
 
+import { RouterProvider } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { MtmClientApp } from "./App";
-// declare global {
-//   //可能没用了.
-//   interface Window {
-//     __POST_APP_STATE__: {
-//       isAuthenticated: boolean;
-//       userId: string;
-//       posts: Array<{ id: string }>;
-//     };
-//   }
-// }
+import { getQueryClient } from "./lib/get-query-client";
+import { createRouter } from "./router";
+import { MtmaiProvider } from "./stores/MtmaiProvider";
+import { UIProviders } from "./stores/UIProviders";
+export function MtmClientApp({ serverUrl }: { serverUrl: string }) {
+  return (
+    <MtmaiProvider serverUrl={serverUrl}>
+      <UIProviders>
+        <RouterProvider
+          router={createRouter()}
+          context={{
+            tid: "",
+            queryClient: getQueryClient(),
+          }}
+        />
+      </UIProviders>
+    </MtmaiProvider>
+  );
+}
+
 function loadAppp({ serverUrl }: { serverUrl: string }) {
   const rootElementId = "gomtm-runtime-container";
 
@@ -45,11 +55,6 @@ function loadAppp({ serverUrl }: { serverUrl: string }) {
     }
   }
 }
-// if (typeof window !== "undefined") {
-//   // loadAppp({ serverUrl: getAppConfig().mtmServerUrl });
-// }
-
-// export default loadAppp;
 
 export function AppLoader({ serverUrl }: { serverUrl: string }) {
   useEffect(() => {
