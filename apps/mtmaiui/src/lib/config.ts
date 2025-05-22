@@ -10,6 +10,6 @@ export const MtmaiuiConfig = {
 export const getAppConfig = () => {
   return {
     ...MtmaiuiConfig,
-    gomtmApiEndpoint: process.env.GOMTM_API_ENDPOINT || "",
+    gomtmApiEndpoint: process.env.GOMTM_API_ENDPOINT || "http://localhost:8383",
   };
 };

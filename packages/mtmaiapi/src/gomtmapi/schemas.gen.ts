@@ -212,8 +212,12 @@ export const UserSchema = {
       type: "string",
       description: "A hash of the user's email address for use with Pylon Support Chat",
     },
+    userToken: {
+      type: "string",
+      description: "The user's token for use with Pylon Support Chat",
+    },
   },
-  required: ["metadata", "email", "emailVerified"],
+  required: ["metadata", "email", "emailVerified", "userToken"],
   type: "object",
 } as const;
 
@@ -4056,7 +4060,7 @@ export const ModelRunUpsertSchema = {
 } as const;
 
 export const SitePropertiesSchema = {
-  required: ["title", "description", "automation_enabled", "state"],
+  required: ["id", "tenant_id", "title", "description", "automation_enabled", "state", "enabled"],
   properties: {
     id: {
       type: "string",
@@ -4069,6 +4073,10 @@ export const SitePropertiesSchema = {
     updated_at: {
       type: "string",
       description: "更新时间",
+    },
+    created_at: {
+      type: "string",
+      description: "创建时间",
     },
     enabled: {
       type: "boolean",

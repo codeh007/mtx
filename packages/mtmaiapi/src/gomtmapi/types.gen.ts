@@ -131,6 +131,10 @@ export type User = {
    * A hash of the user's email address for use with Pylon Support Chat
    */
   emailHash?: string;
+  /**
+   * The user's token for use with Pylon Support Chat
+   */
+  userToken: string;
 };
 
 export type UserTenantPublic = {
@@ -2305,19 +2309,23 @@ export type SiteProperties = {
   /**
    * 站点ID
    */
-  id?: string;
+  id: string;
   /**
    * 租户ID
    */
-  tenant_id?: string;
+  tenant_id: string;
   /**
    * 更新时间
    */
   updated_at?: string;
   /**
+   * 创建时间
+   */
+  created_at?: string;
+  /**
    * 是否启用
    */
-  enabled?: boolean;
+  enabled: boolean;
   /**
    * site 标题
    */

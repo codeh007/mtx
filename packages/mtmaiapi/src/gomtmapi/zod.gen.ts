@@ -79,6 +79,7 @@ export const zUser = z.object({
   emailVerified: z.boolean(),
   hasPassword: z.boolean().optional(),
   emailHash: z.string().optional(),
+  userToken: z.string(),
 });
 
 export const zUserTenantPublic = z.object({
@@ -1814,10 +1815,11 @@ export const zModelRunList = z.object({
 export const zModelRunUpsert = zModelRunProperties;
 
 export const zSiteProperties = z.object({
-  id: z.string().optional(),
-  tenant_id: z.string().optional(),
+  id: z.string(),
+  tenant_id: z.string(),
   updated_at: z.string().optional(),
-  enabled: z.boolean().optional(),
+  created_at: z.string().optional(),
+  enabled: z.boolean(),
   title: z.string(),
   description: z.string(),
   automation_enabled: z.boolean(),
