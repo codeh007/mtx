@@ -10,7 +10,8 @@
     "mtm/web/static": true,
     "**/.next.dev": true,
     "**/routeTree.gen.ts": true,
-    "**/.wrangler": true
+    "**/.wrangler": true,
+    "**/.open-next": true
   },
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true,
@@ -18,7 +19,8 @@
     "**/.next": true,
     "**/node_modules": true,
     "**/.next.dev": true,
-    "**/.wrangler": true
+    "**/.wrangler": true,
+    "**/.open-next": true
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true

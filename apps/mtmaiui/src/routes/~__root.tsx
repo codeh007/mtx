@@ -4,7 +4,6 @@ import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
-import { SessionProvider } from "../lib/auth_hono/react";
 // import appCss from "../styles/app.css?url"
 
 interface MyRouterContext {
@@ -39,40 +38,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 export const RootRoute = Route;
-// export const Route = createRootRoute({
-//   head: () => ({
-//     meta: [
-//       {
-//         charSet: "utf-8",
-//       },
-//       {
-//         name: "viewport",
-//         content: "width=device-width, initial-scale=1",
-//       },
-//       {
-//         title: "TanStack Start Starter",
-//       },
-//     ],
-//     // links: [
-//     //   {
-//     //     rel: "stylesheet",
-//     //     href: appCss,
-//     //   },
-//     // ],
-//   }),
-//   component: RootComponent,
-//   notFoundComponent: NotFound,
-// });
 
 function RootComponent() {
   return (
-    <>
-      <MtSuspenseBoundary>
-        <SessionProvider basePath="/api/auth">
-          <UserFAB />
-          <Outlet />
-        </SessionProvider>
-      </MtSuspenseBoundary>
-    </>
+    <MtSuspenseBoundary>
+      {/* <SessionProvider basePath="/api/auth"> */}
+      <UserFAB />
+      <Outlet />
+      {/* </SessionProvider> */}
+    </MtSuspenseBoundary>
   );
 }

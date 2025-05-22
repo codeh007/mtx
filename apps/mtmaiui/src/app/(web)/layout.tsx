@@ -25,10 +25,6 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
-  // await initGomtmApp({
-  //   headers: headers,
-  //   cookies: cookies,
-  // });
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -36,26 +32,17 @@ export default async function Layout(props: {
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <MtSuspenseBoundary>
-          <MtmaiProvider
-            // frontendConfig={await getFrontendConfig()}
-            // hostName={await getHostName()}
-            // serverUrl={await getBackendUrl()}
-            // selfBackendUrl={await getBackendUrl()}
-            // accessToken={await getAccessToken()}
-            serverUrl={getAppConfig().mtmServerUrl}
-          >
-            <MtSuspenseBoundary>
-              <UIProviders>
-                <div className="flex flex-col min-h-screen h-full w-full">
-                  <WebLayoutHeader />
-                  <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
-                  <AppLoader serverUrl={getAppConfig().mtmServerUrl} />
-                </div>
-              </UIProviders>
-            </MtSuspenseBoundary>
-          </MtmaiProvider>
-        </MtSuspenseBoundary>
+        <MtmaiProvider serverUrl={getAppConfig().mtmServerUrl}>
+          <MtSuspenseBoundary>
+            <UIProviders>
+              <div className="flex flex-col min-h-screen h-full w-full">
+                <WebLayoutHeader />
+                <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
+                <AppLoader serverUrl={getAppConfig().mtmServerUrl} />
+              </div>
+            </UIProviders>
+          </MtSuspenseBoundary>
+        </MtmaiProvider>
       </body>
     </html>
   );
