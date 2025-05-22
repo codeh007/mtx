@@ -20,7 +20,7 @@ import { Input } from "mtxuilib/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "mtxuilib/ui/tooltip";
 import { Suspense } from "react";
 import { toast } from "sonner";
-import { useTenant, useTenantId } from "../../hooks/useAuth";
+import { useTenantId } from "../../hooks/useAuth";
 
 interface SiteEditorProps {
   siteId: string;
@@ -49,7 +49,8 @@ export const SiteEditor = ({ siteId }: SiteEditorProps) => {
 
 const SiteEditorForm = (props: { site: Site }) => {
   const { site } = props;
-  const tenant = useTenant();
+  // const tenant = useTenant();
+  const tid = useTenantId();
   const updateSiteMutation = useMutation({
     ...siteUpdateMutation(),
     onSuccess: (data) => {
@@ -67,8 +68,8 @@ const SiteEditorForm = (props: { site: Site }) => {
   const handleSubmit = (data: Site) => {
     updateSiteMutation.mutate({
       path: {
-        tenant: tenant!.metadata.id,
-        site: site.metadata.id,
+        tenant: tid,
+        site: site.id,
       },
       body: data,
     });
