@@ -2980,6 +2980,12 @@ export type DemoResponse = {
   message: string;
 };
 
+export type Sandbox = {
+  id: string;
+  type: string;
+  url: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8132,6 +8138,22 @@ export type DemoGetResponses = {
 };
 
 export type DemoGetResponse = DemoGetResponses[keyof DemoGetResponses];
+
+export type SandboxGetData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/sb";
+};
+
+export type SandboxGetResponses = {
+  /**
+   * 成功
+   */
+  200: Sandbox;
+};
+
+export type SandboxGetResponse = SandboxGetResponses[keyof SandboxGetResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -22,13 +22,14 @@ export function createAppRouter(mode: RouterMode = "memory") {
       return createHashHistory();
   }
 }
-export function createRouter() {
+export function createRouter({ serverUrl }: { serverUrl: string }) {
   const router = createTanstackRouter({
     routeTree,
     defaultPreload: "intent",
     defaultStaleTime: 5000,
     context: {
-      tid: "",
+      // tid: "",
+      serverUrl,
       queryClient: getQueryClient(),
     },
     // transformer: SuperJSON,

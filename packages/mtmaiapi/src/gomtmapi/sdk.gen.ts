@@ -375,6 +375,8 @@ import type {
   ArtifactGetError,
   DemoGetData,
   DemoGetResponse,
+  SandboxGetData,
+  SandboxGetResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3912,6 +3914,30 @@ export const demoGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/demo",
+    ...options,
+  });
+};
+
+/**
+ * 获取沙盒
+ * 获取沙盒
+ */
+export const sandboxGet = <ThrowOnError extends boolean = false>(
+  options?: Options<SandboxGetData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<SandboxGetResponse, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/sb",
     ...options,
   });
 };

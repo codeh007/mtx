@@ -33,7 +33,7 @@ export default {
       process.env.MTM_DATABASE_URL = env.HYPERDRIVE.connectionString;
       const response = app.fetch(request, env, ctx);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       return new Response(`entry server error: ${error.stack}`, { status: 500 });
     }

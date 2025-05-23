@@ -7,8 +7,9 @@ import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
 
 interface MyRouterContext {
-  tid: string;
+  // tid: string;
   queryClient: QueryClient;
+  serverUrl: string;
 }
 
 // Use the routerContext to create your root route
@@ -35,13 +36,11 @@ export const RootRoute = Route;
 
 function RootComponent() {
   const tid = useTenantId();
+  // const { serverUrl } = useRouterContext();
   return (
     <MtSuspenseBoundary>
-      {/* <SessionProvider basePath="/api/auth"> */}
       <UserFAB />
-      {tid && <Outlet />}
-
-      {/* </SessionProvider> */}
+      <Outlet />
     </MtSuspenseBoundary>
   );
 }

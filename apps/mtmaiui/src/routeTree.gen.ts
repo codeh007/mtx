@@ -20,6 +20,7 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 // Create Virtual Routes
 
 const SiteRouteLazyImport = createFileRoute('/site')()
+const SandboxRouteLazyImport = createFileRoute('/sandbox')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
 const AutomateRouteLazyImport = createFileRoute('/automate')()
@@ -28,6 +29,7 @@ const WorkflowRunsWorkflowRunIdRouteLazyImport = createFileRoute(
   '/workflow-runs/$workflowRunId',
 )()
 const SiteSiteIdRouteLazyImport = createFileRoute('/site/$siteId')()
+const SandboxSandboxIdLazyImport = createFileRoute('/sandbox/$sandboxId')()
 const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
 const ProxyNewRouteLazyImport = createFileRoute('/proxy/new')()
@@ -36,6 +38,7 @@ const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
+const SandboxIndexLazyImport = createFileRoute('/sandbox/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
@@ -144,6 +147,14 @@ const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
 
+const SandboxRouteLazyRoute = SandboxRouteLazyImport.update({
+  id: '/sandbox',
+  path: '/sandbox',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~sandbox/~route.lazy').then((d) => d.Route),
+)
+
 const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   id: '/resource',
   path: '/resource',
@@ -195,6 +206,14 @@ const SiteSiteIdRouteLazyRoute = SiteSiteIdRouteLazyImport.update({
   getParentRoute: () => SiteRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~site/~$siteId/~route.lazy').then((d) => d.Route),
+)
+
+const SandboxSandboxIdLazyRoute = SandboxSandboxIdLazyImport.update({
+  id: '/$sandboxId',
+  path: '/$sandboxId',
+  getParentRoute: () => SandboxRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~sandbox/~$sandboxId.lazy').then((d) => d.Route),
 )
 
 const ResourceNewRouteLazyRoute = ResourceNewRouteLazyImport.update({
@@ -258,6 +277,14 @@ const SiteIndexLazyRoute = SiteIndexLazyImport.update({
   path: '/',
   getParentRoute: () => SiteRouteLazyRoute,
 } as any).lazy(() => import('./routes/~site/~index.lazy').then((d) => d.Route))
+
+const SandboxIndexLazyRoute = SandboxIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SandboxRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~sandbox/~index.lazy').then((d) => d.Route),
+)
 
 const ResourceIndexLazyRoute = ResourceIndexLazyImport.update({
   id: '/',
@@ -738,6 +765,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourceRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/sandbox': {
+      id: '/sandbox'
+      path: '/sandbox'
+      fullPath: '/sandbox'
+      preLoaderRoute: typeof SandboxRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/site': {
       id: '/site'
       path: '/site'
@@ -779,6 +813,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/'
       preLoaderRoute: typeof ResourceIndexLazyImport
       parentRoute: typeof ResourceRouteLazyImport
+    }
+    '/sandbox/': {
+      id: '/sandbox/'
+      path: '/'
+      fullPath: '/sandbox/'
+      preLoaderRoute: typeof SandboxIndexLazyImport
+      parentRoute: typeof SandboxRouteLazyImport
     }
     '/site/': {
       id: '/site/'
@@ -835,6 +876,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resource/new'
       preLoaderRoute: typeof ResourceNewRouteLazyImport
       parentRoute: typeof ResourceRouteLazyImport
+    }
+    '/sandbox/$sandboxId': {
+      id: '/sandbox/$sandboxId'
+      path: '/$sandboxId'
+      fullPath: '/sandbox/$sandboxId'
+      preLoaderRoute: typeof SandboxSandboxIdLazyImport
+      parentRoute: typeof SandboxRouteLazyImport
     }
     '/site/$siteId': {
       id: '/site/$siteId'
@@ -1248,6 +1296,19 @@ const ResourceRouteLazyRouteChildren: ResourceRouteLazyRouteChildren = {
 const ResourceRouteLazyRouteWithChildren =
   ResourceRouteLazyRoute._addFileChildren(ResourceRouteLazyRouteChildren)
 
+interface SandboxRouteLazyRouteChildren {
+  SandboxIndexLazyRoute: typeof SandboxIndexLazyRoute
+  SandboxSandboxIdLazyRoute: typeof SandboxSandboxIdLazyRoute
+}
+
+const SandboxRouteLazyRouteChildren: SandboxRouteLazyRouteChildren = {
+  SandboxIndexLazyRoute: SandboxIndexLazyRoute,
+  SandboxSandboxIdLazyRoute: SandboxSandboxIdLazyRoute,
+}
+
+const SandboxRouteLazyRouteWithChildren =
+  SandboxRouteLazyRoute._addFileChildren(SandboxRouteLazyRouteChildren)
+
 interface SiteSiteIdRouteLazyRouteChildren {
   SiteSiteIdIndexRoute: typeof SiteSiteIdIndexRoute
   SiteSiteIdHostIndexLazyRoute: typeof SiteSiteIdHostIndexLazyRoute
@@ -1503,12 +1564,14 @@ export interface FileRoutesByFullPath {
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/sandbox/': typeof SandboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -1517,6 +1580,7 @@ export interface FileRoutesByFullPath {
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/sandbox/$sandboxId': typeof SandboxSandboxIdLazyRoute
   '/site/$siteId': typeof SiteSiteIdRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -1569,10 +1633,12 @@ export interface FileRoutesByTo {
   '/chat': typeof ChatIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
+  '/sandbox': typeof SandboxIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/sandbox/$sandboxId': typeof SandboxSandboxIdLazyRoute
   '/site/$siteId': typeof SiteSiteIdIndexRoute
   '/adk/session': typeof AdkSessionIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
@@ -1611,12 +1677,14 @@ export interface FileRoutesById {
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
+  '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/mttask/': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
+  '/sandbox/': typeof SandboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -1625,6 +1693,7 @@ export interface FileRoutesById {
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
+  '/sandbox/$sandboxId': typeof SandboxSandboxIdLazyRoute
   '/site/$siteId': typeof SiteSiteIdRouteLazyRouteWithChildren
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   '/site/$siteId/': typeof SiteSiteIdIndexRoute
@@ -1677,12 +1746,14 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/resource'
+    | '/sandbox'
     | '/site'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/mttask'
     | '/resource/'
+    | '/sandbox/'
     | '/site/'
     | '/adk/session'
     | '/auth/login'
@@ -1691,6 +1762,7 @@ export interface FileRouteTypes {
     | '/proxy/new'
     | '/resource/$resId'
     | '/resource/new'
+    | '/sandbox/$sandboxId'
     | '/site/$siteId'
     | '/workflow-runs/$workflowRunId'
     | '/site/$siteId/'
@@ -1742,10 +1814,12 @@ export interface FileRouteTypes {
     | '/chat'
     | '/mttask'
     | '/resource'
+    | '/sandbox'
     | '/site'
     | '/auth/register'
     | '/proxy/new'
     | '/resource/new'
+    | '/sandbox/$sandboxId'
     | '/site/$siteId'
     | '/adk/session'
     | '/auth/login'
@@ -1782,12 +1856,14 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/resource'
+    | '/sandbox'
     | '/site'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/mttask/'
     | '/resource/'
+    | '/sandbox/'
     | '/site/'
     | '/adk/session'
     | '/auth/login'
@@ -1796,6 +1872,7 @@ export interface FileRouteTypes {
     | '/proxy/new'
     | '/resource/$resId'
     | '/resource/new'
+    | '/sandbox/$sandboxId'
     | '/site/$siteId'
     | '/workflow-runs/$workflowRunId'
     | '/site/$siteId/'
@@ -1847,6 +1924,7 @@ export interface RootRouteChildren {
   AutomateRouteLazyRoute: typeof AutomateRouteLazyRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
+  SandboxRouteLazyRoute: typeof SandboxRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   EnvsCreateRoute: typeof EnvsCreateRoute
   MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
@@ -1866,6 +1944,7 @@ const rootRouteChildren: RootRouteChildren = {
   AutomateRouteLazyRoute: AutomateRouteLazyRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
+  SandboxRouteLazyRoute: SandboxRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   EnvsCreateRoute: EnvsCreateRoute,
   MttaskIndexLazyRoute: MttaskIndexLazyRoute,
@@ -1899,6 +1978,7 @@ export const routeTree = rootRoute
         "/automate",
         "/chat",
         "/resource",
+        "/sandbox",
         "/site",
         "/envs/create",
         "/mttask/",
@@ -1943,6 +2023,13 @@ export const routeTree = rootRoute
         "/resource/new"
       ]
     },
+    "/sandbox": {
+      "filePath": "~sandbox/~route.lazy.tsx",
+      "children": [
+        "/sandbox/",
+        "/sandbox/$sandboxId"
+      ]
+    },
     "/site": {
       "filePath": "~site/~route.lazy.tsx",
       "children": [
@@ -1968,6 +2055,10 @@ export const routeTree = rootRoute
     "/resource/": {
       "filePath": "~resource/~index.lazy.tsx",
       "parent": "/resource"
+    },
+    "/sandbox/": {
+      "filePath": "~sandbox/~index.lazy.tsx",
+      "parent": "/sandbox"
     },
     "/site/": {
       "filePath": "~site/~index.lazy.tsx",
@@ -2017,6 +2108,10 @@ export const routeTree = rootRoute
         "/resource/new/res/chat",
         "/resource/new/res/platform_account"
       ]
+    },
+    "/sandbox/$sandboxId": {
+      "filePath": "~sandbox/~$sandboxId.lazy.tsx",
+      "parent": "/sandbox"
     },
     "/site/$siteId": {
       "filePath": "~site/~$siteId/~route.lazy.tsx",

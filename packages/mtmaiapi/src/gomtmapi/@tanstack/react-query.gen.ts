@@ -136,6 +136,7 @@ import {
   artifactList,
   artifactGet,
   demoGet,
+  sandboxGet,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -403,6 +404,7 @@ import type {
   ArtifactListData,
   ArtifactGetData,
   DemoGetData,
+  SandboxGetData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4166,5 +4168,23 @@ export const demoGetOptions = (options?: Options<DemoGetData>) => {
       return data;
     },
     queryKey: demoGetQueryKey(options),
+  });
+};
+
+export const sandboxGetQueryKey = (options?: Options<SandboxGetData>) =>
+  createQueryKey("sandboxGet", options);
+
+export const sandboxGetOptions = (options?: Options<SandboxGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await sandboxGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: sandboxGetQueryKey(options),
   });
 };
