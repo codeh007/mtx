@@ -15,4 +15,4 @@ export const getAppConfig = () => {
       "http://localhost:8383",
   };
 };
-1
+1;
