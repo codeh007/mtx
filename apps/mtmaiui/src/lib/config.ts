@@ -16,4 +16,3 @@ export const getAppConfig = () => {
       "https://www.yuepa8.com",
   };
 };
-1;
