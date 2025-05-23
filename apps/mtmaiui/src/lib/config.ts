@@ -8,20 +8,12 @@ export const mtmaiAppInitState = {
 
 export const getAppConfig = () => {
   return {
-<<<<<<< HEAD
-    ...MtmaiuiConfig,
-    mtmServerUrl:
-      process.env?.MTM_SERVER_URL ||
-      `https://${process.env?.VERCEL_URL}` ||
-      "http://localhost:8383",
-=======
     ...mtmaiAppInitState,
     mtmServerUrl:
       // process.env?.MTM_SERVER_URL ||
       // `https://${process.env?.VERCEL_URL}` ||
       // "http://localhost:8383",
       "https://www.yuepa8.com",
->>>>>>> 7e2bfbd62b70e16adfe709d3c9cfea096bc970e3
   };
 };
 1;
