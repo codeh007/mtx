@@ -39,11 +39,8 @@ function RootComponent() {
   // const { serverUrl } = useRouterContext();
   return (
     <MtSuspenseBoundary>
-      {/* <SessionProvider basePath="/api/auth"> */}
       <UserFAB />
-      {tid && <Outlet />}
-
-      {/* </SessionProvider> */}
+      <Outlet />
     </MtSuspenseBoundary>
   );
 }
