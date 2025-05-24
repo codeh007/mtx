@@ -2429,6 +2429,10 @@ export const zSandbox = z.object({
   url: z.string(),
 });
 
+export const zMtmInfo = z.object({
+  message: z.string().optional(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2675,4 +2679,4 @@ export const zDemoGetResponse = zDemoResponse;
 
 export const zSandboxGetResponse = zSandbox;
 
-export const zMtmHelloResponse = z.object({});
+export const zMtmHelloResponse = zMtmInfo;

@@ -5330,3 +5330,14 @@ export const SandboxSchema = {
     },
   },
 } as const;
+
+export const MtmInfoSchema = {
+  type: "object",
+  properties: {
+    message: {
+      type: "string",
+      description: "健康检查消息",
+      example: "hello mtm v2",
+    },
+  },
+} as const;

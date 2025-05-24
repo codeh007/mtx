@@ -3963,7 +3963,7 @@ export const mtmHello = <ThrowOnError extends boolean = false>(
         type: "apiKey",
       },
     ],
-    url: "/api/v1/mtm/hello",
+    url: "/api/v1/mtm/mtmInfo",
     ...options,
   });
 };

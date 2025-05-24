@@ -2986,6 +2986,13 @@ export type Sandbox = {
   url: string;
 };
 
+export type MtmInfo = {
+  /**
+   * 健康检查消息
+   */
+  message?: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8159,16 +8166,14 @@ export type MtmHelloData = {
   body?: never;
   path?: never;
   query?: never;
-  url: "/api/v1/mtm/hello";
+  url: "/api/v1/mtm/mtmInfo";
 };
 
 export type MtmHelloResponses = {
   /**
    * 健康检查成功
    */
-  200: {
-    [key: string]: unknown;
-  };
+  200: MtmInfo;
 };
 
 export type MtmHelloResponse = MtmHelloResponses[keyof MtmHelloResponses];
