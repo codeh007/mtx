@@ -2,6 +2,7 @@
 import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { ClickToComponent } from "click-to-react-component";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
@@ -39,6 +40,7 @@ function RootComponent() {
   // const { serverUrl } = useRouterContext();
   return (
     <MtSuspenseBoundary>
+      <ClickToComponent />
       <UserFAB />
       <Outlet />
     </MtSuspenseBoundary>
