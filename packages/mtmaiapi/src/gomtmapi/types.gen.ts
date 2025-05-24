@@ -8155,6 +8155,24 @@ export type SandboxGetResponses = {
 
 export type SandboxGetResponse = SandboxGetResponses[keyof SandboxGetResponses];
 
+export type MtmHelloData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/mtm/hello";
+};
+
+export type MtmHelloResponses = {
+  /**
+   * 健康检查成功
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type MtmHelloResponse = MtmHelloResponses[keyof MtmHelloResponses];
+
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
 };

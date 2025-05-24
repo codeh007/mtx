@@ -2674,3 +2674,5 @@ export const zArtifactGetResponse = zArtifact;
 export const zDemoGetResponse = zDemoResponse;
 
 export const zSandboxGetResponse = zSandbox;
+
+export const zMtmHelloResponse = z.object({});

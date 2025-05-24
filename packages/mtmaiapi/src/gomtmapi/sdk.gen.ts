@@ -377,6 +377,8 @@ import type {
   DemoGetResponse,
   SandboxGetData,
   SandboxGetResponse,
+  MtmHelloData,
+  MtmHelloResponse,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3938,6 +3940,30 @@ export const sandboxGet = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/sb",
+    ...options,
+  });
+};
+
+/**
+ * 健康检查
+ * 健康检查
+ */
+export const mtmHello = <ThrowOnError extends boolean = false>(
+  options?: Options<MtmHelloData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<MtmHelloResponse, unknown, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/mtm/hello",
     ...options,
   });
 };

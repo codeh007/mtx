@@ -137,6 +137,7 @@ import {
   artifactGet,
   demoGet,
   sandboxGet,
+  mtmHello,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -405,6 +406,7 @@ import type {
   ArtifactGetData,
   DemoGetData,
   SandboxGetData,
+  MtmHelloData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4186,5 +4188,23 @@ export const sandboxGetOptions = (options?: Options<SandboxGetData>) => {
       return data;
     },
     queryKey: sandboxGetQueryKey(options),
+  });
+};
+
+export const mtmHelloQueryKey = (options?: Options<MtmHelloData>) =>
+  createQueryKey("mtmHello", options);
+
+export const mtmHelloOptions = (options?: Options<MtmHelloData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await mtmHello({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: mtmHelloQueryKey(options),
   });
 };
