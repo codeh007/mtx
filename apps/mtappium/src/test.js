@@ -1,4 +1,4 @@
-const { remote } = require("webdriverio");
+import { remote } from "webdriverio";
 
 const capabilities = {
   platformName: "Android",
@@ -9,9 +9,9 @@ const capabilities = {
 };
 
 const wdOpts = {
-  hostname: process.env.APPIUM_HOST || "localhost",
-  port: Number.parseInt(process.env.APPIUM_PORT, 10) || 4723,
-  logLevel: "info",
+  hostname: "100.117.139.87",
+  port: 4724,
+  logLevel: "debug",
   capabilities,
 };
 

@@ -9,11 +9,24 @@
   },
   "exports": {
     ".": {
-      "types": ["./src/index.ts", "./src/index.tsx", "./dist/index.js"],
-      "import": ["./src/index.ts", "./src/index.tsx", "./dist/index.js"]
+      "types": [
+        "./src/index.ts",
+        "./src/index.tsx",
+        "./dist/index.js"
+      ],
+      "import": [
+        "./src/index.ts",
+        "./src/index.tsx",
+        "./dist/index.js"
+      ]
     },
     "./*": {
-      "types": ["./src/*.ts", "./src/*/index.ts", "./src/*.tsx", "./src/*/index.tsx"],
+      "types": [
+        "./src/*.ts",
+        "./src/*/index.ts",
+        "./src/*.tsx",
+        "./src/*/index.tsx"
+      ],
       "import": [
         "./src/*.ts",
         "./src/*.tsx",
@@ -32,13 +45,15 @@
       ]
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "bin": {
     "mtmaiadmin": "dist/main.js"
   },
   "scripts": {
     "test": "node src/test.js",
-    "start": "export ANDROID_HOME=/usr/lib/android-sdk/platform-tools && appium"
+    "start": "export ANDROID_HOME=/usr/lib/android-sdk/platform-tools && bun run appium"
   },
   "dependencies": {
     "appium": "^2.18.0"
