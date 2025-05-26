@@ -37,14 +37,8 @@
     "mtmaiadmin": "dist/main.js"
   },
   "scripts": {
-    "build": "bun src/cli/main.ts build",
-    "build3--": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate && next build",
-    "db:migrate": "dotenv -e ../../env/mtmaiadmin.env -- tsx src/db/migrate",
-    "dev": "dotenv -e ../../../gomtm/env/mtmaiadmin.env -- next dev",
-    "db:gen": "drizzle-kit generate",
-    "drizzle:migrate": "tsx ./db/migrate.ts",
-    "db:push": "drizzle-kit push",
-    "preview": "vite preview"
+    "test": "node src/test.js",
+    "start": "export ANDROID_HOME=/usr/lib/android-sdk/platform-tools && appium"
   },
   "dependencies": {
     "appium": "^2.18.0"
