@@ -5201,25 +5201,67 @@ export const FunctionResponseSchema = {
 } as const;
 
 export const ArtifactSchema = {
+  required: [
+    "id",
+    "created_at",
+    "updated_at",
+    "tenant_id",
+    "user_id",
+    "version",
+    "session_id",
+    "app_name",
+    "filename",
+    "type",
+    "content",
+  ],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+    id: {
+      type: "string",
+      description: "The artifact id.",
+      format: "uuid",
+      minLength: 36,
+      maxLength: 36,
     },
-    title: {
+    created_at: {
+      type: "string",
+      description: "The artifact created at.",
+      format: "date-time",
+    },
+    updated_at: {
+      type: "string",
+      description: "The artifact updated at.",
+    },
+    tenant_id: {
+      type: "string",
+      description: "The artifact tenant id.",
+      format: "uuid",
+      minLength: 36,
+      maxLength: 36,
+    },
+    user_id: {
       type: "string",
     },
-    state: {
-      type: "object",
-      description: "The tenant associated with this tenant blog.",
+    version: {
+      type: "integer",
     },
-    nextId: {
+    session_id: {
       type: "string",
     },
-    prevId: {
+    app_name: {
       type: "string",
+    },
+    filename: {
+      type: "string",
+    },
+    mime_type: {
+      type: "string",
+    },
+    content: {
+      type: "string",
+      description: "The artifact content.",
+      format: "binary",
     },
   },
-  required: ["metadata", "title", "state"],
 } as const;
 
 export const ArtifactListSchema = {
@@ -5233,6 +5275,27 @@ export const ArtifactListSchema = {
       },
       type: "array",
       "x-go-name": "Rows",
+    },
+  },
+} as const;
+
+export const SaveArtifactRequestSchema = {
+  required: ["app_name", "user_id"],
+  properties: {
+    app_name: {
+      type: "string",
+    },
+    user_id: {
+      type: "string",
+    },
+    session_id: {
+      type: "string",
+    },
+    filename: {
+      type: "string",
+    },
+    content: {
+      type: "string",
     },
   },
 } as const;

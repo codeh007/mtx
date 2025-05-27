@@ -135,9 +135,11 @@ import {
   postCreate,
   artifactList,
   artifactGet,
+  artifactSave,
   demoGet,
   sandboxGet,
   mtmHello,
+  scriptsByName,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -404,9 +406,13 @@ import type {
   PostCreateResponse,
   ArtifactListData,
   ArtifactGetData,
+  ArtifactSaveData,
+  ArtifactSaveError,
+  ArtifactSaveResponse,
   DemoGetData,
   SandboxGetData,
   MtmHelloData,
+  ScriptsByNameData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4155,6 +4161,42 @@ export const artifactGetOptions = (options: Options<ArtifactGetData>) => {
   });
 };
 
+export const artifactSaveQueryKey = (options: Options<ArtifactSaveData>) =>
+  createQueryKey("artifactSave", options);
+
+export const artifactSaveOptions = (options: Options<ArtifactSaveData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await artifactSave({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: artifactSaveQueryKey(options),
+  });
+};
+
+export const artifactSaveMutation = (options?: Partial<Options<ArtifactSaveData>>) => {
+  const mutationOptions: UseMutationOptions<
+    ArtifactSaveResponse,
+    ArtifactSaveError,
+    Options<ArtifactSaveData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await artifactSave({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const demoGetQueryKey = (options?: Options<DemoGetData>) =>
   createQueryKey("demoGet", options);
 
@@ -4206,5 +4248,23 @@ export const mtmHelloOptions = (options?: Options<MtmHelloData>) => {
       return data;
     },
     queryKey: mtmHelloQueryKey(options),
+  });
+};
+
+export const scriptsByNameQueryKey = (options: Options<ScriptsByNameData>) =>
+  createQueryKey("scriptsByName", options);
+
+export const scriptsByNameOptions = (options: Options<ScriptsByNameData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await scriptsByName({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: scriptsByNameQueryKey(options),
   });
 };
