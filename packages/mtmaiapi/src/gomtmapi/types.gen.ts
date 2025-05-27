@@ -2927,21 +2927,45 @@ export type FunctionResponse = {
 };
 
 export type Artifact = {
-  metadata: ApiResourceMeta;
-  title: string;
   /**
-   * The tenant associated with this tenant blog.
+   * The artifact id.
    */
-  state: {
-    [key: string]: unknown;
-  };
-  nextId?: string;
-  prevId?: string;
+  id: string;
+  /**
+   * The artifact created at.
+   */
+  created_at: string;
+  /**
+   * The artifact updated at.
+   */
+  updated_at: string;
+  /**
+   * The artifact tenant id.
+   */
+  tenant_id: string;
+  user_id: string;
+  version: number;
+  session_id: string;
+  app_name: string;
+  filename: string;
+  mime_type?: string;
+  /**
+   * The artifact content.
+   */
+  content: Blob | File;
 };
 
 export type ArtifactList = {
   pagination?: PaginationResponse;
   rows?: Array<Artifact>;
+};
+
+export type SaveArtifactRequest = {
+  app_name: string;
+  user_id: string;
+  session_id?: string;
+  filename?: string;
+  content?: string;
 };
 
 export type Post = {
@@ -8099,7 +8123,7 @@ export type ArtifactGetData = {
      */
     tenant: string;
     /**
-     * The tenant id
+     * The artifact id
      */
     artifact: string;
   };
@@ -8132,6 +8156,47 @@ export type ArtifactGetResponses = {
 };
 
 export type ArtifactGetResponse = ArtifactGetResponses[keyof ArtifactGetResponses];
+
+export type ArtifactSaveData = {
+  /**
+   * The artifact properties to update
+   */
+  body: SaveArtifactRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The artifact id
+     */
+    artifact: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/artifacts/{artifact}";
+};
+
+export type ArtifactSaveErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type ArtifactSaveError = ArtifactSaveErrors[keyof ArtifactSaveErrors];
+
+export type ArtifactSaveResponses = {
+  /**
+   * Successfully created the artifact
+   */
+  200: Artifact;
+};
+
+export type ArtifactSaveResponse = ArtifactSaveResponses[keyof ArtifactSaveResponses];
 
 export type DemoGetData = {
   body?: never;
@@ -8177,6 +8242,35 @@ export type MtmHelloResponses = {
 };
 
 export type MtmHelloResponse = MtmHelloResponses[keyof MtmHelloResponses];
+
+export type ScriptsByNameData = {
+  body?: never;
+  path: {
+    name: string;
+  };
+  query?: never;
+  url: "/api/v1/scripts/scripts/{name}";
+};
+
+export type ScriptsByNameErrors = {
+  /**
+   * Script not found
+   */
+  404: {
+    error?: string;
+  };
+};
+
+export type ScriptsByNameError = ScriptsByNameErrors[keyof ScriptsByNameErrors];
+
+export type ScriptsByNameResponses = {
+  /**
+   * A script
+   */
+  200: string;
+};
+
+export type ScriptsByNameResponse = ScriptsByNameResponses[keyof ScriptsByNameResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

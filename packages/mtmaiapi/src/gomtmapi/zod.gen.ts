@@ -2387,16 +2387,30 @@ export const zFunctionResponse = z.object({
 });
 
 export const zArtifact = z.object({
-  metadata: zApiResourceMeta,
-  title: z.string(),
-  state: z.object({}),
-  nextId: z.string().optional(),
-  prevId: z.string().optional(),
+  id: z.string().uuid().length(36),
+  created_at: z.string().datetime(),
+  updated_at: z.string(),
+  tenant_id: z.string().uuid().length(36),
+  user_id: z.string(),
+  version: z.number().int(),
+  session_id: z.string(),
+  app_name: z.string(),
+  filename: z.string(),
+  mime_type: z.string().optional(),
+  content: z.string(),
 });
 
 export const zArtifactList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zArtifact).optional(),
+});
+
+export const zSaveArtifactRequest = z.object({
+  app_name: z.string(),
+  user_id: z.string(),
+  session_id: z.string().optional(),
+  filename: z.string().optional(),
+  content: z.string().optional(),
 });
 
 export const zPost = z.object({
@@ -2675,8 +2689,12 @@ export const zArtifactListResponse = zArtifactList;
 
 export const zArtifactGetResponse = zArtifact;
 
+export const zArtifactSaveResponse = zArtifact;
+
 export const zDemoGetResponse = zDemoResponse;
 
 export const zSandboxGetResponse = zSandbox;
 
 export const zMtmHelloResponse = zMtmInfo;
+
+export const zScriptsByNameResponse = z.string();

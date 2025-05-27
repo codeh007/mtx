@@ -373,12 +373,18 @@ import type {
   ArtifactGetData,
   ArtifactGetResponse,
   ArtifactGetError,
+  ArtifactSaveData,
+  ArtifactSaveResponse,
+  ArtifactSaveError,
   DemoGetData,
   DemoGetResponse,
   SandboxGetData,
   SandboxGetResponse,
   MtmHelloData,
   MtmHelloResponse,
+  ScriptsByNameData,
+  ScriptsByNameResponse,
+  ScriptsByNameError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3897,6 +3903,38 @@ export const artifactGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Update artifact
+ * Update an existing artifact
+ */
+export const artifactSave = <ThrowOnError extends boolean = false>(
+  options: Options<ArtifactSaveData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ArtifactSaveResponse,
+    ArtifactSaveError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/artifacts/{artifact}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * 测试
  * 测试
  */
@@ -3964,6 +4002,34 @@ export const mtmHello = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/mtm/mtmInfo",
+    ...options,
+  });
+};
+
+/**
+ * Get a script by name
+ * Get a script by name
+ */
+export const scriptsByName = <ThrowOnError extends boolean = false>(
+  options: Options<ScriptsByNameData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    ScriptsByNameResponse,
+    ScriptsByNameError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/scripts/scripts/{name}",
     ...options,
   });
 };
