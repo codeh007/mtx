@@ -152,11 +152,11 @@ jobs:
           file: packages/gomtm-cli/Dockerfile
           target: mtmbase
 
-      - name: 构建 gomtm-cli docker镜像
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:002
-          file: packages/gomtm-cli/Dockerfile
-          target: gomtm
+      # - name: 构建 gomtm-cli docker镜像
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USER }}/gomtm:002
+      #     file: packages/gomtm-cli/Dockerfile
+      #     target: gomtm
