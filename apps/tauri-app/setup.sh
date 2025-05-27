@@ -4,22 +4,19 @@
 install_android_sdk() {
 
     command -v java || {
-        # install openjdk
         sudo apt install -yqq openjdk-7-jdk
     }
 
-    command -v wget || {
-        # install wget
-        sudo apt install -yqq wget
-    }
-    
-    
+    command -v curl || {
+        sudo apt install -yqq curl
+    }  
 
     # download android sdk
     curl -SsL -o /tmp/android-sdk_r24.2-linux.tgz http://dl.google.com/android/android-sdk_r24.2-linux.tgz && \
     tar -xvf /tmp/android-sdk_r24.2-linux.tgz -C /tmp && \
     echo "接收所有 license"
-    export SDK_HOME=${HOME}/Android/sdk
+    export SDK_HOME=${HOME}/Android/Sdk
+    export NDK_HOME=${SDK_HOME}/ndk/21.3.6528147
     yes | sdkmanager --licenses --sdk_root=${SDK_HOME}
     # install all sdk packages
     # (cd /tmp/android-sdk-linux/tools && echo "yyy" | ./android update sdk --no-ui)
