@@ -23,3 +23,4 @@ tauri android dev
 # tauri build
 
 # adb shell am start -n com.tauri_app.app/.DemoActivity
+# adb logcat | grep DemoActivity
