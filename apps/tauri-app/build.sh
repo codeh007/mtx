@@ -14,5 +14,10 @@ command -v cargo >/dev/null 2>&1 || {
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 }
 
-tauri android init
-tauri build
+# 首次初始化 android 项目
+# tauri android init
+
+# 开发 android 项目
+tauri android dev
+
+# tauri build
