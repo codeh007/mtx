@@ -8,7 +8,7 @@ import { Input } from "mtxuilib/ui/input";
 import { useState } from "react";
 import { z } from "zod";
 // import type { EditorDocument } from "../../components/editor/codemirror/CodeMirrorEditor.tsx--";
-import { useTenant } from "../../hooks/useAuth";
+// import { useTenant } from "../../hooks/useAuth";
 
 export const Route = createFileRoute("/envs/create")({
   component: RouteComponent,
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/envs/create")({
 
 function RouteComponent() {
   const { siteId } = Route.useSearch();
-  const tenant = useTenant();
+  // const tenant = useTenant();
   // const createEnv = useMutation({
   //   ...postCreateMutation(),
   //   onSuccess: (data) => {
