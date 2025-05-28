@@ -21,3 +21,5 @@ command -v cargo >/dev/null 2>&1 || {
 tauri android dev
 
 # tauri build
+
+# adb shell am start -n com.tauri_app.app/.DemoActivity
