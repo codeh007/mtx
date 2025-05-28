@@ -19,7 +19,7 @@ android {
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
         applicationId = "com.tauri_app.app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = tauriProperties.getProperty("tauri.android.versionCode", "1").toInt()
         versionName = tauriProperties.getProperty("tauri.android.versionName", "1.0")
@@ -64,10 +64,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
-    // 其他 123
-    // 实验1:
-    implementation("com.google.zxing:core:3.5.1")
-    implementation ':libtailscale@aar'
+    // 实验1: 引入 由 golang 构建的库,libtailscale.aar 文件, 用于测试 tauri 的 android 开发环境
+    implementation(files("libs/libtailscale.aar"))
 }
 
 apply(from = "tauri.build.gradle.kts")
