@@ -58,13 +58,16 @@ rust {
 }
 
 dependencies {
+    // tauri 默认库
     implementation("androidx.webkit:webkit:1.6.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
-    // 实验1: 引入 由 golang 构建的库,libtailscale.aar 文件, 用于测试 tauri 的 android 开发环境
+    //------------------------------------------------------------------------------
+    // 开始引入其他自动以库
+    //1: 引入 由 golang 构建的库,libtailscale.aar 文件, 用于测试 tauri 的 android 开发环境
     implementation(files("libs/libtailscale.aar"))
 }
 
