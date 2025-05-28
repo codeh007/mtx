@@ -3,11 +3,11 @@
 
 install_android_sdk() {
 
-    command -v java || {
+    command -v java >/dev/null 2>&1 || {
         sudo apt install -yqq openjdk-7-jdk
     }
 
-    command -v curl || {
+    command -v curl >/dev/null 2>&1 || {
         sudo apt install -yqq curl
     }  
 
