@@ -5404,3 +5404,17 @@ export const MtmInfoSchema = {
     },
   },
 } as const;
+
+export const BotConfigSchema = {
+  properties: {
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    config: {
+      type: "object",
+    },
+  },
+} as const;

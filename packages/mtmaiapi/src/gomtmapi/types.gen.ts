@@ -3017,6 +3017,14 @@ export type MtmInfo = {
   message?: string;
 };
 
+export type BotConfig = {
+  name?: string;
+  description?: string;
+  config?: {
+    [key: string]: unknown;
+  };
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8198,19 +8206,6 @@ export type ArtifactSaveResponses = {
 
 export type ArtifactSaveResponse = ArtifactSaveResponses[keyof ArtifactSaveResponses];
 
-export type DemoGetData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/demo";
-};
-
-export type DemoGetResponses = {
-  200: DemoResponse;
-};
-
-export type DemoGetResponse = DemoGetResponses[keyof DemoGetResponses];
-
 export type SandboxGetData = {
   body?: never;
   path?: never;
@@ -8271,6 +8266,113 @@ export type ScriptsByNameResponses = {
 };
 
 export type ScriptsByNameResponse = ScriptsByNameResponses[keyof ScriptsByNameResponses];
+
+export type FrpsHandlerData = {
+  body?: {
+    [key: string]: unknown;
+  };
+  path?: never;
+  query: {
+    version: string;
+    op: string;
+  };
+  url: "/api/v1/frp/frps_handler";
+};
+
+export type FrpsHandlerResponses = {
+  /**
+   * 成功
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type FrpsHandlerResponse = FrpsHandlerResponses[keyof FrpsHandlerResponses];
+
+export type FirerpaGetConfigData = {
+  body?: never;
+  path?: never;
+  query: {
+    profile: string;
+  };
+  url: "/api/v1/firerpa/firerpaConfig";
+};
+
+export type FirerpaGetConfigErrors = {
+  /**
+   * A malformed or bad request
+   */
+  400: unknown;
+  /**
+   * Forbidden
+   */
+  403: unknown;
+};
+
+export type FirerpaGetConfigResponses = {
+  /**
+   * Successfully get the firerpa config
+   */
+  200: string;
+};
+
+export type FirerpaGetConfigResponse = FirerpaGetConfigResponses[keyof FirerpaGetConfigResponses];
+
+export type SingboxSubscribeData = {
+  body?: never;
+  path?: {
+    group?: string;
+    profile?: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/subscribe/{group}/{profile}";
+};
+
+export type SingboxSubscribeErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type SingboxSubscribeError = SingboxSubscribeErrors[keyof SingboxSubscribeErrors];
+
+export type SingboxSubscribeResponses = {
+  /**
+   * Successfully get the firerpa config
+   */
+  200: {
+    [key: string]: unknown;
+  };
+};
+
+export type SingboxSubscribeResponse = SingboxSubscribeResponses[keyof SingboxSubscribeResponses];
+
+export type SingboxGeoipCnSrsData = {
+  body?: never;
+  path: {
+    file: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/srs/{file}";
+};
+
+export type SingboxGeoipCnSrsErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxGeoipCnSrsError = SingboxGeoipCnSrsErrors[keyof SingboxGeoipCnSrsErrors];
+
+export type SingboxGeoipCnSrsResponses = {
+  /**
+   * Successfully get the singbox srs file
+   */
+  200: Blob | File;
+};
+
+export type SingboxGeoipCnSrsResponse =
+  SingboxGeoipCnSrsResponses[keyof SingboxGeoipCnSrsResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

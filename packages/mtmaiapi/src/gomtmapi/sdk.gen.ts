@@ -376,8 +376,6 @@ import type {
   ArtifactSaveData,
   ArtifactSaveResponse,
   ArtifactSaveError,
-  DemoGetData,
-  DemoGetResponse,
   SandboxGetData,
   SandboxGetResponse,
   MtmHelloData,
@@ -385,6 +383,16 @@ import type {
   ScriptsByNameData,
   ScriptsByNameResponse,
   ScriptsByNameError,
+  FrpsHandlerData,
+  FrpsHandlerResponse,
+  FirerpaGetConfigData,
+  FirerpaGetConfigResponse,
+  SingboxSubscribeData,
+  SingboxSubscribeResponse,
+  SingboxSubscribeError,
+  SingboxGeoipCnSrsData,
+  SingboxGeoipCnSrsResponse,
+  SingboxGeoipCnSrsError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -3935,30 +3943,6 @@ export const artifactSave = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 测试
- * 测试
- */
-export const demoGet = <ThrowOnError extends boolean = false>(
-  options?: Options<DemoGetData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<DemoGetResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/demo",
-    ...options,
-  });
-};
-
-/**
  * 获取沙盒
  * 获取沙盒
  */
@@ -4030,6 +4014,70 @@ export const scriptsByName = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/scripts/scripts/{name}",
+    ...options,
+  });
+};
+
+/**
+ * frps 处理请求
+ * frps 处理请求
+ */
+export const frpsHandler = <ThrowOnError extends boolean = false>(
+  options: Options<FrpsHandlerData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<FrpsHandlerResponse, unknown, ThrowOnError>({
+    url: "/api/v1/frp/frps_handler",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Get firerpa config
+ * Get firerpa config for a tenant.
+ */
+export const firerpaGetConfig = <ThrowOnError extends boolean = false>(
+  options: Options<FirerpaGetConfigData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<FirerpaGetConfigResponse, unknown, ThrowOnError>({
+    url: "/api/v1/firerpa/firerpaConfig",
+    ...options,
+  });
+};
+
+/**
+ * 获取sing-box订阅
+ * 获取sing-box订阅
+ */
+export const singboxSubscribe = <ThrowOnError extends boolean = false>(
+  options?: Options<SingboxSubscribeData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    SingboxSubscribeResponse,
+    SingboxSubscribeError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/subscribe/{group}/{profile}",
+    ...options,
+  });
+};
+
+/**
+ * 获取sing-box geoip-cn.srs文件
+ * 获取sing-box geoip-cn.srs文件
+ */
+export const singboxGeoipCnSrs = <ThrowOnError extends boolean = false>(
+  options: Options<SingboxGeoipCnSrsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    SingboxGeoipCnSrsResponse,
+    SingboxGeoipCnSrsError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/srs/{file}",
     ...options,
   });
 };

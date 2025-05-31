@@ -2447,6 +2447,12 @@ export const zMtmInfo = z.object({
   message: z.string().optional(),
 });
 
+export const zBotConfig = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  config: z.object({}).optional(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2691,10 +2697,16 @@ export const zArtifactGetResponse = zArtifact;
 
 export const zArtifactSaveResponse = zArtifact;
 
-export const zDemoGetResponse = zDemoResponse;
-
 export const zSandboxGetResponse = zSandbox;
 
 export const zMtmHelloResponse = zMtmInfo;
 
 export const zScriptsByNameResponse = z.string();
+
+export const zFrpsHandlerResponse = z.object({});
+
+export const zFirerpaGetConfigResponse = z.string();
+
+export const zSingboxSubscribeResponse = z.object({});
+
+export const zSingboxGeoipCnSrsResponse = z.string();

@@ -218,13 +218,6 @@
         "typescript": "^5",
       },
     },
-    "packages/gomtm-cli": {
-      "name": "gomtm-cli",
-      "version": "0.7.88",
-      "bin": {
-        "gomtm": "./bin/gomtm",
-      },
-    },
     "packages/mtmaiapi": {
       "name": "mtmaiapi",
       "version": "0.6.3",
@@ -4327,8 +4320,6 @@
     "glslify-deps": ["glslify-deps@1.3.2", "", { "dependencies": { "@choojs/findup": "^0.2.0", "events": "^3.2.0", "glsl-resolve": "0.0.1", "glsl-tokenizer": "^2.0.0", "graceful-fs": "^4.1.2", "inherits": "^2.0.1", "map-limit": "0.0.1", "resolve": "^1.0.0" } }, "sha512-7S7IkHWygJRjcawveXQjRXLO2FTjijPDYC7QfZyAQanY+yGLCFHYnPtsGT9bdyHiwPTw/5a1m1M9hamT2aBpag=="],
 
     "gomtm": ["gomtm@workspace:packages/gomtm"],
-
-    "gomtm-cli": ["gomtm-cli@workspace:packages/gomtm-cli"],
 
     "gonzales-pe": ["gonzales-pe@4.3.0", "", { "dependencies": { "minimist": "^1.2.5" }, "bin": { "gonzales": "bin/gonzales.js" } }, "sha512-otgSPpUmdWJ43VXyiNgEYE4luzHCL2pz4wQ0OnDluC6Eg4Ko3Vexy/SrSynglw/eR+OhkzmqFCZa/OFa/RgAOQ=="],
 

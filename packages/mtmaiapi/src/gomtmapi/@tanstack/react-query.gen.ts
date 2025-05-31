@@ -136,16 +136,20 @@ import {
   artifactList,
   artifactGet,
   artifactSave,
-  demoGet,
   sandboxGet,
   mtmHello,
   scriptsByName,
+  frpsHandler,
+  firerpaGetConfig,
+  singboxSubscribe,
+  singboxGeoipCnSrs,
 } from "../sdk.gen";
 import {
   queryOptions,
   infiniteQueryOptions,
   type InfiniteData,
   type UseMutationOptions,
+  type DefaultError,
 } from "@tanstack/react-query";
 import type {
   V1TaskGetData,
@@ -409,10 +413,14 @@ import type {
   ArtifactSaveData,
   ArtifactSaveError,
   ArtifactSaveResponse,
-  DemoGetData,
   SandboxGetData,
   MtmHelloData,
   ScriptsByNameData,
+  FrpsHandlerData,
+  FrpsHandlerResponse,
+  FirerpaGetConfigData,
+  SingboxSubscribeData,
+  SingboxGeoipCnSrsData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4197,24 +4205,6 @@ export const artifactSaveMutation = (options?: Partial<Options<ArtifactSaveData>
   return mutationOptions;
 };
 
-export const demoGetQueryKey = (options?: Options<DemoGetData>) =>
-  createQueryKey("demoGet", options);
-
-export const demoGetOptions = (options?: Options<DemoGetData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await demoGet({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: demoGetQueryKey(options),
-  });
-};
-
 export const sandboxGetQueryKey = (options?: Options<SandboxGetData>) =>
   createQueryKey("sandboxGet", options);
 
@@ -4266,5 +4256,95 @@ export const scriptsByNameOptions = (options: Options<ScriptsByNameData>) => {
       return data;
     },
     queryKey: scriptsByNameQueryKey(options),
+  });
+};
+
+export const frpsHandlerQueryKey = (options: Options<FrpsHandlerData>) =>
+  createQueryKey("frpsHandler", options);
+
+export const frpsHandlerOptions = (options: Options<FrpsHandlerData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await frpsHandler({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: frpsHandlerQueryKey(options),
+  });
+};
+
+export const frpsHandlerMutation = (options?: Partial<Options<FrpsHandlerData>>) => {
+  const mutationOptions: UseMutationOptions<
+    FrpsHandlerResponse,
+    DefaultError,
+    Options<FrpsHandlerData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await frpsHandler({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const firerpaGetConfigQueryKey = (options: Options<FirerpaGetConfigData>) =>
+  createQueryKey("firerpaGetConfig", options);
+
+export const firerpaGetConfigOptions = (options: Options<FirerpaGetConfigData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await firerpaGetConfig({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: firerpaGetConfigQueryKey(options),
+  });
+};
+
+export const singboxSubscribeQueryKey = (options?: Options<SingboxSubscribeData>) =>
+  createQueryKey("singboxSubscribe", options);
+
+export const singboxSubscribeOptions = (options?: Options<SingboxSubscribeData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxSubscribe({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxSubscribeQueryKey(options),
+  });
+};
+
+export const singboxGeoipCnSrsQueryKey = (options: Options<SingboxGeoipCnSrsData>) =>
+  createQueryKey("singboxGeoipCnSrs", options);
+
+export const singboxGeoipCnSrsOptions = (options: Options<SingboxGeoipCnSrsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxGeoipCnSrs({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxGeoipCnSrsQueryKey(options),
   });
 };
