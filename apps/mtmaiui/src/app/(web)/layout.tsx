@@ -11,7 +11,6 @@ import { getAppConfig } from "@mtmaiui/lib/config";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { WebLayoutHeader } from "./Header";
-// import MtmJsTest from "./MtmJsTest";
 import { HelloWebviewContent } from "@mtmaiui/components/webview/HelloWebviewContent";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
