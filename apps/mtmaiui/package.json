@@ -12,6 +12,8 @@
   "sideEffects": false,
   "scripts": {
     "dev": "dotenv -e ../../../gomtm/env/dev.env -- next dev --port 3600",
+    "start": "dotenv -e ../../../gomtm/env/dev.env -- next start --port 3600",
+    "build2": "bun withEnv -- next build",
     "vite": "bun withEnv -- vite",
     "withEnv": "dotenv -e ../../../gomtm/env/dev.env --",
     "build": "NEXT_BUILD_OUTPUT=.next && next build",
