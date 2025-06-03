@@ -2,10 +2,9 @@
 import { useTenantId } from "@mtmaiui/hooks/useAuth";
 import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
-import { ClickToComponent } from "click-to-react-component";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
+import { Header } from "./Header";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -36,12 +35,12 @@ export const RootRoute = Route;
 
 function RootComponent() {
   const tid = useTenantId();
-  // const { serverUrl } = useRouterContext();
+  const isInDash = window.location.pathname?.startsWith("/dash");
   return (
-    <MtSuspenseBoundary>
-      <ClickToComponent />
+    <>
+      {isInDash && <Header />}
       <UserFAB />
       <Outlet />
-    </MtSuspenseBoundary>
+    </>
   );
 }

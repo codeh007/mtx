@@ -42,7 +42,6 @@ export default async function Layout(props: {
               <MtmClientAppV2 serverUrl={getAppConfig().mtmServerUrl} />
               <div className="flex flex-col min-h-screen h-full w-full">
                 <WebLayoutHeader />
-
                 <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
                 <AppLoader serverUrl={getAppConfig().mtmServerUrl} />
               </div>

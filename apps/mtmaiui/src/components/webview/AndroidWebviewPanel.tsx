@@ -5,7 +5,7 @@ import { Button } from "mtxuilib/ui/button";
 import { useEffect, useState } from "react";
 import { getAndroidApi, isInWebview } from "./androidApi";
 
-export function HelloWebviewContent() {
+export function AndroidWebviewPanel() {
   const [version, setVersion] = useState("");
 
   const [isWebview, setIsWebview] = useState(false);
@@ -20,12 +20,7 @@ export function HelloWebviewContent() {
 
   return (
     <div className="flex flex-col w-full bg-red-200">
-      <div>ddddddddddddddddddddd</div>
-      <div>ddddddddddddddddddddd</div>
-
-      <div>ddddddddddddddddddddd</div>
-
-      <h2 className="text-2xl font-bold bg-red-500">HelloWebviewContent</h2>
+      <h2 className="text-2xl font-bold bg-red-500">AndroidWebviewPanel</h2>
       <Button
         onClick={() => {
           getAndroidApi().toast("Hello from webview");
