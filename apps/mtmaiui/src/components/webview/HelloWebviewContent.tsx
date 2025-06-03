@@ -1,5 +1,6 @@
 "use client";
 
+import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Button } from "mtxuilib/ui/button";
 import { useEffect, useState } from "react";
 import { getAndroidApi, isInWebview } from "./androidApi";
@@ -37,6 +38,10 @@ export function HelloWebviewContent() {
       >
         get version: {version}
       </Button>
+
+      <div>
+        <CustomLink to="/site">site</CustomLink>
+      </div>
     </div>
   );
 }

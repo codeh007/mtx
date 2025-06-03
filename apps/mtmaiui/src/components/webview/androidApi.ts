@@ -2,6 +2,7 @@
 
 export interface AndroidApi {
   getVersion: () => Promise<string>;
+  getInfo: () => Promise<string>;
   toast: (message: string) => void;
   openSingbox: () => void;
 }
