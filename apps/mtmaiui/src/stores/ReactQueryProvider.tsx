@@ -6,7 +6,6 @@ import { client } from "mtmaiapi/gomtmapi/client.gen";
 import { MtErrorBoundary } from "mtxuilib/components/MtErrorBoundary";
 import { type PropsWithChildren, useMemo } from "react";
 import { getQueryClient } from "../lib/get-query-client";
-// import { getCookie } from "mtxuilib/lib/clientlib";
 
 interface ReactQueryProviderProps {
   serverUrl?: string;
@@ -23,11 +22,6 @@ export default function ReactQueryProvider({
 }: PropsWithChildren<ReactQueryProviderProps>) {
   const queryClient = getQueryClient();
   useMemo(() => {
-    //   if (!accessToken) {
-    // const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-
-    //     accessToken = getCookie(cookieKey);
-    //   }
     client?.setConfig({
       baseUrl: serverUrl,
       //允许跨站cookie，这样可以不用专门设置 Authorization header

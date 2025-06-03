@@ -29,11 +29,12 @@ import {
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useUser } from "../hooks/useAuth";
+import { useTenantId, useUser } from "../hooks/useAuth";
 export const UserFAB = () => {
-  const [openCmdk, setOpenCmdk] = useState(false);
+  // const [openCmdk, setOpenCmdk] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
   const user = useUser();
+  const tid = useTenantId();
   const navigate = useNavigate();
 
   const handleOpenDropdown = () => {
@@ -59,6 +60,10 @@ export const UserFAB = () => {
             onClick={handleOpenDropdown}
           >
             <Icons.apple />
+            {/* <div>
+              user:<pre>{JSON.stringify(user, null, 2)}</pre>
+              tid:<pre>{tid}</pre>
+            </div> */}
           </Button>
         </DropdownMenuTrigger>
         {user && (
