@@ -6,10 +6,10 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  const pathName = window.location.pathname;
-  if (!pathName?.startsWith("/dash")) {
-    return null;
-  }
+  // const pathName = window.location.pathname;
+  // if (!pathName?.startsWith("/dash")) {
+  //   return null;
+  // }
   return (
     <>
       <AndroidWebviewPanel />

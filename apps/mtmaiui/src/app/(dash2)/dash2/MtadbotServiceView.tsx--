@@ -1,0 +1,5 @@
+"use client";
+
+export function MtadbotServiceView() {
+  return <div className="bg-green-500">MtadbotServiceView</div>;
+}

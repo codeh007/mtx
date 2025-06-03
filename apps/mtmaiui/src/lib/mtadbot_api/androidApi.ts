@@ -1,5 +1,9 @@
 "use client";
 
+export const MtadbotConsts = {
+  DefaultSingBoxProfileName: "default",
+};
+
 export interface MtadbotRawApi {
   getVersion: () => Promise<string>;
   getInfo: () => Promise<string>;
@@ -7,6 +11,13 @@ export interface MtadbotRawApi {
   openSingbox: () => void;
   addSangBoxProfile: (profileUrl: string) => Promise<string>;
   activateNetworkProfile: (profileName: string) => Promise<string>;
+  shell: (command: string) => Promise<string>;
+
+  // 临时的:
+  openFloatWindow: () => Promise<string>;
+  closeFloatWindow: () => Promise<string>;
+  enableAdbWifi: () => Promise<string>;
+  // disableAdbWifi: () => Promise<string>;
 }
 
 export function isInWebview(): boolean {
