@@ -7,10 +7,10 @@ import { cn } from "mtxuilib/lib/utils";
 import { MtmaiProvider } from "../../stores/MtmaiProvider";
 import "../../styles/globals.css";
 import { AppLoader } from "@mtmaiui/AppLoader";
-import { HelloWebviewContent } from "@mtmaiui/components/webview/HelloWebviewContent";
 import { getAppConfig } from "@mtmaiui/lib/config";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { cookies } from "next/headers";
 import { WebLayoutHeader } from "./Header";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
@@ -26,6 +26,8 @@ export default async function Layout(props: {
   children: ReactNode;
 }) {
   const { children } = props;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("access_token")?.value;
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -33,14 +35,12 @@ export default async function Layout(props: {
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <MtmaiProvider serverUrl={getAppConfig().mtmServerUrl}>
+        <MtmaiProvider serverUrl={getAppConfig().mtmServerUrl} accessToken={accessToken}>
           <MtSuspenseBoundary>
             <UIProviders>
               <div className="flex flex-col min-h-screen h-full w-full">
                 <WebLayoutHeader />
-                <MtSuspenseBoundary>
-                  <HelloWebviewContent />
-                </MtSuspenseBoundary>
+
                 <MtSuspenseBoundary>{children}</MtSuspenseBoundary>
                 <AppLoader serverUrl={getAppConfig().mtmServerUrl} />
               </div>

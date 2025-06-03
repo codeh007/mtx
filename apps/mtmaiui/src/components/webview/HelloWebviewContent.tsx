@@ -14,12 +14,17 @@ export function HelloWebviewContent() {
     setIsWebview(isInWebview());
   }, []);
 
-  if (!isWebview) {
-    return null;
-  }
+  // if (!isWebview) {
+  //   return null;
+  // }
 
   return (
     <div className="flex flex-col w-full bg-red-200">
+      <div>ddddddddddddddddddddd</div>
+      <div>ddddddddddddddddddddd</div>
+
+      <div>ddddddddddddddddddddd</div>
+
       <h2 className="text-2xl font-bold bg-red-500">HelloWebviewContent</h2>
       <Button
         onClick={() => {
@@ -28,6 +33,8 @@ export function HelloWebviewContent() {
       >
         toast
       </Button>
+
+      <div>isWebview: {JSON.stringify(isWebview)}</div>
 
       <Button
         type="button"

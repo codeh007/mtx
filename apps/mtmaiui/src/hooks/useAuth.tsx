@@ -39,8 +39,8 @@ export const useLoginHandler = () => {
   const login = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
-      console.log("login success", data);
       if (data.userToken) {
+        console.log(`login success, cookie key: ${cookieKey}`);
         setCookie(cookieKey, data.userToken);
         nav({
           to: "/session",

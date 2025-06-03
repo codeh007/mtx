@@ -19,6 +19,7 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 
 // Create Virtual Routes
 
+const WebviewRouteLazyImport = createFileRoute('/webview')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SandboxRouteLazyImport = createFileRoute('/sandbox')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
@@ -37,6 +38,7 @@ const ProxyProxyIdRouteLazyImport = createFileRoute('/proxy/$proxyId')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
+const WebviewIndexLazyImport = createFileRoute('/webview/')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
 const SandboxIndexLazyImport = createFileRoute('/sandbox/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
@@ -140,6 +142,14 @@ const TenantSettingsTenantSettingIdModelsettingsIndexLazyImport =
   createFileRoute('/tenant/settings/$tenantSettingId/model_settings/')()
 
 // Create/Update Routes
+
+const WebviewRouteLazyRoute = WebviewRouteLazyImport.update({
+  id: '/webview',
+  path: '/webview',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~webview/~route.lazy').then((d) => d.Route),
+)
 
 const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   id: '/site',
@@ -270,6 +280,14 @@ const AdkSessionRouteLazyRoute = AdkSessionRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~adk/~session/~route.lazy').then((d) => d.Route),
+)
+
+const WebviewIndexLazyRoute = WebviewIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => WebviewRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~webview/~index.lazy').then((d) => d.Route),
 )
 
 const SiteIndexLazyRoute = SiteIndexLazyImport.update({
@@ -779,6 +797,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/webview': {
+      id: '/webview'
+      path: '/webview'
+      fullPath: '/webview'
+      preLoaderRoute: typeof WebviewRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/envs/create': {
       id: '/envs/create'
       path: '/envs/create'
@@ -827,6 +852,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/'
       preLoaderRoute: typeof SiteIndexLazyImport
       parentRoute: typeof SiteRouteLazyImport
+    }
+    '/webview/': {
+      id: '/webview/'
+      path: '/'
+      fullPath: '/webview/'
+      preLoaderRoute: typeof WebviewIndexLazyImport
+      parentRoute: typeof WebviewRouteLazyImport
     }
     '/adk/session': {
       id: '/adk/session'
@@ -1342,6 +1374,17 @@ const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
 )
 
+interface WebviewRouteLazyRouteChildren {
+  WebviewIndexLazyRoute: typeof WebviewIndexLazyRoute
+}
+
+const WebviewRouteLazyRouteChildren: WebviewRouteLazyRouteChildren = {
+  WebviewIndexLazyRoute: WebviewIndexLazyRoute,
+}
+
+const WebviewRouteLazyRouteWithChildren =
+  WebviewRouteLazyRoute._addFileChildren(WebviewRouteLazyRouteChildren)
+
 interface AdkSessionSessionIdRouteLazyRouteChildren {
   AdkSessionSessionIdIndexLazyRoute: typeof AdkSessionSessionIdIndexLazyRoute
 }
@@ -1566,6 +1609,7 @@ export interface FileRoutesByFullPath {
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
+  '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
@@ -1573,6 +1617,7 @@ export interface FileRoutesByFullPath {
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
+  '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -1635,6 +1680,7 @@ export interface FileRoutesByTo {
   '/resource': typeof ResourceIndexLazyRoute
   '/sandbox': typeof SandboxIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
+  '/webview': typeof WebviewIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/new': typeof ResourceNewRouteLazyRouteWithChildren
@@ -1679,6 +1725,7 @@ export interface FileRoutesById {
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
+  '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
@@ -1686,6 +1733,7 @@ export interface FileRoutesById {
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
+  '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -1748,6 +1796,7 @@ export interface FileRouteTypes {
     | '/resource'
     | '/sandbox'
     | '/site'
+    | '/webview'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
@@ -1755,6 +1804,7 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/sandbox/'
     | '/site/'
+    | '/webview/'
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
@@ -1816,6 +1866,7 @@ export interface FileRouteTypes {
     | '/resource'
     | '/sandbox'
     | '/site'
+    | '/webview'
     | '/auth/register'
     | '/proxy/new'
     | '/resource/new'
@@ -1858,6 +1909,7 @@ export interface FileRouteTypes {
     | '/resource'
     | '/sandbox'
     | '/site'
+    | '/webview'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
@@ -1865,6 +1917,7 @@ export interface FileRouteTypes {
     | '/resource/'
     | '/sandbox/'
     | '/site/'
+    | '/webview/'
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
@@ -1926,6 +1979,7 @@ export interface RootRouteChildren {
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   SandboxRouteLazyRoute: typeof SandboxRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
+  WebviewRouteLazyRoute: typeof WebviewRouteLazyRouteWithChildren
   EnvsCreateRoute: typeof EnvsCreateRoute
   MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
@@ -1946,6 +2000,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   SandboxRouteLazyRoute: SandboxRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
+  WebviewRouteLazyRoute: WebviewRouteLazyRouteWithChildren,
   EnvsCreateRoute: EnvsCreateRoute,
   MttaskIndexLazyRoute: MttaskIndexLazyRoute,
   AdkSessionRouteLazyRoute: AdkSessionRouteLazyRouteWithChildren,
@@ -1980,6 +2035,7 @@ export const routeTree = rootRoute
         "/resource",
         "/sandbox",
         "/site",
+        "/webview",
         "/envs/create",
         "/mttask/",
         "/adk/session",
@@ -2038,6 +2094,12 @@ export const routeTree = rootRoute
         "/site/new/"
       ]
     },
+    "/webview": {
+      "filePath": "~webview/~route.lazy.tsx",
+      "children": [
+        "/webview/"
+      ]
+    },
     "/envs/create": {
       "filePath": "~envs/~create.tsx"
     },
@@ -2063,6 +2125,10 @@ export const routeTree = rootRoute
     "/site/": {
       "filePath": "~site/~index.lazy.tsx",
       "parent": "/site"
+    },
+    "/webview/": {
+      "filePath": "~webview/~index.lazy.tsx",
+      "parent": "/webview"
     },
     "/adk/session": {
       "filePath": "~adk/~session/~route.lazy.tsx",
