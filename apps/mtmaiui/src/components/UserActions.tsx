@@ -6,15 +6,11 @@ import { Button } from "mtxuilib/ui/button";
 import { DropdownMenu, DropdownMenuTrigger } from "mtxuilib/ui/dropdown-menu";
 import { useState } from "react";
 
-import { useNavigate } from "@tanstack/react-router";
 import { useTenantId, useUser } from "../hooks/useAuth";
 export const UserActions = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const user = useUser();
   const tid = useTenantId();
-  const navigate = useNavigate();
-
-  // const navigate = useNavigate();
 
   return (
     <>
