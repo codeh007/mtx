@@ -1,4 +1,5 @@
 "use client";
+import { UserActions } from "@mtmaiui/components/UserActions";
 import { cn } from "mtxuilib/lib/utils";
 import Link from "next/link";
 
@@ -41,6 +42,7 @@ export const WebLayoutHeader = () => {
           ))}
         </nav>
       </div>
+      <UserActions />
     </header>
   );
 };

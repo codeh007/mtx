@@ -10,6 +10,7 @@ import { immer } from "zustand/middleware/immer";
 import { useShallow } from "zustand/react/shallow";
 import { useSessionLoader } from "../hooks/useAuth";
 import ReactQueryProvider from "./ReactQueryProvider";
+// import { createRouter, RouterProvider } from "@tanstack/react-router";
 type ViewOptions = "graph" | "minimap";
 const lastTimeRange = "lastTimeRange";
 const lastTenantKey = "lastTenant";
@@ -168,7 +169,18 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         host={mystore.getState().hostName as string}
         debug={mystore.getState().isDebug}
       >
-        <MtSession>{children}</MtSession>
+        <MtSession>
+          {/* <RouterProvider
+            router={createRouter({ serverUrl: mystore.getState().serverUrl! })}
+            context={
+              {
+                // serverUrl: serverUrl,
+                // queryClient: getQueryClient(),
+              }
+            }
+          /> */}
+          {children}
+        </MtSession>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );
