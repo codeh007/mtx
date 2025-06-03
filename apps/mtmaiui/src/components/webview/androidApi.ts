@@ -1,10 +1,12 @@
 "use client";
 
-export interface AndroidApi {
+export interface MtadbotRawApi {
   getVersion: () => Promise<string>;
   getInfo: () => Promise<string>;
   toast: (message: string) => void;
   openSingbox: () => void;
+  addSangBoxProfile: (profileUrl: string) => Promise<string>;
+  activateNetworkProfile: (profileName: string) => Promise<string>;
 }
 
 export function isInWebview(): boolean {
@@ -12,7 +14,7 @@ export function isInWebview(): boolean {
   return typeof window !== "undefined" && window.mtmadbot;
 }
 
-export function getAndroidApi(): AndroidApi {
+export function getAndroidApi(): MtadbotRawApi {
   if (typeof window === "undefined") {
     // return null;
     throw new Error("window is undefined");
@@ -23,5 +25,5 @@ export function getAndroidApi(): AndroidApi {
     throw new Error("mtmadbot is undefined");
   }
   //@ts-ignore
-  return window.mtmadbot as unknown as AndroidApi;
+  return window.mtmadbot as unknown as MtadbotRawApi;
 }
