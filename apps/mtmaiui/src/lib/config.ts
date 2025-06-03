@@ -10,7 +10,6 @@ export const getAppConfig = () => {
     mtmServerUrl:
       process.env?.MTM_SERVER_URL ||
       // `https://${process.env?.VERCEL_URL}` ||
-      // "http://localhost:8383",
       "https://www.yuepa8.com",
   };
 };

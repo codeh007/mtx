@@ -14,7 +14,6 @@ export function HelloWebviewContent() {
   }, []);
 
   if (!isWebview) {
-    // return <div>Not in webview</div>;
     return null;
   }
 
@@ -26,7 +25,7 @@ export function HelloWebviewContent() {
           getAndroidApi().toast("Hello from webview");
         }}
       >
-        Test toast
+        toast
       </Button>
 
       <Button
