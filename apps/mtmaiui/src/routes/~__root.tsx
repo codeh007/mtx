@@ -8,7 +8,6 @@ import { UserFAB } from "../components/UserFAB";
 import { NotFound } from "../components/notFound";
 
 interface MyRouterContext {
-  // tid: string;
   queryClient: QueryClient;
   serverUrl: string;
 }
