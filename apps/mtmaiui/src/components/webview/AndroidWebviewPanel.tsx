@@ -24,6 +24,18 @@ export function AndroidWebviewPanel() {
 
   const toast = useToast();
 
+  const hiddenWindowToolbar = useCallback(async () => {
+    const res = await getMtAdbotFloatingApi().getWindowToolbarVisibility();
+    const resObj = JSON.parse(res);
+    // toast.toast({
+    //   title: "getWindowToolbarVisibility",
+    //   description: res,
+    // });
+    if (resObj.visible) {
+      await getMtAdbotFloatingApi().toggleWindowToolbar();
+    }
+  }, []);
+
   useEffect(() => {
     document.title = "MTADBot";
   }, []);
@@ -39,17 +51,25 @@ export function AndroidWebviewPanel() {
     }
   }, [isWebview, getInfo]);
 
-  return (
-    <div className="flex flex-col w-full p-2 gap-2 bg-blue-200 border-2 border-slate-600 rounded-md">
-      {isInService && <div>MtadbotServiceView</div>}
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    hiddenWindowToolbar();
+  }, []);
 
-      {!isInService && <div>not isInService</div>}
+  return (
+    <div className="flex flex-col w-full p-2 gap-2 bg-blue-100 border border-slate-400 rounded-md">
+      {window.floatingWindow && (
+        <div
+          id="floatingWindowDragArea"
+          ref={dragAreaRef}
+          className="h-10 bg-slate-100 shadow-sm rounded-md"
+        >
+          {version}
+        </div>
+      )}
+
       {isWebview && (
         <>
-          <div id="floatingWindowDragArea" ref={dragAreaRef} className="h-10 bg-slate-500">
-            拖动区域
-          </div>
-          <div className="text-sm text-gray-500">{version}</div>
           <Button
             onClick={() => {
               getAndroidApi().toast("Hello from webview");
@@ -144,11 +164,7 @@ export function AndroidWebviewPanel() {
           <Button
             type="button"
             onClick={async () => {
-              const resJson = await getMtAdbotFloatingApi().toggleWindowToolbar();
-              toast.toast({
-                title: "toggleWindowBar",
-                description: resJson,
-              });
+              await getMtAdbotFloatingApi().toggleWindowToolbar();
             }}
           >
             toggleWindowToolbar

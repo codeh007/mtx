@@ -12,22 +12,29 @@ export const MtadbotConsts = {
 export interface MtadbotFloatingApi {
   closeWindow: () => Promise<string>;
   toggleWindowToolbar: () => Promise<string>;
+  getWindowToolbarVisibility: () => Promise<string>;
   //拖拽相关
   startDrag: (x: number, y: number) => void;
   moveDrag: (x: number, y: number) => void;
   endDrag: () => void;
 }
 
-export function isInMtAdbotFloating(): boolean {
-  // @ts-ignore
-  return typeof window !== "undefined" && window.floatingWindow;
+declare global {
+  interface Window {
+    floatingWindow: MtadbotFloatingApi;
+  }
 }
 
+// export function isInMtAdbotFloating(): boolean {
+//   //@ts-ignore
+//   return !!window.floatingWindow;
+// }
+
 export function getMtAdbotFloatingApi(): MtadbotFloatingApi {
-  if (typeof window === "undefined") {
-    // return null;
-    throw new Error("window is undefined");
-  }
+  // if (typeof window === "undefined") {
+  //   // return null;
+  //   throw new Error("window is undefined");
+  // }
   // @ts-ignore
   if (!window.floatingWindow) {
     // return null;
@@ -41,17 +48,17 @@ export function getMtAdbotFloatingApi(): MtadbotFloatingApi {
 export const useDragWindow = (ref) => {
   useEffect(() => {
     const element = ref.current;
-    if (!isInMtAdbotFloating() || !element) return;
+    if (!window.floatingWindow) return;
+    if (!element) return;
 
-    const { startDrag, moveDrag, endDrag } = getMtAdbotFloatingApi();
     let isMouseDown = false;
 
     // 触摸开始处理函数
     const handleTouchStart = (e) => {
       e.preventDefault();
       const touch = e.touches[0];
-      if (startDrag) {
-        startDrag(touch.clientX, touch.clientY);
+      if (window.floatingWindow.startDrag) {
+        window.floatingWindow.startDrag(touch.clientX, touch.clientY);
       }
     };
 
@@ -59,16 +66,16 @@ export const useDragWindow = (ref) => {
     const handleTouchMove = (e) => {
       e.preventDefault();
       const touch = e.touches[0];
-      if (moveDrag) {
-        moveDrag(touch.clientX, touch.clientY);
+      if (window.floatingWindow.moveDrag) {
+        window.floatingWindow.moveDrag(touch.clientX, touch.clientY);
       }
     };
 
     // 触摸结束处理函数
     const handleTouchEnd = (e) => {
       e.preventDefault();
-      if (endDrag) {
-        endDrag();
+      if (window.floatingWindow.endDrag) {
+        window.floatingWindow.endDrag();
       }
     };
 
@@ -76,8 +83,8 @@ export const useDragWindow = (ref) => {
     const handleMouseDown = (e) => {
       e.preventDefault();
       isMouseDown = true;
-      if (startDrag) {
-        startDrag(e.clientX, e.clientY);
+      if (window.floatingWindow.startDrag) {
+        window.floatingWindow.startDrag(e.clientX, e.clientY);
       }
     };
 
@@ -85,8 +92,8 @@ export const useDragWindow = (ref) => {
     const handleMouseMove = (e) => {
       if (!isMouseDown) return;
       e.preventDefault();
-      if (moveDrag) {
-        moveDrag(e.clientX, e.clientY);
+      if (window.floatingWindow.moveDrag) {
+        window.floatingWindow.moveDrag(e.clientX, e.clientY);
       }
     };
 
@@ -95,8 +102,8 @@ export const useDragWindow = (ref) => {
       if (!isMouseDown) return;
       e.preventDefault();
       isMouseDown = false;
-      if (endDrag) {
-        endDrag();
+      if (window.floatingWindow.endDrag) {
+        window.floatingWindow.endDrag();
       }
     };
 
@@ -120,5 +127,5 @@ export const useDragWindow = (ref) => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [ref]);
+  }, [ref]); // 依赖ref确保在ref更新时重新运行
 };
