@@ -117,17 +117,9 @@ export function AndroidWebviewPanel() {
                   mtmadbot.openFloatWindow(config?.mtmadbotFloatWindowUrl || "", "normal");
                 }
                 window.mtmadbot.closeMainActivity();
-                // toast.toast({
-                //   title: "启动悬浮窗服务",
-                //   description: resJson,
-                // });
-                // 设置悬浮窗窗口可见
-                // window.floatingWindow.setViewVisible(true);
-                // window.floatingWindow.setViewAsNormal();
-                // toast.toast({
-                //   title: "openFloatWindow",
-                //   description: resJson,
-                // });
+
+                // 启动 adb 服务
+                
               } catch (e: any) {
                 toast.toast({
                   title: "启动自动任务失败",
