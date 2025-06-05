@@ -27,6 +27,7 @@ export default async function Layout(props: {
   const { children } = props;
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;
+  const config = getAppConfig();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -34,7 +35,11 @@ export default async function Layout(props: {
         {/* <MtmaiuiLoaderScript uiUrl={selfUrl} /> */}
       </head>
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <MtmaiProvider serverUrl={getAppConfig().mtmServerUrl} accessToken={accessToken}>
+        <MtmaiProvider
+          serverUrl={getAppConfig().mtmServerUrl}
+          accessToken={accessToken}
+          config={config}
+        >
           <MtSuspenseBoundary>
             <UIProviders>
               <div className="flex flex-col min-h-screen h-full w-full">

@@ -17,53 +17,11 @@ import { Route as IndexImport } from './routes/~index'
 
 // Create Virtual Routes
 
-const SessionRouteLazyImport = createFileRoute('/session')()
-const PlateformaccountRouteLazyImport = createFileRoute('/plateform_account')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
-const SessionSessionIdRouteLazyImport = createFileRoute('/session/$sessionId')()
 const AuthSessionRouteLazyImport = createFileRoute('/auth/session')()
-const SessionIndexLazyImport = createFileRoute('/session/')()
-const PlateformaccountIndexLazyImport = createFileRoute('/plateform_account/')()
-const SessionSessionIdStateRouteLazyImport = createFileRoute(
-  '/session/$sessionId/state',
-)()
-const SessionSessionIdConfigRouteLazyImport = createFileRoute(
-  '/session/$sessionId/config',
-)()
-const SessionSessionIdActionsRouteLazyImport = createFileRoute(
-  '/session/$sessionId/actions',
-)()
-const SessionSessionIdIndexLazyImport = createFileRoute(
-  '/session/$sessionId/',
-)()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
-const SessionSessionIdStateIndexLazyImport = createFileRoute(
-  '/session/$sessionId/state/',
-)()
-const SessionSessionIdConfigIndexLazyImport = createFileRoute(
-  '/session/$sessionId/config/',
-)()
-const SessionSessionIdActionsIndexLazyImport = createFileRoute(
-  '/session/$sessionId/actions/',
-)()
 
 // Create/Update Routes
-
-const SessionRouteLazyRoute = SessionRouteLazyImport.update({
-  id: '/session',
-  path: '/session',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~route.lazy').then((d) => d.Route),
-)
-
-const PlateformaccountRouteLazyRoute = PlateformaccountRouteLazyImport.update({
-  id: '/plateform_account',
-  path: '/plateform_account',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~plateform_account/~route.lazy').then((d) => d.Route),
-)
 
 const AuthRouteLazyRoute = AuthRouteLazyImport.update({
   id: '/auth',
@@ -77,77 +35,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const SessionSessionIdRouteLazyRoute = SessionSessionIdRouteLazyImport.update({
-  id: '/$sessionId',
-  path: '/$sessionId',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~$sessionId/~route.lazy').then((d) => d.Route),
-)
-
 const AuthSessionRouteLazyRoute = AuthSessionRouteLazyImport.update({
   id: '/session',
   path: '/session',
   getParentRoute: () => AuthRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~auth/~session/~route.lazy').then((d) => d.Route),
-)
-
-const SessionIndexLazyRoute = SessionIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~index.lazy').then((d) => d.Route),
-)
-
-const PlateformaccountIndexLazyRoute = PlateformaccountIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PlateformaccountRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~plateform_account/~index.lazy').then((d) => d.Route),
-)
-
-const SessionSessionIdStateRouteLazyRoute =
-  SessionSessionIdStateRouteLazyImport.update({
-    id: '/state',
-    path: '/state',
-    getParentRoute: () => SessionSessionIdRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~state/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const SessionSessionIdConfigRouteLazyRoute =
-  SessionSessionIdConfigRouteLazyImport.update({
-    id: '/config',
-    path: '/config',
-    getParentRoute: () => SessionSessionIdRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~config/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const SessionSessionIdActionsRouteLazyRoute =
-  SessionSessionIdActionsRouteLazyImport.update({
-    id: '/actions',
-    path: '/actions',
-    getParentRoute: () => SessionSessionIdRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~actions/~route.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const SessionSessionIdIndexLazyRoute = SessionSessionIdIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SessionSessionIdRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~session/~$sessionId/~index.lazy').then((d) => d.Route),
 )
 
 const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
@@ -157,39 +50,6 @@ const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~auth/~login/~index.lazy').then((d) => d.Route),
 )
-
-const SessionSessionIdStateIndexLazyRoute =
-  SessionSessionIdStateIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => SessionSessionIdStateRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~state/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const SessionSessionIdConfigIndexLazyRoute =
-  SessionSessionIdConfigIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => SessionSessionIdConfigRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~config/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
-
-const SessionSessionIdActionsIndexLazyRoute =
-  SessionSessionIdActionsIndexLazyImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => SessionSessionIdActionsRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/~session/~$sessionId/~actions/~index.lazy').then(
-      (d) => d.Route,
-    ),
-  )
 
 // Populate the FileRoutesByPath interface
 
@@ -209,34 +69,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteLazyImport
       parentRoute: typeof rootRoute
     }
-    '/plateform_account': {
-      id: '/plateform_account'
-      path: '/plateform_account'
-      fullPath: '/plateform_account'
-      preLoaderRoute: typeof PlateformaccountRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/session': {
-      id: '/session'
-      path: '/session'
-      fullPath: '/session'
-      preLoaderRoute: typeof SessionRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/plateform_account/': {
-      id: '/plateform_account/'
-      path: '/'
-      fullPath: '/plateform_account/'
-      preLoaderRoute: typeof PlateformaccountIndexLazyImport
-      parentRoute: typeof PlateformaccountRouteLazyImport
-    }
-    '/session/': {
-      id: '/session/'
-      path: '/'
-      fullPath: '/session/'
-      preLoaderRoute: typeof SessionIndexLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/auth/session': {
       id: '/auth/session'
       path: '/session'
@@ -244,68 +76,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSessionRouteLazyImport
       parentRoute: typeof AuthRouteLazyImport
     }
-    '/session/$sessionId': {
-      id: '/session/$sessionId'
-      path: '/$sessionId'
-      fullPath: '/session/$sessionId'
-      preLoaderRoute: typeof SessionSessionIdRouteLazyImport
-      parentRoute: typeof SessionRouteLazyImport
-    }
     '/auth/login/': {
       id: '/auth/login/'
       path: '/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginIndexLazyImport
       parentRoute: typeof AuthRouteLazyImport
-    }
-    '/session/$sessionId/': {
-      id: '/session/$sessionId/'
-      path: '/'
-      fullPath: '/session/$sessionId/'
-      preLoaderRoute: typeof SessionSessionIdIndexLazyImport
-      parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/$sessionId/actions': {
-      id: '/session/$sessionId/actions'
-      path: '/actions'
-      fullPath: '/session/$sessionId/actions'
-      preLoaderRoute: typeof SessionSessionIdActionsRouteLazyImport
-      parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/$sessionId/config': {
-      id: '/session/$sessionId/config'
-      path: '/config'
-      fullPath: '/session/$sessionId/config'
-      preLoaderRoute: typeof SessionSessionIdConfigRouteLazyImport
-      parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/$sessionId/state': {
-      id: '/session/$sessionId/state'
-      path: '/state'
-      fullPath: '/session/$sessionId/state'
-      preLoaderRoute: typeof SessionSessionIdStateRouteLazyImport
-      parentRoute: typeof SessionSessionIdRouteLazyImport
-    }
-    '/session/$sessionId/actions/': {
-      id: '/session/$sessionId/actions/'
-      path: '/'
-      fullPath: '/session/$sessionId/actions/'
-      preLoaderRoute: typeof SessionSessionIdActionsIndexLazyImport
-      parentRoute: typeof SessionSessionIdActionsRouteLazyImport
-    }
-    '/session/$sessionId/config/': {
-      id: '/session/$sessionId/config/'
-      path: '/'
-      fullPath: '/session/$sessionId/config/'
-      preLoaderRoute: typeof SessionSessionIdConfigIndexLazyImport
-      parentRoute: typeof SessionSessionIdConfigRouteLazyImport
-    }
-    '/session/$sessionId/state/': {
-      id: '/session/$sessionId/state/'
-      path: '/'
-      fullPath: '/session/$sessionId/state/'
-      preLoaderRoute: typeof SessionSessionIdStateIndexLazyImport
-      parentRoute: typeof SessionSessionIdStateRouteLazyImport
     }
   }
 }
@@ -326,215 +102,45 @@ const AuthRouteLazyRouteWithChildren = AuthRouteLazyRoute._addFileChildren(
   AuthRouteLazyRouteChildren,
 )
 
-interface PlateformaccountRouteLazyRouteChildren {
-  PlateformaccountIndexLazyRoute: typeof PlateformaccountIndexLazyRoute
-}
-
-const PlateformaccountRouteLazyRouteChildren: PlateformaccountRouteLazyRouteChildren =
-  {
-    PlateformaccountIndexLazyRoute: PlateformaccountIndexLazyRoute,
-  }
-
-const PlateformaccountRouteLazyRouteWithChildren =
-  PlateformaccountRouteLazyRoute._addFileChildren(
-    PlateformaccountRouteLazyRouteChildren,
-  )
-
-interface SessionSessionIdActionsRouteLazyRouteChildren {
-  SessionSessionIdActionsIndexLazyRoute: typeof SessionSessionIdActionsIndexLazyRoute
-}
-
-const SessionSessionIdActionsRouteLazyRouteChildren: SessionSessionIdActionsRouteLazyRouteChildren =
-  {
-    SessionSessionIdActionsIndexLazyRoute:
-      SessionSessionIdActionsIndexLazyRoute,
-  }
-
-const SessionSessionIdActionsRouteLazyRouteWithChildren =
-  SessionSessionIdActionsRouteLazyRoute._addFileChildren(
-    SessionSessionIdActionsRouteLazyRouteChildren,
-  )
-
-interface SessionSessionIdConfigRouteLazyRouteChildren {
-  SessionSessionIdConfigIndexLazyRoute: typeof SessionSessionIdConfigIndexLazyRoute
-}
-
-const SessionSessionIdConfigRouteLazyRouteChildren: SessionSessionIdConfigRouteLazyRouteChildren =
-  {
-    SessionSessionIdConfigIndexLazyRoute: SessionSessionIdConfigIndexLazyRoute,
-  }
-
-const SessionSessionIdConfigRouteLazyRouteWithChildren =
-  SessionSessionIdConfigRouteLazyRoute._addFileChildren(
-    SessionSessionIdConfigRouteLazyRouteChildren,
-  )
-
-interface SessionSessionIdStateRouteLazyRouteChildren {
-  SessionSessionIdStateIndexLazyRoute: typeof SessionSessionIdStateIndexLazyRoute
-}
-
-const SessionSessionIdStateRouteLazyRouteChildren: SessionSessionIdStateRouteLazyRouteChildren =
-  {
-    SessionSessionIdStateIndexLazyRoute: SessionSessionIdStateIndexLazyRoute,
-  }
-
-const SessionSessionIdStateRouteLazyRouteWithChildren =
-  SessionSessionIdStateRouteLazyRoute._addFileChildren(
-    SessionSessionIdStateRouteLazyRouteChildren,
-  )
-
-interface SessionSessionIdRouteLazyRouteChildren {
-  SessionSessionIdIndexLazyRoute: typeof SessionSessionIdIndexLazyRoute
-  SessionSessionIdActionsRouteLazyRoute: typeof SessionSessionIdActionsRouteLazyRouteWithChildren
-  SessionSessionIdConfigRouteLazyRoute: typeof SessionSessionIdConfigRouteLazyRouteWithChildren
-  SessionSessionIdStateRouteLazyRoute: typeof SessionSessionIdStateRouteLazyRouteWithChildren
-}
-
-const SessionSessionIdRouteLazyRouteChildren: SessionSessionIdRouteLazyRouteChildren =
-  {
-    SessionSessionIdIndexLazyRoute: SessionSessionIdIndexLazyRoute,
-    SessionSessionIdActionsRouteLazyRoute:
-      SessionSessionIdActionsRouteLazyRouteWithChildren,
-    SessionSessionIdConfigRouteLazyRoute:
-      SessionSessionIdConfigRouteLazyRouteWithChildren,
-    SessionSessionIdStateRouteLazyRoute:
-      SessionSessionIdStateRouteLazyRouteWithChildren,
-  }
-
-const SessionSessionIdRouteLazyRouteWithChildren =
-  SessionSessionIdRouteLazyRoute._addFileChildren(
-    SessionSessionIdRouteLazyRouteChildren,
-  )
-
-interface SessionRouteLazyRouteChildren {
-  SessionIndexLazyRoute: typeof SessionIndexLazyRoute
-  SessionSessionIdRouteLazyRoute: typeof SessionSessionIdRouteLazyRouteWithChildren
-}
-
-const SessionRouteLazyRouteChildren: SessionRouteLazyRouteChildren = {
-  SessionIndexLazyRoute: SessionIndexLazyRoute,
-  SessionSessionIdRouteLazyRoute: SessionSessionIdRouteLazyRouteWithChildren,
-}
-
-const SessionRouteLazyRouteWithChildren =
-  SessionRouteLazyRoute._addFileChildren(SessionRouteLazyRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
-  '/plateform_account': typeof PlateformaccountRouteLazyRouteWithChildren
-  '/session': typeof SessionRouteLazyRouteWithChildren
-  '/plateform_account/': typeof PlateformaccountIndexLazyRoute
-  '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
-  '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginIndexLazyRoute
-  '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
-  '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
-  '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
-  '/session/$sessionId/actions/': typeof SessionSessionIdActionsIndexLazyRoute
-  '/session/$sessionId/config/': typeof SessionSessionIdConfigIndexLazyRoute
-  '/session/$sessionId/state/': typeof SessionSessionIdStateIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
-  '/plateform_account': typeof PlateformaccountIndexLazyRoute
-  '/session': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
-  '/session/$sessionId': typeof SessionSessionIdIndexLazyRoute
-  '/session/$sessionId/actions': typeof SessionSessionIdActionsIndexLazyRoute
-  '/session/$sessionId/config': typeof SessionSessionIdConfigIndexLazyRoute
-  '/session/$sessionId/state': typeof SessionSessionIdStateIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteLazyRouteWithChildren
-  '/plateform_account': typeof PlateformaccountRouteLazyRouteWithChildren
-  '/session': typeof SessionRouteLazyRouteWithChildren
-  '/plateform_account/': typeof PlateformaccountIndexLazyRoute
-  '/session/': typeof SessionIndexLazyRoute
   '/auth/session': typeof AuthSessionRouteLazyRoute
-  '/session/$sessionId': typeof SessionSessionIdRouteLazyRouteWithChildren
   '/auth/login/': typeof AuthLoginIndexLazyRoute
-  '/session/$sessionId/': typeof SessionSessionIdIndexLazyRoute
-  '/session/$sessionId/actions': typeof SessionSessionIdActionsRouteLazyRouteWithChildren
-  '/session/$sessionId/config': typeof SessionSessionIdConfigRouteLazyRouteWithChildren
-  '/session/$sessionId/state': typeof SessionSessionIdStateRouteLazyRouteWithChildren
-  '/session/$sessionId/actions/': typeof SessionSessionIdActionsIndexLazyRoute
-  '/session/$sessionId/config/': typeof SessionSessionIdConfigIndexLazyRoute
-  '/session/$sessionId/state/': typeof SessionSessionIdStateIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/auth'
-    | '/plateform_account'
-    | '/session'
-    | '/plateform_account/'
-    | '/session/'
-    | '/auth/session'
-    | '/session/$sessionId'
-    | '/auth/login'
-    | '/session/$sessionId/'
-    | '/session/$sessionId/actions'
-    | '/session/$sessionId/config'
-    | '/session/$sessionId/state'
-    | '/session/$sessionId/actions/'
-    | '/session/$sessionId/config/'
-    | '/session/$sessionId/state/'
+  fullPaths: '/' | '/auth' | '/auth/session' | '/auth/login'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/auth'
-    | '/plateform_account'
-    | '/session'
-    | '/auth/session'
-    | '/auth/login'
-    | '/session/$sessionId'
-    | '/session/$sessionId/actions'
-    | '/session/$sessionId/config'
-    | '/session/$sessionId/state'
-  id:
-    | '__root__'
-    | '/'
-    | '/auth'
-    | '/plateform_account'
-    | '/session'
-    | '/plateform_account/'
-    | '/session/'
-    | '/auth/session'
-    | '/session/$sessionId'
-    | '/auth/login/'
-    | '/session/$sessionId/'
-    | '/session/$sessionId/actions'
-    | '/session/$sessionId/config'
-    | '/session/$sessionId/state'
-    | '/session/$sessionId/actions/'
-    | '/session/$sessionId/config/'
-    | '/session/$sessionId/state/'
+  to: '/' | '/auth' | '/auth/session' | '/auth/login'
+  id: '__root__' | '/' | '/auth' | '/auth/session' | '/auth/login/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
-  PlateformaccountRouteLazyRoute: typeof PlateformaccountRouteLazyRouteWithChildren
-  SessionRouteLazyRoute: typeof SessionRouteLazyRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
-  PlateformaccountRouteLazyRoute: PlateformaccountRouteLazyRouteWithChildren,
-  SessionRouteLazyRoute: SessionRouteLazyRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -548,9 +154,7 @@ export const routeTree = rootRoute
       "filePath": "~__root.tsx",
       "children": [
         "/",
-        "/auth",
-        "/plateform_account",
-        "/session"
+        "/auth"
       ]
     },
     "/": {
@@ -563,81 +167,13 @@ export const routeTree = rootRoute
         "/auth/login/"
       ]
     },
-    "/plateform_account": {
-      "filePath": "~plateform_account/~route.lazy.tsx",
-      "children": [
-        "/plateform_account/"
-      ]
-    },
-    "/session": {
-      "filePath": "~session/~route.lazy.tsx",
-      "children": [
-        "/session/",
-        "/session/$sessionId"
-      ]
-    },
-    "/plateform_account/": {
-      "filePath": "~plateform_account/~index.lazy.tsx",
-      "parent": "/plateform_account"
-    },
-    "/session/": {
-      "filePath": "~session/~index.lazy.tsx",
-      "parent": "/session"
-    },
     "/auth/session": {
       "filePath": "~auth/~session/~route.lazy.tsx",
       "parent": "/auth"
     },
-    "/session/$sessionId": {
-      "filePath": "~session/~$sessionId/~route.lazy.tsx",
-      "parent": "/session",
-      "children": [
-        "/session/$sessionId/",
-        "/session/$sessionId/actions",
-        "/session/$sessionId/config",
-        "/session/$sessionId/state"
-      ]
-    },
     "/auth/login/": {
       "filePath": "~auth/~login/~index.lazy.tsx",
       "parent": "/auth"
-    },
-    "/session/$sessionId/": {
-      "filePath": "~session/~$sessionId/~index.lazy.tsx",
-      "parent": "/session/$sessionId"
-    },
-    "/session/$sessionId/actions": {
-      "filePath": "~session/~$sessionId/~actions/~route.lazy.tsx",
-      "parent": "/session/$sessionId",
-      "children": [
-        "/session/$sessionId/actions/"
-      ]
-    },
-    "/session/$sessionId/config": {
-      "filePath": "~session/~$sessionId/~config/~route.lazy.tsx",
-      "parent": "/session/$sessionId",
-      "children": [
-        "/session/$sessionId/config/"
-      ]
-    },
-    "/session/$sessionId/state": {
-      "filePath": "~session/~$sessionId/~state/~route.lazy.tsx",
-      "parent": "/session/$sessionId",
-      "children": [
-        "/session/$sessionId/state/"
-      ]
-    },
-    "/session/$sessionId/actions/": {
-      "filePath": "~session/~$sessionId/~actions/~index.lazy.tsx",
-      "parent": "/session/$sessionId/actions"
-    },
-    "/session/$sessionId/config/": {
-      "filePath": "~session/~$sessionId/~config/~index.lazy.tsx",
-      "parent": "/session/$sessionId/config"
-    },
-    "/session/$sessionId/state/": {
-      "filePath": "~session/~$sessionId/~state/~index.lazy.tsx",
-      "parent": "/session/$sessionId/state"
     }
   }
 }
