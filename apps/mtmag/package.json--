@@ -31,7 +31,7 @@
     "watch": "tsr watch",
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
-    "deploy-worker": "bun run withEnv -- vite build && wrangler deploy",
+    "deploy:worker": "bun run withEnv -- vite build && wrangler deploy",
     "cf-typegen": "wrangler types --path ./src/worker-configuration.d.ts",
     "mcp-inspector": "bunx @modelcontextprotocol/inspector@0.10.2",
     "gen:openapi": "npx tsx ./src/hono_app/generateOpenAPIYamlFile.ts",

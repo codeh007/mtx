@@ -7,10 +7,12 @@ export const mtmaiAppInitState = {
 export const getAppConfig = () => {
   return {
     ...mtmaiAppInitState,
+    mtmadbotFloatWindowUrl: "https://ht3600.yuepa8.com/dash",
+    DefaultSingBoxProfileName: "default",
+    DefaultSingBoxProfileUrl: "https://ht8383.yuepa8.com/api/v1/singbox/subscribe/default/default",
     mtmServerUrl:
       process.env?.MTM_SERVER_URL ||
       // `https://${process.env?.VERCEL_URL}` ||
-      // "http://localhost:8383",
       "https://www.yuepa8.com",
   };
 };

@@ -8,7 +8,10 @@
       "command": "bun run dev",
       "nodeVersionHint": 20,
       "cwd": "${workspaceFolder}/apps/mtmaiui",
-      "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"]
+      "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"],
+      "env": {
+        "MTM_SERVER_URL": "https://ht8383.yuepa8.com"
+      }
     },
     {
       "name": "mtmag-next",

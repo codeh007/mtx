@@ -1,5 +1,6 @@
 "use client";
 
+import type { getAppConfig } from "@mtmaiui/lib/config";
 import type { FrontendConfig, Site, Tenant } from "mtmaiapi";
 import type React from "react";
 import { createContext, useContext, useMemo } from "react";
@@ -18,6 +19,7 @@ interface MtmaiBotProps {
   serverUrl?: string;
   selfBackendUrl?: string;
   accessToken?: string;
+  config: ReturnType<typeof getAppConfig>;
   frontendConfig?: FrontendConfig;
   isDebug?: boolean;
 }
@@ -168,7 +170,18 @@ export const MtmaiProvider = (props: AppProviderProps) => {
         host={mystore.getState().hostName as string}
         debug={mystore.getState().isDebug}
       >
-        <MtSession>{children}</MtSession>
+        <MtSession>
+          {/* <RouterProvider
+            router={createRouter({ serverUrl: mystore.getState().serverUrl! })}
+            context={
+              {
+                // serverUrl: serverUrl,
+                // queryClient: getQueryClient(),
+              }
+            }
+          /> */}
+          {children}
+        </MtSession>
       </ReactQueryProvider>
     </mtmaiStoreContext.Provider>
   );

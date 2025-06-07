@@ -66,6 +66,8 @@ jobs:
       - name: Build
         run: bun run build
 
+
+        
       - name: chmod
         run: |
           chmod 777 -R packages/gomtm-cli/bin/*
@@ -118,7 +120,8 @@ jobs:
 
       - name: install gomtm
         run: |
-          ( cd packages/gomtm-cli && npm i -g )
+          # ( cd packages/gomtm-cli && npm i -g )
+          npm install -g gomtm-cli
       
       - name: deploy to vercel (gomtm-cli)
         run: |

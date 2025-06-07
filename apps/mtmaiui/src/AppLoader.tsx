@@ -7,10 +7,9 @@ import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";
 import { MtmaiProvider } from "./stores/MtmaiProvider";
 import { UIProviders } from "./stores/UIProviders";
-export function MtmClientApp({ serverUrl }: { serverUrl: string }) {
+export function MtmClientApp({ serverUrl, config }: { serverUrl: string; config: any }) {
   return (
-    
-    <MtmaiProvider serverUrl={serverUrl}>
+    <MtmaiProvider serverUrl={serverUrl} config={config}>
       <UIProviders>
         <RouterProvider
           router={createRouter({ serverUrl })}
@@ -24,30 +23,30 @@ export function MtmClientApp({ serverUrl }: { serverUrl: string }) {
   );
 }
 
-function loadAppp({ serverUrl }: { serverUrl: string }) {
-  const rootElementId = "gomtm-runtime-container";
+function loadAppp({ serverUrl, config }: { serverUrl: string; config: any }) {
   if (typeof window === "undefined") {
     return;
   }
   console.log("👍 MtmApp 💨");
+  const rootElementId = "gomtm-runtime-container";
   let rootEle = document.getElementById(rootElementId);
   if (!rootEle) {
     rootEle = document.createElement("div");
     rootEle.id = rootElementId;
-    rootEle.style.width = "0px";
-    rootEle.style.height = "0px";
-    rootEle.style.position = "absolute"; // 脱离文档流
-    rootEle.style.overflow = "hidden"; // 防止内容溢出
-    rootEle.style.margin = "0";
-    rootEle.style.padding = "0";
+    // rootEle.style.width = "0px";
+    // rootEle.style.height = "0px";
+    // rootEle.style.position = "absolute"; // 脱离文档流
+    // rootEle.style.overflow = "hidden"; // 防止内容溢出
+    // rootEle.style.margin = "0";
+    // rootEle.style.padding = "0";
     document.body.appendChild(rootEle);
   }
-  createRoot(rootEle).render(<MtmClientApp serverUrl={serverUrl} />);
+  createRoot(rootEle).render(<MtmClientApp serverUrl={serverUrl} config={config} />);
 }
 
-export function AppLoader({ serverUrl }: { serverUrl: string }) {
+export function AppLoader({ serverUrl, config }: { serverUrl: string; config: any }) {
   useEffect(() => {
-    loadAppp({ serverUrl });
-  }, [serverUrl]);
+    loadAppp({ serverUrl, config });
+  }, [serverUrl, config]);
   return null;
 }
