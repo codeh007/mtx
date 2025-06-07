@@ -3044,6 +3044,10 @@ export type SbOutbound = {
   uuid?: string;
 };
 
+export type SbImportRequest = {
+  url?: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8448,7 +8452,7 @@ export type SingboxGetOutboundsResponse =
   SingboxGetOutboundsResponses[keyof SingboxGetOutboundsResponses];
 
 export type SingboxImportOutboundsData = {
-  body?: SbOutbound;
+  body?: SbImportRequest;
   path?: never;
   query?: never;
   url: "/api/v1/singbox/import";
