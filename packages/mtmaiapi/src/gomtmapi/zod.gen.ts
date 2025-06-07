@@ -2453,6 +2453,25 @@ export const zBotConfig = z.object({
   config: z.object({}).optional(),
 });
 
+export const zSbWorkerProfile = z.object({
+  frontendUrl: z.string(),
+  isDebug: z.boolean(),
+  autoStart: z.boolean(),
+  defaultProfileName: z.string(),
+  defaultProfileUrl: z.string(),
+});
+
+export const zSbOutbound = z.object({
+  id: z.string().optional(),
+  created_at: z.string().optional(),
+  updated_at: z.string().optional(),
+  tag: z.string().optional(),
+  type: z.string().optional(),
+  server: z.string().optional(),
+  server_port: z.number().int().optional(),
+  uuid: z.string().optional(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2707,6 +2726,12 @@ export const zFrpsHandlerResponse = z.object({});
 
 export const zFirerpaGetConfigResponse = z.string();
 
+export const zSingboxGetWorkerProfileResponse = zSbWorkerProfile;
+
 export const zSingboxSubscribeResponse = z.object({});
 
 export const zSingboxGeoipCnSrsResponse = z.string();
+
+export const zSingboxGetOutboundsResponse = zSbOutbound;
+
+export const zSingboxImportOutboundsResponse = zSbOutbound;

@@ -387,12 +387,21 @@ import type {
   FrpsHandlerResponse,
   FirerpaGetConfigData,
   FirerpaGetConfigResponse,
+  SingboxGetWorkerProfileData,
+  SingboxGetWorkerProfileResponse,
+  SingboxGetWorkerProfileError,
   SingboxSubscribeData,
   SingboxSubscribeResponse,
   SingboxSubscribeError,
   SingboxGeoipCnSrsData,
   SingboxGeoipCnSrsResponse,
   SingboxGeoipCnSrsError,
+  SingboxGetOutboundsData,
+  SingboxGetOutboundsResponse,
+  SingboxGetOutboundsError,
+  SingboxImportOutboundsData,
+  SingboxImportOutboundsResponse,
+  SingboxImportOutboundsError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4049,6 +4058,23 @@ export const firerpaGetConfig = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * 获取sing-box worker profile
+ * 获取sing-box worker profile
+ */
+export const singboxGetWorkerProfile = <ThrowOnError extends boolean = false>(
+  options: Options<SingboxGetWorkerProfileData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    SingboxGetWorkerProfileResponse,
+    SingboxGetWorkerProfileError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/workerProfile/{profileType}/{profile}",
+    ...options,
+  });
+};
+
+/**
  * 获取sing-box订阅
  * 获取sing-box订阅
  */
@@ -4079,5 +4105,43 @@ export const singboxGeoipCnSrs = <ThrowOnError extends boolean = false>(
   >({
     url: "/api/v1/singbox/srs/{file}",
     ...options,
+  });
+};
+
+/**
+ * 获取sing-box outbound
+ * 获取sing-box outbound
+ */
+export const singboxGetOutbounds = <ThrowOnError extends boolean = false>(
+  options?: Options<SingboxGetOutboundsData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    SingboxGetOutboundsResponse,
+    SingboxGetOutboundsError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/outbounds",
+    ...options,
+  });
+};
+
+/**
+ * 导入sing-box outbound
+ * 导入sing-box outbound
+ */
+export const singboxImportOutbounds = <ThrowOnError extends boolean = false>(
+  options?: Options<SingboxImportOutboundsData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    SingboxImportOutboundsResponse,
+    SingboxImportOutboundsError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/import",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };

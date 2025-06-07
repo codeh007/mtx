@@ -5418,3 +5418,61 @@ export const BotConfigSchema = {
     },
   },
 } as const;
+
+export const SbWorkerProfileSchema = {
+  required: [
+    "frontendUrl",
+    "isDebug",
+    "autoStart",
+    "defaultProfileName",
+    "defaultProfileUrl",
+    "defaultProfileType",
+  ],
+  properties: {
+    frontendUrl: {
+      type: "string",
+    },
+    isDebug: {
+      type: "boolean",
+    },
+    autoStart: {
+      type: "boolean",
+    },
+    defaultProfileName: {
+      type: "string",
+    },
+    defaultProfileUrl: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const SbOutboundSchema = {
+  type: "object",
+  properties: {
+    id: {
+      type: "string",
+    },
+    created_at: {
+      type: "string",
+    },
+    updated_at: {
+      type: "string",
+    },
+    tag: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+    },
+    server: {
+      type: "string",
+    },
+    server_port: {
+      type: "integer",
+    },
+    uuid: {
+      type: "string",
+    },
+  },
+} as const;

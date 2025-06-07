@@ -141,8 +141,11 @@ import {
   scriptsByName,
   frpsHandler,
   firerpaGetConfig,
+  singboxGetWorkerProfile,
   singboxSubscribe,
   singboxGeoipCnSrs,
+  singboxGetOutbounds,
+  singboxImportOutbounds,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -419,8 +422,13 @@ import type {
   FrpsHandlerData,
   FrpsHandlerResponse,
   FirerpaGetConfigData,
+  SingboxGetWorkerProfileData,
   SingboxSubscribeData,
   SingboxGeoipCnSrsData,
+  SingboxGetOutboundsData,
+  SingboxImportOutboundsData,
+  SingboxImportOutboundsError,
+  SingboxImportOutboundsResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4313,6 +4321,24 @@ export const firerpaGetConfigOptions = (options: Options<FirerpaGetConfigData>) 
   });
 };
 
+export const singboxGetWorkerProfileQueryKey = (options: Options<SingboxGetWorkerProfileData>) =>
+  createQueryKey("singboxGetWorkerProfile", options);
+
+export const singboxGetWorkerProfileOptions = (options: Options<SingboxGetWorkerProfileData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxGetWorkerProfile({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxGetWorkerProfileQueryKey(options),
+  });
+};
+
 export const singboxSubscribeQueryKey = (options?: Options<SingboxSubscribeData>) =>
   createQueryKey("singboxSubscribe", options);
 
@@ -4347,4 +4373,60 @@ export const singboxGeoipCnSrsOptions = (options: Options<SingboxGeoipCnSrsData>
     },
     queryKey: singboxGeoipCnSrsQueryKey(options),
   });
+};
+
+export const singboxGetOutboundsQueryKey = (options?: Options<SingboxGetOutboundsData>) =>
+  createQueryKey("singboxGetOutbounds", options);
+
+export const singboxGetOutboundsOptions = (options?: Options<SingboxGetOutboundsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxGetOutbounds({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxGetOutboundsQueryKey(options),
+  });
+};
+
+export const singboxImportOutboundsQueryKey = (options?: Options<SingboxImportOutboundsData>) =>
+  createQueryKey("singboxImportOutbounds", options);
+
+export const singboxImportOutboundsOptions = (options?: Options<SingboxImportOutboundsData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxImportOutbounds({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxImportOutboundsQueryKey(options),
+  });
+};
+
+export const singboxImportOutboundsMutation = (
+  options?: Partial<Options<SingboxImportOutboundsData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SingboxImportOutboundsResponse,
+    SingboxImportOutboundsError,
+    Options<SingboxImportOutboundsData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await singboxImportOutbounds({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

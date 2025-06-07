@@ -3025,6 +3025,25 @@ export type BotConfig = {
   };
 };
 
+export type SbWorkerProfile = {
+  frontendUrl: string;
+  isDebug: boolean;
+  autoStart: boolean;
+  defaultProfileName: string;
+  defaultProfileUrl: string;
+};
+
+export type SbOutbound = {
+  id?: string;
+  created_at?: string;
+  updated_at?: string;
+  tag?: string;
+  type?: string;
+  server?: string;
+  server_port?: number;
+  uuid?: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8319,6 +8338,35 @@ export type FirerpaGetConfigResponses = {
 
 export type FirerpaGetConfigResponse = FirerpaGetConfigResponses[keyof FirerpaGetConfigResponses];
 
+export type SingboxGetWorkerProfileData = {
+  body?: never;
+  path: {
+    profileType: string;
+    profile: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/workerProfile/{profileType}/{profile}";
+};
+
+export type SingboxGetWorkerProfileErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxGetWorkerProfileError =
+  SingboxGetWorkerProfileErrors[keyof SingboxGetWorkerProfileErrors];
+
+export type SingboxGetWorkerProfileResponses = {
+  /**
+   * Successfully get the singbox srs file
+   */
+  200: SbWorkerProfile;
+};
+
+export type SingboxGetWorkerProfileResponse =
+  SingboxGetWorkerProfileResponses[keyof SingboxGetWorkerProfileResponses];
+
 export type SingboxSubscribeData = {
   body?: never;
   path?: {
@@ -8373,6 +8421,57 @@ export type SingboxGeoipCnSrsResponses = {
 
 export type SingboxGeoipCnSrsResponse =
   SingboxGeoipCnSrsResponses[keyof SingboxGeoipCnSrsResponses];
+
+export type SingboxGetOutboundsData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/singbox/outbounds";
+};
+
+export type SingboxGetOutboundsErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxGetOutboundsError = SingboxGetOutboundsErrors[keyof SingboxGetOutboundsErrors];
+
+export type SingboxGetOutboundsResponses = {
+  /**
+   * Successfully get the singbox outbound
+   */
+  200: SbOutbound;
+};
+
+export type SingboxGetOutboundsResponse =
+  SingboxGetOutboundsResponses[keyof SingboxGetOutboundsResponses];
+
+export type SingboxImportOutboundsData = {
+  body?: SbOutbound;
+  path?: never;
+  query?: never;
+  url: "/api/v1/singbox/import";
+};
+
+export type SingboxImportOutboundsErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxImportOutboundsError =
+  SingboxImportOutboundsErrors[keyof SingboxImportOutboundsErrors];
+
+export type SingboxImportOutboundsResponses = {
+  /**
+   * Successfully import the singbox outbound
+   */
+  200: SbOutbound;
+};
+
+export type SingboxImportOutboundsResponse =
+  SingboxImportOutboundsResponses[keyof SingboxImportOutboundsResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
