@@ -139,7 +139,6 @@ import {
   sandboxGet,
   mtmHello,
   scriptsByName,
-  frpsHandler,
   singboxGetWorkerProfile,
   singboxSubscribe,
   singboxGeoipCnSrs,
@@ -154,7 +153,6 @@ import {
   infiniteQueryOptions,
   type InfiniteData,
   type UseMutationOptions,
-  type DefaultError,
 } from "@tanstack/react-query";
 import type {
   V1TaskGetData,
@@ -421,8 +419,6 @@ import type {
   SandboxGetData,
   MtmHelloData,
   ScriptsByNameData,
-  FrpsHandlerData,
-  FrpsHandlerResponse,
   SingboxGetWorkerProfileData,
   SingboxSubscribeData,
   SingboxGeoipCnSrsData,
@@ -4271,42 +4267,6 @@ export const scriptsByNameOptions = (options: Options<ScriptsByNameData>) => {
     },
     queryKey: scriptsByNameQueryKey(options),
   });
-};
-
-export const frpsHandlerQueryKey = (options: Options<FrpsHandlerData>) =>
-  createQueryKey("frpsHandler", options);
-
-export const frpsHandlerOptions = (options: Options<FrpsHandlerData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await frpsHandler({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: frpsHandlerQueryKey(options),
-  });
-};
-
-export const frpsHandlerMutation = (options?: Partial<Options<FrpsHandlerData>>) => {
-  const mutationOptions: UseMutationOptions<
-    FrpsHandlerResponse,
-    DefaultError,
-    Options<FrpsHandlerData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await frpsHandler({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
 };
 
 export const singboxGetWorkerProfileQueryKey = (options: Options<SingboxGetWorkerProfileData>) =>

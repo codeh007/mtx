@@ -2754,8 +2754,6 @@ export const zMtmHelloResponse = zMtmInfo;
 
 export const zScriptsByNameResponse = z.string();
 
-export const zFrpsHandlerResponse = z.object({});
-
 export const zSingboxGetWorkerProfileResponse = zSbWorkerProfile;
 
 export const zSingboxSubscribeResponse = z.object({});

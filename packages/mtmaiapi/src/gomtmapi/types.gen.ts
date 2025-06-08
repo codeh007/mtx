@@ -8305,29 +8305,6 @@ export type ScriptsByNameResponses = {
 
 export type ScriptsByNameResponse = ScriptsByNameResponses[keyof ScriptsByNameResponses];
 
-export type FrpsHandlerData = {
-  body?: {
-    [key: string]: unknown;
-  };
-  path?: never;
-  query: {
-    version: string;
-    op: string;
-  };
-  url: "/api/v1/frp/frps_handler";
-};
-
-export type FrpsHandlerResponses = {
-  /**
-   * 成功
-   */
-  200: {
-    [key: string]: unknown;
-  };
-};
-
-export type FrpsHandlerResponse = FrpsHandlerResponses[keyof FrpsHandlerResponses];
-
 export type SingboxGetWorkerProfileData = {
   body?: never;
   path: {

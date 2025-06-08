@@ -383,8 +383,6 @@ import type {
   ScriptsByNameData,
   ScriptsByNameResponse,
   ScriptsByNameError,
-  FrpsHandlerData,
-  FrpsHandlerResponse,
   SingboxGetWorkerProfileData,
   SingboxGetWorkerProfileResponse,
   SingboxGetWorkerProfileError,
@@ -4031,23 +4029,6 @@ export const scriptsByName = <ThrowOnError extends boolean = false>(
     ],
     url: "/api/v1/scripts/scripts/{name}",
     ...options,
-  });
-};
-
-/**
- * frps 处理请求
- * frps 处理请求
- */
-export const frpsHandler = <ThrowOnError extends boolean = false>(
-  options: Options<FrpsHandlerData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<FrpsHandlerResponse, unknown, ThrowOnError>({
-    url: "/api/v1/frp/frps_handler",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
   });
 };
 
