@@ -140,14 +140,14 @@ import {
   mtmHello,
   scriptsByName,
   frpsHandler,
-  firerpaGetConfig,
   singboxGetWorkerProfile,
   singboxSubscribe,
   singboxGeoipCnSrs,
   singboxGetOutbounds,
   singboxImportOutbounds,
+  botList,
+  botGet,
   botHeartbeat,
-  botGetConfig,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -423,7 +423,6 @@ import type {
   ScriptsByNameData,
   FrpsHandlerData,
   FrpsHandlerResponse,
-  FirerpaGetConfigData,
   SingboxGetWorkerProfileData,
   SingboxSubscribeData,
   SingboxGeoipCnSrsData,
@@ -431,10 +430,11 @@ import type {
   SingboxImportOutboundsData,
   SingboxImportOutboundsError,
   SingboxImportOutboundsResponse,
+  BotListData,
+  BotGetData,
   BotHeartbeatData,
   BotHeartbeatError,
   BotHeartbeatResponse,
-  BotGetConfigData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4309,24 +4309,6 @@ export const frpsHandlerMutation = (options?: Partial<Options<FrpsHandlerData>>)
   return mutationOptions;
 };
 
-export const firerpaGetConfigQueryKey = (options: Options<FirerpaGetConfigData>) =>
-  createQueryKey("firerpaGetConfig", options);
-
-export const firerpaGetConfigOptions = (options: Options<FirerpaGetConfigData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await firerpaGetConfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: firerpaGetConfigQueryKey(options),
-  });
-};
-
 export const singboxGetWorkerProfileQueryKey = (options: Options<SingboxGetWorkerProfileData>) =>
   createQueryKey("singboxGetWorkerProfile", options);
 
@@ -4437,6 +4419,41 @@ export const singboxImportOutboundsMutation = (
   return mutationOptions;
 };
 
+export const botListQueryKey = (options?: Options<BotListData>) =>
+  createQueryKey("botList", options);
+
+export const botListOptions = (options?: Options<BotListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await botList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: botListQueryKey(options),
+  });
+};
+
+export const botGetQueryKey = (options: Options<BotGetData>) => createQueryKey("botGet", options);
+
+export const botGetOptions = (options: Options<BotGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await botGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: botGetQueryKey(options),
+  });
+};
+
 export const botHeartbeatQueryKey = (options?: Options<BotHeartbeatData>) =>
   createQueryKey("botHeartbeat", options);
 
@@ -4471,22 +4488,4 @@ export const botHeartbeatMutation = (options?: Partial<Options<BotHeartbeatData>
     },
   };
   return mutationOptions;
-};
-
-export const botGetConfigQueryKey = (options?: Options<BotGetConfigData>) =>
-  createQueryKey("botGetConfig", options);
-
-export const botGetConfigOptions = (options?: Options<BotGetConfigData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await botGetConfig({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: botGetConfigQueryKey(options),
-  });
 };

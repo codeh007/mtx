@@ -385,8 +385,6 @@ import type {
   ScriptsByNameError,
   FrpsHandlerData,
   FrpsHandlerResponse,
-  FirerpaGetConfigData,
-  FirerpaGetConfigResponse,
   SingboxGetWorkerProfileData,
   SingboxGetWorkerProfileResponse,
   SingboxGetWorkerProfileError,
@@ -402,12 +400,15 @@ import type {
   SingboxImportOutboundsData,
   SingboxImportOutboundsResponse,
   SingboxImportOutboundsError,
+  BotListData,
+  BotListResponse,
+  BotListError,
+  BotGetData,
+  BotGetResponse,
+  BotGetError,
   BotHeartbeatData,
   BotHeartbeatResponse,
   BotHeartbeatError,
-  BotGetConfigData,
-  BotGetConfigResponse,
-  BotGetConfigError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4051,19 +4052,6 @@ export const frpsHandler = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Get firerpa config
- * Get firerpa config for a tenant.
- */
-export const firerpaGetConfig = <ThrowOnError extends boolean = false>(
-  options: Options<FirerpaGetConfigData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<FirerpaGetConfigResponse, unknown, ThrowOnError>({
-    url: "/api/v1/firerpa/firerpaConfig",
-    ...options,
-  });
-};
-
-/**
  * 获取sing-box worker profile
  * 获取sing-box worker profile
  */
@@ -4153,6 +4141,30 @@ export const singboxImportOutbounds = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Get bot list for a tenant.
+ */
+export const botList = <ThrowOnError extends boolean = false>(
+  options?: Options<BotListData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<BotListResponse, BotListError, ThrowOnError>({
+    url: "/api/v1/bot/list",
+    ...options,
+  });
+};
+
+/**
+ * Get bot by id.
+ */
+export const botGet = <ThrowOnError extends boolean = false>(
+  options: Options<BotGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<BotGetResponse, BotGetError, ThrowOnError>({
+    url: "/api/v1/bot/{bot}",
+    ...options,
+  });
+};
+
+/**
  * Heartbeat
  * Heartbeat for bot.
  */
@@ -4170,21 +4182,5 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
-  });
-};
-
-/**
- * Get bot config for a tenant.
- */
-export const botGetConfig = <ThrowOnError extends boolean = false>(
-  options?: Options<BotGetConfigData, ThrowOnError>,
-) => {
-  return (options?.client ?? _heyApiClient).get<
-    BotGetConfigResponse,
-    BotGetConfigError,
-    ThrowOnError
-  >({
-    url: "/api/v1/bot/config",
-    ...options,
   });
 };

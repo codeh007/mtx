@@ -2433,10 +2433,6 @@ export const zCreatePostRequest = z.object({
   status: z.enum(["draft", "published"]).optional(),
 });
 
-export const zDemoResponse = z.object({
-  message: z.string(),
-});
-
 export const zSandbox = z.object({
   id: z.string(),
   type: z.string(),
@@ -2445,6 +2441,28 @@ export const zSandbox = z.object({
 
 export const zMtmInfo = z.object({
   message: z.string().optional(),
+});
+
+export const zBot = z.object({
+  id: z.string(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+  name: z.string(),
+  description: z.string(),
+  config: z.object({
+    public_server: z.string(),
+    private_server: z.string(),
+    frontend_url: z.string(),
+    local_http_server_enabled: z.boolean(),
+    local_http_server_port: z.number().int(),
+    adb_server_enabled: z.boolean(),
+    adb_server_port: z.number().int().optional().default(5555),
+  }),
+});
+
+export const zBotList = z.object({
+  pagination: zPaginationResponse,
+  rows: z.array(zBot),
 });
 
 export const zBotConfig = z.object({
@@ -2738,8 +2756,6 @@ export const zScriptsByNameResponse = z.string();
 
 export const zFrpsHandlerResponse = z.object({});
 
-export const zFirerpaGetConfigResponse = z.string();
-
 export const zSingboxGetWorkerProfileResponse = zSbWorkerProfile;
 
 export const zSingboxSubscribeResponse = z.object({});
@@ -2750,6 +2766,8 @@ export const zSingboxGetOutboundsResponse = zSbOutbound;
 
 export const zSingboxImportOutboundsResponse = zSbOutbound;
 
-export const zBotHeartbeatResponse = zBotConfig;
+export const zBotListResponse = zBotList;
 
-export const zBotGetConfigResponse = zBotConfig;
+export const zBotGetResponse = zBot;
+
+export const zBotHeartbeatResponse = zBotConfig;

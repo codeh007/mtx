@@ -5369,16 +5369,6 @@ export const CreatePostRequestSchema = {
   required: ["siteId", "title", "content", "slug"],
 } as const;
 
-export const DemoResponseSchema = {
-  properties: {
-    message: {
-      type: "string",
-      description: "The message to return",
-    },
-  },
-  required: ["message"],
-} as const;
-
 export const SandboxSchema = {
   required: ["id", "type", "url"],
   properties: {
@@ -5401,6 +5391,47 @@ export const MtmInfoSchema = {
       type: "string",
       description: "健康检查消息",
       example: "hello mtm v2",
+    },
+  },
+} as const;
+
+export const BotSchema = {
+  required: ["id", "created_at", "updated_at", "name", "description", "config"],
+  properties: {
+    id: {
+      type: "string",
+    },
+    created_at: {
+      type: "string",
+      format: "date-time",
+    },
+    updated_at: {
+      type: "string",
+      format: "date-time",
+    },
+    name: {
+      type: "string",
+    },
+    description: {
+      type: "string",
+    },
+    config: {
+      $ref: "#/components/schemas/BotConfig",
+    },
+  },
+} as const;
+
+export const BotListSchema = {
+  required: ["pagination", "rows"],
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Bot",
+      },
+      type: "array",
     },
   },
 } as const;

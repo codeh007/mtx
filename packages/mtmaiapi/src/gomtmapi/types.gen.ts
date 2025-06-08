@@ -2997,13 +2997,6 @@ export type CreatePostRequest = {
   status?: "draft" | "published";
 };
 
-export type DemoResponse = {
-  /**
-   * The message to return
-   */
-  message: string;
-};
-
 export type Sandbox = {
   id: string;
   type: string;
@@ -3015,6 +3008,20 @@ export type MtmInfo = {
    * 健康检查消息
    */
   message?: string;
+};
+
+export type Bot = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  name: string;
+  description: string;
+  config: BotConfig;
+};
+
+export type BotList = {
+  pagination: PaginationResponse;
+  rows: Array<Bot>;
 };
 
 export type BotConfig = {
@@ -8321,35 +8328,6 @@ export type FrpsHandlerResponses = {
 
 export type FrpsHandlerResponse = FrpsHandlerResponses[keyof FrpsHandlerResponses];
 
-export type FirerpaGetConfigData = {
-  body?: never;
-  path?: never;
-  query: {
-    profile: string;
-  };
-  url: "/api/v1/firerpa/firerpaConfig";
-};
-
-export type FirerpaGetConfigErrors = {
-  /**
-   * A malformed or bad request
-   */
-  400: unknown;
-  /**
-   * Forbidden
-   */
-  403: unknown;
-};
-
-export type FirerpaGetConfigResponses = {
-  /**
-   * Successfully get the firerpa config
-   */
-  200: string;
-};
-
-export type FirerpaGetConfigResponse = FirerpaGetConfigResponses[keyof FirerpaGetConfigResponses];
-
 export type SingboxGetWorkerProfileData = {
   body?: never;
   path: {
@@ -8485,6 +8463,50 @@ export type SingboxImportOutboundsResponses = {
 export type SingboxImportOutboundsResponse =
   SingboxImportOutboundsResponses[keyof SingboxImportOutboundsResponses];
 
+export type BotListData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/bot/list";
+};
+
+export type BotListErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type BotListError = BotListErrors[keyof BotListErrors];
+
+export type BotListResponses = {
+  200: BotList;
+};
+
+export type BotListResponse = BotListResponses[keyof BotListResponses];
+
+export type BotGetData = {
+  body?: never;
+  path: {
+    bot: string;
+  };
+  query?: {
+    autoCreate?: boolean;
+  };
+  url: "/api/v1/bot/{bot}";
+};
+
+export type BotGetErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type BotGetError = BotGetErrors[keyof BotGetErrors];
+
+export type BotGetResponses = {
+  200: Bot;
+};
+
+export type BotGetResponse = BotGetResponses[keyof BotGetResponses];
+
 export type BotHeartbeatData = {
   body?: BotLocalState;
   path?: never;
@@ -8504,26 +8526,6 @@ export type BotHeartbeatResponses = {
 };
 
 export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
-
-export type BotGetConfigData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/bot/config";
-};
-
-export type BotGetConfigErrors = {
-  400: ApiErrors;
-  403: ApiErrors;
-};
-
-export type BotGetConfigError = BotGetConfigErrors[keyof BotGetConfigErrors];
-
-export type BotGetConfigResponses = {
-  200: BotConfig;
-};
-
-export type BotGetConfigResponse = BotGetConfigResponses[keyof BotGetConfigResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
