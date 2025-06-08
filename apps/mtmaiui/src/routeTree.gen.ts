@@ -21,6 +21,7 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 
 const WebviewRouteLazyImport = createFileRoute('/webview')()
 const SiteRouteLazyImport = createFileRoute('/site')()
+const SingboxRouteLazyImport = createFileRoute('/singbox')()
 const SandboxRouteLazyImport = createFileRoute('/sandbox')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
@@ -40,6 +41,7 @@ const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
 const WebviewIndexLazyImport = createFileRoute('/webview/')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
+const SingboxIndexLazyImport = createFileRoute('/singbox/')()
 const SandboxIndexLazyImport = createFileRoute('/sandbox/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
@@ -156,6 +158,14 @@ const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   path: '/site',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/~site/~route.lazy').then((d) => d.Route))
+
+const SingboxRouteLazyRoute = SingboxRouteLazyImport.update({
+  id: '/singbox',
+  path: '/singbox',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~singbox/~route.lazy').then((d) => d.Route),
+)
 
 const SandboxRouteLazyRoute = SandboxRouteLazyImport.update({
   id: '/sandbox',
@@ -295,6 +305,14 @@ const SiteIndexLazyRoute = SiteIndexLazyImport.update({
   path: '/',
   getParentRoute: () => SiteRouteLazyRoute,
 } as any).lazy(() => import('./routes/~site/~index.lazy').then((d) => d.Route))
+
+const SingboxIndexLazyRoute = SingboxIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SingboxRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~singbox/~index.lazy').then((d) => d.Route),
+)
 
 const SandboxIndexLazyRoute = SandboxIndexLazyImport.update({
   id: '/',
@@ -790,6 +808,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SandboxRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/singbox': {
+      id: '/singbox'
+      path: '/singbox'
+      fullPath: '/singbox'
+      preLoaderRoute: typeof SingboxRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/site': {
       id: '/site'
       path: '/site'
@@ -845,6 +870,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sandbox/'
       preLoaderRoute: typeof SandboxIndexLazyImport
       parentRoute: typeof SandboxRouteLazyImport
+    }
+    '/singbox/': {
+      id: '/singbox/'
+      path: '/'
+      fullPath: '/singbox/'
+      preLoaderRoute: typeof SingboxIndexLazyImport
+      parentRoute: typeof SingboxRouteLazyImport
     }
     '/site/': {
       id: '/site/'
@@ -1341,6 +1373,17 @@ const SandboxRouteLazyRouteChildren: SandboxRouteLazyRouteChildren = {
 const SandboxRouteLazyRouteWithChildren =
   SandboxRouteLazyRoute._addFileChildren(SandboxRouteLazyRouteChildren)
 
+interface SingboxRouteLazyRouteChildren {
+  SingboxIndexLazyRoute: typeof SingboxIndexLazyRoute
+}
+
+const SingboxRouteLazyRouteChildren: SingboxRouteLazyRouteChildren = {
+  SingboxIndexLazyRoute: SingboxIndexLazyRoute,
+}
+
+const SingboxRouteLazyRouteWithChildren =
+  SingboxRouteLazyRoute._addFileChildren(SingboxRouteLazyRouteChildren)
+
 interface SiteSiteIdRouteLazyRouteChildren {
   SiteSiteIdIndexRoute: typeof SiteSiteIdIndexRoute
   SiteSiteIdHostIndexLazyRoute: typeof SiteSiteIdHostIndexLazyRoute
@@ -1608,6 +1651,7 @@ export interface FileRoutesByFullPath {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
+  '/singbox': typeof SingboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
@@ -1616,6 +1660,7 @@ export interface FileRoutesByFullPath {
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
+  '/singbox/': typeof SingboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
@@ -1679,6 +1724,7 @@ export interface FileRoutesByTo {
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/sandbox': typeof SandboxIndexLazyRoute
+  '/singbox': typeof SingboxIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
   '/webview': typeof WebviewIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -1724,6 +1770,7 @@ export interface FileRoutesById {
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
+  '/singbox': typeof SingboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
   '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
@@ -1732,6 +1779,7 @@ export interface FileRoutesById {
   '/mttask/': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
+  '/singbox/': typeof SingboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
   '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
@@ -1795,6 +1843,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/resource'
     | '/sandbox'
+    | '/singbox'
     | '/site'
     | '/webview'
     | '/envs/create'
@@ -1803,6 +1852,7 @@ export interface FileRouteTypes {
     | '/mttask'
     | '/resource/'
     | '/sandbox/'
+    | '/singbox/'
     | '/site/'
     | '/webview/'
     | '/adk/session'
@@ -1865,6 +1915,7 @@ export interface FileRouteTypes {
     | '/mttask'
     | '/resource'
     | '/sandbox'
+    | '/singbox'
     | '/site'
     | '/webview'
     | '/auth/register'
@@ -1908,6 +1959,7 @@ export interface FileRouteTypes {
     | '/chat'
     | '/resource'
     | '/sandbox'
+    | '/singbox'
     | '/site'
     | '/webview'
     | '/envs/create'
@@ -1916,6 +1968,7 @@ export interface FileRouteTypes {
     | '/mttask/'
     | '/resource/'
     | '/sandbox/'
+    | '/singbox/'
     | '/site/'
     | '/webview/'
     | '/adk/session'
@@ -1978,6 +2031,7 @@ export interface RootRouteChildren {
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   SandboxRouteLazyRoute: typeof SandboxRouteLazyRouteWithChildren
+  SingboxRouteLazyRoute: typeof SingboxRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
   WebviewRouteLazyRoute: typeof WebviewRouteLazyRouteWithChildren
   EnvsCreateRoute: typeof EnvsCreateRoute
@@ -1999,6 +2053,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   SandboxRouteLazyRoute: SandboxRouteLazyRouteWithChildren,
+  SingboxRouteLazyRoute: SingboxRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
   WebviewRouteLazyRoute: WebviewRouteLazyRouteWithChildren,
   EnvsCreateRoute: EnvsCreateRoute,
@@ -2034,6 +2089,7 @@ export const routeTree = rootRoute
         "/chat",
         "/resource",
         "/sandbox",
+        "/singbox",
         "/site",
         "/webview",
         "/envs/create",
@@ -2086,6 +2142,12 @@ export const routeTree = rootRoute
         "/sandbox/$sandboxId"
       ]
     },
+    "/singbox": {
+      "filePath": "~singbox/~route.lazy.tsx",
+      "children": [
+        "/singbox/"
+      ]
+    },
     "/site": {
       "filePath": "~site/~route.lazy.tsx",
       "children": [
@@ -2121,6 +2183,10 @@ export const routeTree = rootRoute
     "/sandbox/": {
       "filePath": "~sandbox/~index.lazy.tsx",
       "parent": "/sandbox"
+    },
+    "/singbox/": {
+      "filePath": "~singbox/~index.lazy.tsx",
+      "parent": "/singbox"
     },
     "/site/": {
       "filePath": "~site/~index.lazy.tsx",
