@@ -5406,15 +5406,52 @@ export const MtmInfoSchema = {
 } as const;
 
 export const BotConfigSchema = {
+  required: [
+    "public_server",
+    "private_server",
+    "frontend_url",
+    "local_http_server_enabled",
+    "local_http_server_port",
+    "adb_server_enabled",
+  ],
   properties: {
-    name: {
+    public_server: {
       type: "string",
     },
-    description: {
+    private_server: {
       type: "string",
     },
-    config: {
-      type: "object",
+    frontend_url: {
+      type: "string",
+    },
+    local_http_server_enabled: {
+      type: "boolean",
+    },
+    local_http_server_port: {
+      type: "integer",
+    },
+    adb_server_enabled: {
+      type: "boolean",
+    },
+    adb_server_port: {
+      type: "integer",
+      default: 5555,
+    },
+  },
+} as const;
+
+export const BotLocalStateSchema = {
+  required: ["bot_id", "device_type", "host_name"],
+  properties: {
+    bot_id: {
+      type: "string",
+    },
+    device_type: {
+      type: "string",
+      enum: ["unknown", "android", "ios", "web"],
+    },
+    host_name: {
+      type: "string",
     },
   },
 } as const;

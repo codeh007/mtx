@@ -146,6 +146,8 @@ import {
   singboxGeoipCnSrs,
   singboxGetOutbounds,
   singboxImportOutbounds,
+  botHeartbeat,
+  botGetConfig,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -429,6 +431,10 @@ import type {
   SingboxImportOutboundsData,
   SingboxImportOutboundsError,
   SingboxImportOutboundsResponse,
+  BotHeartbeatData,
+  BotHeartbeatError,
+  BotHeartbeatResponse,
+  BotGetConfigData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4429,4 +4435,58 @@ export const singboxImportOutboundsMutation = (
     },
   };
   return mutationOptions;
+};
+
+export const botHeartbeatQueryKey = (options?: Options<BotHeartbeatData>) =>
+  createQueryKey("botHeartbeat", options);
+
+export const botHeartbeatOptions = (options?: Options<BotHeartbeatData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await botHeartbeat({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: botHeartbeatQueryKey(options),
+  });
+};
+
+export const botHeartbeatMutation = (options?: Partial<Options<BotHeartbeatData>>) => {
+  const mutationOptions: UseMutationOptions<
+    BotHeartbeatResponse,
+    BotHeartbeatError,
+    Options<BotHeartbeatData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await botHeartbeat({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const botGetConfigQueryKey = (options?: Options<BotGetConfigData>) =>
+  createQueryKey("botGetConfig", options);
+
+export const botGetConfigOptions = (options?: Options<BotGetConfigData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await botGetConfig({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: botGetConfigQueryKey(options),
+  });
 };

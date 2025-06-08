@@ -3018,11 +3018,19 @@ export type MtmInfo = {
 };
 
 export type BotConfig = {
-  name?: string;
-  description?: string;
-  config?: {
-    [key: string]: unknown;
-  };
+  public_server: string;
+  private_server: string;
+  frontend_url: string;
+  local_http_server_enabled: boolean;
+  local_http_server_port: number;
+  adb_server_enabled: boolean;
+  adb_server_port?: number;
+};
+
+export type BotLocalState = {
+  bot_id: string;
+  device_type: "unknown" | "android" | "ios" | "web";
+  host_name: string;
 };
 
 export type SbWorkerProfile = {
@@ -8476,6 +8484,46 @@ export type SingboxImportOutboundsResponses = {
 
 export type SingboxImportOutboundsResponse =
   SingboxImportOutboundsResponses[keyof SingboxImportOutboundsResponses];
+
+export type BotHeartbeatData = {
+  body?: BotLocalState;
+  path?: never;
+  query?: never;
+  url: "/api/v1/bot/heartbeat";
+};
+
+export type BotHeartbeatErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type BotHeartbeatError = BotHeartbeatErrors[keyof BotHeartbeatErrors];
+
+export type BotHeartbeatResponses = {
+  200: BotConfig;
+};
+
+export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
+
+export type BotGetConfigData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/api/v1/bot/config";
+};
+
+export type BotGetConfigErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type BotGetConfigError = BotGetConfigErrors[keyof BotGetConfigErrors];
+
+export type BotGetConfigResponses = {
+  200: BotConfig;
+};
+
+export type BotGetConfigResponse = BotGetConfigResponses[keyof BotGetConfigResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

@@ -402,6 +402,12 @@ import type {
   SingboxImportOutboundsData,
   SingboxImportOutboundsResponse,
   SingboxImportOutboundsError,
+  BotHeartbeatData,
+  BotHeartbeatResponse,
+  BotHeartbeatError,
+  BotGetConfigData,
+  BotGetConfigResponse,
+  BotGetConfigError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4143,5 +4149,42 @@ export const singboxImportOutbounds = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Heartbeat
+ * Heartbeat for bot.
+ */
+export const botHeartbeat = <ThrowOnError extends boolean = false>(
+  options?: Options<BotHeartbeatData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    BotHeartbeatResponse,
+    BotHeartbeatError,
+    ThrowOnError
+  >({
+    url: "/api/v1/bot/heartbeat",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Get bot config for a tenant.
+ */
+export const botGetConfig = <ThrowOnError extends boolean = false>(
+  options?: Options<BotGetConfigData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    BotGetConfigResponse,
+    BotGetConfigError,
+    ThrowOnError
+  >({
+    url: "/api/v1/bot/config",
+    ...options,
   });
 };

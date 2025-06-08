@@ -2448,9 +2448,19 @@ export const zMtmInfo = z.object({
 });
 
 export const zBotConfig = z.object({
-  name: z.string().optional(),
-  description: z.string().optional(),
-  config: z.object({}).optional(),
+  public_server: z.string(),
+  private_server: z.string(),
+  frontend_url: z.string(),
+  local_http_server_enabled: z.boolean(),
+  local_http_server_port: z.number().int(),
+  adb_server_enabled: z.boolean(),
+  adb_server_port: z.number().int().optional().default(5555),
+});
+
+export const zBotLocalState = z.object({
+  bot_id: z.string(),
+  device_type: z.enum(["unknown", "android", "ios", "web"]),
+  host_name: z.string(),
 });
 
 export const zSbWorkerProfile = z.object({
@@ -2739,3 +2749,7 @@ export const zSingboxGeoipCnSrsResponse = z.string();
 export const zSingboxGetOutboundsResponse = zSbOutbound;
 
 export const zSingboxImportOutboundsResponse = zSbOutbound;
+
+export const zBotHeartbeatResponse = zBotConfig;
+
+export const zBotGetConfigResponse = zBotConfig;
