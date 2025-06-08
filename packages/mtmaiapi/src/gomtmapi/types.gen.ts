@@ -3045,7 +3045,7 @@ export type SbOutbound = {
 };
 
 export type SbImportRequest = {
-  url?: string;
+  url: string;
 };
 
 export type V1TaskGetData = {

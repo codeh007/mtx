@@ -2473,7 +2473,7 @@ export const zSbOutbound = z.object({
 });
 
 export const zSbImportRequest = z.object({
-  url: z.string().optional(),
+  url: z.string(),
 });
 
 export const zV1TaskGetResponse = zV1TaskSummary;

@@ -5478,6 +5478,7 @@ export const SbOutboundSchema = {
 } as const;
 
 export const SbImportRequestSchema = {
+  required: ["url"],
   properties: {
     url: {
       type: "string",
