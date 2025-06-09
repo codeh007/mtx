@@ -3063,6 +3063,10 @@ export type SbImportRequest = {
   url: string;
 };
 
+export type MobileHello = {
+  message?: string;
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {

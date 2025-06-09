@@ -24,6 +24,7 @@ const SiteRouteLazyImport = createFileRoute('/site')()
 const SingboxRouteLazyImport = createFileRoute('/singbox')()
 const SandboxRouteLazyImport = createFileRoute('/sandbox')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
+const DevpoolsRouteLazyImport = createFileRoute('/devpools')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
 const AutomateRouteLazyImport = createFileRoute('/automate')()
 const AuthRouteLazyImport = createFileRoute('/auth')()
@@ -36,6 +37,7 @@ const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
 const ProxyNewRouteLazyImport = createFileRoute('/proxy/new')()
 const ProxyProxyIdRouteLazyImport = createFileRoute('/proxy/$proxyId')()
+const DevpoolsDevRouteLazyImport = createFileRoute('/devpools/dev')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
@@ -45,6 +47,7 @@ const SingboxIndexLazyImport = createFileRoute('/singbox/')()
 const SandboxIndexLazyImport = createFileRoute('/sandbox/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
+const DevpoolsIndexLazyImport = createFileRoute('/devpools/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AutomateIndexLazyImport = createFileRoute('/automate/')()
 const WorkflowRunsWorkflowRunIdVisualizationRouteLazyImport = createFileRoute(
@@ -74,6 +77,9 @@ const ProxyProxyIdActionsRouteLazyImport = createFileRoute(
 const PlatformAccountPlatformAccountIdActionsRouteLazyImport = createFileRoute(
   '/platform-account/$platformAccountId/actions',
 )()
+const DevpoolsDevDeviceIdRouteLazyImport = createFileRoute(
+  '/devpools/dev/$deviceId',
+)()
 const AgentsAgentSessionIdRouteLazyImport = createFileRoute(
   '/agents/$agent/$sessionId',
 )()
@@ -86,6 +92,7 @@ const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
 const SiteNewIndexLazyImport = createFileRoute('/site/new/')()
 const ResourceResIdIndexLazyImport = createFileRoute('/resource/$resId/')()
 const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
+const DevpoolsDevIndexLazyImport = createFileRoute('/devpools/dev/')()
 const ChatSessionIdIndexLazyImport = createFileRoute('/chat/$sessionId/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const AdkSessionIndexLazyImport = createFileRoute('/adk/session/')()
@@ -183,6 +190,14 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
 )
 
+const DevpoolsRouteLazyRoute = DevpoolsRouteLazyImport.update({
+  id: '/devpools',
+  path: '/devpools',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~devpools/~route.lazy').then((d) => d.Route),
+)
+
 const ChatRouteLazyRoute = ChatRouteLazyImport.update({
   id: '/chat',
   path: '/chat',
@@ -268,6 +283,14 @@ const ProxyProxyIdRouteLazyRoute = ProxyProxyIdRouteLazyImport.update({
   import('./routes/~proxy/~$proxyId/~route.lazy').then((d) => d.Route),
 )
 
+const DevpoolsDevRouteLazyRoute = DevpoolsDevRouteLazyImport.update({
+  id: '/dev',
+  path: '/dev',
+  getParentRoute: () => DevpoolsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~devpools/~dev/~route.lazy').then((d) => d.Route),
+)
+
 const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
   id: '/register',
   path: '/register',
@@ -336,6 +359,14 @@ const MttaskIndexLazyRoute = MttaskIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~mttask/~index.lazy').then((d) => d.Route),
+)
+
+const DevpoolsIndexLazyRoute = DevpoolsIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DevpoolsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~devpools/~index.lazy').then((d) => d.Route),
 )
 
 const ChatIndexLazyRoute = ChatIndexLazyImport.update({
@@ -457,6 +488,17 @@ const PlatformAccountPlatformAccountIdActionsRouteLazyRoute =
     ).then((d) => d.Route),
   )
 
+const DevpoolsDevDeviceIdRouteLazyRoute =
+  DevpoolsDevDeviceIdRouteLazyImport.update({
+    id: '/$deviceId',
+    path: '/$deviceId',
+    getParentRoute: () => DevpoolsDevRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~devpools/~dev/~$deviceId/~route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const AgentsAgentSessionIdRouteLazyRoute =
   AgentsAgentSessionIdRouteLazyImport.update({
     id: '/agents/$agent/$sessionId',
@@ -512,6 +554,14 @@ const ProxyProxyIdIndexLazyRoute = ProxyProxyIdIndexLazyImport.update({
   getParentRoute: () => ProxyProxyIdRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/~proxy/~$proxyId/~index.lazy').then((d) => d.Route),
+)
+
+const DevpoolsDevIndexLazyRoute = DevpoolsDevIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DevpoolsDevRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~devpools/~dev/~index.lazy').then((d) => d.Route),
 )
 
 const ChatSessionIdIndexLazyRoute = ChatSessionIdIndexLazyImport.update({
@@ -794,6 +844,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/devpools': {
+      id: '/devpools'
+      path: '/devpools'
+      fullPath: '/devpools'
+      preLoaderRoute: typeof DevpoolsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/resource': {
       id: '/resource'
       path: '/resource'
@@ -849,6 +906,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/chat/'
       preLoaderRoute: typeof ChatIndexLazyImport
       parentRoute: typeof ChatRouteLazyImport
+    }
+    '/devpools/': {
+      id: '/devpools/'
+      path: '/'
+      fullPath: '/devpools/'
+      preLoaderRoute: typeof DevpoolsIndexLazyImport
+      parentRoute: typeof DevpoolsRouteLazyImport
     }
     '/mttask/': {
       id: '/mttask/'
@@ -912,6 +976,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/register'
       preLoaderRoute: typeof AuthRegisterLazyImport
       parentRoute: typeof AuthRouteLazyImport
+    }
+    '/devpools/dev': {
+      id: '/devpools/dev'
+      path: '/dev'
+      fullPath: '/devpools/dev'
+      preLoaderRoute: typeof DevpoolsDevRouteLazyImport
+      parentRoute: typeof DevpoolsRouteLazyImport
     }
     '/proxy/$proxyId': {
       id: '/proxy/$proxyId'
@@ -990,6 +1061,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatSessionIdIndexLazyImport
       parentRoute: typeof ChatRouteLazyImport
     }
+    '/devpools/dev/': {
+      id: '/devpools/dev/'
+      path: '/'
+      fullPath: '/devpools/dev/'
+      preLoaderRoute: typeof DevpoolsDevIndexLazyImport
+      parentRoute: typeof DevpoolsDevRouteLazyImport
+    }
     '/proxy/$proxyId/': {
       id: '/proxy/$proxyId/'
       path: '/'
@@ -1031,6 +1109,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/agents/$agent/$sessionId'
       preLoaderRoute: typeof AgentsAgentSessionIdRouteLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/devpools/dev/$deviceId': {
+      id: '/devpools/dev/$deviceId'
+      path: '/$deviceId'
+      fullPath: '/devpools/dev/$deviceId'
+      preLoaderRoute: typeof DevpoolsDevDeviceIdRouteLazyImport
+      parentRoute: typeof DevpoolsDevRouteLazyImport
     }
     '/platform-account/$platformAccountId/actions': {
       id: '/platform-account/$platformAccountId/actions'
@@ -1296,6 +1381,32 @@ const ChatRouteLazyRouteChildren: ChatRouteLazyRouteChildren = {
 const ChatRouteLazyRouteWithChildren = ChatRouteLazyRoute._addFileChildren(
   ChatRouteLazyRouteChildren,
 )
+
+interface DevpoolsDevRouteLazyRouteChildren {
+  DevpoolsDevIndexLazyRoute: typeof DevpoolsDevIndexLazyRoute
+  DevpoolsDevDeviceIdRouteLazyRoute: typeof DevpoolsDevDeviceIdRouteLazyRoute
+}
+
+const DevpoolsDevRouteLazyRouteChildren: DevpoolsDevRouteLazyRouteChildren = {
+  DevpoolsDevIndexLazyRoute: DevpoolsDevIndexLazyRoute,
+  DevpoolsDevDeviceIdRouteLazyRoute: DevpoolsDevDeviceIdRouteLazyRoute,
+}
+
+const DevpoolsDevRouteLazyRouteWithChildren =
+  DevpoolsDevRouteLazyRoute._addFileChildren(DevpoolsDevRouteLazyRouteChildren)
+
+interface DevpoolsRouteLazyRouteChildren {
+  DevpoolsIndexLazyRoute: typeof DevpoolsIndexLazyRoute
+  DevpoolsDevRouteLazyRoute: typeof DevpoolsDevRouteLazyRouteWithChildren
+}
+
+const DevpoolsRouteLazyRouteChildren: DevpoolsRouteLazyRouteChildren = {
+  DevpoolsIndexLazyRoute: DevpoolsIndexLazyRoute,
+  DevpoolsDevRouteLazyRoute: DevpoolsDevRouteLazyRouteWithChildren,
+}
+
+const DevpoolsRouteLazyRouteWithChildren =
+  DevpoolsRouteLazyRoute._addFileChildren(DevpoolsRouteLazyRouteChildren)
 
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
@@ -1649,6 +1760,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/devpools': typeof DevpoolsRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/singbox': typeof SingboxRouteLazyRouteWithChildren
@@ -1657,6 +1769,7 @@ export interface FileRoutesByFullPath {
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
+  '/devpools/': typeof DevpoolsIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
@@ -1666,6 +1779,7 @@ export interface FileRoutesByFullPath {
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
+  '/devpools/dev': typeof DevpoolsDevRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -1677,12 +1791,14 @@ export interface FileRoutesByFullPath {
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
+  '/devpools/dev/': typeof DevpoolsDevIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/new': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
+  '/devpools/dev/$deviceId': typeof DevpoolsDevDeviceIdRouteLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
@@ -1721,6 +1837,7 @@ export interface FileRoutesByTo {
   '/envs/create': typeof EnvsCreateRoute
   '/automate': typeof AutomateIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
+  '/devpools': typeof DevpoolsIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/sandbox': typeof SandboxIndexLazyRoute
@@ -1735,10 +1852,12 @@ export interface FileRoutesByTo {
   '/adk/session': typeof AdkSessionIndexLazyRoute
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
+  '/devpools/dev': typeof DevpoolsDevIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
   '/site/new': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
+  '/devpools/dev/$deviceId': typeof DevpoolsDevDeviceIdRouteLazyRoute
   '/workflow-runs/$workflowRunId/additional-metadata': typeof WorkflowRunsWorkflowRunIdAdditionalMetadataLazyRoute
   '/workflow-runs/$workflowRunId/input': typeof WorkflowRunsWorkflowRunIdInputLazyRoute
   '/workflow-runs/$workflowRunId/summary': typeof WorkflowRunsWorkflowRunIdSummaryLazyRoute
@@ -1768,6 +1887,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteLazyRouteWithChildren
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
+  '/devpools': typeof DevpoolsRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/singbox': typeof SingboxRouteLazyRouteWithChildren
@@ -1776,6 +1896,7 @@ export interface FileRoutesById {
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
+  '/devpools/': typeof DevpoolsIndexLazyRoute
   '/mttask/': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
@@ -1785,6 +1906,7 @@ export interface FileRoutesById {
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
+  '/devpools/dev': typeof DevpoolsDevRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -1796,12 +1918,14 @@ export interface FileRoutesById {
   '/adk/session/': typeof AdkSessionIndexLazyRoute
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId/': typeof ChatSessionIdIndexLazyRoute
+  '/devpools/dev/': typeof DevpoolsDevIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/new/': typeof SiteNewIndexLazyRoute
   '/workflow-runs/$workflowRunId/': typeof WorkflowRunsWorkflowRunIdIndexLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
+  '/devpools/dev/$deviceId': typeof DevpoolsDevDeviceIdRouteLazyRoute
   '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
@@ -1841,6 +1965,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/chat'
+    | '/devpools'
     | '/resource'
     | '/sandbox'
     | '/singbox'
@@ -1849,6 +1974,7 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/automate/'
     | '/chat/'
+    | '/devpools/'
     | '/mttask'
     | '/resource/'
     | '/sandbox/'
@@ -1858,6 +1984,7 @@ export interface FileRouteTypes {
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
+    | '/devpools/dev'
     | '/proxy/$proxyId'
     | '/proxy/new'
     | '/resource/$resId'
@@ -1869,12 +1996,14 @@ export interface FileRouteTypes {
     | '/adk/session/'
     | '/auth/login/'
     | '/chat/$sessionId'
+    | '/devpools/dev/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/new'
     | '/workflow-runs/$workflowRunId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
+    | '/devpools/dev/$deviceId'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -1912,6 +2041,7 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/automate'
     | '/chat'
+    | '/devpools'
     | '/mttask'
     | '/resource'
     | '/sandbox'
@@ -1926,10 +2056,12 @@ export interface FileRouteTypes {
     | '/adk/session'
     | '/auth/login'
     | '/chat/$sessionId'
+    | '/devpools/dev'
     | '/proxy/$proxyId'
     | '/resource/$resId'
     | '/site/new'
     | '/workflow-runs/$workflowRunId'
+    | '/devpools/dev/$deviceId'
     | '/workflow-runs/$workflowRunId/additional-metadata'
     | '/workflow-runs/$workflowRunId/input'
     | '/workflow-runs/$workflowRunId/summary'
@@ -1957,6 +2089,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/automate'
     | '/chat'
+    | '/devpools'
     | '/resource'
     | '/sandbox'
     | '/singbox'
@@ -1965,6 +2098,7 @@ export interface FileRouteTypes {
     | '/envs/create'
     | '/automate/'
     | '/chat/'
+    | '/devpools/'
     | '/mttask/'
     | '/resource/'
     | '/sandbox/'
@@ -1974,6 +2108,7 @@ export interface FileRouteTypes {
     | '/adk/session'
     | '/auth/login'
     | '/auth/register'
+    | '/devpools/dev'
     | '/proxy/$proxyId'
     | '/proxy/new'
     | '/resource/$resId'
@@ -1985,12 +2120,14 @@ export interface FileRouteTypes {
     | '/adk/session/'
     | '/auth/login/'
     | '/chat/$sessionId/'
+    | '/devpools/dev/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/new/'
     | '/workflow-runs/$workflowRunId/'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
+    | '/devpools/dev/$deviceId'
     | '/platform-account/$platformAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
@@ -2029,6 +2166,7 @@ export interface RootRouteChildren {
   AuthRouteLazyRoute: typeof AuthRouteLazyRouteWithChildren
   AutomateRouteLazyRoute: typeof AutomateRouteLazyRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
+  DevpoolsRouteLazyRoute: typeof DevpoolsRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   SandboxRouteLazyRoute: typeof SandboxRouteLazyRouteWithChildren
   SingboxRouteLazyRoute: typeof SingboxRouteLazyRouteWithChildren
@@ -2051,6 +2189,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteLazyRoute: AuthRouteLazyRouteWithChildren,
   AutomateRouteLazyRoute: AutomateRouteLazyRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
+  DevpoolsRouteLazyRoute: DevpoolsRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   SandboxRouteLazyRoute: SandboxRouteLazyRouteWithChildren,
   SingboxRouteLazyRoute: SingboxRouteLazyRouteWithChildren,
@@ -2087,6 +2226,7 @@ export const routeTree = rootRoute
         "/auth",
         "/automate",
         "/chat",
+        "/devpools",
         "/resource",
         "/sandbox",
         "/singbox",
@@ -2125,6 +2265,13 @@ export const routeTree = rootRoute
       "children": [
         "/chat/",
         "/chat/$sessionId/"
+      ]
+    },
+    "/devpools": {
+      "filePath": "~devpools/~route.lazy.tsx",
+      "children": [
+        "/devpools/",
+        "/devpools/dev"
       ]
     },
     "/resource": {
@@ -2173,6 +2320,10 @@ export const routeTree = rootRoute
       "filePath": "~chat/~index.lazy.tsx",
       "parent": "/chat"
     },
+    "/devpools/": {
+      "filePath": "~devpools/~index.lazy.tsx",
+      "parent": "/devpools"
+    },
     "/mttask/": {
       "filePath": "~mttask/~index.lazy.tsx"
     },
@@ -2213,6 +2364,14 @@ export const routeTree = rootRoute
     "/auth/register": {
       "filePath": "~auth/~register.lazy.tsx",
       "parent": "/auth"
+    },
+    "/devpools/dev": {
+      "filePath": "~devpools/~dev/~route.lazy.tsx",
+      "parent": "/devpools",
+      "children": [
+        "/devpools/dev/",
+        "/devpools/dev/$deviceId"
+      ]
     },
     "/proxy/$proxyId": {
       "filePath": "~proxy/~$proxyId/~route.lazy.tsx",
@@ -2283,6 +2442,10 @@ export const routeTree = rootRoute
       "filePath": "~chat/~$sessionId/~index.lazy.tsx",
       "parent": "/chat"
     },
+    "/devpools/dev/": {
+      "filePath": "~devpools/~dev/~index.lazy.tsx",
+      "parent": "/devpools/dev"
+    },
     "/proxy/$proxyId/": {
       "filePath": "~proxy/~$proxyId/~index.lazy.tsx",
       "parent": "/proxy/$proxyId"
@@ -2312,6 +2475,10 @@ export const routeTree = rootRoute
         "/agents/$agent/$sessionId/",
         "/agents/$agent/$sessionId/state"
       ]
+    },
+    "/devpools/dev/$deviceId": {
+      "filePath": "~devpools/~dev/~$deviceId/~route.lazy.tsx",
+      "parent": "/devpools/dev"
     },
     "/platform-account/$platformAccountId/actions": {
       "filePath": "~platform-account/~$platformAccountId/~actions/~route.lazy.tsx",

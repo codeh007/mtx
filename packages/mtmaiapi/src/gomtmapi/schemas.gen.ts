@@ -5553,3 +5553,12 @@ export const SbImportRequestSchema = {
     },
   },
 } as const;
+
+export const MobileHelloSchema = {
+  type: "object",
+  properties: {
+    message: {
+      type: "string",
+    },
+  },
+} as const;

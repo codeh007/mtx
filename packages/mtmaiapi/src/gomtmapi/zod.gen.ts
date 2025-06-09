@@ -2504,6 +2504,10 @@ export const zSbImportRequest = z.object({
   url: z.string(),
 });
 
+export const zMobileHello = z.object({
+  message: z.string().optional(),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
