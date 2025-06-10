@@ -10,7 +10,7 @@
       "cwd": "${workspaceFolder}/apps/mtmaiui",
       "skipFiles": ["<node_internals>/**", ".vscode/**", "/public", "/dist"],
       "env": {
-        "MTM_SERVER_URL": "https://ht8383.yuepa8.com"
+        "MTM_SERVER_URL": "https://colab-gomtm.yuepa8.com"
       }
     },
     {
