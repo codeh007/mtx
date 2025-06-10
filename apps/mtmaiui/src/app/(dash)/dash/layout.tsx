@@ -2,14 +2,14 @@ import { fontSans } from "mtxuilib/fonts";
 import type { Viewport } from "next";
 import type { ReactNode } from "react";
 
-import { MtmaiProvider } from "@mtmaiui/stores/MtmaiProvider";
-import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
-import { cn } from "mtxuilib/lib/utils";
-import "../../../styles/globals.css";
 import { getAppConfig } from "@mtmaiui/lib/config";
+import { MtmaiProvider } from "@mtmaiui/stores/MtmaiProvider";
 import { UIProviders } from "@mtmaiui/stores/UIProviders";
 import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
+import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
+import { cn } from "mtxuilib/lib/utils";
 import { cookies } from "next/headers";
+import "../../../styles/globals.css";
 // import { WebLayoutHeader } from "./Header";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";

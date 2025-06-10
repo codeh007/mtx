@@ -7,9 +7,13 @@ import { getQueryClient } from "./lib/get-query-client";
 import { createRouter } from "./router";
 import { MtmaiProvider } from "./stores/MtmaiProvider";
 import { UIProviders } from "./stores/UIProviders";
-export function MtmClientApp({ serverUrl, config }: { serverUrl: string; config: any }) {
+export function MtmClientApp({
+  serverUrl,
+  config,
+  accessToken,
+}: { serverUrl: string; config: any; accessToken: string }) {
   return (
-    <MtmaiProvider serverUrl={serverUrl} config={config}>
+    <MtmaiProvider serverUrl={serverUrl} config={config} accessToken={accessToken}>
       <UIProviders>
         <RouterProvider
           router={createRouter({ serverUrl })}
@@ -23,11 +27,15 @@ export function MtmClientApp({ serverUrl, config }: { serverUrl: string; config:
   );
 }
 
-function loadAppp({ serverUrl, config }: { serverUrl: string; config: any }) {
+function loadAppp({
+  serverUrl,
+  config,
+  accessToken,
+}: { serverUrl: string; config: any; accessToken: string }) {
   if (typeof window === "undefined") {
     return;
   }
-  console.log("👍 MtmApp 💨");
+  console.log("👍 MtmApp 💨", config);
   const rootElementId = "gomtm-runtime-container";
   let rootEle = document.getElementById(rootElementId);
   if (!rootEle) {
@@ -41,12 +49,18 @@ function loadAppp({ serverUrl, config }: { serverUrl: string; config: any }) {
     // rootEle.style.padding = "0";
     document.body.appendChild(rootEle);
   }
-  createRoot(rootEle).render(<MtmClientApp serverUrl={serverUrl} config={config} />);
+  createRoot(rootEle).render(
+    <MtmClientApp serverUrl={serverUrl} config={config} accessToken={accessToken} />,
+  );
 }
 
-export function AppLoader({ serverUrl, config }: { serverUrl: string; config: any }) {
+export function AppLoader({
+  serverUrl,
+  config,
+  accessToken,
+}: { serverUrl: string; config: any; accessToken: string }) {
   useEffect(() => {
-    loadAppp({ serverUrl, config });
-  }, [serverUrl, config]);
+    loadAppp({ serverUrl, config, accessToken });
+  }, [serverUrl, config, accessToken]);
   return null;
 }
