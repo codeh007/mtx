@@ -407,6 +407,9 @@ import type {
   BotHeartbeatData,
   BotHeartbeatResponse,
   BotHeartbeatError,
+  TriggerWorkflowData,
+  TriggerWorkflowResponse2,
+  TriggerWorkflowError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -4158,6 +4161,27 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/api/v1/bot/heartbeat",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Trigger a workflow
+ * Trigger a workflow
+ */
+export const triggerWorkflow = <ThrowOnError extends boolean = false>(
+  options: Options<TriggerWorkflowData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    TriggerWorkflowResponse2,
+    TriggerWorkflowError,
+    ThrowOnError
+  >({
+    url: "/api/v1/trigger/workflow",
     ...options,
     headers: {
       "Content-Type": "application/json",

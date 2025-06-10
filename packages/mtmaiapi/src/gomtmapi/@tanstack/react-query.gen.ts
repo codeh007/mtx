@@ -147,6 +147,7 @@ import {
   botList,
   botGet,
   botHeartbeat,
+  triggerWorkflow,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -431,6 +432,9 @@ import type {
   BotHeartbeatData,
   BotHeartbeatError,
   BotHeartbeatResponse,
+  TriggerWorkflowData,
+  TriggerWorkflowError,
+  TriggerWorkflowResponse2,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -4440,6 +4444,42 @@ export const botHeartbeatMutation = (options?: Partial<Options<BotHeartbeatData>
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await botHeartbeat({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const triggerWorkflowQueryKey = (options: Options<TriggerWorkflowData>) =>
+  createQueryKey("triggerWorkflow", options);
+
+export const triggerWorkflowOptions = (options: Options<TriggerWorkflowData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await triggerWorkflow({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: triggerWorkflowQueryKey(options),
+  });
+};
+
+export const triggerWorkflowMutation = (options?: Partial<Options<TriggerWorkflowData>>) => {
+  const mutationOptions: UseMutationOptions<
+    TriggerWorkflowResponse2,
+    TriggerWorkflowError,
+    Options<TriggerWorkflowData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await triggerWorkflow({
         ...options,
         ...localOptions,
         throwOnError: true,

@@ -3067,6 +3067,32 @@ export type MobileHello = {
   message?: string;
 };
 
+export type TriggerWorkflowRequest = {
+  /**
+   * The name of the workflow to trigger
+   */
+  workflow: string;
+  /**
+   * The input to the workflow
+   */
+  input: {
+    [key: string]: unknown;
+  };
+};
+
+export type TriggerWorkflowResponse = {
+  /**
+   * Whether the workflow was triggered successfully
+   */
+  success: boolean;
+  /**
+   * The error message if the workflow was not triggered successfully
+   */
+  error: {
+    [key: string]: unknown;
+  };
+};
+
 export type V1TaskGetData = {
   body?: never;
   path: {
@@ -8507,6 +8533,26 @@ export type BotHeartbeatResponses = {
 };
 
 export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
+
+export type TriggerWorkflowData = {
+  body: TriggerWorkflowRequest;
+  path?: never;
+  query?: never;
+  url: "/api/v1/trigger/workflow";
+};
+
+export type TriggerWorkflowErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type TriggerWorkflowError = TriggerWorkflowErrors[keyof TriggerWorkflowErrors];
+
+export type TriggerWorkflowResponses = {
+  200: TriggerWorkflowResponse;
+};
+
+export type TriggerWorkflowResponse2 = TriggerWorkflowResponses[keyof TriggerWorkflowResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

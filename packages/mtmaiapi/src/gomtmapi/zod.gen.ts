@@ -2508,6 +2508,16 @@ export const zMobileHello = z.object({
   message: z.string().optional(),
 });
 
+export const zTriggerWorkflowRequest = z.object({
+  workflow: z.string(),
+  input: z.object({}),
+});
+
+export const zTriggerWorkflowResponse = z.object({
+  success: z.boolean(),
+  error: z.object({}),
+});
+
 export const zV1TaskGetResponse = zV1TaskSummary;
 
 export const zV1TaskEventListResponse = zV1TaskEventList;
@@ -2773,3 +2783,5 @@ export const zBotListResponse = zBotList;
 export const zBotGetResponse = zBot;
 
 export const zBotHeartbeatResponse = zBotConfig;
+
+export const zTriggerWorkflowResponse2 = zTriggerWorkflowResponse;

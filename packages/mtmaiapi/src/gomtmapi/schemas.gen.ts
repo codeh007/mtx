@@ -5562,3 +5562,33 @@ export const MobileHelloSchema = {
     },
   },
 } as const;
+
+export const TriggerWorkflowRequestSchema = {
+  type: "object",
+  required: ["workflow", "input"],
+  properties: {
+    workflow: {
+      type: "string",
+      description: "The name of the workflow to trigger",
+    },
+    input: {
+      type: "object",
+      description: "The input to the workflow",
+    },
+  },
+} as const;
+
+export const TriggerWorkflowResponseSchema = {
+  type: "object",
+  required: ["success", "error"],
+  properties: {
+    success: {
+      type: "boolean",
+      description: "Whether the workflow was triggered successfully",
+    },
+    error: {
+      type: "object",
+      description: "The error message if the workflow was not triggered successfully",
+    },
+  },
+} as const;
