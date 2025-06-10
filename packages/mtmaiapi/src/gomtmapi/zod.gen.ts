@@ -269,121 +269,6 @@ export const zUpdateTenantRequest = z.object({
   version: z.enum(["V0", "V1"]).optional(),
 });
 
-export const zEvent = z.object({
-  metadata: zApiResourceMeta,
-  key: z.string(),
-  tenant: zTenant.optional(),
-  tenantId: z.string(),
-  workflowRunSummary: z
-    .object({
-      pending: z.coerce.bigint().optional(),
-      running: z.coerce.bigint().optional(),
-      queued: z.coerce.bigint().optional(),
-      succeeded: z.coerce.bigint().optional(),
-      failed: z.coerce.bigint().optional(),
-      cancelled: z.coerce.bigint().optional(),
-    })
-    .optional(),
-  additionalMetadata: z.object({}).optional(),
-});
-
-export const zEventData = z.object({
-  data: z.string(),
-});
-
-export const zCreateEventRequest = z.object({
-  key: z.string(),
-  data: z.object({}),
-  additionalMetadata: z.object({}).optional(),
-  priority: z.number().int().optional(),
-  scope: z.string().optional(),
-});
-
-export const zBulkCreateEventRequest = z.object({
-  events: z.array(zCreateEventRequest),
-});
-
-export const zBulkCreateEventResponse = z.object({
-  metadata: zApiResourceMeta,
-  events: z.array(zEvent),
-});
-
-export const zEventWorkflowRunSummary = z.object({
-  pending: z.coerce.bigint().optional(),
-  running: z.coerce.bigint().optional(),
-  queued: z.coerce.bigint().optional(),
-  succeeded: z.coerce.bigint().optional(),
-  failed: z.coerce.bigint().optional(),
-  cancelled: z.coerce.bigint().optional(),
-});
-
-export const zEventOrderByField = z.enum(["createdAt"]);
-
-export const zEventOrderByDirection = z.enum(["asc", "desc"]);
-
-export const zEventSearch = z.string();
-
-export const zEventKeyList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(z.string()).optional(),
-});
-
-export const zEventKey = z.string();
-
-export const zWorkflowId = z.string();
-
-export const zEventList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zEvent).optional(),
-});
-
-export const zV1EventList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        key: z.string(),
-        tenant: zTenant.optional(),
-        tenantId: z.string(),
-        workflowRunSummary: z.object({
-          running: z.coerce.bigint(),
-          queued: z.coerce.bigint(),
-          succeeded: z.coerce.bigint(),
-          failed: z.coerce.bigint(),
-          cancelled: z.coerce.bigint(),
-        }),
-        additionalMetadata: z.object({}).optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zV1FilterList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        tenantId: z.string(),
-        workflowId: z.string().uuid().length(36),
-        scope: z.string(),
-        expression: z.string(),
-        payload: z.object({}),
-      }),
-    )
-    .optional(),
-});
-
-export const zV1Filter = z.object({
-  metadata: zApiResourceMeta,
-  tenantId: z.string(),
-  workflowId: z.string().uuid().length(36),
-  scope: z.string(),
-  expression: z.string(),
-  payload: z.object({}),
-});
-
 export const zRateLimit = z.object({
   key: z.string(),
   tenantId: z.string(),
@@ -402,69 +287,6 @@ export const zRateLimitOrderByField = z.enum(["key", "value", "limitValue"]);
 
 export const zRateLimitOrderByDirection = z.enum(["asc", "desc"]);
 
-export const zReplayEventRequest = z.object({
-  eventIds: z.array(z.string().uuid().length(36)),
-});
-
-export const zCancelEventRequest = z.object({
-  eventIds: z.array(z.string().uuid().length(36)),
-});
-
-export const zWorkflow: z.ZodTypeAny = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string().optional(),
-  isPaused: z.boolean().optional(),
-  versions: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        version: z.string(),
-        order: z.number().int(),
-        workflowId: z.string(),
-        workflow: z
-          .lazy(() => {
-            return zWorkflow;
-          })
-          .optional(),
-      }),
-    )
-    .optional(),
-  tags: z
-    .array(
-      z.object({
-        name: z.string(),
-        color: z.string(),
-      }),
-    )
-    .optional(),
-  jobs: z
-    .array(
-      z.object({
-        metadata: zApiResourceMeta,
-        tenantId: z.string(),
-        versionId: z.string(),
-        name: z.string(),
-        description: z.string().optional(),
-        steps: z.array(
-          z.object({
-            metadata: zApiResourceMeta,
-            readableId: z.string(),
-            tenantId: z.string(),
-            jobId: z.string(),
-            action: z.string(),
-            timeout: z.string().optional(),
-            children: z.array(z.string()).optional(),
-            parents: z.array(z.string()).optional(),
-          }),
-        ),
-        timeout: z.string().optional(),
-      }),
-    )
-    .optional(),
-  tenantId: z.string(),
-});
-
 export const zWorkflowUpdateRequest = z.object({
   isPaused: z.boolean().optional(),
 });
@@ -475,12 +297,59 @@ export const zWorkflowConcurrency = z.object({
   getConcurrencyGroup: z.string(),
 });
 
-export const zWorkflowVersionMeta = z.object({
+export const zWorkflowVersionMeta: z.ZodTypeAny = z.object({
   metadata: zApiResourceMeta,
   version: z.string(),
   order: z.number().int(),
   workflowId: z.string(),
-  workflow: zWorkflow.optional(),
+  workflow: z
+    .object({
+      metadata: zApiResourceMeta,
+      name: z.string(),
+      description: z.string().optional(),
+      isPaused: z.boolean().optional(),
+      versions: z
+        .array(
+          z.lazy(() => {
+            return zWorkflowVersionMeta;
+          }),
+        )
+        .optional(),
+      tags: z
+        .array(
+          z.object({
+            name: z.string(),
+            color: z.string(),
+          }),
+        )
+        .optional(),
+      jobs: z
+        .array(
+          z.object({
+            metadata: zApiResourceMeta,
+            tenantId: z.string(),
+            versionId: z.string(),
+            name: z.string(),
+            description: z.string().optional(),
+            steps: z.array(
+              z.object({
+                metadata: zApiResourceMeta,
+                readableId: z.string(),
+                tenantId: z.string(),
+                jobId: z.string(),
+                action: z.string(),
+                timeout: z.string().optional(),
+                children: z.array(z.string()).optional(),
+                parents: z.array(z.string()).optional(),
+              }),
+            ),
+            timeout: z.string().optional(),
+          }),
+        )
+        .optional(),
+      tenantId: z.string(),
+    })
+    .optional(),
 });
 
 export const zWorkflowVersion = z.object({
@@ -490,7 +359,48 @@ export const zWorkflowVersion = z.object({
   workflowId: z.string(),
   sticky: z.string().optional(),
   defaultPriority: z.number().int().optional(),
-  workflow: zWorkflow.optional(),
+  workflow: z
+    .object({
+      metadata: zApiResourceMeta,
+      name: z.string(),
+      description: z.string().optional(),
+      isPaused: z.boolean().optional(),
+      versions: z.array(zWorkflowVersionMeta).optional(),
+      tags: z
+        .array(
+          z.object({
+            name: z.string(),
+            color: z.string(),
+          }),
+        )
+        .optional(),
+      jobs: z
+        .array(
+          z.object({
+            metadata: zApiResourceMeta,
+            tenantId: z.string(),
+            versionId: z.string(),
+            name: z.string(),
+            description: z.string().optional(),
+            steps: z.array(
+              z.object({
+                metadata: zApiResourceMeta,
+                readableId: z.string(),
+                tenantId: z.string(),
+                jobId: z.string(),
+                action: z.string(),
+                timeout: z.string().optional(),
+                children: z.array(z.string()).optional(),
+                parents: z.array(z.string()).optional(),
+              }),
+            ),
+            timeout: z.string().optional(),
+          }),
+        )
+        .optional(),
+      tenantId: z.string(),
+    })
+    .optional(),
   concurrency: zWorkflowConcurrency.optional(),
   triggers: z
     .object({
@@ -553,7 +463,43 @@ export const zWorkflowTag = z.object({
 
 export const zWorkflowList = z.object({
   metadata: zApiResourceMeta.optional(),
-  rows: z.array(zWorkflow).optional(),
+  rows: z
+    .array(
+      z.object({
+        metadata: zApiResourceMeta,
+        name: z.string(),
+        description: z.string().optional(),
+        isPaused: z.boolean().optional(),
+        versions: z.array(zWorkflowVersionMeta).optional(),
+        tags: z.array(zWorkflowTag).optional(),
+        jobs: z
+          .array(
+            z.object({
+              metadata: zApiResourceMeta,
+              tenantId: z.string(),
+              versionId: z.string(),
+              name: z.string(),
+              description: z.string().optional(),
+              steps: z.array(
+                z.object({
+                  metadata: zApiResourceMeta,
+                  readableId: z.string(),
+                  tenantId: z.string(),
+                  jobId: z.string(),
+                  action: z.string(),
+                  timeout: z.string().optional(),
+                  children: z.array(z.string()).optional(),
+                  parents: z.array(z.string()).optional(),
+                }),
+              ),
+              timeout: z.string().optional(),
+            }),
+          )
+          .optional(),
+        tenantId: z.string(),
+      }),
+    )
+    .optional(),
   pagination: zPaginationResponse.optional(),
 });
 
@@ -1408,321 +1354,7 @@ export const zWebhookWorkerListResponse = z.object({
   rows: z.array(zWebhookWorker).optional(),
 });
 
-export const zV1TaskSummaryList = z.object({
-  pagination: zPaginationResponse,
-  rows: z.array(
-    z.object({
-      metadata: zApiResourceMeta,
-      actionId: z.string().optional(),
-      retryCount: z.number().int().optional(),
-      attempt: z.number().int().optional(),
-      additionalMetadata: z.object({}).optional(),
-      children: z.array(z.object({})).optional(),
-      createdAt: z.string().datetime(),
-      displayName: z.string(),
-      duration: z.number().int().optional(),
-      errorMessage: z.string().optional(),
-      finishedAt: z.string().datetime().optional(),
-      input: z.object({}),
-      numSpawnedChildren: z.number().int(),
-      output: z.object({}),
-      status: z.enum(["QUEUED", "RUNNING", "COMPLETED", "CANCELLED", "FAILED"]),
-      startedAt: z.string().datetime().optional(),
-      stepId: z.string().uuid().length(36).optional(),
-      taskExternalId: z.string().uuid().length(36),
-      taskId: z.number().int(),
-      taskInsertedAt: z.string().datetime(),
-      tenantId: z.string().uuid().length(36),
-      type: z.enum(["DAG", "TASK"]),
-      workflowId: z.string().uuid(),
-      workflowName: z.string().optional(),
-      workflowRunExternalId: z.string().uuid(),
-      workflowVersionId: z.string().uuid().optional(),
-    }),
-  ),
-});
-
-export const zV1WorkflowRunDisplayNameList = z.object({
-  pagination: zPaginationResponse,
-  rows: z.array(
-    z.object({
-      metadata: zApiResourceMeta,
-      displayName: z.string(),
-    }),
-  ),
-});
-
-export const zV1TaskSummary = z.object({
-  metadata: zApiResourceMeta,
-  actionId: z.string().optional(),
-  retryCount: z.number().int().optional(),
-  attempt: z.number().int().optional(),
-  additionalMetadata: z.object({}).optional(),
-  children: z.array(z.object({})).optional(),
-  createdAt: z.string().datetime(),
-  displayName: z.string(),
-  duration: z.number().int().optional(),
-  errorMessage: z.string().optional(),
-  finishedAt: z.string().datetime().optional(),
-  input: z.object({}),
-  numSpawnedChildren: z.number().int(),
-  output: z.object({}),
-  status: z.enum(["QUEUED", "RUNNING", "COMPLETED", "CANCELLED", "FAILED"]),
-  startedAt: z.string().datetime().optional(),
-  stepId: z.string().uuid().length(36).optional(),
-  taskExternalId: z.string().uuid().length(36),
-  taskId: z.number().int(),
-  taskInsertedAt: z.string().datetime(),
-  tenantId: z.string().uuid().length(36),
-  type: z.enum(["DAG", "TASK"]),
-  workflowId: z.string().uuid(),
-  workflowName: z.string().optional(),
-  workflowRunExternalId: z.string().uuid(),
-  workflowVersionId: z.string().uuid().optional(),
-});
-
-export const zV1DagChildren = z.object({
-  dagId: z.string().uuid().optional(),
-  children: z.array(zV1TaskSummary).optional(),
-});
-
-export const zV1TaskEventList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z
-    .array(
-      z.object({
-        id: z.number().int(),
-        taskId: z.string().uuid(),
-        timestamp: z.string().datetime(),
-        eventType: z.enum([
-          "REQUEUED_NO_WORKER",
-          "REQUEUED_RATE_LIMIT",
-          "SCHEDULING_TIMED_OUT",
-          "ASSIGNED",
-          "STARTED",
-          "FINISHED",
-          "FAILED",
-          "RETRYING",
-          "CANCELLED",
-          "TIMED_OUT",
-          "REASSIGNED",
-          "SLOT_RELEASED",
-          "TIMEOUT_REFRESHED",
-          "RETRIED_BY_USER",
-          "SENT_TO_WORKER",
-          "RATE_LIMIT_ERROR",
-          "ACKNOWLEDGED",
-          "CREATED",
-          "QUEUED",
-          "SKIPPED",
-        ]),
-        message: z.string(),
-        errorMessage: z.string().optional(),
-        output: z.string().optional(),
-        workerId: z.string().uuid().optional(),
-        taskDisplayName: z.string().optional(),
-        retryCount: z.number().int().optional(),
-        attempt: z.number().int().optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zV1TaskStatus = z.enum(["QUEUED", "RUNNING", "COMPLETED", "CANCELLED", "FAILED"]);
-
-export const zV1TaskRunMetrics = z.array(
-  z.object({
-    status: zV1TaskStatus,
-    count: z.number().int(),
-  }),
-);
-
-export const zV1TaskPointMetric = z.object({
-  time: z.string().datetime(),
-  SUCCEEDED: z.number().int(),
-  FAILED: z.number().int(),
-});
-
-export const zV1TaskPointMetrics = z.object({
-  results: z.array(zV1TaskPointMetric).optional(),
-});
-
-export const zV1TaskFilter = z.object({
-  since: z.string().datetime(),
-  until: z.string().datetime().optional(),
-  statuses: z.array(zV1TaskStatus).optional(),
-  workflowIds: z.array(z.string().uuid()).optional(),
-  additionalMetadata: z.array(z.string()).optional(),
-});
-
-export const zV1CancelTaskRequest = z.object({
-  externalIds: z.array(z.string().uuid().length(36)).optional(),
-  filter: zV1TaskFilter.optional(),
-});
-
-export const zV1ReplayTaskRequest = z.object({
-  externalIds: z.array(z.string().uuid().length(36)).optional(),
-  filter: zV1TaskFilter.optional(),
-});
-
-export const zV1WorkflowRun = z.object({
-  metadata: zApiResourceMeta,
-  status: zV1TaskStatus,
-  startedAt: z.string().datetime().optional(),
-  finishedAt: z.string().datetime().optional(),
-  duration: z.number().int().optional(),
-  tenantId: z.string().uuid().length(36),
-  additionalMetadata: z.object({}).optional(),
-  displayName: z.string(),
-  workflowId: z.string().uuid(),
-  output: z.object({}),
-  errorMessage: z.string().optional(),
-  workflowVersionId: z.string().uuid().optional(),
-  input: z.object({}),
-  createdAt: z.string().datetime().optional(),
-  parentTaskExternalId: z.string().uuid().length(36).optional(),
-});
-
-export const zV1WorkflowRunDetails = z.object({
-  run: zV1WorkflowRun,
-  taskEvents: z.array(
-    z.object({
-      id: z.number().int(),
-      taskId: z.string().uuid(),
-      timestamp: z.string().datetime(),
-      eventType: z.enum([
-        "REQUEUED_NO_WORKER",
-        "REQUEUED_RATE_LIMIT",
-        "SCHEDULING_TIMED_OUT",
-        "ASSIGNED",
-        "STARTED",
-        "FINISHED",
-        "FAILED",
-        "RETRYING",
-        "CANCELLED",
-        "TIMED_OUT",
-        "REASSIGNED",
-        "SLOT_RELEASED",
-        "TIMEOUT_REFRESHED",
-        "RETRIED_BY_USER",
-        "SENT_TO_WORKER",
-        "RATE_LIMIT_ERROR",
-        "ACKNOWLEDGED",
-        "CREATED",
-        "QUEUED",
-        "SKIPPED",
-      ]),
-      message: z.string(),
-      errorMessage: z.string().optional(),
-      output: z.string().optional(),
-      workerId: z.string().uuid().optional(),
-      taskDisplayName: z.string().optional(),
-      retryCount: z.number().int().optional(),
-      attempt: z.number().int().optional(),
-    }),
-  ),
-  shape: z.array(
-    z.object({
-      taskExternalId: z.string().uuid().length(36),
-      stepId: z.string().uuid().length(36),
-      childrenStepIds: z.array(z.string().uuid().length(36)),
-      taskName: z.string(),
-    }),
-  ),
-  tasks: z.array(zV1TaskSummary),
-});
-
-export const zV1TaskRunStatus = z.enum(["PENDING", "RUNNING", "COMPLETED", "FAILED", "CANCELLED"]);
-
-export const zV1TriggerWorkflowRunRequest = z.object({
-  workflowName: z.string(),
-  input: z.object({}),
-  additionalMetadata: z.object({}).optional(),
-  priority: z.number().int().optional(),
-});
-
-export const zV1LogLine = z.object({
-  createdAt: z.string().datetime(),
-  message: z.string(),
-  metadata: z.object({}),
-  retryCount: z.number().int().optional(),
-  attempt: z.number().int().optional(),
-  level: z.enum(["DEBUG", "INFO", "WARN", "ERROR"]).optional(),
-});
-
-export const zV1LogLineLevel = z.enum(["DEBUG", "INFO", "WARN", "ERROR"]);
-
-export const zV1LogLineList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zV1LogLine).optional(),
-});
-
-export const zV1TaskTiming = z.object({
-  metadata: zApiResourceMeta,
-  depth: z.number().int(),
-  status: zV1TaskStatus,
-  taskDisplayName: z.string(),
-  taskExternalId: z.string().uuid().length(36),
-  taskId: z.number().int(),
-  taskInsertedAt: z.string().datetime(),
-  tenantId: z.string().uuid().length(36),
-  parentTaskExternalId: z.string().uuid().length(36).optional(),
-  queuedAt: z.string().datetime().optional(),
-  startedAt: z.string().datetime().optional(),
-  finishedAt: z.string().datetime().optional(),
-  workflowRunId: z.string().uuid().optional(),
-  retryCount: z.number().int().optional(),
-  attempt: z.number().int().optional(),
-});
-
-export const zV1TaskTimingList = z.object({
-  pagination: zPaginationResponse,
-  rows: z.array(zV1TaskTiming),
-});
-
-export const zV1CreateFilterRequest = z.object({
-  workflowId: z.string().uuid().length(36),
-  expression: z.string(),
-  scope: z.string(),
-  payload: z.object({}).optional(),
-});
-
 export const zTenantVersion = z.enum(["V0", "V1"]);
-
-export const zV1TaskEvent = z.object({
-  id: z.number().int(),
-  taskId: z.string().uuid(),
-  timestamp: z.string().datetime(),
-  eventType: z.enum([
-    "REQUEUED_NO_WORKER",
-    "REQUEUED_RATE_LIMIT",
-    "SCHEDULING_TIMED_OUT",
-    "ASSIGNED",
-    "STARTED",
-    "FINISHED",
-    "FAILED",
-    "RETRYING",
-    "CANCELLED",
-    "TIMED_OUT",
-    "REASSIGNED",
-    "SLOT_RELEASED",
-    "TIMEOUT_REFRESHED",
-    "RETRIED_BY_USER",
-    "SENT_TO_WORKER",
-    "RATE_LIMIT_ERROR",
-    "ACKNOWLEDGED",
-    "CREATED",
-    "QUEUED",
-    "SKIPPED",
-  ]),
-  message: z.string(),
-  errorMessage: z.string().optional(),
-  output: z.string().optional(),
-  workerId: z.string().uuid().optional(),
-  taskDisplayName: z.string().optional(),
-  retryCount: z.number().int().optional(),
-  attempt: z.number().int().optional(),
-});
 
 export const zApiResourceMetaProperties = z.object({
   metadata: zApiResourceMeta,
@@ -2457,6 +2089,7 @@ export const zBot = z.object({
     local_http_server_port: z.number().int(),
     adb_server_enabled: z.boolean(),
     adb_server_port: z.number().int().optional().default(5555),
+    hatchet_token: z.string(),
   }),
 });
 
@@ -2473,6 +2106,7 @@ export const zBotConfig = z.object({
   local_http_server_port: z.number().int(),
   adb_server_enabled: z.boolean(),
   adb_server_port: z.number().int().optional().default(5555),
+  hatchet_token: z.string(),
 });
 
 export const zBotLocalState = z.object({
@@ -2508,53 +2142,17 @@ export const zMobileHello = z.object({
   message: z.string().optional(),
 });
 
-export const zTriggerWorkflowRequest = z.object({
-  workflow: z.string(),
-  input: z.object({}),
+export const zEvent = z.object({
+  key: z.string(),
+  additionalMetadata: z.object({}),
 });
 
-export const zTriggerWorkflowResponse = z.object({
+export const zPushEventResponse = z.object({
   success: z.boolean(),
   error: z.object({}),
 });
 
-export const zV1TaskGetResponse = zV1TaskSummary;
-
-export const zV1TaskEventListResponse = zV1TaskEventList;
-
-export const zV1LogLineListResponse = zV1LogLineList;
-
-export const zV1DagListTasksResponse = z.array(zV1DagChildren);
-
-export const zV1WorkflowRunListResponse = zV1TaskSummaryList;
-
-export const zV1WorkflowRunDisplayNamesListResponse = zV1WorkflowRunDisplayNameList;
-
-export const zV1WorkflowRunCreateResponse = zV1WorkflowRunDetails;
-
-export const zV1WorkflowRunGetResponse = zV1WorkflowRunDetails;
-
-export const zV1WorkflowRunTaskEventsListResponse = zV1TaskEventList;
-
-export const zV1WorkflowRunGetTimingsResponse = zV1TaskTimingList;
-
-export const zV1TaskListStatusMetricsResponse = zV1TaskRunMetrics;
-
-export const zV1TaskGetPointMetricsResponse = zV1TaskPointMetrics;
-
-export const zV1EventListResponse = zV1EventList;
-
-export const zV1FilterListResponse = zV1FilterList;
-
-export const zV1FilterCreateResponse = zV1Filter;
-
-export const zV1FilterDeleteResponse = zV1Filter;
-
-export const zV1FilterGetResponse = zV1Filter;
-
 export const zMetadataGetResponse = zApiMeta;
-
-export const zCloudMetadataGetResponse = zApiErrors;
 
 export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
 
@@ -2612,113 +2210,15 @@ export const zApiTokenCreateResponse = zCreateApiTokenResponse;
 
 export const zApiTokenUpdateRevokeResponse = z.void();
 
-export const zTenantGetQueueMetricsResponse = zTenantQueueMetrics;
-
-export const zTenantGetStepRunQueueMetricsResponse = zTenantStepRunQueueMetrics;
-
-export const zEventListResponse = zEventList;
-
-export const zEventCreateResponse = zEvent;
-
-export const zEventCreateBulkResponse = zBulkCreateEventResponse;
-
-export const zEventUpdateReplayResponse = zEventList;
-
-export const zEventUpdateCancelResponse = z.object({
-  workflowRunIds: z.array(z.string().uuid().length(36)).optional(),
-});
-
-export const zRateLimitListResponse = zRateLimitList;
-
 export const zTenantMemberListResponse = zTenantMemberList;
 
 export const zTenantMemberDeleteResponse = zTenantMember;
 
-export const zEventGetResponse = zEvent;
-
-export const zEventDataGetResponse = zEventData;
-
-export const zEventKeyListResponse = zEventKeyList;
-
-export const zWorkflowListResponse = zWorkflowList;
-
-export const zScheduledWorkflowRunCreateResponse = zScheduledWorkflows;
-
-export const zWorkflowScheduledListResponse = zScheduledWorkflowsList;
-
-export const zWorkflowScheduledDeleteResponse = z.void();
-
-export const zWorkflowScheduledGetResponse = zScheduledWorkflows;
-
-export const zCronWorkflowTriggerCreateResponse = zCronWorkflows;
-
-export const zCronWorkflowListResponse = zCronWorkflowsList;
-
-export const zWorkflowCronDeleteResponse = z.void();
-
-export const zWorkflowCronGetResponse = zCronWorkflows;
-
-export const zWorkflowRunCancelResponse = z.object({
-  workflowRunIds: z.array(z.string().uuid().length(36)).optional(),
-});
-
-export const zWorkflowDeleteResponse = z.void();
-
-export const zWorkflowGetResponse = zWorkflow;
-
-export const zWorkflowUpdateResponse = zWorkflow;
-
-export const zWorkflowVersionGetResponse = zWorkflowVersion;
-
-export const zWorkflowRunCreateResponse = zWorkflowRun;
-
-export const zWorkflowGetMetricsResponse = zWorkflowMetrics;
-
-export const zLogLineListResponse = zLogLineList;
-
-export const zStepRunListEventsResponse = zStepRunEventList;
-
-export const zWorkflowRunListStepRunEventsResponse = zStepRunEventList;
-
-export const zStepRunListArchivesResponse = zStepRunArchiveList;
-
-export const zWorkflowGetWorkersCountResponse = zWorkflowWorkersCount;
-
-export const zWorkflowRunListResponse = zWorkflowRunList;
-
-export const zWorkflowRunUpdateReplayResponse = zReplayWorkflowRunsResponse;
-
-export const zWorkflowRunGetMetricsResponse = zWorkflowRunsMetrics;
-
-export const zWorkflowRunGetResponse = zWorkflowRun;
-
-export const zWorkflowRunGetShapeResponse = zWorkflowRunShape;
-
-export const zStepRunGetResponse = zStepRun;
-
-export const zStepRunUpdateRerunResponse = zStepRun;
-
-export const zStepRunUpdateCancelResponse = zStepRun;
-
-export const zStepRunGetSchemaResponse = z.object({});
-
-export const zWorkerListResponse = zWorkerList;
-
-export const zWorkerGetResponse = zWorker;
-
-export const zWorkerUpdateResponse = zWorker;
-
-export const zWebhookListResponse = zWebhookWorkerListResponse;
-
-export const zWebhookCreateResponse = zWebhookWorkerCreated;
-
-export const zWebhookRequestsListResponse = zWebhookWorkerRequestListResponse;
-
-export const zWorkflowRunGetInputResponse = z.object({});
-
 export const zInfoGetVersionResponse = z.object({
   version: z.string(),
 });
+
+export const zEventPushResponse = zPushEventResponse;
 
 export const zSiteListResponse = zSiteList;
 
@@ -2783,5 +2283,3 @@ export const zBotListResponse = zBotList;
 export const zBotGetResponse = zBot;
 
 export const zBotHeartbeatResponse = zBotConfig;
-
-export const zTriggerWorkflowResponse2 = zTriggerWorkflowResponse;

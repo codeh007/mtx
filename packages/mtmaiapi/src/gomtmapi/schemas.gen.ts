@@ -786,301 +786,6 @@ export const UpdateTenantRequestSchema = {
   type: "object",
 } as const;
 
-export const EventSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    key: {
-      type: "string",
-      description: "The key for the event.",
-    },
-    tenant: {
-      $ref: "#/components/schemas/Tenant",
-      description: "The tenant associated with this event.",
-    },
-    tenantId: {
-      type: "string",
-      description: "The ID of the tenant associated with this event.",
-    },
-    workflowRunSummary: {
-      $ref: "#/components/schemas/EventWorkflowRunSummary",
-      description: "The workflow run summary for this event.",
-    },
-    additionalMetadata: {
-      type: "object",
-      description: "Additional metadata for the event.",
-    },
-  },
-  required: ["metadata", "key", "tenantId"],
-} as const;
-
-export const EventDataSchema = {
-  properties: {
-    data: {
-      type: "string",
-      description: "The data for the event (JSON bytes).",
-    },
-  },
-  required: ["data"],
-} as const;
-
-export const CreateEventRequestSchema = {
-  properties: {
-    key: {
-      type: "string",
-      description: "The key for the event.",
-    },
-    data: {
-      type: "object",
-      description: "The data for the event.",
-    },
-    additionalMetadata: {
-      type: "object",
-      description: "Additional metadata for the event.",
-    },
-    priority: {
-      type: "integer",
-      description: "The priority of the event.",
-      format: "int32",
-    },
-    scope: {
-      type: "string",
-      description: "The scope for event filtering.",
-    },
-  },
-  required: ["key", "data"],
-} as const;
-
-export const BulkCreateEventRequestSchema = {
-  properties: {
-    events: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/CreateEventRequest",
-      },
-    },
-  },
-  required: ["events"],
-} as const;
-
-export const BulkCreateEventResponseSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    events: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Event",
-      },
-      description: "The events.",
-    },
-  },
-  required: ["metadata", "events"],
-} as const;
-
-export const EventWorkflowRunSummarySchema = {
-  properties: {
-    pending: {
-      type: "integer",
-      format: "int64",
-      description: "The number of pending runs.",
-    },
-    running: {
-      type: "integer",
-      format: "int64",
-      description: "The number of running runs.",
-    },
-    queued: {
-      type: "integer",
-      format: "int64",
-      description: "The number of queued runs.",
-    },
-    succeeded: {
-      type: "integer",
-      format: "int64",
-      description: "The number of succeeded runs.",
-    },
-    failed: {
-      type: "integer",
-      format: "int64",
-      description: "The number of failed runs.",
-    },
-    cancelled: {
-      type: "integer",
-      format: "int64",
-      description: "The number of cancelled runs.",
-    },
-  },
-} as const;
-
-export const EventOrderByFieldSchema = {
-  type: "string",
-  enum: ["createdAt"],
-} as const;
-
-export const EventOrderByDirectionSchema = {
-  type: "string",
-  enum: ["asc", "desc"],
-} as const;
-
-export const EventSearchSchema = {
-  type: "string",
-} as const;
-
-export const EventKeyListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/EventKey",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const EventKeySchema = {
-  type: "string",
-  description: "The key for the event.",
-} as const;
-
-export const WorkflowIDSchema = {
-  type: "string",
-  description: "A workflow ID.",
-} as const;
-
-export const EventListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Event",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const V1EventListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        properties: {
-          metadata: {
-            $ref: "#/components/schemas/APIResourceMeta",
-          },
-          key: {
-            type: "string",
-            description: "The key for the event.",
-          },
-          tenant: {
-            $ref: "#/components/schemas/Tenant",
-            description: "The tenant associated with this event.",
-          },
-          tenantId: {
-            type: "string",
-            description: "The ID of the tenant associated with this event.",
-          },
-          workflowRunSummary: {
-            description: "The workflow run summary for this event.",
-            properties: {
-              running: {
-                type: "integer",
-                format: "int64",
-                description: "The number of running runs.",
-              },
-              queued: {
-                type: "integer",
-                format: "int64",
-                description: "The number of queued runs.",
-              },
-              succeeded: {
-                type: "integer",
-                format: "int64",
-                description: "The number of succeeded runs.",
-              },
-              failed: {
-                type: "integer",
-                format: "int64",
-                description: "The number of failed runs.",
-              },
-              cancelled: {
-                type: "integer",
-                format: "int64",
-                description: "The number of cancelled runs.",
-              },
-            },
-            required: ["running", "queued", "succeeded", "failed", "cancelled"],
-          },
-          additionalMetadata: {
-            type: "object",
-            description: "Additional metadata for the event.",
-          },
-        },
-        required: ["metadata", "key", "tenantId", "workflowRunSummary"],
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const V1FilterListSchema = {
-  type: "object",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1Filter",
-      },
-    },
-  },
-} as const;
-
-export const V1FilterSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    tenantId: {
-      type: "string",
-      description: "The ID of the tenant associated with this filter.",
-    },
-    workflowId: {
-      type: "string",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-      description: "The workflow id associated with this filter.",
-    },
-    scope: {
-      type: "string",
-      description:
-        "The scope associated with this filter. Used for subsetting candidate filters at evaluation time",
-    },
-    expression: {
-      type: "string",
-      description: "The expression associated with this filter.",
-    },
-    payload: {
-      type: "object",
-      description: "Additional payload data associated with the filter",
-    },
-  },
-  required: ["metadata", "tenantId", "workflowId", "scope", "expression", "payload"],
-} as const;
-
 export const RateLimitSchema = {
   properties: {
     key: {
@@ -1137,84 +842,6 @@ export const RateLimitOrderByDirectionSchema = {
   enum: ["asc", "desc"],
 } as const;
 
-export const ReplayEventRequestSchema = {
-  properties: {
-    eventIds: {
-      type: "array",
-      items: {
-        type: "string",
-        example: "bb214807-246e-43a5-a25d-41761d1cff9e",
-        minLength: 36,
-        maxLength: 36,
-        format: "uuid",
-      },
-    },
-  },
-  required: ["eventIds"],
-} as const;
-
-export const CancelEventRequestSchema = {
-  properties: {
-    eventIds: {
-      type: "array",
-      items: {
-        type: "string",
-        example: "bb214807-246e-43a5-a25d-41761d1cff9e",
-        minLength: 36,
-        maxLength: 36,
-        format: "uuid",
-      },
-    },
-  },
-  required: ["eventIds"],
-} as const;
-
-export const WorkflowSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-      description: "The name of the workflow.",
-    },
-    description: {
-      type: "string",
-      description: "The description of the workflow.",
-    },
-    isPaused: {
-      type: "boolean",
-      description: "Whether the workflow is paused.",
-    },
-    versions: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/WorkflowVersionMeta",
-      },
-    },
-    tags: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/WorkflowTag",
-      },
-      description: "The tags of the workflow.",
-    },
-    jobs: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/Job",
-      },
-      description: "The jobs of the workflow.",
-    },
-    tenantId: {
-      type: "string",
-      description: "The tenant id of the workflow.",
-    },
-  },
-  required: ["metadata", "name", "tenantId"],
-  type: "object",
-} as const;
-
 export const WorkflowUpdateRequestSchema = {
   type: "object",
   properties: {
@@ -1264,7 +891,7 @@ export const WorkflowVersionMetaSchema = {
       type: "string",
     },
     workflow: {
-      $ref: "#/components/schemas/Workflow",
+      $ref: "#/components/schemas/WorkflowVersion/properties/workflow",
     },
   },
   required: ["metadata", "version", "order", "workflowId"],
@@ -1297,7 +924,49 @@ export const WorkflowVersionSchema = {
       description: "The default priority of the workflow.",
     },
     workflow: {
-      $ref: "#/components/schemas/Workflow",
+      properties: {
+        metadata: {
+          $ref: "#/components/schemas/APIResourceMeta",
+        },
+        name: {
+          type: "string",
+          description: "The name of the workflow.",
+        },
+        description: {
+          type: "string",
+          description: "The description of the workflow.",
+        },
+        isPaused: {
+          type: "boolean",
+          description: "Whether the workflow is paused.",
+        },
+        versions: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/WorkflowVersionMeta",
+          },
+        },
+        tags: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/WorkflowTag",
+          },
+          description: "The tags of the workflow.",
+        },
+        jobs: {
+          type: "array",
+          items: {
+            $ref: "#/components/schemas/Job",
+          },
+          description: "The jobs of the workflow.",
+        },
+        tenantId: {
+          type: "string",
+          description: "The tenant id of the workflow.",
+        },
+      },
+      required: ["metadata", "name", "tenantId"],
+      type: "object",
     },
     concurrency: {
       $ref: "#/components/schemas/WorkflowConcurrency",
@@ -1353,7 +1022,7 @@ export const WorkflowListSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/Workflow",
+        $ref: "#/components/schemas/WorkflowVersion/properties/workflow",
       },
     },
     pagination: {
@@ -3043,785 +2712,9 @@ export const WebhookWorkerListResponseSchema = {
   type: "object",
 } as const;
 
-export const V1TaskSummaryListSchema = {
-  type: "object",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskSummary",
-      },
-      description: "The list of tasks",
-    },
-  },
-  required: ["pagination", "rows"],
-} as const;
-
-export const V1WorkflowRunDisplayNameListSchema = {
-  type: "object",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        properties: {
-          metadata: {
-            $ref: "#/components/schemas/APIResourceMeta",
-          },
-          displayName: {
-            type: "string",
-          },
-        },
-        required: ["metadata", "displayName"],
-      },
-      description: "The list of display names",
-    },
-  },
-  required: ["pagination", "rows"],
-} as const;
-
-export const V1TaskSummarySchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    actionId: {
-      type: "string",
-      description: "The action ID of the task.",
-    },
-    retryCount: {
-      type: "integer",
-      description: "The number of retries of the task.",
-    },
-    attempt: {
-      type: "integer",
-      description: "The attempt number of the task.",
-    },
-    additionalMetadata: {
-      type: "object",
-      description: "Additional metadata for the task run.",
-    },
-    children: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: true,
-      },
-      description: "The list of children tasks",
-    },
-    createdAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task was created.",
-    },
-    displayName: {
-      type: "string",
-      description: "The display name of the task run.",
-    },
-    duration: {
-      type: "integer",
-      description: "The duration of the task run, in milliseconds.",
-    },
-    errorMessage: {
-      type: "string",
-      description: "The error message of the task run (for the latest run)",
-    },
-    finishedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run finished.",
-    },
-    input: {
-      type: "object",
-      "x-go-type": "openapi.NonNullableJSON",
-      "x-go-type-import": {
-        path: "github.com/hatchet-dev/hatchet/api/v1/server/oas",
-        name: "NonNullableJSON",
-      },
-      "x-nullable": false,
-      description: "The input of the task run.",
-    },
-    numSpawnedChildren: {
-      type: "integer",
-      description: "The number of spawned children tasks",
-    },
-    output: {
-      type: "object",
-      "x-go-type": "openapi.NonNullableJSON",
-      "x-go-type-import": {
-        path: "github.com/hatchet-dev/hatchet/api/v1/server/oas",
-        name: "NonNullableJSON",
-      },
-      "x-nullable": false,
-      description: "The output of the task run (for the latest run)",
-    },
-    status: {
-      $ref: "#/components/schemas/V1TaskStatus",
-    },
-    startedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run started.",
-    },
-    stepId: {
-      type: "string",
-      description: "The step ID of the task.",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-    },
-    taskExternalId: {
-      type: "string",
-      description: "The external ID of the task.",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-    },
-    taskId: {
-      type: "integer",
-      description: "The ID of the task.",
-    },
-    taskInsertedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task was inserted.",
-    },
-    tenantId: {
-      type: "string",
-      description: "The ID of the tenant.",
-      example: "bb214807-246e-43a5-a25d-41761d1cff9e",
-      minLength: 36,
-      maxLength: 36,
-      format: "uuid",
-    },
-    type: {
-      description: "The type of the workflow (whether it's a DAG or a task)",
-      type: "string",
-      enum: ["DAG", "TASK"],
-    },
-    workflowId: {
-      type: "string",
-      format: "uuid",
-    },
-    workflowName: {
-      type: "string",
-    },
-    workflowRunExternalId: {
-      type: "string",
-      format: "uuid",
-      description: "The external ID of the workflow run",
-    },
-    workflowVersionId: {
-      type: "string",
-      format: "uuid",
-      description: "The version ID of the workflow",
-    },
-  },
-  required: [
-    "metadata",
-    "createdAt",
-    "displayName",
-    "id",
-    "input",
-    "numSpawnedChildren",
-    "output",
-    "status",
-    "taskExternalId",
-    "taskId",
-    "taskInsertedAt",
-    "tenantId",
-    "type",
-    "workflowId",
-    "workflowRunExternalId",
-  ],
-} as const;
-
-export const V1DagChildrenSchema = {
-  type: "object",
-  properties: {
-    dagId: {
-      type: "string",
-      format: "uuid",
-    },
-    children: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskSummary",
-      },
-    },
-  },
-} as const;
-
-export const V1TaskEventListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/V1TaskEvent",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const V1TaskStatusSchema = {
-  type: "string",
-  enum: ["QUEUED", "RUNNING", "COMPLETED", "CANCELLED", "FAILED"],
-} as const;
-
-export const V1TaskRunMetricsSchema = {
-  type: "array",
-  items: {
-    type: "object",
-    properties: {
-      status: {
-        $ref: "#/components/schemas/V1TaskStatus",
-      },
-      count: {
-        type: "integer",
-      },
-    },
-    required: ["status", "count"],
-  },
-} as const;
-
-export const V1TaskPointMetricSchema = {
-  type: "object",
-  properties: {
-    time: {
-      type: "string",
-      format: "date-time",
-    },
-    SUCCEEDED: {
-      type: "integer",
-    },
-    FAILED: {
-      type: "integer",
-    },
-  },
-  required: ["time", "SUCCEEDED", "FAILED"],
-} as const;
-
-export const V1TaskPointMetricsSchema = {
-  type: "object",
-  properties: {
-    results: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskPointMetric",
-      },
-    },
-  },
-} as const;
-
-export const V1TaskFilterSchema = {
-  type: "object",
-  properties: {
-    since: {
-      type: "string",
-      format: "date-time",
-    },
-    until: {
-      type: "string",
-      format: "date-time",
-    },
-    statuses: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskStatus",
-      },
-    },
-    workflowIds: {
-      type: "array",
-      items: {
-        type: "string",
-        format: "uuid",
-      },
-    },
-    additionalMetadata: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["since"],
-} as const;
-
-export const V1CancelTaskRequestSchema = {
-  type: "object",
-  properties: {
-    externalIds: {
-      type: "array",
-      description:
-        "A list of external IDs, which can refer to either task or workflow run external IDs",
-      items: {
-        type: "string",
-        format: "uuid",
-        minLength: 36,
-        maxLength: 36,
-      },
-    },
-    filter: {
-      $ref: "#/components/schemas/V1TaskFilter",
-    },
-  },
-} as const;
-
-export const V1ReplayTaskRequestSchema = {
-  type: "object",
-  properties: {
-    externalIds: {
-      type: "array",
-      description:
-        "A list of external IDs, which can refer to either task or workflow run external IDs",
-      items: {
-        type: "string",
-        format: "uuid",
-        minLength: 36,
-        maxLength: 36,
-      },
-    },
-    filter: {
-      $ref: "#/components/schemas/V1TaskFilter",
-    },
-  },
-} as const;
-
-export const V1WorkflowRunSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    status: {
-      $ref: "#/components/schemas/V1TaskStatus",
-    },
-    startedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run started.",
-    },
-    finishedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run finished.",
-    },
-    duration: {
-      type: "integer",
-      description: "The duration of the task run, in milliseconds.",
-    },
-    tenantId: {
-      type: "string",
-      description: "The ID of the tenant.",
-      example: "bb214807-246e-43a5-a25d-41761d1cff9e",
-      minLength: 36,
-      maxLength: 36,
-      format: "uuid",
-    },
-    additionalMetadata: {
-      type: "object",
-      description: "Additional metadata for the task run.",
-    },
-    displayName: {
-      type: "string",
-      description: "The display name of the task run.",
-    },
-    workflowId: {
-      type: "string",
-      format: "uuid",
-    },
-    output: {
-      type: "object",
-      "x-go-type": "openapi.NonNullableJSON",
-      "x-go-type-import": {
-        path: "github.com/hatchet-dev/hatchet/api/v1/server/oas",
-        name: "NonNullableJSON",
-      },
-      "x-nullable": false,
-      description: "The output of the task run (for the latest run)",
-    },
-    errorMessage: {
-      type: "string",
-      description: "The error message of the task run (for the latest run)",
-    },
-    workflowVersionId: {
-      type: "string",
-      format: "uuid",
-      description: "The ID of the workflow version.",
-    },
-    input: {
-      type: "object",
-      "x-go-type": "openapi.NonNullableJSON",
-      "x-go-type-import": {
-        path: "github.com/hatchet-dev/hatchet/api/v1/server/oas",
-        name: "NonNullableJSON",
-      },
-      "x-nullable": false,
-      description: "The input of the task run.",
-    },
-    createdAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run was created.",
-    },
-    parentTaskExternalId: {
-      type: "string",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-    },
-  },
-  required: [
-    "metadata",
-    "id",
-    "status",
-    "tenantId",
-    "displayName",
-    "workflowId",
-    "output",
-    "input",
-  ],
-} as const;
-
-export const V1WorkflowRunDetailsSchema = {
-  properties: {
-    run: {
-      $ref: "#/components/schemas/V1WorkflowRun",
-    },
-    taskEvents: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskEvent",
-      },
-      description: "The list of task events for the workflow run",
-    },
-    shape: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          taskExternalId: {
-            type: "string",
-            format: "uuid",
-            minLength: 36,
-            maxLength: 36,
-          },
-          stepId: {
-            type: "string",
-            format: "uuid",
-            minLength: 36,
-            maxLength: 36,
-          },
-          childrenStepIds: {
-            type: "array",
-            items: {
-              type: "string",
-              format: "uuid",
-              minLength: 36,
-              maxLength: 36,
-            },
-          },
-          taskName: {
-            type: "string",
-          },
-        },
-        required: ["taskExternalId", "stepId", "childrenStepIds", "taskName"],
-      },
-    },
-    tasks: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskSummary",
-      },
-    },
-  },
-  required: ["run", "taskEvents", "shape", "tasks"],
-} as const;
-
-export const V1TaskRunStatusSchema = {
-  type: "string",
-  enum: ["PENDING", "RUNNING", "COMPLETED", "FAILED", "CANCELLED"],
-} as const;
-
-export const V1TriggerWorkflowRunRequestSchema = {
-  properties: {
-    workflowName: {
-      type: "string",
-      description: "The name of the workflow.",
-    },
-    input: {
-      type: "object",
-    },
-    additionalMetadata: {
-      type: "object",
-    },
-    priority: {
-      type: "integer",
-      description: "The priority of the workflow run.",
-    },
-  },
-  required: ["workflowName", "input"],
-} as const;
-
-export const V1LogLineSchema = {
-  properties: {
-    createdAt: {
-      type: "string",
-      format: "date-time",
-      description: "The creation date of the log line.",
-    },
-    message: {
-      type: "string",
-      description: "The log message.",
-    },
-    metadata: {
-      type: "object",
-      description: "The log metadata.",
-    },
-    retryCount: {
-      type: "integer",
-      description: "The retry count of the log line.",
-    },
-    attempt: {
-      type: "integer",
-      description: "The attempt number of the log line.",
-    },
-    level: {
-      $ref: "#/components/schemas/V1LogLineLevel",
-      description: "The log level.",
-    },
-  },
-  required: ["createdAt", "message", "metadata"],
-} as const;
-
-export const V1LogLineLevelSchema = {
-  type: "string",
-  enum: ["DEBUG", "INFO", "WARN", "ERROR"],
-} as const;
-
-export const V1LogLineListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/V1LogLine",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const V1TaskTimingSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    depth: {
-      type: "integer",
-      description: "The depth of the task in the waterfall.",
-    },
-    status: {
-      $ref: "#/components/schemas/V1TaskStatus",
-    },
-    taskDisplayName: {
-      type: "string",
-      description: "The display name of the task run.",
-    },
-    taskExternalId: {
-      type: "string",
-      description: "The external ID of the task.",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-    },
-    taskId: {
-      type: "integer",
-      description: "The ID of the task.",
-    },
-    taskInsertedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task was inserted.",
-    },
-    tenantId: {
-      type: "string",
-      description: "The ID of the tenant.",
-      example: "bb214807-246e-43a5-a25d-41761d1cff9e",
-      minLength: 36,
-      maxLength: 36,
-      format: "uuid",
-    },
-    parentTaskExternalId: {
-      type: "string",
-      description: "The external ID of the parent task.",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-    },
-    queuedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run was queued.",
-    },
-    startedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run started.",
-    },
-    finishedAt: {
-      type: "string",
-      format: "date-time",
-      description: "The timestamp the task run finished.",
-    },
-    workflowRunId: {
-      type: "string",
-      format: "uuid",
-      description: "The external ID of the workflow run.",
-    },
-    retryCount: {
-      type: "integer",
-      description: "The number of retries of the task.",
-    },
-    attempt: {
-      type: "integer",
-      description: "The attempt number of the task.",
-    },
-  },
-  required: [
-    "metadata",
-    "depth",
-    "status",
-    "taskDisplayName",
-    "taskExternalId",
-    "taskId",
-    "taskInsertedAt",
-    "tenantId",
-  ],
-} as const;
-
-export const V1TaskTimingListSchema = {
-  type: "object",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/V1TaskTiming",
-      },
-      description: "The list of task timings",
-    },
-  },
-  required: ["pagination", "rows"],
-} as const;
-
-export const V1CreateFilterRequestSchema = {
-  type: "object",
-  properties: {
-    workflowId: {
-      type: "string",
-      format: "uuid",
-      minLength: 36,
-      maxLength: 36,
-      description: "The workflow id",
-    },
-    expression: {
-      type: "string",
-      description: "The expression for the filter",
-    },
-    scope: {
-      type: "string",
-      description:
-        "The scope associated with this filter. Used for subsetting candidate filters at evaluation time",
-    },
-    payload: {
-      type: "object",
-      description: "The payload for the filter",
-    },
-  },
-  required: ["workflowId", "scope", "expression"],
-} as const;
-
 export const TenantVersionSchema = {
   enum: ["V0", "V1"],
   type: "string",
-} as const;
-
-export const V1TaskEventSchema = {
-  type: "object",
-  properties: {
-    id: {
-      type: "integer",
-    },
-    taskId: {
-      type: "string",
-      format: "uuid",
-    },
-    timestamp: {
-      type: "string",
-      format: "date-time",
-    },
-    eventType: {
-      type: "string",
-      enum: [
-        "REQUEUED_NO_WORKER",
-        "REQUEUED_RATE_LIMIT",
-        "SCHEDULING_TIMED_OUT",
-        "ASSIGNED",
-        "STARTED",
-        "FINISHED",
-        "FAILED",
-        "RETRYING",
-        "CANCELLED",
-        "TIMED_OUT",
-        "REASSIGNED",
-        "SLOT_RELEASED",
-        "TIMEOUT_REFRESHED",
-        "RETRIED_BY_USER",
-        "SENT_TO_WORKER",
-        "RATE_LIMIT_ERROR",
-        "ACKNOWLEDGED",
-        "CREATED",
-        "QUEUED",
-        "SKIPPED",
-      ],
-    },
-    message: {
-      type: "string",
-    },
-    errorMessage: {
-      type: "string",
-    },
-    output: {
-      type: "string",
-    },
-    workerId: {
-      type: "string",
-      format: "uuid",
-    },
-    taskDisplayName: {
-      type: "string",
-    },
-    retryCount: {
-      type: "integer",
-      description: "The number of retries of the task.",
-    },
-    attempt: {
-      type: "integer",
-      description: "The attempt number of the task.",
-    },
-  },
-  required: ["id", "taskId", "timestamp", "eventType", "message"],
 } as const;
 
 export const APIResourceMetaPropertiesSchema = {
@@ -5444,6 +4337,7 @@ export const BotConfigSchema = {
     "local_http_server_enabled",
     "local_http_server_port",
     "adb_server_enabled",
+    "hatchet_token",
   ],
   properties: {
     public_server: {
@@ -5467,6 +4361,9 @@ export const BotConfigSchema = {
     adb_server_port: {
       type: "integer",
       default: 5555,
+    },
+    hatchet_token: {
+      type: "string",
     },
   },
 } as const;
@@ -5563,22 +4460,21 @@ export const MobileHelloSchema = {
   },
 } as const;
 
-export const TriggerWorkflowRequestSchema = {
-  type: "object",
-  required: ["workflow", "input"],
+export const EventSchema = {
   properties: {
-    workflow: {
+    key: {
       type: "string",
-      description: "The name of the workflow to trigger",
+      description: "The key for the event.",
     },
-    input: {
+    additionalMetadata: {
       type: "object",
-      description: "The input to the workflow",
+      description: "Additional metadata for the event.",
     },
   },
+  required: ["key", "additionalMetadata"],
 } as const;
 
-export const TriggerWorkflowResponseSchema = {
+export const PushEventResponseSchema = {
   type: "object",
   required: ["success", "error"],
   properties: {
