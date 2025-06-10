@@ -13,15 +13,11 @@ import {
   userUpdateGithubOauthCallback,
   userUpdateSlackOauthStart,
   userUpdateSlackOauthCallback,
-  snsUpdate,
-  snsList,
-  snsCreate,
   alertEmailGroupList,
   alertEmailGroupCreate,
   tenantResourcePolicyGet,
   alertEmailGroupDelete,
   alertEmailGroupUpdate,
-  snsDelete,
   slackWebhookList,
   slackWebhookDelete,
   userGetCurrent,
@@ -100,12 +96,6 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  SnsUpdateData,
-  SnsUpdateError,
-  SnsListData,
-  SnsCreateData,
-  SnsCreateError,
-  SnsCreateResponse,
   AlertEmailGroupListData,
   AlertEmailGroupCreateData,
   AlertEmailGroupCreateError,
@@ -117,9 +107,6 @@ import type {
   AlertEmailGroupUpdateData,
   AlertEmailGroupUpdateError,
   AlertEmailGroupUpdateResponse,
-  SnsDeleteData,
-  SnsDeleteError,
-  SnsDeleteResponse,
   SlackWebhookListData,
   SlackWebhookDeleteData,
   SlackWebhookDeleteError,
@@ -499,92 +486,6 @@ export const userUpdateSlackOauthCallbackOptions = (
   });
 };
 
-export const snsUpdateQueryKey = (options: Options<SnsUpdateData>) =>
-  createQueryKey("snsUpdate", options);
-
-export const snsUpdateOptions = (options: Options<SnsUpdateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await snsUpdate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: snsUpdateQueryKey(options),
-  });
-};
-
-export const snsUpdateMutation = (options?: Partial<Options<SnsUpdateData>>) => {
-  const mutationOptions: UseMutationOptions<unknown, SnsUpdateError, Options<SnsUpdateData>> = {
-    mutationFn: async (localOptions) => {
-      const { data } = await snsUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const snsListQueryKey = (options: Options<SnsListData>) =>
-  createQueryKey("snsList", options);
-
-export const snsListOptions = (options: Options<SnsListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await snsList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: snsListQueryKey(options),
-  });
-};
-
-export const snsCreateQueryKey = (options: Options<SnsCreateData>) =>
-  createQueryKey("snsCreate", options);
-
-export const snsCreateOptions = (options: Options<SnsCreateData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await snsCreate({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: snsCreateQueryKey(options),
-  });
-};
-
-export const snsCreateMutation = (options?: Partial<Options<SnsCreateData>>) => {
-  const mutationOptions: UseMutationOptions<
-    SnsCreateResponse,
-    SnsCreateError,
-    Options<SnsCreateData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await snsCreate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const alertEmailGroupListQueryKey = (options: Options<AlertEmailGroupListData>) =>
   createQueryKey("alertEmailGroupList", options);
 
@@ -689,24 +590,6 @@ export const alertEmailGroupUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await alertEmailGroupUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const snsDeleteMutation = (options?: Partial<Options<SnsDeleteData>>) => {
-  const mutationOptions: UseMutationOptions<
-    SnsDeleteResponse,
-    SnsDeleteError,
-    Options<SnsDeleteData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await snsDelete({
         ...options,
         ...localOptions,
         throwOnError: true,

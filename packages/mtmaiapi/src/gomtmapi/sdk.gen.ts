@@ -19,14 +19,6 @@ import type {
   UserUpdateGithubOauthCallbackData,
   UserUpdateSlackOauthStartData,
   UserUpdateSlackOauthCallbackData,
-  SnsUpdateData,
-  SnsUpdateError,
-  SnsListData,
-  SnsListResponse,
-  SnsListError,
-  SnsCreateData,
-  SnsCreateResponse,
-  SnsCreateError,
   AlertEmailGroupListData,
   AlertEmailGroupListResponse,
   AlertEmailGroupListError,
@@ -42,9 +34,6 @@ import type {
   AlertEmailGroupUpdateData,
   AlertEmailGroupUpdateResponse,
   AlertEmailGroupUpdateError,
-  SnsDeleteData,
-  SnsDeleteResponse,
-  SnsDeleteError,
   SlackWebhookListData,
   SlackWebhookListResponse,
   SlackWebhookListError,
@@ -411,71 +400,6 @@ export const userUpdateSlackOauthCallback = <ThrowOnError extends boolean = fals
 };
 
 /**
- * Github app tenant webhook
- * SNS event
- */
-export const snsUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<SnsUpdateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<unknown, SnsUpdateError, ThrowOnError>({
-    url: "/api/v1/sns/{tenant}/{event}",
-    ...options,
-  });
-};
-
-/**
- * List SNS integrations
- * List SNS integrations
- */
-export const snsList = <ThrowOnError extends boolean = false>(
-  options: Options<SnsListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<SnsListResponse, SnsListError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/sns",
-    ...options,
-  });
-};
-
-/**
- * Create SNS integration
- * Create SNS integration
- */
-export const snsCreate = <ThrowOnError extends boolean = false>(
-  options: Options<SnsCreateData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<SnsCreateResponse, SnsCreateError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/sns",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * List tenant alert email groups
  * Gets a list of tenant alert email groups
  */
@@ -620,30 +544,6 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
-  });
-};
-
-/**
- * Delete SNS integration
- * Delete SNS integration
- */
-export const snsDelete = <ThrowOnError extends boolean = false>(
-  options: Options<SnsDeleteData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<SnsDeleteResponse, SnsDeleteError, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/sns/{sns}",
-    ...options,
   });
 };
 

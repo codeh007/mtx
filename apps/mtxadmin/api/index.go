@@ -11,7 +11,7 @@ import (
 	"net/http"
 
 	"github.com/codeh007/gomtm/mtm/server"
-	"github.com/pkg/errors"
+	"github.com/codeh007/gomtm/pkg/errors"
 )
 
 var serverApp *server.MtmBaseApp

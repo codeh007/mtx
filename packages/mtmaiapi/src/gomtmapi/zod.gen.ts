@@ -2158,10 +2158,6 @@ export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
 
 export const zUserUpdateLoginResponse = zUser;
 
-export const zSnsListResponse = zListSnsIntegrations;
-
-export const zSnsCreateResponse = zSnsIntegration;
-
 export const zAlertEmailGroupListResponse = zTenantAlertEmailGroupList;
 
 export const zAlertEmailGroupCreateResponse = zTenantAlertEmailGroup;
@@ -2171,8 +2167,6 @@ export const zTenantResourcePolicyGetResponse = zTenantResourcePolicy;
 export const zAlertEmailGroupDeleteResponse = z.void();
 
 export const zAlertEmailGroupUpdateResponse = zTenantAlertEmailGroup;
-
-export const zSnsDeleteResponse = z.void();
 
 export const zSlackWebhookListResponse = zListSlackWebhooks;
 
