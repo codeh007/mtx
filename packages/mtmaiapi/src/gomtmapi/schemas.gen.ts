@@ -161,7 +161,6 @@ export const PaginationResponseSchema = {
 } as const;
 
 export const APIResourceMetaSchema = {
-  type: "object",
   properties: {
     id: {
       type: "string",
@@ -343,12 +342,12 @@ export const TenantSchema = {
       description: "Whether to alert tenant members.",
     },
     version: {
-      $ref: "#/components/schemas/TenantVersion",
       description: "The version of the tenant.",
+      enum: ["V0", "V1"],
+      type: "string",
     },
   },
   required: ["metadata", "name", "slug", "version"],
-  type: "object",
 } as const;
 
 export const TenantMemberSchema = {
@@ -779,7 +778,7 @@ export const UpdateTenantRequestSchema = {
       },
     },
     version: {
-      $ref: "#/components/schemas/TenantVersion",
+      $ref: "#/components/schemas/Tenant/properties/version",
       description: "The version of the tenant.",
     },
   },
@@ -2712,73 +2711,6 @@ export const WebhookWorkerListResponseSchema = {
   type: "object",
 } as const;
 
-export const TenantVersionSchema = {
-  enum: ["V0", "V1"],
-  type: "string",
-} as const;
-
-export const Success200Schema = {
-  description: "操作成功",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIResourceMeta",
-      },
-    },
-  },
-} as const;
-
-export const Error400Schema = {
-  description: "请求错误",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
-    },
-  },
-} as const;
-
-export const Error403Schema = {
-  description: "权限不足",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
-    },
-  },
-} as const;
-
-export const Error404Schema = {
-  description: "资源不存在",
-  content: {
-    "application/json": {
-      schema: {
-        $ref: "#/components/schemas/APIErrors",
-      },
-    },
-  },
-} as const;
-
-export const SuccessWithSchemaSchema = {
-  description: "操作成功",
-  content: {
-    "application/json": {
-      schema: {
-        type: "object",
-        required: ["data"],
-        properties: {
-          data: {
-            type: "object",
-            description: "响应数据，具体结构由实际接口定义",
-          },
-        },
-      },
-    },
-  },
-} as const;
-
 export const APIResourceMetaPropertiesSchema = {
   required: ["metadata"],
   properties: {
@@ -2812,6 +2744,125 @@ export const TenantParameterSchema = {
   format: "uuid",
   minLength: 36,
   maxLength: 36,
+} as const;
+
+export const FrontendConfigSchema = {
+  properties: {
+    cookieAccessToken: {
+      type: "string",
+      description: "Cookie access token",
+    },
+    dashPath: {
+      type: "string",
+      description: "Dashboard path",
+    },
+    hotKeyDebug: {
+      type: "string",
+      description: "Hot key debug",
+    },
+    defaultTenantAccessToken: {
+      type: "string",
+      description: "实验性质，默认租户的access token",
+    },
+  },
+  required: ["cookieAccessToken", "dashPath", "hotKeyDebug", "defaultTenantAccessToken"],
+} as const;
+
+export const SiderbarConfigSchema = {
+  properties: {
+    logo: {
+      type: "string",
+      description: "logo",
+    },
+    sideritems: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DashSidebarItem",
+      },
+    },
+    other: {
+      oneOf: [
+        {
+          $ref: "#/components/schemas/FlowNames",
+        },
+        {
+          $ref: "#/components/schemas/AgentEventType",
+        },
+        {
+          $ref: "#/components/schemas/PlatformAccountList",
+        },
+        {
+          $ref: "#/components/schemas/Content",
+        },
+        {
+          $ref: "#/components/schemas/Part",
+        },
+        {
+          $ref: "#/components/schemas/AdkSessionList",
+        },
+        {
+          $ref: "#/components/schemas/AgentRunnerInput",
+        },
+        {
+          $ref: "#/components/schemas/AgentRunnerOutput",
+        },
+      ],
+    },
+  },
+} as const;
+
+export const DashSidebarItemSchema = {
+  properties: {
+    title: {
+      type: "string",
+      description: "名称",
+    },
+    url: {
+      type: "string",
+      description: "url 例如/login",
+    },
+    icon: {
+      type: "string",
+      description: "图标",
+    },
+    defaultExpanded: {
+      type: "boolean",
+      description: "默认展开",
+    },
+    adminOnly: {
+      type: "boolean",
+      description: "只允许超级管理员查看",
+    },
+    children: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/DashSidebarItemLeaf",
+      },
+    },
+  },
+  required: ["title", "url"],
+} as const;
+
+export const DashSidebarItemLeafSchema = {
+  properties: {
+    title: {
+      type: "string",
+      description: "名称",
+    },
+    url: {
+      type: "string",
+      description: "url 例如/login",
+    },
+    icon: {
+      type: "string",
+      description: "图标",
+    },
+    adminOnly: {
+      type: "boolean",
+      description: "只允许超级管理员查看",
+    },
+  },
+  required: ["title", "url"],
 } as const;
 
 export const ModelSchema = {
@@ -3175,125 +3226,6 @@ export const CreateSiteHostRequestSchema = {
 
 export const UpdateSiteHostRequestSchema = {
   $ref: "#/components/schemas/SiteHost",
-} as const;
-
-export const FrontendConfigSchema = {
-  properties: {
-    cookieAccessToken: {
-      type: "string",
-      description: "Cookie access token",
-    },
-    dashPath: {
-      type: "string",
-      description: "Dashboard path",
-    },
-    hotKeyDebug: {
-      type: "string",
-      description: "Hot key debug",
-    },
-    defaultTenantAccessToken: {
-      type: "string",
-      description: "实验性质，默认租户的access token",
-    },
-  },
-  required: ["cookieAccessToken", "dashPath", "hotKeyDebug", "defaultTenantAccessToken"],
-} as const;
-
-export const SiderbarConfigSchema = {
-  properties: {
-    logo: {
-      type: "string",
-      description: "logo",
-    },
-    sideritems: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/DashSidebarItem",
-      },
-    },
-    other: {
-      oneOf: [
-        {
-          $ref: "#/components/schemas/FlowNames",
-        },
-        {
-          $ref: "#/components/schemas/AgentEventType",
-        },
-        {
-          $ref: "#/components/schemas/PlatformAccountList",
-        },
-        {
-          $ref: "#/components/schemas/Content",
-        },
-        {
-          $ref: "#/components/schemas/Part",
-        },
-        {
-          $ref: "#/components/schemas/AdkSessionList",
-        },
-        {
-          $ref: "#/components/schemas/AgentRunnerInput",
-        },
-        {
-          $ref: "#/components/schemas/AgentRunnerOutput",
-        },
-      ],
-    },
-  },
-} as const;
-
-export const DashSidebarItemSchema = {
-  properties: {
-    title: {
-      type: "string",
-      description: "名称",
-    },
-    url: {
-      type: "string",
-      description: "url 例如/login",
-    },
-    icon: {
-      type: "string",
-      description: "图标",
-    },
-    defaultExpanded: {
-      type: "boolean",
-      description: "默认展开",
-    },
-    adminOnly: {
-      type: "boolean",
-      description: "只允许超级管理员查看",
-    },
-    children: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/DashSidebarItemLeaf",
-      },
-    },
-  },
-  required: ["title", "url"],
-} as const;
-
-export const DashSidebarItemLeafSchema = {
-  properties: {
-    title: {
-      type: "string",
-      description: "名称",
-    },
-    url: {
-      type: "string",
-      description: "url 例如/login",
-    },
-    icon: {
-      type: "string",
-      description: "图标",
-    },
-    adminOnly: {
-      type: "boolean",
-      description: "只允许超级管理员查看",
-    },
-  },
-  required: ["title", "url"],
 } as const;
 
 export const UpdateEndpointRequestSchema = {
@@ -4561,12 +4493,9 @@ export const ActionRegisterInstagramSchema = {
   },
 } as const;
 
-export const PAccountSchema = {
-  required: ["metadata", "username", "password", "email", "enabled"],
+export const PAccountPropertiesSchema = {
+  required: ["username", "password", "email", "enabled"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
     username: {
       type: "string",
     },
@@ -4580,6 +4509,17 @@ export const PAccountSchema = {
       type: "boolean",
     },
   },
+} as const;
+
+export const PAccountSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/PAccountProperties",
+    },
+  ],
 } as const;
 
 export const PAccountListSchema = {
@@ -4597,26 +4537,10 @@ export const PAccountListSchema = {
   },
 } as const;
 
-export const PAccountCreateRequestSchema = {
-  type: "object",
-  required: ["name", "type"],
-  properties: {
-    name: {
-      type: "string",
+export const PAccountCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PAccountProperties",
     },
-    type: {
-      type: "string",
-      enum: ["instagram"],
-    },
-  },
-} as const;
-
-export const PAccountCreateResponseSchema = {
-  type: "object",
-  required: ["id"],
-  properties: {
-    id: {
-      type: "string",
-    },
-  },
+  ],
 } as const;

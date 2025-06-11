@@ -82,6 +82,7 @@ import {
   type UseMutationOptions,
   infiniteQueryOptions,
   type InfiniteData,
+  type DefaultError,
 } from "@tanstack/react-query";
 import type {
   ReadinessGetData,
@@ -214,8 +215,7 @@ import type {
   BotHeartbeatError,
   BotHeartbeatResponse,
   PAccountCreateData,
-  PAccountCreateError,
-  PAccountCreateResponse2,
+  PAccountCreateResponse,
   PAccountListData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
@@ -2021,8 +2021,8 @@ export const pAccountCreateOptions = (options: Options<PAccountCreateData>) => {
 
 export const pAccountCreateMutation = (options?: Partial<Options<PAccountCreateData>>) => {
   const mutationOptions: UseMutationOptions<
-    PAccountCreateResponse2,
-    PAccountCreateError,
+    PAccountCreateResponse,
+    DefaultError,
     Options<PAccountCreateData>
   > = {
     mutationFn: async (localOptions) => {

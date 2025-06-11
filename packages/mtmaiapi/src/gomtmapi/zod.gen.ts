@@ -1354,18 +1354,6 @@ export const zWebhookWorkerListResponse = z.object({
   rows: z.array(zWebhookWorker).optional(),
 });
 
-export const zTenantVersion = z.enum(["V0", "V1"]);
-
-export const zSuccess200 = z.unknown();
-
-export const zError400 = z.unknown();
-
-export const zError403 = z.unknown();
-
-export const zError404 = z.unknown();
-
-export const zSuccessWithSchema = z.unknown();
-
 export const zApiResourceMetaProperties = z.object({
   metadata: zApiResourceMeta,
 });
@@ -1381,136 +1369,6 @@ export const zCommonResult = z.object({
 });
 
 export const zTenantParameter = z.string().uuid().length(36);
-
-export const zModel = zApiResourceMetaProperties.merge(
-  z.object({
-    name: z.string(),
-    model: z.string(),
-    provider: z.string(),
-    apiKey: z.string(),
-    apiBase: z.string(),
-    vendor: z.string(),
-    description: z.string().optional(),
-    family: z.string(),
-    vision: z.boolean(),
-    functionCalling: z.boolean(),
-    jsonOutput: z.boolean(),
-    tags: z.array(z.string()).optional(),
-  }),
-);
-
-export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
-
-export const zModelTypes = z.enum([
-  "OpenAIChatCompletionClient",
-  "AzureOpenAIChatCompletionClient",
-]);
-
-export const zModelProperties = z.object({
-  name: z.string(),
-  model: z.string(),
-  provider: z.string(),
-  apiKey: z.string(),
-  apiBase: z.string(),
-  vendor: z.string(),
-  description: z.string().optional(),
-  family: z.string(),
-  vision: z.boolean(),
-  functionCalling: z.boolean(),
-  jsonOutput: z.boolean(),
-  tags: z.array(z.string()).optional(),
-});
-
-export const zModelList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zModel).optional(),
-});
-
-export const zFormField = z.object({
-  type: z.enum(["text", "number", "boolean", "array", "object"]),
-  name: z.string(),
-  default_value: z.string().optional(),
-  label: z.string().optional(),
-  description: z.string().optional(),
-  required: z.boolean().optional(),
-  min: z.number().optional(),
-  max: z.number().optional(),
-  placeholder: z.string().optional(),
-});
-
-export const zSchemaForm = z.object({
-  form_type: z.enum(["schema", "custom"]).optional(),
-  form_name: z.string().optional(),
-  title: z.string(),
-  description: z.string().optional(),
-  layout: z.enum(["vertical", "horizontal"]).optional(),
-  fields: z.array(zFormField),
-});
-
-export const zModelRunProperties = z.object({
-  llmMessages: z.object({}).optional(),
-  llmResponse: z.object({}).optional(),
-});
-
-export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
-
-export const zModelRunList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zModelRun).optional(),
-});
-
-export const zModelRunUpsert = zModelRunProperties;
-
-export const zSiteProperties = z.object({
-  id: z.string(),
-  tenant_id: z.string(),
-  updated_at: z.string().optional(),
-  created_at: z.string().optional(),
-  enabled: z.boolean(),
-  title: z.string(),
-  description: z.string(),
-  automation_enabled: z.boolean(),
-  state: z.object({
-    status: z.string().optional(),
-  }),
-});
-
-export const zSite = zSiteProperties;
-
-export const zSiteList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zSite).optional(),
-});
-
-export const zCreateSiteRequest = z.object({
-  title: z.string(),
-  description: z.string(),
-  host: z.string().optional(),
-});
-
-export const zCreateSiteResponse = zSite;
-
-export const zUpdateSiteRequest = z.object({
-  title: z.string().optional(),
-});
-
-export const zSiteHostProperties = z.object({
-  id: z.string(),
-  title: z.string().optional(),
-  description: z.string().optional(),
-  host: z.string(),
-});
-
-export const zSiteHost = zSiteHostProperties;
-
-export const zSiteHostList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zSiteHost).optional(),
-});
-
-export const zCreateSiteHostRequest = zSiteHostProperties;
-
-export const zUpdateSiteHostRequest = zSiteHost;
 
 export const zFrontendConfig = z.object({
   cookieAccessToken: z.string(),
@@ -1673,6 +1531,136 @@ export const zDashSidebarItemLeaf = z.object({
   icon: z.string().optional(),
   adminOnly: z.boolean().optional(),
 });
+
+export const zModel = zApiResourceMetaProperties.merge(
+  z.object({
+    name: z.string(),
+    model: z.string(),
+    provider: z.string(),
+    apiKey: z.string(),
+    apiBase: z.string(),
+    vendor: z.string(),
+    description: z.string().optional(),
+    family: z.string(),
+    vision: z.boolean(),
+    functionCalling: z.boolean(),
+    jsonOutput: z.boolean(),
+    tags: z.array(z.string()).optional(),
+  }),
+);
+
+export const zModelFamily = z.enum(["r1", "openai", "unknown"]);
+
+export const zModelTypes = z.enum([
+  "OpenAIChatCompletionClient",
+  "AzureOpenAIChatCompletionClient",
+]);
+
+export const zModelProperties = z.object({
+  name: z.string(),
+  model: z.string(),
+  provider: z.string(),
+  apiKey: z.string(),
+  apiBase: z.string(),
+  vendor: z.string(),
+  description: z.string().optional(),
+  family: z.string(),
+  vision: z.boolean(),
+  functionCalling: z.boolean(),
+  jsonOutput: z.boolean(),
+  tags: z.array(z.string()).optional(),
+});
+
+export const zModelList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zModel).optional(),
+});
+
+export const zFormField = z.object({
+  type: z.enum(["text", "number", "boolean", "array", "object"]),
+  name: z.string(),
+  default_value: z.string().optional(),
+  label: z.string().optional(),
+  description: z.string().optional(),
+  required: z.boolean().optional(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  placeholder: z.string().optional(),
+});
+
+export const zSchemaForm = z.object({
+  form_type: z.enum(["schema", "custom"]).optional(),
+  form_name: z.string().optional(),
+  title: z.string(),
+  description: z.string().optional(),
+  layout: z.enum(["vertical", "horizontal"]).optional(),
+  fields: z.array(zFormField),
+});
+
+export const zModelRunProperties = z.object({
+  llmMessages: z.object({}).optional(),
+  llmResponse: z.object({}).optional(),
+});
+
+export const zModelRun = zApiResourceMetaProperties.merge(zModelRunProperties);
+
+export const zModelRunList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zModelRun).optional(),
+});
+
+export const zModelRunUpsert = zModelRunProperties;
+
+export const zSiteProperties = z.object({
+  id: z.string(),
+  tenant_id: z.string(),
+  updated_at: z.string().optional(),
+  created_at: z.string().optional(),
+  enabled: z.boolean(),
+  title: z.string(),
+  description: z.string(),
+  automation_enabled: z.boolean(),
+  state: z.object({
+    status: z.string().optional(),
+  }),
+});
+
+export const zSite = zSiteProperties;
+
+export const zSiteList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zSite).optional(),
+});
+
+export const zCreateSiteRequest = z.object({
+  title: z.string(),
+  description: z.string(),
+  host: z.string().optional(),
+});
+
+export const zCreateSiteResponse = zSite;
+
+export const zUpdateSiteRequest = z.object({
+  title: z.string().optional(),
+});
+
+export const zSiteHostProperties = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  host: z.string(),
+});
+
+export const zSiteHost = zSiteHostProperties;
+
+export const zSiteHostList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zSiteHost).optional(),
+});
+
+export const zCreateSiteHostRequest = zSiteHostProperties;
+
+export const zUpdateSiteHostRequest = zSiteHost;
 
 export const zUpdateEndpointRequest = z.object({
   name: z.string().optional(),
@@ -2168,27 +2156,21 @@ export const zActionRegisterInstagram = z.object({
   arg1: z.string(),
 });
 
-export const zPAccount = z.object({
-  metadata: zApiResourceMeta,
+export const zPAccountProperties = z.object({
   username: z.string(),
   password: z.string(),
   email: z.string(),
   enabled: z.boolean(),
 });
 
+export const zPAccount = zApiResourceMetaProperties.merge(zPAccountProperties);
+
 export const zPAccountList = z.object({
   pagination: zPaginationResponse,
   rows: z.array(zPAccount),
 });
 
-export const zPAccountCreateRequest = z.object({
-  name: z.string(),
-  type: z.enum(["instagram"]),
-});
-
-export const zPAccountCreateResponse = z.object({
-  id: z.string(),
-});
+export const zPAccountCreate = zPAccountProperties;
 
 export const zMetadataGetResponse = zApiMeta;
 
@@ -2314,6 +2296,6 @@ export const zBotGetResponse = zBot;
 
 export const zBotHeartbeatResponse = zBotConfig;
 
-export const zPAccountCreateResponse2 = zBotConfig;
+export const zPAccountCreateResponse = zPAccount;
 
 export const zPAccountListResponse = zPAccountList;

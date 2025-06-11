@@ -194,8 +194,7 @@ import type {
   BotHeartbeatResponse,
   BotHeartbeatError,
   PAccountCreateData,
-  PAccountCreateResponse2,
-  PAccountCreateError,
+  PAccountCreateResponse,
   PAccountListData,
   PAccountListResponse,
   PAccountListError,
@@ -1926,11 +1925,7 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
 export const pAccountCreate = <ThrowOnError extends boolean = false>(
   options: Options<PAccountCreateData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<
-    PAccountCreateResponse2,
-    PAccountCreateError,
-    ThrowOnError
-  >({
+  return (options.client ?? _heyApiClient).post<PAccountCreateResponse, unknown, ThrowOnError>({
     url: "/api/v1/tenants/{tenant}/p_account/create",
     ...options,
     headers: {

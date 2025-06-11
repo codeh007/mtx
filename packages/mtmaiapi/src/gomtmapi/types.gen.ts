@@ -211,7 +211,7 @@ export type Tenant = {
   /**
    * The version of the tenant.
    */
-  version: TenantVersion;
+  version: "V0" | "V1";
 };
 
 export type TenantMember = {
@@ -489,7 +489,7 @@ export type UpdateTenantRequest = {
   /**
    * The version of the tenant.
    */
-  version?: TenantVersion;
+  version?: Version;
 };
 
 export type RateLimit = {
@@ -1537,38 +1537,6 @@ export type WebhookWorkerListResponse = {
   rows?: Array<WebhookWorker>;
 };
 
-export type TenantVersion = "V0" | "V1";
-
-export const TenantVersion = {
-  V0: "V0",
-  V1: "V1",
-} as const;
-
-/**
- * 操作成功
- */
-export type Success200 = unknown;
-
-/**
- * 请求错误
- */
-export type Error400 = unknown;
-
-/**
- * 权限不足
- */
-export type Error403 = unknown;
-
-/**
- * 资源不存在
- */
-export type Error404 = unknown;
-
-/**
- * 操作成功
- */
-export type SuccessWithSchema = unknown;
-
 export type ApiResourceMetaProperties = {
   metadata: ApiResourceMeta;
 };
@@ -1580,6 +1548,85 @@ export type CommonResult = {
 };
 
 export type TenantParameter = string;
+
+export type FrontendConfig = {
+  /**
+   * Cookie access token
+   */
+  cookieAccessToken: string;
+  /**
+   * Dashboard path
+   */
+  dashPath: string;
+  /**
+   * Hot key debug
+   */
+  hotKeyDebug: string;
+  /**
+   * 实验性质，默认租户的access token
+   */
+  defaultTenantAccessToken: string;
+};
+
+export type SiderbarConfig = {
+  /**
+   * logo
+   */
+  logo?: string;
+  sideritems?: Array<DashSidebarItem>;
+  other?:
+    | FlowNames
+    | AgentEventType
+    | PlatformAccountList
+    | Content
+    | Part
+    | AdkSessionList
+    | AgentRunnerInput
+    | AgentRunnerOutput;
+};
+
+export type DashSidebarItem = {
+  /**
+   * 名称
+   */
+  title: string;
+  /**
+   * url 例如/login
+   */
+  url: string;
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 默认展开
+   */
+  defaultExpanded?: boolean;
+  /**
+   * 只允许超级管理员查看
+   */
+  adminOnly?: boolean;
+  children?: Array<DashSidebarItemLeaf>;
+};
+
+export type DashSidebarItemLeaf = {
+  /**
+   * 名称
+   */
+  title: string;
+  /**
+   * url 例如/login
+   */
+  url: string;
+  /**
+   * 图标
+   */
+  icon?: string;
+  /**
+   * 只允许超级管理员查看
+   */
+  adminOnly?: boolean;
+};
 
 export type Model = ApiResourceMetaProperties & ModelProperties;
 
@@ -1761,85 +1808,6 @@ export type SiteHostList = {
 export type CreateSiteHostRequest = SiteHostProperties;
 
 export type UpdateSiteHostRequest = SiteHost;
-
-export type FrontendConfig = {
-  /**
-   * Cookie access token
-   */
-  cookieAccessToken: string;
-  /**
-   * Dashboard path
-   */
-  dashPath: string;
-  /**
-   * Hot key debug
-   */
-  hotKeyDebug: string;
-  /**
-   * 实验性质，默认租户的access token
-   */
-  defaultTenantAccessToken: string;
-};
-
-export type SiderbarConfig = {
-  /**
-   * logo
-   */
-  logo?: string;
-  sideritems?: Array<DashSidebarItem>;
-  other?:
-    | FlowNames
-    | AgentEventType
-    | PlatformAccountList
-    | Content
-    | Part
-    | AdkSessionList
-    | AgentRunnerInput
-    | AgentRunnerOutput;
-};
-
-export type DashSidebarItem = {
-  /**
-   * 名称
-   */
-  title: string;
-  /**
-   * url 例如/login
-   */
-  url: string;
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 默认展开
-   */
-  defaultExpanded?: boolean;
-  /**
-   * 只允许超级管理员查看
-   */
-  adminOnly?: boolean;
-  children?: Array<DashSidebarItemLeaf>;
-};
-
-export type DashSidebarItemLeaf = {
-  /**
-   * 名称
-   */
-  title: string;
-  /**
-   * url 例如/login
-   */
-  url: string;
-  /**
-   * 图标
-   */
-  icon?: string;
-  /**
-   * 只允许超级管理员查看
-   */
-  adminOnly?: boolean;
-};
 
 export type UpdateEndpointRequest = {
   name?: string;
@@ -2452,27 +2420,21 @@ export type ActionRegisterInstagram = {
   arg1: string;
 };
 
-export type PAccount = {
-  metadata: ApiResourceMeta;
+export type PAccountProperties = {
   username: string;
   password: string;
   email: string;
   enabled: boolean;
 };
 
+export type PAccount = ApiResourceMetaProperties & PAccountProperties;
+
 export type PAccountList = {
   pagination: PaginationResponse;
   rows: Array<PAccount>;
 };
 
-export type PAccountCreateRequest = {
-  name: string;
-  type: "instagram";
-};
-
-export type PAccountCreateResponse = {
-  id: string;
-};
+export type PAccountCreate = PAccountProperties;
 
 export type ReadinessGetData = {
   body?: never;
@@ -4142,15 +4104,15 @@ export type PostListPublicData = {
 
 export type PostListPublicErrors = {
   /**
-   * A malformed or bad request
+   * 请求错误
    */
   400: ApiErrors;
   /**
-   * Forbidden
+   * 权限不足
    */
   403: ApiErrors;
   /**
-   * Not found
+   * 资源不存在
    */
   404: ApiErrors;
 };
@@ -4181,15 +4143,15 @@ export type PostGetData = {
 
 export type PostGetErrors = {
   /**
-   * A malformed or bad request
+   * 请求错误
    */
   400: ApiErrors;
   /**
-   * Forbidden
+   * 权限不足
    */
   403: ApiErrors;
   /**
-   * Not found
+   * 资源不存在
    */
   404: ApiErrors;
 };
@@ -4221,15 +4183,15 @@ export type PostListData = {
 
 export type PostListErrors = {
   /**
-   * A malformed or bad request
+   * 请求错误
    */
   400: ApiErrors;
   /**
-   * Forbidden
+   * 权限不足
    */
   403: ApiErrors;
   /**
-   * Not found
+   * 资源不存在
    */
   404: ApiErrors;
 };
@@ -4256,7 +4218,7 @@ export type PostCreateData = {
 
 export type PostCreateErrors = {
   /**
-   * A malformed or bad request
+   * 请求错误
    */
   400: ApiErrors;
   /**
@@ -4565,14 +4527,11 @@ export type BotListData = {
 };
 
 export type BotListErrors = {
-  /**
-   * 请求错误
-   */
   400: ApiErrors;
   /**
-   * 权限不足
+   * Forbidden
    */
-  403: ApiErrors;
+  403: ApiError;
 };
 
 export type BotListError = BotListErrors[keyof BotListErrors];
@@ -4595,14 +4554,8 @@ export type BotGetData = {
 };
 
 export type BotGetErrors = {
-  /**
-   * 请求错误
-   */
   400: ApiErrors;
-  /**
-   * 权限不足
-   */
-  403: ApiErrors;
+  403: ApiError;
 };
 
 export type BotGetError = BotGetErrors[keyof BotGetErrors];
@@ -4626,9 +4579,9 @@ export type BotHeartbeatErrors = {
    */
   400: ApiErrors;
   /**
-   * 权限不足
+   * Forbidden
    */
-  403: ApiErrors;
+  403: ApiError;
 };
 
 export type BotHeartbeatError = BotHeartbeatErrors[keyof BotHeartbeatErrors];
@@ -4640,7 +4593,7 @@ export type BotHeartbeatResponses = {
 export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
 
 export type PAccountCreateData = {
-  body?: BotLocalState;
+  body?: PAccountCreate;
   path: {
     /**
      * The tenant id
@@ -4651,24 +4604,11 @@ export type PAccountCreateData = {
   url: "/api/v1/tenants/{tenant}/p_account/create";
 };
 
-export type PAccountCreateErrors = {
-  /**
-   * 请求错误
-   */
-  400: ApiErrors;
-  /**
-   * 权限不足
-   */
-  403: ApiErrors;
-};
-
-export type PAccountCreateError = PAccountCreateErrors[keyof PAccountCreateErrors];
-
 export type PAccountCreateResponses = {
-  200: BotConfig;
+  200: PAccount;
 };
 
-export type PAccountCreateResponse2 = PAccountCreateResponses[keyof PAccountCreateResponses];
+export type PAccountCreateResponse = PAccountCreateResponses[keyof PAccountCreateResponses];
 
 export type PAccountListData = {
   body?: never;
@@ -4683,17 +4623,8 @@ export type PAccountListData = {
 };
 
 export type PAccountListErrors = {
-  /**
-   * 请求错误
-   */
   400: ApiErrors;
-  /**
-   * 权限不足
-   */
-  403: ApiErrors;
-  /**
-   * 资源不存在
-   */
+  403: ApiError;
   404: ApiErrors;
 };
 
