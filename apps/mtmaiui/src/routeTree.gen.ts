@@ -20,11 +20,11 @@ import { Route as SiteSiteIdIndexImport } from './routes/~site/~$siteId/~index'
 // Create Virtual Routes
 
 const WebviewRouteLazyImport = createFileRoute('/webview')()
-const TriggerRouteLazyImport = createFileRoute('/trigger')()
 const SiteRouteLazyImport = createFileRoute('/site')()
 const SingboxRouteLazyImport = createFileRoute('/singbox')()
 const SandboxRouteLazyImport = createFileRoute('/sandbox')()
 const ResourceRouteLazyImport = createFileRoute('/resource')()
+const EventsRouteLazyImport = createFileRoute('/events')()
 const DevpoolsRouteLazyImport = createFileRoute('/devpools')()
 const ChatRouteLazyImport = createFileRoute('/chat')()
 const AutomateRouteLazyImport = createFileRoute('/automate')()
@@ -43,12 +43,12 @@ const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
 const AdkSessionRouteLazyImport = createFileRoute('/adk/session')()
 const WebviewIndexLazyImport = createFileRoute('/webview/')()
-const TriggerIndexLazyImport = createFileRoute('/trigger/')()
 const SiteIndexLazyImport = createFileRoute('/site/')()
 const SingboxIndexLazyImport = createFileRoute('/singbox/')()
 const SandboxIndexLazyImport = createFileRoute('/sandbox/')()
 const ResourceIndexLazyImport = createFileRoute('/resource/')()
 const MttaskIndexLazyImport = createFileRoute('/mttask/')()
+const EventsIndexLazyImport = createFileRoute('/events/')()
 const DevpoolsIndexLazyImport = createFileRoute('/devpools/')()
 const ChatIndexLazyImport = createFileRoute('/chat/')()
 const AutomateIndexLazyImport = createFileRoute('/automate/')()
@@ -162,14 +162,6 @@ const WebviewRouteLazyRoute = WebviewRouteLazyImport.update({
   import('./routes/~webview/~route.lazy').then((d) => d.Route),
 )
 
-const TriggerRouteLazyRoute = TriggerRouteLazyImport.update({
-  id: '/trigger',
-  path: '/trigger',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~route.lazy').then((d) => d.Route),
-)
-
 const SiteRouteLazyRoute = SiteRouteLazyImport.update({
   id: '/site',
   path: '/site',
@@ -198,6 +190,14 @@ const ResourceRouteLazyRoute = ResourceRouteLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~resource/~route.lazy').then((d) => d.Route),
+)
+
+const EventsRouteLazyRoute = EventsRouteLazyImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/~events/~route.lazy').then((d) => d.Route),
 )
 
 const DevpoolsRouteLazyRoute = DevpoolsRouteLazyImport.update({
@@ -333,14 +333,6 @@ const WebviewIndexLazyRoute = WebviewIndexLazyImport.update({
   import('./routes/~webview/~index.lazy').then((d) => d.Route),
 )
 
-const TriggerIndexLazyRoute = TriggerIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => TriggerRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/~trigger/~index.lazy').then((d) => d.Route),
-)
-
 const SiteIndexLazyRoute = SiteIndexLazyImport.update({
   id: '/',
   path: '/',
@@ -377,6 +369,14 @@ const MttaskIndexLazyRoute = MttaskIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/~mttask/~index.lazy').then((d) => d.Route),
+)
+
+const EventsIndexLazyRoute = EventsIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EventsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/~events/~index.lazy').then((d) => d.Route),
 )
 
 const DevpoolsIndexLazyRoute = DevpoolsIndexLazyImport.update({
@@ -869,6 +869,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevpoolsRouteLazyImport
       parentRoute: typeof rootRoute
     }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/resource': {
       id: '/resource'
       path: '/resource'
@@ -895,13 +902,6 @@ declare module '@tanstack/react-router' {
       path: '/site'
       fullPath: '/site'
       preLoaderRoute: typeof SiteRouteLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/trigger': {
-      id: '/trigger'
-      path: '/trigger'
-      fullPath: '/trigger'
-      preLoaderRoute: typeof TriggerRouteLazyImport
       parentRoute: typeof rootRoute
     }
     '/webview': {
@@ -939,6 +939,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevpoolsIndexLazyImport
       parentRoute: typeof DevpoolsRouteLazyImport
     }
+    '/events/': {
+      id: '/events/'
+      path: '/'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexLazyImport
+      parentRoute: typeof EventsRouteLazyImport
+    }
     '/mttask/': {
       id: '/mttask/'
       path: '/mttask'
@@ -973,13 +980,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/site/'
       preLoaderRoute: typeof SiteIndexLazyImport
       parentRoute: typeof SiteRouteLazyImport
-    }
-    '/trigger/': {
-      id: '/trigger/'
-      path: '/'
-      fullPath: '/trigger/'
-      preLoaderRoute: typeof TriggerIndexLazyImport
-      parentRoute: typeof TriggerRouteLazyImport
     }
     '/webview/': {
       id: '/webview/'
@@ -1440,6 +1440,18 @@ const DevpoolsRouteLazyRouteChildren: DevpoolsRouteLazyRouteChildren = {
 const DevpoolsRouteLazyRouteWithChildren =
   DevpoolsRouteLazyRoute._addFileChildren(DevpoolsRouteLazyRouteChildren)
 
+interface EventsRouteLazyRouteChildren {
+  EventsIndexLazyRoute: typeof EventsIndexLazyRoute
+}
+
+const EventsRouteLazyRouteChildren: EventsRouteLazyRouteChildren = {
+  EventsIndexLazyRoute: EventsIndexLazyRoute,
+}
+
+const EventsRouteLazyRouteWithChildren = EventsRouteLazyRoute._addFileChildren(
+  EventsRouteLazyRouteChildren,
+)
+
 interface ResourceResIdPlatformaccountRouteLazyRouteChildren {
   ResourceResIdPlatformaccountIndexLazyRoute: typeof ResourceResIdPlatformaccountIndexLazyRoute
 }
@@ -1559,17 +1571,6 @@ const SiteRouteLazyRouteChildren: SiteRouteLazyRouteChildren = {
 const SiteRouteLazyRouteWithChildren = SiteRouteLazyRoute._addFileChildren(
   SiteRouteLazyRouteChildren,
 )
-
-interface TriggerRouteLazyRouteChildren {
-  TriggerIndexLazyRoute: typeof TriggerIndexLazyRoute
-}
-
-const TriggerRouteLazyRouteChildren: TriggerRouteLazyRouteChildren = {
-  TriggerIndexLazyRoute: TriggerIndexLazyRoute,
-}
-
-const TriggerRouteLazyRouteWithChildren =
-  TriggerRouteLazyRoute._addFileChildren(TriggerRouteLazyRouteChildren)
 
 interface WebviewRouteLazyRouteChildren {
   WebviewIndexLazyRoute: typeof WebviewIndexLazyRoute
@@ -1804,22 +1805,22 @@ export interface FileRoutesByFullPath {
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/devpools': typeof DevpoolsRouteLazyRouteWithChildren
+  '/events': typeof EventsRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/singbox': typeof SingboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/trigger': typeof TriggerRouteLazyRouteWithChildren
   '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/devpools/': typeof DevpoolsIndexLazyRoute
+  '/events/': typeof EventsIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
   '/singbox/': typeof SingboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
-  '/trigger/': typeof TriggerIndexLazyRoute
   '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -1883,12 +1884,12 @@ export interface FileRoutesByTo {
   '/automate': typeof AutomateIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/devpools': typeof DevpoolsIndexLazyRoute
+  '/events': typeof EventsIndexLazyRoute
   '/mttask': typeof MttaskIndexLazyRoute
   '/resource': typeof ResourceIndexLazyRoute
   '/sandbox': typeof SandboxIndexLazyRoute
   '/singbox': typeof SingboxIndexLazyRoute
   '/site': typeof SiteIndexLazyRoute
-  '/trigger': typeof TriggerIndexLazyRoute
   '/webview': typeof WebviewIndexLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
   '/proxy/new': typeof ProxyNewRouteLazyRoute
@@ -1934,22 +1935,22 @@ export interface FileRoutesById {
   '/automate': typeof AutomateRouteLazyRouteWithChildren
   '/chat': typeof ChatRouteLazyRouteWithChildren
   '/devpools': typeof DevpoolsRouteLazyRouteWithChildren
+  '/events': typeof EventsRouteLazyRouteWithChildren
   '/resource': typeof ResourceRouteLazyRouteWithChildren
   '/sandbox': typeof SandboxRouteLazyRouteWithChildren
   '/singbox': typeof SingboxRouteLazyRouteWithChildren
   '/site': typeof SiteRouteLazyRouteWithChildren
-  '/trigger': typeof TriggerRouteLazyRouteWithChildren
   '/webview': typeof WebviewRouteLazyRouteWithChildren
   '/envs/create': typeof EnvsCreateRoute
   '/automate/': typeof AutomateIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/devpools/': typeof DevpoolsIndexLazyRoute
+  '/events/': typeof EventsIndexLazyRoute
   '/mttask/': typeof MttaskIndexLazyRoute
   '/resource/': typeof ResourceIndexLazyRoute
   '/sandbox/': typeof SandboxIndexLazyRoute
   '/singbox/': typeof SingboxIndexLazyRoute
   '/site/': typeof SiteIndexLazyRoute
-  '/trigger/': typeof TriggerIndexLazyRoute
   '/webview/': typeof WebviewIndexLazyRoute
   '/adk/session': typeof AdkSessionRouteLazyRouteWithChildren
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
@@ -2014,22 +2015,22 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/devpools'
+    | '/events'
     | '/resource'
     | '/sandbox'
     | '/singbox'
     | '/site'
-    | '/trigger'
     | '/webview'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/devpools/'
+    | '/events/'
     | '/mttask'
     | '/resource/'
     | '/sandbox/'
     | '/singbox/'
     | '/site/'
-    | '/trigger/'
     | '/webview/'
     | '/adk/session'
     | '/auth/login'
@@ -2092,12 +2093,12 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/devpools'
+    | '/events'
     | '/mttask'
     | '/resource'
     | '/sandbox'
     | '/singbox'
     | '/site'
-    | '/trigger'
     | '/webview'
     | '/auth/register'
     | '/proxy/new'
@@ -2141,22 +2142,22 @@ export interface FileRouteTypes {
     | '/automate'
     | '/chat'
     | '/devpools'
+    | '/events'
     | '/resource'
     | '/sandbox'
     | '/singbox'
     | '/site'
-    | '/trigger'
     | '/webview'
     | '/envs/create'
     | '/automate/'
     | '/chat/'
     | '/devpools/'
+    | '/events/'
     | '/mttask/'
     | '/resource/'
     | '/sandbox/'
     | '/singbox/'
     | '/site/'
-    | '/trigger/'
     | '/webview/'
     | '/adk/session'
     | '/auth/login'
@@ -2220,11 +2221,11 @@ export interface RootRouteChildren {
   AutomateRouteLazyRoute: typeof AutomateRouteLazyRouteWithChildren
   ChatRouteLazyRoute: typeof ChatRouteLazyRouteWithChildren
   DevpoolsRouteLazyRoute: typeof DevpoolsRouteLazyRouteWithChildren
+  EventsRouteLazyRoute: typeof EventsRouteLazyRouteWithChildren
   ResourceRouteLazyRoute: typeof ResourceRouteLazyRouteWithChildren
   SandboxRouteLazyRoute: typeof SandboxRouteLazyRouteWithChildren
   SingboxRouteLazyRoute: typeof SingboxRouteLazyRouteWithChildren
   SiteRouteLazyRoute: typeof SiteRouteLazyRouteWithChildren
-  TriggerRouteLazyRoute: typeof TriggerRouteLazyRouteWithChildren
   WebviewRouteLazyRoute: typeof WebviewRouteLazyRouteWithChildren
   EnvsCreateRoute: typeof EnvsCreateRoute
   MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
@@ -2244,11 +2245,11 @@ const rootRouteChildren: RootRouteChildren = {
   AutomateRouteLazyRoute: AutomateRouteLazyRouteWithChildren,
   ChatRouteLazyRoute: ChatRouteLazyRouteWithChildren,
   DevpoolsRouteLazyRoute: DevpoolsRouteLazyRouteWithChildren,
+  EventsRouteLazyRoute: EventsRouteLazyRouteWithChildren,
   ResourceRouteLazyRoute: ResourceRouteLazyRouteWithChildren,
   SandboxRouteLazyRoute: SandboxRouteLazyRouteWithChildren,
   SingboxRouteLazyRoute: SingboxRouteLazyRouteWithChildren,
   SiteRouteLazyRoute: SiteRouteLazyRouteWithChildren,
-  TriggerRouteLazyRoute: TriggerRouteLazyRouteWithChildren,
   WebviewRouteLazyRoute: WebviewRouteLazyRouteWithChildren,
   EnvsCreateRoute: EnvsCreateRoute,
   MttaskIndexLazyRoute: MttaskIndexLazyRoute,
@@ -2282,11 +2283,11 @@ export const routeTree = rootRoute
         "/automate",
         "/chat",
         "/devpools",
+        "/events",
         "/resource",
         "/sandbox",
         "/singbox",
         "/site",
-        "/trigger",
         "/webview",
         "/envs/create",
         "/mttask/",
@@ -2330,6 +2331,12 @@ export const routeTree = rootRoute
         "/devpools/dev"
       ]
     },
+    "/events": {
+      "filePath": "~events/~route.lazy.tsx",
+      "children": [
+        "/events/"
+      ]
+    },
     "/resource": {
       "filePath": "~resource/~route.lazy.tsx",
       "children": [
@@ -2359,12 +2366,6 @@ export const routeTree = rootRoute
         "/site/new/"
       ]
     },
-    "/trigger": {
-      "filePath": "~trigger/~route.lazy.tsx",
-      "children": [
-        "/trigger/"
-      ]
-    },
     "/webview": {
       "filePath": "~webview/~route.lazy.tsx",
       "children": [
@@ -2386,6 +2387,10 @@ export const routeTree = rootRoute
       "filePath": "~devpools/~index.lazy.tsx",
       "parent": "/devpools"
     },
+    "/events/": {
+      "filePath": "~events/~index.lazy.tsx",
+      "parent": "/events"
+    },
     "/mttask/": {
       "filePath": "~mttask/~index.lazy.tsx"
     },
@@ -2404,10 +2409,6 @@ export const routeTree = rootRoute
     "/site/": {
       "filePath": "~site/~index.lazy.tsx",
       "parent": "/site"
-    },
-    "/trigger/": {
-      "filePath": "~trigger/~index.lazy.tsx",
-      "parent": "/trigger"
     },
     "/webview/": {
       "filePath": "~webview/~index.lazy.tsx",
