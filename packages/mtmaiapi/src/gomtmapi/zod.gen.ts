@@ -2172,6 +2172,119 @@ export const zPAccountList = z.object({
 
 export const zPAccountCreate = zPAccountProperties;
 
+export const zAlbum = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  description: z.string().optional(),
+  coverPhotoId: z.string().uuid().optional(),
+  coverPhotoUrl: z.string().url().optional(),
+  photosCount: z.number().int().optional().default(0),
+  isPrivate: z.boolean().optional().default(false),
+  ownerId: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  shareUrl: z.string().url().optional(),
+  shareExpiresAt: z.string().datetime().optional(),
+});
+
+export const zPhoto = z.object({
+  id: z.string().uuid(),
+  filename: z.string(),
+  url: z.string().url(),
+  thumbnailUrl: z.string().url().optional(),
+  size: z.number().int().optional(),
+  width: z.number().int().optional(),
+  height: z.number().int().optional(),
+  mimeType: z.string().optional(),
+  description: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  metadata: z.object({}).optional(),
+  location: z
+    .object({
+      latitude: z.number().optional(),
+      longitude: z.number().optional(),
+      name: z.string().optional(),
+    })
+    .optional(),
+  takenAt: z.string().datetime().optional(),
+  ownerId: z.string().uuid(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
+  albums: z
+    .array(
+      z.object({
+        id: z.string().uuid().optional(),
+        name: z.string().optional(),
+      }),
+    )
+    .optional(),
+  faceDetection: z
+    .array(
+      z.object({
+        x: z.number().int().optional(),
+        y: z.number().int().optional(),
+        width: z.number().int().optional(),
+        height: z.number().int().optional(),
+        personId: z.string().uuid().optional(),
+        personName: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zAlbumList = z.array(zAlbum);
+
+export const zPhotoList = z.array(zPhoto);
+
+export const zCreateAlbumRequest = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  isPrivate: z.boolean().optional().default(false),
+});
+
+export const zUpdateAlbumRequest = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  isPrivate: z.boolean().optional(),
+  coverPhotoId: z.string().uuid().optional(),
+});
+
+export const zUploadPhotoRequest = z.object({
+  photos: z.array(z.string()),
+  albumId: z.string().uuid().optional(),
+  metadata: z
+    .array(
+      z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+        location: z
+          .object({
+            latitude: z.number().optional(),
+            longitude: z.number().optional(),
+            name: z.string().optional(),
+          })
+          .optional(),
+        takenAt: z.string().datetime().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zUpdatePhotoRequest = z.object({
+  filename: z.string().optional(),
+  description: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  location: z
+    .object({
+      latitude: z.number().optional(),
+      longitude: z.number().optional(),
+      name: z.string().optional(),
+    })
+    .optional(),
+  takenAt: z.string().datetime().optional(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
@@ -2269,6 +2382,85 @@ export const zPostGetResponse = zPost;
 export const zPostListResponse = zPostList;
 
 export const zPostCreateResponse = zPost;
+
+export const zGetAlbumsResponse = z.object({
+  data: z.array(zAlbum).optional(),
+  pagination: z
+    .object({
+      total: z.number().int().optional(),
+      page: z.number().int().optional(),
+      pageSize: z.number().int().optional(),
+    })
+    .optional(),
+});
+
+export const zCreateAlbumResponse = zAlbum;
+
+export const zDeleteAlbumResponse = z.void();
+
+export const zGetAlbumResponse = zAlbum;
+
+export const zUpdateAlbumResponse = zAlbum;
+
+export const zGetAlbumPhotosResponse = z.object({
+  data: z.array(zPhoto).optional(),
+  pagination: z
+    .object({
+      total: z.number().int().optional(),
+      page: z.number().int().optional(),
+      pageSize: z.number().int().optional(),
+    })
+    .optional(),
+});
+
+export const zAddPhotosToAlbumResponse = z.object({
+  addedPhotos: z.array(zPhoto).optional(),
+});
+
+export const zRemovePhotoFromAlbumResponse = z.void();
+
+export const zGetPhotosResponse = z.object({
+  data: z.array(zPhoto).optional(),
+  pagination: z
+    .object({
+      total: z.number().int().optional(),
+      page: z.number().int().optional(),
+      pageSize: z.number().int().optional(),
+    })
+    .optional(),
+});
+
+export const zUploadPhotosResponse = z.object({
+  uploadedPhotos: z.array(zPhoto).optional(),
+});
+
+export const zDeletePhotoResponse = z.void();
+
+export const zGetPhotoResponse = zPhoto;
+
+export const zUpdatePhotoResponse = zPhoto;
+
+export const zGetPhotoTagsResponse = z.object({
+  tags: z
+    .array(
+      z.object({
+        name: z.string().optional(),
+        count: z.number().int().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const zSearchPhotosResponse = z.object({
+  data: z.array(zPhoto).optional(),
+  pagination: z
+    .object({
+      total: z.number().int().optional(),
+      page: z.number().int().optional(),
+      pageSize: z.number().int().optional(),
+    })
+    .optional(),
+});
 
 export const zArtifactListResponse = zArtifactList;
 

@@ -4544,3 +4544,417 @@ export const PAccountCreateSchema = {
     },
   ],
 } as const;
+
+export const AlbumSchema = {
+  type: "object",
+  description: "Album object that represents a collection of photos",
+  required: ["id", "name", "createdAt", "updatedAt", "ownerId"],
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+      description: "Unique identifier for the album",
+    },
+    name: {
+      type: "string",
+      description: "Name of the album",
+    },
+    description: {
+      type: "string",
+      description: "Description of the album content",
+      nullable: true,
+    },
+    coverPhotoId: {
+      type: "string",
+      format: "uuid",
+      description: "ID of the photo used as album cover",
+      nullable: true,
+    },
+    coverPhotoUrl: {
+      type: "string",
+      format: "uri",
+      description: "URL of the album cover photo",
+      nullable: true,
+    },
+    photosCount: {
+      type: "integer",
+      description: "Number of photos in the album",
+      default: 0,
+    },
+    isPrivate: {
+      type: "boolean",
+      description: "Whether the album is private or public",
+      default: false,
+    },
+    ownerId: {
+      type: "string",
+      format: "uuid",
+      description: "ID of the album owner",
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the album was created",
+    },
+    updatedAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the album was last updated",
+    },
+    shareUrl: {
+      type: "string",
+      format: "uri",
+      description: "URL for sharing the album (if shared)",
+      nullable: true,
+    },
+    shareExpiresAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the share link expires (if applicable)",
+      nullable: true,
+    },
+  },
+} as const;
+
+export const PhotoSchema = {
+  type: "object",
+  description: "Photo object that represents an image file in the system",
+  required: ["id", "filename", "url", "createdAt", "updatedAt", "ownerId"],
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+      description: "Unique identifier for the photo",
+    },
+    filename: {
+      type: "string",
+      description: "Name of the photo file",
+    },
+    url: {
+      type: "string",
+      format: "uri",
+      description: "URL to access the full-sized photo",
+    },
+    thumbnailUrl: {
+      type: "string",
+      format: "uri",
+      description: "URL to access the thumbnail version of the photo",
+      nullable: true,
+    },
+    size: {
+      type: "integer",
+      description: "File size in bytes",
+    },
+    width: {
+      type: "integer",
+      description: "Image width in pixels",
+      nullable: true,
+    },
+    height: {
+      type: "integer",
+      description: "Image height in pixels",
+      nullable: true,
+    },
+    mimeType: {
+      type: "string",
+      description: "MIME type of the file (e.g., image/jpeg, image/png)",
+    },
+    description: {
+      type: "string",
+      description: "User-provided description of the photo",
+      nullable: true,
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      description: "List of tags associated with the photo",
+      nullable: true,
+    },
+    metadata: {
+      type: "object",
+      additionalProperties: true,
+      description: "Photo metadata from EXIF or other sources",
+      nullable: true,
+    },
+    location: {
+      type: "object",
+      properties: {
+        latitude: {
+          type: "number",
+          format: "float",
+          description: "Latitude coordinate of where the photo was taken",
+        },
+        longitude: {
+          type: "number",
+          format: "float",
+          description: "Longitude coordinate of where the photo was taken",
+        },
+        name: {
+          type: "string",
+          description: "Human-readable location name",
+        },
+      },
+      description: "Geographic location where the photo was taken",
+      nullable: true,
+    },
+    takenAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the photo was taken (from EXIF data or user input)",
+      nullable: true,
+    },
+    ownerId: {
+      type: "string",
+      format: "uuid",
+      description: "ID of the photo owner",
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the photo was uploaded to the system",
+    },
+    updatedAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the photo information was last updated",
+    },
+    albums: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+            format: "uuid",
+          },
+          name: {
+            type: "string",
+          },
+        },
+      },
+      description: "List of albums this photo belongs to",
+      nullable: true,
+    },
+    faceDetection: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          x: {
+            type: "integer",
+            description: "X coordinate of the face rectangle",
+          },
+          y: {
+            type: "integer",
+            description: "Y coordinate of the face rectangle",
+          },
+          width: {
+            type: "integer",
+            description: "Width of the face rectangle",
+          },
+          height: {
+            type: "integer",
+            description: "Height of the face rectangle",
+          },
+          personId: {
+            type: "string",
+            format: "uuid",
+            nullable: true,
+            description: "ID of the identified person if recognized",
+          },
+          personName: {
+            type: "string",
+            nullable: true,
+            description: "Name of the identified person if recognized",
+          },
+        },
+      },
+      description: "Face detection results if enabled",
+      nullable: true,
+    },
+  },
+} as const;
+
+export const AlbumListSchema = {
+  type: "array",
+  description: "List of album objects",
+  items: {
+    $ref: "#/components/schemas/Album",
+  },
+} as const;
+
+export const PhotoListSchema = {
+  type: "array",
+  description: "List of photo objects",
+  items: {
+    $ref: "#/components/schemas/Photo",
+  },
+} as const;
+
+export const CreateAlbumRequestSchema = {
+  type: "object",
+  description: "Request body for creating a new album",
+  required: ["name"],
+  properties: {
+    name: {
+      type: "string",
+      description: "Name of the album",
+    },
+    description: {
+      type: "string",
+      description: "Description of the album content",
+      nullable: true,
+    },
+    isPrivate: {
+      type: "boolean",
+      description: "Whether the album is private or public",
+      default: false,
+    },
+  },
+} as const;
+
+export const UpdateAlbumRequestSchema = {
+  type: "object",
+  description: "Request body for updating an existing album",
+  properties: {
+    name: {
+      type: "string",
+      description: "Name of the album",
+    },
+    description: {
+      type: "string",
+      description: "Description of the album content",
+      nullable: true,
+    },
+    isPrivate: {
+      type: "boolean",
+      description: "Whether the album is private or public",
+    },
+    coverPhotoId: {
+      type: "string",
+      format: "uuid",
+      description: "ID of the photo to use as album cover",
+      nullable: true,
+    },
+  },
+} as const;
+
+export const UploadPhotoRequestSchema = {
+  type: "object",
+  description: "Request body for uploading photos",
+  required: ["photos"],
+  properties: {
+    photos: {
+      type: "array",
+      items: {
+        type: "string",
+        format: "binary",
+      },
+      description: "Photo files to upload",
+    },
+    albumId: {
+      type: "string",
+      format: "uuid",
+      description: "Album ID to add photos to (optional)",
+      nullable: true,
+    },
+    metadata: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+            description: "Photo title",
+          },
+          description: {
+            type: "string",
+            description: "Photo description",
+          },
+          tags: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+            description: "Photo tags",
+          },
+          location: {
+            type: "object",
+            properties: {
+              latitude: {
+                type: "number",
+                format: "float",
+                description: "Latitude coordinate of where the photo was taken",
+              },
+              longitude: {
+                type: "number",
+                format: "float",
+                description: "Longitude coordinate of where the photo was taken",
+              },
+              name: {
+                type: "string",
+                description: "Human-readable location name",
+              },
+            },
+            description: "Geographic location where the photo was taken",
+          },
+          takenAt: {
+            type: "string",
+            format: "date-time",
+            description: "When the photo was taken",
+          },
+        },
+      },
+      description: "Metadata for each uploaded photo, must match the order of the photos array",
+    },
+  },
+} as const;
+
+export const UpdatePhotoRequestSchema = {
+  type: "object",
+  description: "Request body for updating photo information",
+  properties: {
+    filename: {
+      type: "string",
+      description: "Photo filename",
+    },
+    description: {
+      type: "string",
+      description: "Photo description",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      description: "Photo tags",
+    },
+    location: {
+      type: "object",
+      properties: {
+        latitude: {
+          type: "number",
+          format: "float",
+          description: "Latitude coordinate of where the photo was taken",
+        },
+        longitude: {
+          type: "number",
+          format: "float",
+          description: "Longitude coordinate of where the photo was taken",
+        },
+        name: {
+          type: "string",
+          description: "Human-readable location name",
+        },
+      },
+      description: "Geographic location where the photo was taken",
+    },
+    takenAt: {
+      type: "string",
+      format: "date-time",
+      description: "When the photo was taken",
+    },
+  },
+} as const;
