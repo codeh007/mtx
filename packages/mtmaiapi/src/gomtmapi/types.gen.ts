@@ -2400,6 +2400,12 @@ export type Event = {
    */
   key: string;
   /**
+   * The input for the event.
+   */
+  input?: {
+    [key: string]: unknown;
+  };
+  /**
    * Additional metadata for the event.
    */
   additionalMetadata: {

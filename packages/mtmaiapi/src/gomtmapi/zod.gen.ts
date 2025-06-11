@@ -2144,6 +2144,7 @@ export const zMobileHello = z.object({
 
 export const zEvent = z.object({
   key: z.string(),
+  input: z.object({}).optional(),
   additionalMetadata: z.object({}),
 });
 

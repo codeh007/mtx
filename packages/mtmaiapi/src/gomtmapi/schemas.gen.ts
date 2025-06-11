@@ -4461,17 +4461,21 @@ export const MobileHelloSchema = {
 } as const;
 
 export const EventSchema = {
+  required: ["key", "additionalMetadata"],
   properties: {
     key: {
       type: "string",
       description: "The key for the event.",
+    },
+    input: {
+      type: "object",
+      description: "The input for the event.",
     },
     additionalMetadata: {
       type: "object",
       description: "Additional metadata for the event.",
     },
   },
-  required: ["key", "additionalMetadata"],
 } as const;
 
 export const PushEventResponseSchema = {

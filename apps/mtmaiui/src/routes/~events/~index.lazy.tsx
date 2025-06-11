@@ -17,13 +17,14 @@ function RouteComponent() {
         onClick={() =>
           eventPush.mutate({
             body: {
-              name: "123",
+              key: "123",
               input: {},
+              additionalMetadata: {},
             },
           })
         }
       >
-        运行工作流
+        测试：推送事件(触发工作流的运行)
       </Button>
     </div>
   );
