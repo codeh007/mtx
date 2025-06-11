@@ -1,7 +1,7 @@
 import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute(
-  '/platform-account/$platformAccountId/actions',
+  '/paccount/$pAccountId/actions',
 )({
   component: RouteComponent,
 })

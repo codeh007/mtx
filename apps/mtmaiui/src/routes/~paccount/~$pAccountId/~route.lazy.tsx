@@ -4,9 +4,7 @@ import { CustomLink } from "mtxuilib/mt/CustomLink";
 import { Separator } from "mtxuilib/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "mtxuilib/ui/tabs";
 import { PlatformAccountDetailHeader } from "./headers";
-export const Route = createLazyFileRoute(
-  "/platform-account/$platformAccountId",
-)({
+export const Route = createLazyFileRoute("/paccount/$pAccountId")({
   component: RouteComponent,
 });
 

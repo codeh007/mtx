@@ -1,19 +1,18 @@
 "use client";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { platformAccountGetOptions, platformAccountUpsertMutation } from "mtmaiapi";
-// import { zPlatformAccountUpsert } from "mtmaiapi/gomtmapi/zod.gen";
+import { pAccountListOptions } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
-import { ZForm, ZFormToolbar, useZodFormV2 } from "mtxuilib/mt/form/ZodForm";
+import { ZForm, ZFormToolbar } from "mtxuilib/mt/form/ZodForm";
 import { JsonObjectInput } from "mtxuilib/mt/inputs/JsonObjectInput";
 import { TagsInput } from "mtxuilib/mt/inputs/TagsInput";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "mtxuilib/ui/form";
 import { Input } from "mtxuilib/ui/input";
 import { useToast } from "mtxuilib/ui/use-toast";
-import { useEffect } from "react";
 import { useTenantId } from "../../../hooks/useAuth";
 import { ProxySelect } from "../../~proxy/ProxySelect";
-export const Route = createLazyFileRoute("/platform-account/$platformAccountId/")({
+import form from "next/form";
+export const Route = createLazyFileRoute("/paccount/$pAccountId/")({
   component: RouteComponent,
 });
 
@@ -22,41 +21,44 @@ function RouteComponent() {
   const tid = useTenantId();
   const toast = useToast();
   const query = useSuspenseQuery({
-    ...platformAccountGetOptions({
+    ...pAccountListOptions({
+      // path: {
+      //   tenant: tid,
+      //   platform_account: platformAccountId,
+      // },
       path: {
         tenant: tid,
-        platform_account: platformAccountId,
       },
     }),
   });
 
-  const updatePlatformAccountMutation = useMutation({
-    ...platformAccountUpsertMutation(),
-    onSuccess: () => {
-      toast.toast({
-        title: "操作成功",
-      });
-    },
-  });
-  const form = useZodFormV2({
-    schema: zPlatformAccountUpsert,
-    defaultValues: query.data,
-    toastValidateError: true,
-    handleSubmit: (values) => {
-      updatePlatformAccountMutation.mutate({
-        path: {
-          tenant: tid!,
-          platform_account: platformAccountId,
-        },
-        body: values,
-      });
-    },
-  });
-  useEffect(() => {
-    if (query.data) {
-      form.form.reset(query.data);
-    }
-  }, [query.data, form.form]);
+  // const updatePlatformAccountMutation = useMutation({
+  //   ...platformAccountUpsertMutation(),
+  //   onSuccess: () => {
+  //     toast.toast({
+  //       title: "操作成功",
+  //     });
+  //   },
+  // });
+  // const form = useZodFormV2({
+  //   schema: zPlatformAccountUpsert,
+  //   defaultValues: query.data,
+  //   toastValidateError: true,
+  //   handleSubmit: (values) => {
+  //     updatePlatformAccountMutation.mutate({
+  //       path: {
+  //         tenant: tid!,
+  //         platform_account: platformAccountId,
+  //       },
+  //       body: values,
+  //     });
+  //   },
+  // });
+  // useEffect(() => {
+  //   if (query.data) {
+  //     form.form.reset(query.data);
+  //   }
+  // }, [query.data, form.form]);
 
   return (
     <>

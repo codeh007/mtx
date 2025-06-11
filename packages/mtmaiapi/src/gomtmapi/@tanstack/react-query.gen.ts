@@ -75,6 +75,7 @@ import {
   botGet,
   botHeartbeat,
   pAccountCreate,
+  pAccountList,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -215,6 +216,7 @@ import type {
   PAccountCreateData,
   PAccountCreateError,
   PAccountCreateResponse2,
+  PAccountListData,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -1999,10 +2001,10 @@ export const botHeartbeatMutation = (options?: Partial<Options<BotHeartbeatData>
   return mutationOptions;
 };
 
-export const pAccountCreateQueryKey = (options?: Options<PAccountCreateData>) =>
+export const pAccountCreateQueryKey = (options: Options<PAccountCreateData>) =>
   createQueryKey("pAccountCreate", options);
 
-export const pAccountCreateOptions = (options?: Options<PAccountCreateData>) => {
+export const pAccountCreateOptions = (options: Options<PAccountCreateData>) => {
   return queryOptions({
     queryFn: async ({ queryKey, signal }) => {
       const { data } = await pAccountCreate({
@@ -2033,4 +2035,22 @@ export const pAccountCreateMutation = (options?: Partial<Options<PAccountCreateD
     },
   };
   return mutationOptions;
+};
+
+export const pAccountListQueryKey = (options: Options<PAccountListData>) =>
+  createQueryKey("pAccountList", options);
+
+export const pAccountListOptions = (options: Options<PAccountListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await pAccountList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: pAccountListQueryKey(options),
+  });
 };

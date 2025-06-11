@@ -2,7 +2,6 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { Download, Play, Save } from "lucide-react";
-import { FlowNames } from "mtmaiapi";
 import { DashHeaders, HeaderActionConainer } from "mtxuilib/mt/DashContent";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "mtxuilib/ui/breadcrumb";
 import { Button } from "mtxuilib/ui/button";
@@ -15,7 +14,7 @@ interface PlatformAccountDetailHeaderProps {
 export function PlatformAccountDetailHeader({ id }: PlatformAccountDetailHeaderProps) {
   const tid = useTenantId();
   const workflowRun = useMutation({
-    ...workflowRunCreateMutation(),
+    // ...workflowRunCreateMutation(),
   });
 
   return (
@@ -82,17 +81,17 @@ export function PlatformAccountDetailHeader({ id }: PlatformAccountDetailHeaderP
               <Button
                 size="default"
                 onClick={() => {
-                  workflowRun.mutate({
-                    path: {
-                      workflow: FlowNames.PLATFORM_ACCOUNT,
-                    },
-                    body: {
-                      input: {
-                        type: "PlatformAccountFlowInput",
-                        platform_account_id: id,
-                      } satisfies PlatformAccountFlowInput,
-                    },
-                  });
+                  // workflowRun.mutate({
+                  //   path: {
+                  //     workflow: FlowNames.PLATFORM_ACCOUNT,
+                  //   },
+                  //   body: {
+                  //     input: {
+                  //       type: "PlatformAccountFlowInput",
+                  //       platform_account_id: id,
+                  //     } satisfies PlatformAccountFlowInput,
+                  //   },
+                  // });
                 }}
               >
                 <Play className="size-4" />

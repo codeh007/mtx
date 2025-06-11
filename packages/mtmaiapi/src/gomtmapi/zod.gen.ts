@@ -1362,6 +1362,8 @@ export const zError400 = z.unknown();
 
 export const zError403 = z.unknown();
 
+export const zError404 = z.unknown();
+
 export const zSuccessWithSchema = z.unknown();
 
 export const zApiResourceMetaProperties = z.object({
@@ -2166,6 +2168,19 @@ export const zActionRegisterInstagram = z.object({
   arg1: z.string(),
 });
 
+export const zPAccount = z.object({
+  metadata: zApiResourceMeta,
+  username: z.string(),
+  password: z.string(),
+  email: z.string(),
+  enabled: z.boolean(),
+});
+
+export const zPAccountList = z.object({
+  pagination: zPaginationResponse,
+  rows: z.array(zPAccount),
+});
+
 export const zPAccountCreateRequest = z.object({
   name: z.string(),
   type: z.enum(["instagram"]),
@@ -2300,3 +2315,5 @@ export const zBotGetResponse = zBot;
 export const zBotHeartbeatResponse = zBotConfig;
 
 export const zPAccountCreateResponse2 = zBotConfig;
+
+export const zPAccountListResponse = zPAccountList;

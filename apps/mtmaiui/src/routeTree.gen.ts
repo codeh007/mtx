@@ -38,6 +38,9 @@ const ResourceNewRouteLazyImport = createFileRoute('/resource/new')()
 const ResourceResIdRouteLazyImport = createFileRoute('/resource/$resId')()
 const ProxyNewRouteLazyImport = createFileRoute('/proxy/new')()
 const ProxyProxyIdRouteLazyImport = createFileRoute('/proxy/$proxyId')()
+const PaccountPAccountIdRouteLazyImport = createFileRoute(
+  '/paccount/$pAccountId',
+)()
 const DevpoolsDevRouteLazyImport = createFileRoute('/devpools/dev')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginRouteLazyImport = createFileRoute('/auth/login')()
@@ -76,8 +79,8 @@ const ResourceResIdPlatformaccountRouteLazyImport = createFileRoute(
 const ProxyProxyIdActionsRouteLazyImport = createFileRoute(
   '/proxy/$proxyId/actions',
 )()
-const PlatformAccountPlatformAccountIdActionsRouteLazyImport = createFileRoute(
-  '/platform-account/$platformAccountId/actions',
+const PaccountPAccountIdActionsRouteLazyImport = createFileRoute(
+  '/paccount/$pAccountId/actions',
 )()
 const DevpoolsDevDeviceIdRouteLazyImport = createFileRoute(
   '/devpools/dev/$deviceId',
@@ -94,6 +97,9 @@ const WorkflowRunsWorkflowRunIdIndexLazyImport = createFileRoute(
 const SiteNewIndexLazyImport = createFileRoute('/site/new/')()
 const ResourceResIdIndexLazyImport = createFileRoute('/resource/$resId/')()
 const ProxyProxyIdIndexLazyImport = createFileRoute('/proxy/$proxyId/')()
+const PaccountPAccountIdIndexLazyImport = createFileRoute(
+  '/paccount/$pAccountId/',
+)()
 const DevpoolsDevIndexLazyImport = createFileRoute('/devpools/dev/')()
 const ChatSessionIdIndexLazyImport = createFileRoute('/chat/$sessionId/')()
 const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
@@ -135,8 +141,8 @@ const ResourceResIdPlatformaccountIndexLazyImport = createFileRoute(
 const ProxyProxyIdActionsIndexLazyImport = createFileRoute(
   '/proxy/$proxyId/actions/',
 )()
-const PlatformAccountPlatformAccountIdActionsIndexLazyImport = createFileRoute(
-  '/platform-account/$platformAccountId/actions/',
+const PaccountPAccountIdActionsIndexLazyImport = createFileRoute(
+  '/paccount/$pAccountId/actions/',
 )()
 const AgentsAgentSessionIdIndexLazyImport = createFileRoute(
   '/agents/$agent/$sessionId/',
@@ -292,6 +298,15 @@ const ProxyProxyIdRouteLazyRoute = ProxyProxyIdRouteLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~proxy/~$proxyId/~route.lazy').then((d) => d.Route),
 )
+
+const PaccountPAccountIdRouteLazyRoute =
+  PaccountPAccountIdRouteLazyImport.update({
+    id: '/paccount/$pAccountId',
+    path: '/paccount/$pAccountId',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/~paccount/~$pAccountId/~route.lazy').then((d) => d.Route),
+  )
 
 const DevpoolsDevRouteLazyRoute = DevpoolsDevRouteLazyImport.update({
   id: '/dev',
@@ -495,15 +510,15 @@ const ProxyProxyIdActionsRouteLazyRoute =
     ),
   )
 
-const PlatformAccountPlatformAccountIdActionsRouteLazyRoute =
-  PlatformAccountPlatformAccountIdActionsRouteLazyImport.update({
-    id: '/platform-account/$platformAccountId/actions',
-    path: '/platform-account/$platformAccountId/actions',
-    getParentRoute: () => rootRoute,
+const PaccountPAccountIdActionsRouteLazyRoute =
+  PaccountPAccountIdActionsRouteLazyImport.update({
+    id: '/actions',
+    path: '/actions',
+    getParentRoute: () => PaccountPAccountIdRouteLazyRoute,
   } as any).lazy(() =>
-    import(
-      './routes/~platform-account/~$platformAccountId/~actions/~route.lazy'
-    ).then((d) => d.Route),
+    import('./routes/~paccount/~$pAccountId/~actions/~route.lazy').then(
+      (d) => d.Route,
+    ),
   )
 
 const DevpoolsDevDeviceIdRouteLazyRoute =
@@ -573,6 +588,15 @@ const ProxyProxyIdIndexLazyRoute = ProxyProxyIdIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/~proxy/~$proxyId/~index.lazy').then((d) => d.Route),
 )
+
+const PaccountPAccountIdIndexLazyRoute =
+  PaccountPAccountIdIndexLazyImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PaccountPAccountIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/~paccount/~$pAccountId/~index.lazy').then((d) => d.Route),
+  )
 
 const DevpoolsDevIndexLazyRoute = DevpoolsDevIndexLazyImport.update({
   id: '/',
@@ -762,15 +786,15 @@ const ProxyProxyIdActionsIndexLazyRoute =
     ),
   )
 
-const PlatformAccountPlatformAccountIdActionsIndexLazyRoute =
-  PlatformAccountPlatformAccountIdActionsIndexLazyImport.update({
+const PaccountPAccountIdActionsIndexLazyRoute =
+  PaccountPAccountIdActionsIndexLazyImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => PlatformAccountPlatformAccountIdActionsRouteLazyRoute,
+    getParentRoute: () => PaccountPAccountIdActionsRouteLazyRoute,
   } as any).lazy(() =>
-    import(
-      './routes/~platform-account/~$platformAccountId/~actions/~index.lazy'
-    ).then((d) => d.Route),
+    import('./routes/~paccount/~$pAccountId/~actions/~index.lazy').then(
+      (d) => d.Route,
+    ),
   )
 
 const AgentsAgentSessionIdIndexLazyRoute =
@@ -1016,6 +1040,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevpoolsDevRouteLazyImport
       parentRoute: typeof DevpoolsRouteLazyImport
     }
+    '/paccount/$pAccountId': {
+      id: '/paccount/$pAccountId'
+      path: '/paccount/$pAccountId'
+      fullPath: '/paccount/$pAccountId'
+      preLoaderRoute: typeof PaccountPAccountIdRouteLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/proxy/$proxyId': {
       id: '/proxy/$proxyId'
       path: '/proxy/$proxyId'
@@ -1100,6 +1131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevpoolsDevIndexLazyImport
       parentRoute: typeof DevpoolsDevRouteLazyImport
     }
+    '/paccount/$pAccountId/': {
+      id: '/paccount/$pAccountId/'
+      path: '/'
+      fullPath: '/paccount/$pAccountId/'
+      preLoaderRoute: typeof PaccountPAccountIdIndexLazyImport
+      parentRoute: typeof PaccountPAccountIdRouteLazyImport
+    }
     '/proxy/$proxyId/': {
       id: '/proxy/$proxyId/'
       path: '/'
@@ -1149,12 +1187,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevpoolsDevDeviceIdRouteLazyImport
       parentRoute: typeof DevpoolsDevRouteLazyImport
     }
-    '/platform-account/$platformAccountId/actions': {
-      id: '/platform-account/$platformAccountId/actions'
-      path: '/platform-account/$platformAccountId/actions'
-      fullPath: '/platform-account/$platformAccountId/actions'
-      preLoaderRoute: typeof PlatformAccountPlatformAccountIdActionsRouteLazyImport
-      parentRoute: typeof rootRoute
+    '/paccount/$pAccountId/actions': {
+      id: '/paccount/$pAccountId/actions'
+      path: '/actions'
+      fullPath: '/paccount/$pAccountId/actions'
+      preLoaderRoute: typeof PaccountPAccountIdActionsRouteLazyImport
+      parentRoute: typeof PaccountPAccountIdRouteLazyImport
     }
     '/proxy/$proxyId/actions': {
       id: '/proxy/$proxyId/actions'
@@ -1226,12 +1264,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsAgentSessionIdIndexLazyImport
       parentRoute: typeof AgentsAgentSessionIdRouteLazyImport
     }
-    '/platform-account/$platformAccountId/actions/': {
-      id: '/platform-account/$platformAccountId/actions/'
+    '/paccount/$pAccountId/actions/': {
+      id: '/paccount/$pAccountId/actions/'
       path: '/'
-      fullPath: '/platform-account/$platformAccountId/actions/'
-      preLoaderRoute: typeof PlatformAccountPlatformAccountIdActionsIndexLazyImport
-      parentRoute: typeof PlatformAccountPlatformAccountIdActionsRouteLazyImport
+      fullPath: '/paccount/$pAccountId/actions/'
+      preLoaderRoute: typeof PaccountPAccountIdActionsIndexLazyImport
+      parentRoute: typeof PaccountPAccountIdActionsRouteLazyImport
     }
     '/proxy/$proxyId/actions/': {
       id: '/proxy/$proxyId/actions/'
@@ -1611,6 +1649,38 @@ const AdkSessionRouteLazyRouteChildren: AdkSessionRouteLazyRouteChildren = {
 const AdkSessionRouteLazyRouteWithChildren =
   AdkSessionRouteLazyRoute._addFileChildren(AdkSessionRouteLazyRouteChildren)
 
+interface PaccountPAccountIdActionsRouteLazyRouteChildren {
+  PaccountPAccountIdActionsIndexLazyRoute: typeof PaccountPAccountIdActionsIndexLazyRoute
+}
+
+const PaccountPAccountIdActionsRouteLazyRouteChildren: PaccountPAccountIdActionsRouteLazyRouteChildren =
+  {
+    PaccountPAccountIdActionsIndexLazyRoute:
+      PaccountPAccountIdActionsIndexLazyRoute,
+  }
+
+const PaccountPAccountIdActionsRouteLazyRouteWithChildren =
+  PaccountPAccountIdActionsRouteLazyRoute._addFileChildren(
+    PaccountPAccountIdActionsRouteLazyRouteChildren,
+  )
+
+interface PaccountPAccountIdRouteLazyRouteChildren {
+  PaccountPAccountIdIndexLazyRoute: typeof PaccountPAccountIdIndexLazyRoute
+  PaccountPAccountIdActionsRouteLazyRoute: typeof PaccountPAccountIdActionsRouteLazyRouteWithChildren
+}
+
+const PaccountPAccountIdRouteLazyRouteChildren: PaccountPAccountIdRouteLazyRouteChildren =
+  {
+    PaccountPAccountIdIndexLazyRoute: PaccountPAccountIdIndexLazyRoute,
+    PaccountPAccountIdActionsRouteLazyRoute:
+      PaccountPAccountIdActionsRouteLazyRouteWithChildren,
+  }
+
+const PaccountPAccountIdRouteLazyRouteWithChildren =
+  PaccountPAccountIdRouteLazyRoute._addFileChildren(
+    PaccountPAccountIdRouteLazyRouteChildren,
+  )
+
 interface ProxyProxyIdActionsRouteLazyRouteChildren {
   ProxyProxyIdActionsIndexLazyRoute: typeof ProxyProxyIdActionsIndexLazyRoute
 }
@@ -1736,21 +1806,6 @@ const AgentsAgentSessionIdRouteLazyRouteWithChildren =
     AgentsAgentSessionIdRouteLazyRouteChildren,
   )
 
-interface PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren {
-  PlatformAccountPlatformAccountIdActionsIndexLazyRoute: typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
-}
-
-const PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren: PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren =
-  {
-    PlatformAccountPlatformAccountIdActionsIndexLazyRoute:
-      PlatformAccountPlatformAccountIdActionsIndexLazyRoute,
-  }
-
-const PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren =
-  PlatformAccountPlatformAccountIdActionsRouteLazyRoute._addFileChildren(
-    PlatformAccountPlatformAccountIdActionsRouteLazyRouteChildren,
-  )
-
 interface TenantSettingsTenantSettingIdModelsettingsRouteLazyRouteChildren {
   TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute: typeof TenantSettingsTenantSettingIdModelsettingsIndexLazyRoute
 }
@@ -1826,6 +1881,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/devpools/dev': typeof DevpoolsDevRouteLazyRouteWithChildren
+  '/paccount/$pAccountId': typeof PaccountPAccountIdRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -1838,6 +1894,7 @@ export interface FileRoutesByFullPath {
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
   '/devpools/dev/': typeof DevpoolsDevIndexLazyRoute
+  '/paccount/$pAccountId/': typeof PaccountPAccountIdIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/new': typeof SiteNewIndexLazyRoute
@@ -1845,7 +1902,7 @@ export interface FileRoutesByFullPath {
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
   '/devpools/dev/$deviceId': typeof DevpoolsDevDeviceIdRouteLazyRoute
-  '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
+  '/paccount/$pAccountId/actions': typeof PaccountPAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
@@ -1856,7 +1913,7 @@ export interface FileRoutesByFullPath {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
+  '/paccount/$pAccountId/actions/': typeof PaccountPAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexLazyRoute
@@ -1900,6 +1957,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId': typeof ChatSessionIdIndexLazyRoute
   '/devpools/dev': typeof DevpoolsDevIndexLazyRoute
+  '/paccount/$pAccountId': typeof PaccountPAccountIdIndexLazyRoute
   '/proxy/$proxyId': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId': typeof ResourceResIdIndexLazyRoute
   '/site/new': typeof SiteNewIndexLazyRoute
@@ -1910,7 +1968,7 @@ export interface FileRoutesByTo {
   '/workflow-runs/$workflowRunId/summary': typeof WorkflowRunsWorkflowRunIdSummaryLazyRoute
   '/adk/session/$sessionId': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
+  '/paccount/$pAccountId/actions': typeof PaccountPAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountIndexLazyRoute
   '/site/$siteId/host': typeof SiteSiteIdHostIndexLazyRoute
@@ -1956,6 +2014,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRouteLazyRouteWithChildren
   '/auth/register': typeof AuthRegisterLazyRoute
   '/devpools/dev': typeof DevpoolsDevRouteLazyRouteWithChildren
+  '/paccount/$pAccountId': typeof PaccountPAccountIdRouteLazyRouteWithChildren
   '/proxy/$proxyId': typeof ProxyProxyIdRouteLazyRouteWithChildren
   '/proxy/new': typeof ProxyNewRouteLazyRoute
   '/resource/$resId': typeof ResourceResIdRouteLazyRouteWithChildren
@@ -1968,6 +2027,7 @@ export interface FileRoutesById {
   '/auth/login/': typeof AuthLoginIndexLazyRoute
   '/chat/$sessionId/': typeof ChatSessionIdIndexLazyRoute
   '/devpools/dev/': typeof DevpoolsDevIndexLazyRoute
+  '/paccount/$pAccountId/': typeof PaccountPAccountIdIndexLazyRoute
   '/proxy/$proxyId/': typeof ProxyProxyIdIndexLazyRoute
   '/resource/$resId/': typeof ResourceResIdIndexLazyRoute
   '/site/new/': typeof SiteNewIndexLazyRoute
@@ -1975,7 +2035,7 @@ export interface FileRoutesById {
   '/adk/session/$sessionId': typeof AdkSessionSessionIdRouteLazyRouteWithChildren
   '/agents/$agent/$sessionId': typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
   '/devpools/dev/$deviceId': typeof DevpoolsDevDeviceIdRouteLazyRoute
-  '/platform-account/$platformAccountId/actions': typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
+  '/paccount/$pAccountId/actions': typeof PaccountPAccountIdActionsRouteLazyRouteWithChildren
   '/proxy/$proxyId/actions': typeof ProxyProxyIdActionsRouteLazyRouteWithChildren
   '/resource/$resId/platform_account': typeof ResourceResIdPlatformaccountRouteLazyRouteWithChildren
   '/tenant/settings/$tenantSettingId': typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
@@ -1986,7 +2046,7 @@ export interface FileRoutesById {
   '/workflow-runs/$workflowRunId/visualization': typeof WorkflowRunsWorkflowRunIdVisualizationRouteLazyRouteWithChildren
   '/adk/session/$sessionId/': typeof AdkSessionSessionIdIndexLazyRoute
   '/agents/$agent/$sessionId/': typeof AgentsAgentSessionIdIndexLazyRoute
-  '/platform-account/$platformAccountId/actions/': typeof PlatformAccountPlatformAccountIdActionsIndexLazyRoute
+  '/paccount/$pAccountId/actions/': typeof PaccountPAccountIdActionsIndexLazyRoute
   '/proxy/$proxyId/actions/': typeof ProxyProxyIdActionsIndexLazyRoute
   '/resource/$resId/platform_account/': typeof ResourceResIdPlatformaccountIndexLazyRoute
   '/site/$siteId/host/': typeof SiteSiteIdHostIndexLazyRoute
@@ -2036,6 +2096,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/devpools/dev'
+    | '/paccount/$pAccountId'
     | '/proxy/$proxyId'
     | '/proxy/new'
     | '/resource/$resId'
@@ -2048,6 +2109,7 @@ export interface FileRouteTypes {
     | '/auth/login/'
     | '/chat/$sessionId'
     | '/devpools/dev/'
+    | '/paccount/$pAccountId/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/new'
@@ -2055,7 +2117,7 @@ export interface FileRouteTypes {
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
     | '/devpools/dev/$deviceId'
-    | '/platform-account/$platformAccountId/actions'
+    | '/paccount/$pAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
     | '/tenant/settings/$tenantSettingId'
@@ -2066,7 +2128,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
-    | '/platform-account/$platformAccountId/actions/'
+    | '/paccount/$pAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
     | '/site/$siteId/host'
@@ -2109,6 +2171,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/chat/$sessionId'
     | '/devpools/dev'
+    | '/paccount/$pAccountId'
     | '/proxy/$proxyId'
     | '/resource/$resId'
     | '/site/new'
@@ -2119,7 +2182,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/summary'
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
-    | '/platform-account/$platformAccountId/actions'
+    | '/paccount/$pAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
     | '/site/$siteId/host'
@@ -2163,6 +2226,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/devpools/dev'
+    | '/paccount/$pAccountId'
     | '/proxy/$proxyId'
     | '/proxy/new'
     | '/resource/$resId'
@@ -2175,6 +2239,7 @@ export interface FileRouteTypes {
     | '/auth/login/'
     | '/chat/$sessionId/'
     | '/devpools/dev/'
+    | '/paccount/$pAccountId/'
     | '/proxy/$proxyId/'
     | '/resource/$resId/'
     | '/site/new/'
@@ -2182,7 +2247,7 @@ export interface FileRouteTypes {
     | '/adk/session/$sessionId'
     | '/agents/$agent/$sessionId'
     | '/devpools/dev/$deviceId'
-    | '/platform-account/$platformAccountId/actions'
+    | '/paccount/$pAccountId/actions'
     | '/proxy/$proxyId/actions'
     | '/resource/$resId/platform_account'
     | '/tenant/settings/$tenantSettingId'
@@ -2193,7 +2258,7 @@ export interface FileRouteTypes {
     | '/workflow-runs/$workflowRunId/visualization'
     | '/adk/session/$sessionId/'
     | '/agents/$agent/$sessionId/'
-    | '/platform-account/$platformAccountId/actions/'
+    | '/paccount/$pAccountId/actions/'
     | '/proxy/$proxyId/actions/'
     | '/resource/$resId/platform_account/'
     | '/site/$siteId/host/'
@@ -2230,11 +2295,11 @@ export interface RootRouteChildren {
   EnvsCreateRoute: typeof EnvsCreateRoute
   MttaskIndexLazyRoute: typeof MttaskIndexLazyRoute
   AdkSessionRouteLazyRoute: typeof AdkSessionRouteLazyRouteWithChildren
+  PaccountPAccountIdRouteLazyRoute: typeof PaccountPAccountIdRouteLazyRouteWithChildren
   ProxyProxyIdRouteLazyRoute: typeof ProxyProxyIdRouteLazyRouteWithChildren
   ProxyNewRouteLazyRoute: typeof ProxyNewRouteLazyRoute
   WorkflowRunsWorkflowRunIdRouteLazyRoute: typeof WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren
   AgentsAgentSessionIdRouteLazyRoute: typeof AgentsAgentSessionIdRouteLazyRouteWithChildren
-  PlatformAccountPlatformAccountIdActionsRouteLazyRoute: typeof PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren
   TenantSettingsTenantSettingIdRouteLazyRoute: typeof TenantSettingsTenantSettingIdRouteLazyRouteWithChildren
   WorkflowsWorkflowIdTriggerSmolaRouteLazyRoute: typeof WorkflowsWorkflowIdTriggerSmolaRouteLazyRouteWithChildren
 }
@@ -2254,14 +2319,14 @@ const rootRouteChildren: RootRouteChildren = {
   EnvsCreateRoute: EnvsCreateRoute,
   MttaskIndexLazyRoute: MttaskIndexLazyRoute,
   AdkSessionRouteLazyRoute: AdkSessionRouteLazyRouteWithChildren,
+  PaccountPAccountIdRouteLazyRoute:
+    PaccountPAccountIdRouteLazyRouteWithChildren,
   ProxyProxyIdRouteLazyRoute: ProxyProxyIdRouteLazyRouteWithChildren,
   ProxyNewRouteLazyRoute: ProxyNewRouteLazyRoute,
   WorkflowRunsWorkflowRunIdRouteLazyRoute:
     WorkflowRunsWorkflowRunIdRouteLazyRouteWithChildren,
   AgentsAgentSessionIdRouteLazyRoute:
     AgentsAgentSessionIdRouteLazyRouteWithChildren,
-  PlatformAccountPlatformAccountIdActionsRouteLazyRoute:
-    PlatformAccountPlatformAccountIdActionsRouteLazyRouteWithChildren,
   TenantSettingsTenantSettingIdRouteLazyRoute:
     TenantSettingsTenantSettingIdRouteLazyRouteWithChildren,
   WorkflowsWorkflowIdTriggerSmolaRouteLazyRoute:
@@ -2292,11 +2357,11 @@ export const routeTree = rootRoute
         "/envs/create",
         "/mttask/",
         "/adk/session",
+        "/paccount/$pAccountId",
         "/proxy/$proxyId",
         "/proxy/new",
         "/workflow-runs/$workflowRunId",
         "/agents/$agent/$sessionId",
-        "/platform-account/$platformAccountId/actions",
         "/tenant/settings/$tenantSettingId",
         "/workflows/$workflowId/trigger/smola"
       ]
@@ -2440,6 +2505,13 @@ export const routeTree = rootRoute
         "/devpools/dev/$deviceId"
       ]
     },
+    "/paccount/$pAccountId": {
+      "filePath": "~paccount/~$pAccountId/~route.lazy.tsx",
+      "children": [
+        "/paccount/$pAccountId/",
+        "/paccount/$pAccountId/actions"
+      ]
+    },
     "/proxy/$proxyId": {
       "filePath": "~proxy/~$proxyId/~route.lazy.tsx",
       "children": [
@@ -2513,6 +2585,10 @@ export const routeTree = rootRoute
       "filePath": "~devpools/~dev/~index.lazy.tsx",
       "parent": "/devpools/dev"
     },
+    "/paccount/$pAccountId/": {
+      "filePath": "~paccount/~$pAccountId/~index.lazy.tsx",
+      "parent": "/paccount/$pAccountId"
+    },
     "/proxy/$proxyId/": {
       "filePath": "~proxy/~$proxyId/~index.lazy.tsx",
       "parent": "/proxy/$proxyId"
@@ -2547,10 +2623,11 @@ export const routeTree = rootRoute
       "filePath": "~devpools/~dev/~$deviceId/~route.lazy.tsx",
       "parent": "/devpools/dev"
     },
-    "/platform-account/$platformAccountId/actions": {
-      "filePath": "~platform-account/~$platformAccountId/~actions/~route.lazy.tsx",
+    "/paccount/$pAccountId/actions": {
+      "filePath": "~paccount/~$pAccountId/~actions/~route.lazy.tsx",
+      "parent": "/paccount/$pAccountId",
       "children": [
-        "/platform-account/$platformAccountId/actions/"
+        "/paccount/$pAccountId/actions/"
       ]
     },
     "/proxy/$proxyId/actions": {
@@ -2608,9 +2685,9 @@ export const routeTree = rootRoute
       "filePath": "~agents/~$agent/~$sessionId/~index.lazy.tsx",
       "parent": "/agents/$agent/$sessionId"
     },
-    "/platform-account/$platformAccountId/actions/": {
-      "filePath": "~platform-account/~$platformAccountId/~actions/~index.lazy.tsx",
-      "parent": "/platform-account/$platformAccountId/actions"
+    "/paccount/$pAccountId/actions/": {
+      "filePath": "~paccount/~$pAccountId/~actions/~index.lazy.tsx",
+      "parent": "/paccount/$pAccountId/actions"
     },
     "/proxy/$proxyId/actions/": {
       "filePath": "~proxy/~$proxyId/~actions/~index.lazy.tsx",

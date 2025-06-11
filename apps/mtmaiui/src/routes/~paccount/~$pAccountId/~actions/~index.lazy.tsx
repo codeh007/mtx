@@ -4,7 +4,7 @@ import { Button } from "mtxuilib/ui/button";
 import { useWorkflowRun } from "../../../../hooks/useWorkflowRun";
 
 export const Route = createLazyFileRoute(
-  "/platform-account/$platformAccountId/actions/",
+  "/paccount/$pAccountId/actions/",
 )({
   component: RouteComponent,
 });

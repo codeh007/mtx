@@ -196,6 +196,9 @@ import type {
   PAccountCreateData,
   PAccountCreateResponse2,
   PAccountCreateError,
+  PAccountListData,
+  PAccountListResponse,
+  PAccountListError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -1921,18 +1924,45 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
  * Create platform account.
  */
 export const pAccountCreate = <ThrowOnError extends boolean = false>(
-  options?: Options<PAccountCreateData, ThrowOnError>,
+  options: Options<PAccountCreateData, ThrowOnError>,
 ) => {
-  return (options?.client ?? _heyApiClient).post<
+  return (options.client ?? _heyApiClient).post<
     PAccountCreateResponse2,
     PAccountCreateError,
     ThrowOnError
   >({
-    url: "/api/v1/p_account/create",
+    url: "/api/v1/tenants/{tenant}/p_account/create",
     ...options,
     headers: {
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Get the p_account for the tenant
+ */
+export const pAccountList = <ThrowOnError extends boolean = false>(
+  options: Options<PAccountListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    PAccountListResponse,
+    PAccountListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/p_account/list",
+    ...options,
   });
 };

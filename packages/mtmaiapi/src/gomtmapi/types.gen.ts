@@ -1560,6 +1560,11 @@ export type Error400 = unknown;
 export type Error403 = unknown;
 
 /**
+ * 资源不存在
+ */
+export type Error404 = unknown;
+
+/**
  * 操作成功
  */
 export type SuccessWithSchema = unknown;
@@ -2445,6 +2450,19 @@ export type PushEventResponse = {
  */
 export type ActionRegisterInstagram = {
   arg1: string;
+};
+
+export type PAccount = {
+  metadata: ApiResourceMeta;
+  username: string;
+  password: string;
+  email: string;
+  enabled: boolean;
+};
+
+export type PAccountList = {
+  pagination: PaginationResponse;
+  rows: Array<PAccount>;
 };
 
 export type PAccountCreateRequest = {
@@ -4623,9 +4641,14 @@ export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatRespo
 
 export type PAccountCreateData = {
   body?: BotLocalState;
-  path?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
   query?: never;
-  url: "/api/v1/p_account/create";
+  url: "/api/v1/tenants/{tenant}/p_account/create";
 };
 
 export type PAccountCreateErrors = {
@@ -4646,6 +4669,41 @@ export type PAccountCreateResponses = {
 };
 
 export type PAccountCreateResponse2 = PAccountCreateResponses[keyof PAccountCreateResponses];
+
+export type PAccountListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/p_account/list";
+};
+
+export type PAccountListErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PAccountListError = PAccountListErrors[keyof PAccountListErrors];
+
+export type PAccountListResponses = {
+  200: PAccountList;
+};
+
+export type PAccountListResponse = PAccountListResponses[keyof PAccountListResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

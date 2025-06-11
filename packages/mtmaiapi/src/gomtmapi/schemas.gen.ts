@@ -2750,6 +2750,17 @@ export const Error403Schema = {
   },
 } as const;
 
+export const Error404Schema = {
+  description: "资源不存在",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
 export const SuccessWithSchemaSchema = {
   description: "操作成功",
   content: {
@@ -4546,6 +4557,42 @@ export const ActionRegisterInstagramSchema = {
   properties: {
     arg1: {
       type: "string",
+    },
+  },
+} as const;
+
+export const PAccountSchema = {
+  required: ["metadata", "username", "password", "email", "enabled"],
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    username: {
+      type: "string",
+    },
+    password: {
+      type: "string",
+    },
+    email: {
+      type: "string",
+    },
+    enabled: {
+      type: "boolean",
+    },
+  },
+} as const;
+
+export const PAccountListSchema = {
+  required: ["pagination", "rows"],
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/PAccount",
+      },
     },
   },
 } as const;
