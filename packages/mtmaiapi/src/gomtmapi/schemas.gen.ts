@@ -2717,6 +2717,57 @@ export const TenantVersionSchema = {
   type: "string",
 } as const;
 
+export const Success200Schema = {
+  description: "操作成功",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIResourceMeta",
+      },
+    },
+  },
+} as const;
+
+export const Error400Schema = {
+  description: "请求错误",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
+export const Error403Schema = {
+  description: "权限不足",
+  content: {
+    "application/json": {
+      schema: {
+        $ref: "#/components/schemas/APIErrors",
+      },
+    },
+  },
+} as const;
+
+export const SuccessWithSchemaSchema = {
+  description: "操作成功",
+  content: {
+    "application/json": {
+      schema: {
+        type: "object",
+        required: ["data"],
+        properties: {
+          data: {
+            type: "object",
+            description: "响应数据，具体结构由实际接口定义",
+          },
+        },
+      },
+    },
+  },
+} as const;
+
 export const APIResourceMetaPropertiesSchema = {
   required: ["metadata"],
   properties: {
@@ -4494,6 +4545,30 @@ export const ActionRegisterInstagramSchema = {
   required: ["arg1"],
   properties: {
     arg1: {
+      type: "string",
+    },
+  },
+} as const;
+
+export const PAccountCreateRequestSchema = {
+  type: "object",
+  required: ["name", "type"],
+  properties: {
+    name: {
+      type: "string",
+    },
+    type: {
+      type: "string",
+      enum: ["instagram"],
+    },
+  },
+} as const;
+
+export const PAccountCreateResponseSchema = {
+  type: "object",
+  required: ["id"],
+  properties: {
+    id: {
       type: "string",
     },
   },

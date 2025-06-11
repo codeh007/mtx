@@ -193,6 +193,9 @@ import type {
   BotHeartbeatData,
   BotHeartbeatResponse,
   BotHeartbeatError,
+  PAccountCreateData,
+  PAccountCreateResponse2,
+  PAccountCreateError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -1905,6 +1908,27 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: "/api/v1/bot/heartbeat",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Create platform account
+ * Create platform account.
+ */
+export const pAccountCreate = <ThrowOnError extends boolean = false>(
+  options?: Options<PAccountCreateData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    PAccountCreateResponse2,
+    PAccountCreateError,
+    ThrowOnError
+  >({
+    url: "/api/v1/p_account/create",
     ...options,
     headers: {
       "Content-Type": "application/json",

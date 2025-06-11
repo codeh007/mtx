@@ -8,24 +8,30 @@ export const Route = createLazyFileRoute("/events/")({
 });
 
 function RouteComponent() {
+  return (
+    <div>
+      <ActionRegisterInstagramBtn />
+    </div>
+  );
+}
+
+export function ActionRegisterInstagramBtn() {
   const eventPush = useMutation({
     ...eventPushMutation(),
   });
   return (
-    <div>
-      <Button
-        onClick={() =>
-          eventPush.mutate({
-            body: {
-              key: "123",
-              input: {},
-              additionalMetadata: {},
-            },
-          })
-        }
-      >
-        测试：推送事件(触发工作流的运行)
-      </Button>
-    </div>
+    <Button
+      onClick={() =>
+        eventPush.mutate({
+          body: {
+            key: "123",
+            input: {},
+            additionalMetadata: {},
+          },
+        })
+      }
+    >
+      测试：推送事件(触发工作流的运行)
+    </Button>
   );
 }

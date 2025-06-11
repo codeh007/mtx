@@ -1356,6 +1356,14 @@ export const zWebhookWorkerListResponse = z.object({
 
 export const zTenantVersion = z.enum(["V0", "V1"]);
 
+export const zSuccess200 = z.unknown();
+
+export const zError400 = z.unknown();
+
+export const zError403 = z.unknown();
+
+export const zSuccessWithSchema = z.unknown();
+
 export const zApiResourceMetaProperties = z.object({
   metadata: zApiResourceMeta,
 });
@@ -2158,6 +2166,15 @@ export const zActionRegisterInstagram = z.object({
   arg1: z.string(),
 });
 
+export const zPAccountCreateRequest = z.object({
+  name: z.string(),
+  type: z.enum(["instagram"]),
+});
+
+export const zPAccountCreateResponse = z.object({
+  id: z.string(),
+});
+
 export const zMetadataGetResponse = zApiMeta;
 
 export const zMetadataListIntegrationsResponse = zListApiMetaIntegration;
@@ -2281,3 +2298,5 @@ export const zBotListResponse = zBotList;
 export const zBotGetResponse = zBot;
 
 export const zBotHeartbeatResponse = zBotConfig;
+
+export const zPAccountCreateResponse2 = zBotConfig;

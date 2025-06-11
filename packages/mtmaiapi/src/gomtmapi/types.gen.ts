@@ -1544,6 +1544,26 @@ export const TenantVersion = {
   V1: "V1",
 } as const;
 
+/**
+ * 操作成功
+ */
+export type Success200 = unknown;
+
+/**
+ * 请求错误
+ */
+export type Error400 = unknown;
+
+/**
+ * 权限不足
+ */
+export type Error403 = unknown;
+
+/**
+ * 操作成功
+ */
+export type SuccessWithSchema = unknown;
+
 export type ApiResourceMetaProperties = {
   metadata: ApiResourceMeta;
 };
@@ -2425,6 +2445,15 @@ export type PushEventResponse = {
  */
 export type ActionRegisterInstagram = {
   arg1: string;
+};
+
+export type PAccountCreateRequest = {
+  name: string;
+  type: "instagram";
+};
+
+export type PAccountCreateResponse = {
+  id: string;
 };
 
 export type ReadinessGetData = {
@@ -4518,7 +4547,13 @@ export type BotListData = {
 };
 
 export type BotListErrors = {
+  /**
+   * 请求错误
+   */
   400: ApiErrors;
+  /**
+   * 权限不足
+   */
   403: ApiErrors;
 };
 
@@ -4542,7 +4577,13 @@ export type BotGetData = {
 };
 
 export type BotGetErrors = {
+  /**
+   * 请求错误
+   */
   400: ApiErrors;
+  /**
+   * 权限不足
+   */
   403: ApiErrors;
 };
 
@@ -4562,7 +4603,13 @@ export type BotHeartbeatData = {
 };
 
 export type BotHeartbeatErrors = {
+  /**
+   * 请求错误
+   */
   400: ApiErrors;
+  /**
+   * 权限不足
+   */
   403: ApiErrors;
 };
 
@@ -4573,6 +4620,32 @@ export type BotHeartbeatResponses = {
 };
 
 export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
+
+export type PAccountCreateData = {
+  body?: BotLocalState;
+  path?: never;
+  query?: never;
+  url: "/api/v1/p_account/create";
+};
+
+export type PAccountCreateErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+};
+
+export type PAccountCreateError = PAccountCreateErrors[keyof PAccountCreateErrors];
+
+export type PAccountCreateResponses = {
+  200: BotConfig;
+};
+
+export type PAccountCreateResponse2 = PAccountCreateResponses[keyof PAccountCreateResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
