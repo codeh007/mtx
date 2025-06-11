@@ -1,29 +1,25 @@
 "use client";
 
-import { type UseMutationResult, useMutation } from "@tanstack/react-query";
+import type { UseMutationResult } from "@tanstack/react-query";
 import type { Message } from "ai";
 import { debounce } from "lodash";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import type { RootAgentState } from "@mtmaiui/agent_state/root_agent_state";
-import {
-  type AdkEvent,
+import type {
+  AdkEvent,
   // type AgentRunRequestV3,
-  type ApiErrors,
+  ApiErrors,
   // type ChatMessage,
   // type ChatMessageList,
-  type Content,
+  Content,
   // type FlowTeamInput,
-  type Options,
+  Options,
   // type RootAgentState,
   // type SocialTeam,
   // type SocialTeamManagerState,
-  type Tenant,
-  type WorkflowRun,
-  type WorkflowRunCreateData,
-  // adkEventsListOptions,
-  // adkSessionGet,
-  workflowRunCreateMutation,
+  Tenant,
+  WorkflowRun,
 } from "mtmaiapi";
 import { generateUUID } from "mtxuilib/lib/utils";
 import type React from "react";
@@ -35,7 +31,7 @@ import { useShallow } from "zustand/react/shallow";
 import type { ChatAgentOutgoingMessage, ChatAgentState } from "../agent_state/chat_agent_state";
 import { parseEventStream } from "../agent_utils/agent_utils";
 import data from "../data/ig_settings_xiaoto33.json";
-import { useTenant, useTenantId } from "../hooks/useAuth";
+import { useTenant } from "../hooks/useAuth";
 import { handleAgentOutgoingEvent } from "./ag-event-handlers";
 // import { exampleTeamConfig } from "./exampleTeamConfig";
 
@@ -408,105 +404,20 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
   const { children, ...etc } = props;
   const [isPending, startTransition] = useTransition();
   const tenant = useTenant();
-  const workflowRunCreate = useMutation({
-    ...workflowRunCreateMutation(),
-  });
+  // const workflowRunCreate = useMutation({
+  //   ...workflowRunCreateMutation(),
+  // });
 
-  const tid = useTenantId();
+  // const tid = useTenantId();
   const mystore = useMemo(
     () =>
       createWordbrenchStore({
         ...etc,
         tenant: tenant,
-        workflowRunCreateMut: workflowRunCreate,
+        // workflowRunCreateMut: workflowRunCreate,
       }),
-    [tenant, workflowRunCreate],
+    [tenant],
   );
-
-  // const agStateListQuery = useQuery({
-  //   ...agStateListOptions({
-  //     path: {
-  //       tenant: tid!,
-  //     },
-  //     query: {
-  //       session: etc.sessionId,
-  //     },
-  //   }),
-  //   enabled: !!etc.sessionId,
-  // });
-
-  // useEffect(() => {
-  //   if (agStateListQuery.data) {
-  //     console.log("加载了:agStateListQuery.data", etc.sessionId, agStateListQuery.data);
-  //     //TODO: 如何正确识别 UserAgentState?
-  //     for (const state of agStateListQuery.data?.rows ?? []) {
-  //       if (state.topic === "user") {
-  //         mystore.setState({ userAgentState: state.state as UserAgentState });
-  //       }
-  //     }
-  //   }
-  // }, [agStateListQuery.data, mystore, etc.sessionId]);
-
-  // useEffect(() => {
-  //   return mystore.subscribe(
-  //     (state) => {
-  //       return state.lastestWorkflowRun;
-  //     },
-  //     async (cur, prev) => {
-  //       console.log("lastestWorkflowRun changed", cur, "prev", prev);
-  //       if (cur?.additionalMetadata?.sessionId) {
-  //         startTransition(() => {
-  //           nav({
-  //             to: `/adk/session/${cur?.additionalMetadata?.sessionId}`,
-  //             search: search,
-  //           });
-  //         });
-  //         const sessionId = cur?.additionalMetadata?.sessionId;
-  //         const messageList = await chatMessagesList({
-  //           path: {
-  //             tenant: tid!,
-  //             chat: sessionId as string,
-  //           },
-  //         });
-  //         mystore.getState().loadChatMessageList(messageList.data);
-  //         console.log("messageList", messageList);
-  //       }
-  //     },
-  //   );
-  // }, [mystore, nav, search, tid]);
-
-  // const adkEventsQuery = useQuery({
-  //   ...adkEventsListOptions({
-  //     path: {
-  //       tenant: tid,
-  //     },
-  //     query: {
-  //       session: etc.sessionId,
-  //     },
-  //   }),
-  //   enabled: !!etc.sessionId,
-  // });
-  // useEffect(() => {
-  //   if (adkEventsQuery.data) {
-  //     mystore.setState({ adkEvents: adkEventsQuery.data.rows });
-  //   }
-  // }, [adkEventsQuery.data, mystore]);
-
-  // const adkSessionQuery = useQuery({
-  //   ...adkSessionGetOptions({
-  //     path: {
-  //       tenant: tid,
-  //       session: etc.sessionId!,
-  //     },
-  //   }),
-  //   enabled: !!etc.sessionId,
-  // });
-  // useEffect(() => {
-  //   if (adkSessionQuery.data) {
-  //     console.log("adkSessionQuery.data", adkSessionQuery.data);
-  //     mystore.setState({ agentState: adkSessionQuery.data.state as RootAgentState });
-  //   }
-  // }, [adkSessionQuery.data, mystore]);
 
   useHotkeys(
     "alt+.",
@@ -515,12 +426,7 @@ export const WorkbrenchProvider = (props: React.PropsWithChildren<WorkbenchProps
     },
     [mystore],
   );
-  return (
-    <mtmaiStoreContext.Provider value={mystore}>
-      {children}
-      {/* <OnSessionChange /> */}
-    </mtmaiStoreContext.Provider>
-  );
+  return <mtmaiStoreContext.Provider value={mystore}>{children}</mtmaiStoreContext.Provider>;
 };
 
 const DEFAULT_USE_SHALLOW = false;

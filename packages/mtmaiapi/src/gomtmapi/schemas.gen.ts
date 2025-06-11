@@ -2735,6 +2735,13 @@ export const CommonResultSchema = {
     Message: {
       type: "string",
     },
+    other: {
+      anyOf: [
+        {
+          $ref: "#/components/schemas/ActionRegisterInstagram",
+        },
+      ],
+    },
   },
 } as const;
 
@@ -4277,17 +4284,6 @@ export const SandboxSchema = {
   },
 } as const;
 
-export const MtmInfoSchema = {
-  type: "object",
-  properties: {
-    message: {
-      type: "string",
-      description: "健康检查消息",
-      example: "hello mtm v2",
-    },
-  },
-} as const;
-
 export const BotSchema = {
   required: ["id", "created_at", "updated_at", "name", "description", "config"],
   properties: {
@@ -4489,6 +4485,16 @@ export const PushEventResponseSchema = {
     error: {
       type: "object",
       description: "The error message if the workflow was not triggered successfully",
+    },
+  },
+} as const;
+
+export const ActionRegisterInstagramSchema = {
+  description: "(临时演示)注册Instagram账号",
+  required: ["arg1"],
+  properties: {
+    arg1: {
+      type: "string",
     },
   },
 } as const;

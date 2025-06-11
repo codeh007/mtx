@@ -1363,6 +1363,11 @@ export const zApiResourceMetaProperties = z.object({
 export const zCommonResult = z.object({
   Success: z.boolean(),
   Message: z.string(),
+  other: z
+    .object({
+      arg1: z.string(),
+    })
+    .optional(),
 });
 
 export const zTenantParameter = z.string().uuid().length(36);
@@ -2071,10 +2076,6 @@ export const zSandbox = z.object({
   url: z.string(),
 });
 
-export const zMtmInfo = z.object({
-  message: z.string().optional(),
-});
-
 export const zBot = z.object({
   id: z.string(),
   created_at: z.string().datetime(),
@@ -2151,6 +2152,10 @@ export const zEvent = z.object({
 export const zPushEventResponse = z.object({
   success: z.boolean(),
   error: z.object({}),
+});
+
+export const zActionRegisterInstagram = z.object({
+  arg1: z.string(),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -2258,8 +2263,6 @@ export const zArtifactGetResponse = zArtifact;
 export const zArtifactSaveResponse = zArtifact;
 
 export const zSandboxGetResponse = zSandbox;
-
-export const zMtmHelloResponse = zMtmInfo;
 
 export const zScriptsByNameResponse = z.string();
 

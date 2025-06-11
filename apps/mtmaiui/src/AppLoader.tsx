@@ -14,6 +14,7 @@ export function MtmClientApp({
 }: { serverUrl: string; config: any; accessToken: string }) {
   return (
     <MtmaiProvider serverUrl={serverUrl} config={config} accessToken={accessToken}>
+      {/* accessToken:{accessToken} */}
       <UIProviders>
         <RouterProvider
           router={createRouter({ serverUrl })}

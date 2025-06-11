@@ -1551,6 +1551,7 @@ export type ApiResourceMetaProperties = {
 export type CommonResult = {
   Success: boolean;
   Message: string;
+  other?: ActionRegisterInstagram;
 };
 
 export type TenantParameter = string;
@@ -2329,13 +2330,6 @@ export type Sandbox = {
   url: string;
 };
 
-export type MtmInfo = {
-  /**
-   * 健康检查消息
-   */
-  message?: string;
-};
-
 export type Bot = {
   id: string;
   created_at: string;
@@ -2424,6 +2418,13 @@ export type PushEventResponse = {
   error: {
     [key: string]: unknown;
   };
+};
+
+/**
+ * (临时演示)注册Instagram账号
+ */
+export type ActionRegisterInstagram = {
+  arg1: string;
 };
 
 export type ReadinessGetData = {
@@ -4344,22 +4345,6 @@ export type SandboxGetResponses = {
 };
 
 export type SandboxGetResponse = SandboxGetResponses[keyof SandboxGetResponses];
-
-export type MtmHelloData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: "/api/v1/mtm/mtmInfo";
-};
-
-export type MtmHelloResponses = {
-  /**
-   * 健康检查成功
-   */
-  200: MtmInfo;
-};
-
-export type MtmHelloResponse = MtmHelloResponses[keyof MtmHelloResponses];
 
 export type ScriptsByNameData = {
   body?: never;

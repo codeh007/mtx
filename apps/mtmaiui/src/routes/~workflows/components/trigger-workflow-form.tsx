@@ -2,8 +2,8 @@
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import type { Workflow } from "mtmaiapi";
-import { workflowRunCreateMutation } from "mtmaiapi";
+// import type { Workflow } from "mtmaiapi";
+// import { workflowRunCreateMutation } from "mtmaiapi";
 import { cn } from "mtxuilib/lib/utils";
 import { CodeEditor } from "mtxuilib/mt/code-editor";
 import { Button } from "mtxuilib/ui/button";
@@ -64,24 +64,12 @@ export function TriggerWorkflowForm({
       <DialogContent className="sm:max-w-[625px] py-12">
         <DialogHeader>
           <DialogTitle>Trigger this workflow</DialogTitle>
-          <DialogDescription>
-            You can change the input to your workflow here.
-          </DialogDescription>
+          <DialogDescription>You can change the input to your workflow here.</DialogDescription>
         </DialogHeader>
         <div className="font-bold">Input</div>
-        <CodeEditor
-          code={input || "{}"}
-          setCode={setInput}
-          language="json"
-          height="180px"
-        />
+        <CodeEditor code={input || "{}"} setCode={setInput} language="json" height="180px" />
         <div className="font-bold">Additional Metadata</div>
-        <CodeEditor
-          code={addlMeta || "{}"}
-          setCode={setAddlMeta}
-          height="90px"
-          language="json"
-        />
+        <CodeEditor code={addlMeta || "{}"} setCode={setAddlMeta} height="90px" language="json" />
         <Button
           className="w-fit"
           disabled={triggerWorkflowMutation.isPending}
@@ -101,10 +89,7 @@ export function TriggerWorkflowForm({
           }}
         >
           <PlusIcon
-            className={cn(
-              triggerWorkflowMutation.isPending ? "rotate-180" : "",
-              "h-4 w-4 mr-2",
-            )}
+            className={cn(triggerWorkflowMutation.isPending ? "rotate-180" : "", "h-4 w-4 mr-2")}
           />
           Trigger
         </Button>

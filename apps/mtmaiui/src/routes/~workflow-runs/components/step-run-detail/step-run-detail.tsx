@@ -2,16 +2,7 @@
 import { ArrowPathIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
-import {
-  type StepRun,
-  StepRunStatus,
-  type Tenant,
-  type WorkflowRunShape,
-  stepRunGetOptions,
-  stepRunGetSchemaOptions,
-  stepRunUpdateCancelMutation,
-  stepRunUpdateRerunMutation,
-} from "mtmaiapi";
+import { type StepRun, StepRunStatus, type Tenant, type WorkflowRunShape } from "mtmaiapi";
 import { CodeHighlighter } from "mtxuilib/mt/code-highlighter";
 import { RelativeDate } from "mtxuilib/mt/relative-date";
 
@@ -206,15 +197,11 @@ export const StepRunDetail = ({
           <TabsTrigger variant="underlined" value={TabOption.Output}>
             输出
           </TabsTrigger>
-          {stepRun.childWorkflowRuns &&
-            stepRun.childWorkflowRuns.length > 0 && (
-              <TabsTrigger
-                variant="underlined"
-                value={TabOption.ChildWorkflowRuns}
-              >
-                Children ({stepRun.childWorkflowRuns.length})
-              </TabsTrigger>
-            )}
+          {stepRun.childWorkflowRuns && stepRun.childWorkflowRuns.length > 0 && (
+            <TabsTrigger variant="underlined" value={TabOption.ChildWorkflowRuns}>
+              Children ({stepRun.childWorkflowRuns.length})
+            </TabsTrigger>
+          )}
           <TabsTrigger variant="underlined" value={TabOption.Input}>
             输入
           </TabsTrigger>
@@ -233,10 +220,7 @@ export const StepRunDetail = ({
             <StepRunOutput stepRun={stepRun} workflowRun={workflowRun} />
           </div>
         </TabsContent>
-        <TabsContent
-          value={TabOption.ChildWorkflowRuns}
-          className="bg-green-200 p-1 h-full"
-        >
+        <TabsContent value={TabOption.ChildWorkflowRuns} className="bg-green-200 p-1 h-full">
           <div className="flex-1 h-full flex">
             <ChildWorkflowRuns
               tenant={tenant}
@@ -246,10 +230,7 @@ export const StepRunDetail = ({
             />
           </div>
         </TabsContent>
-        <TabsContent
-          value={TabOption.Input}
-          className="bg-slate-200 p-1 h-full"
-        >
+        <TabsContent value={TabOption.Input} className="bg-slate-200 p-1 h-full">
           <div className="flex-1 h-full flex">
             {stepRun.input && (
               <CodeHighlighter
@@ -257,20 +238,13 @@ export const StepRunDetail = ({
                 maxHeight="400px"
                 minHeight="400px"
                 language="json"
-                code={JSON.stringify(
-                  JSON.parse(stepRun?.input || "{}"),
-                  null,
-                  2,
-                )}
+                code={JSON.stringify(JSON.parse(stepRun?.input || "{}"), null, 2)}
               />
             )}
           </div>
         </TabsContent>
         <TabsContent value={TabOption.Logs}>
-          <StepRunLogs
-            stepRun={stepRun}
-            readableId={step?.readableId || "step"}
-          />
+          <StepRunLogs stepRun={stepRun} readableId={step?.readableId || "step"} />
         </TabsContent>
         <TabsContent value={TabOption.Events}>
           <MtSuspenseBoundary>
@@ -278,10 +252,7 @@ export const StepRunDetail = ({
               <h3 className="text-lg font-semibold leading-tight text-foreground flex flex-row gap-4 items-center">
                 事件
               </h3>
-              <StepRunEvents
-                workflowRun={workflowRun}
-                filteredStepRunId={stepRunId}
-              />
+              <StepRunEvents workflowRun={workflowRun} filteredStepRunId={stepRunId} />
             </div>
           </MtSuspenseBoundary>
         </TabsContent>
@@ -369,8 +340,7 @@ const StepRunSummary: React.FC<{ data: StepRun }> = ({ data }) => {
       {interleavedTimings}
       {data.finishedAtEpoch && data.startedAtEpoch && (
         <div className="text-sm text-muted-foreground">
-          耗时 {Math.floor((data.finishedAtEpoch - data.startedAtEpoch) / 1000)}
-          秒
+          耗时 {Math.floor((data.finishedAtEpoch - data.startedAtEpoch) / 1000)}秒
         </div>
       )}
     </div>

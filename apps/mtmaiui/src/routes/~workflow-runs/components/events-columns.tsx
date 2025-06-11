@@ -15,7 +15,7 @@ import {
   type StepRunEvent,
   StepRunEventReason,
   type StepRunEventSeverity,
-  stepRunGetOptions,
+  // stepRunGetOptions,
   stepRunListArchivesOptions,
 } from "mtmaiapi";
 import { DebugValue } from "mtxuilib/components/devtools/DebugValue";
@@ -47,9 +47,7 @@ export const eventsColumns = ({
   if (onRowClick) {
     res.push({
       accessorKey: "resource",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="任务" />
-      ),
+      header: ({ column }) => <DataTableColumnHeader column={column} title="任务" />,
       cell: ({ row }) => {
         if (!row.original.stepRun) {
           // return null;
@@ -67,9 +65,7 @@ export const eventsColumns = ({
               onClick={() => onRowClick(row.original)}
             >
               <ArrowLeftEndOnRectangleIcon className="size-4 mr-1" />
-              <div className="truncate max-w-[150px]">
-                {row.original.step?.readableId}
-              </div>
+              <div className="truncate max-w-[150px]">{row.original.step?.readableId}</div>
             </Badge>
           </div>
         );
@@ -81,9 +77,7 @@ export const eventsColumns = ({
   res.push(
     {
       accessorKey: "createdAt",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="始于" />
-      ),
+      header: ({ column }) => <DataTableColumnHeader column={column} title="始于" />,
       cell: ({ row }) => (
         <div className="w-fit min-w-[120px]">
           <RelativeDate date={row.original.event.timeFirstSeen} />
@@ -94,9 +88,7 @@ export const eventsColumns = ({
     },
     {
       accessorKey: "event",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="事件" />
-      ),
+      header: ({ column }) => <DataTableColumnHeader column={column} title="事件" />,
       cell: ({ row }) => {
         const event = row.original;
         return (
@@ -113,9 +105,7 @@ export const eventsColumns = ({
     },
     {
       accessorKey: "description",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="时长" />
-      ),
+      header: ({ column }) => <DataTableColumnHeader column={column} title="时长" />,
       cell: ({ row }) => {
         const event = row.original.event;
         return (
@@ -166,8 +156,7 @@ const REASON_TO_TITLE: Record<StepRunEventReason, string> = {
   [StepRunEventReason.TIMED_OUT]: "Execution timed out",
   [StepRunEventReason.SLOT_RELEASED]: "Slot released",
   [StepRunEventReason.RETRIED_BY_USER]: "Replayed by user",
-  [StepRunEventReason.WORKFLOW_RUN_GROUP_KEY_SUCCEEDED]:
-    "Successfully got group key",
+  [StepRunEventReason.WORKFLOW_RUN_GROUP_KEY_SUCCEEDED]: "Successfully got group key",
   [StepRunEventReason.WORKFLOW_RUN_GROUP_KEY_FAILED]: "Failed to get group key",
   [StepRunEventReason.ACKNOWLEDGED]: "Acknowledged by worker",
 };
@@ -183,14 +172,7 @@ const RUN_STATUS_VARIANTS: Record<StepRunEventSeverity, string> = {
 };
 
 function EventIndicator({ severity }: { severity: StepRunEventSeverity }) {
-  return (
-    <div
-      className={cn(
-        RUN_STATUS_VARIANTS[severity],
-        "rounded-full h-[6px] w-[6px]",
-      )}
-    />
-  );
+  return <div className={cn(RUN_STATUS_VARIANTS[severity], "rounded-full h-[6px] w-[6px]")} />;
 }
 
 function ErrorWithHoverCard({
@@ -267,15 +249,15 @@ function ErrorHoverContents({
   // If this is the latest failure, we use the step run to get the error message on hover. Otherwise,
   // we look in the archives.
   const isLatestFailure = latestFailure.event.id === event.event.id;
-  const getStepRunQuery = useQuery({
-    ...stepRunGetOptions({
-      path: {
-        "step-run": event.stepRun!.metadata.id,
-        tenant: event.stepRun!.tenantId,
-      },
-    }),
-    enabled: isLatestFailure,
-  });
+  // const getStepRunQuery = useQuery({
+  //   ...stepRunGetOptions({
+  //     path: {
+  //       "step-run": event.stepRun!.metadata.id,
+  //       tenant: event.stepRun!.tenantId,
+  //     },
+  //   }),
+  //   enabled: isLatestFailure,
+  // });
   const listStepRunArchiveQuery = useQuery({
     ...stepRunListArchivesOptions({
       path: {
@@ -331,11 +313,9 @@ function ErrorHoverContents({
       }
 
       // find the corresponding archive
-      const matchingArchives = listStepRunArchiveQuery.data?.rows?.filter(
-        (archivedStepRun) => {
-          return archivedStepRun.retryCount === eventRetryCount;
-        },
-      );
+      const matchingArchives = listStepRunArchiveQuery.data?.rows?.filter((archivedStepRun) => {
+        return archivedStepRun.retryCount === eventRetryCount;
+      });
 
       const archivedStepRun = matchingArchives?.[numArchivesToSkip];
 

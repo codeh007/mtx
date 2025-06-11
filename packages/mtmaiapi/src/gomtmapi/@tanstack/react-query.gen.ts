@@ -65,7 +65,6 @@ import {
   artifactGet,
   artifactSave,
   sandboxGet,
-  mtmHello,
   scriptsByName,
   singboxGetWorkerProfile,
   singboxSubscribe,
@@ -199,7 +198,6 @@ import type {
   ArtifactSaveError,
   ArtifactSaveResponse,
   SandboxGetData,
-  MtmHelloData,
   ScriptsByNameData,
   SingboxGetWorkerProfileData,
   SingboxSubscribeData,
@@ -1795,24 +1793,6 @@ export const sandboxGetOptions = (options?: Options<SandboxGetData>) => {
       return data;
     },
     queryKey: sandboxGetQueryKey(options),
-  });
-};
-
-export const mtmHelloQueryKey = (options?: Options<MtmHelloData>) =>
-  createQueryKey("mtmHello", options);
-
-export const mtmHelloOptions = (options?: Options<MtmHelloData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await mtmHello({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: mtmHelloQueryKey(options),
   });
 };
 

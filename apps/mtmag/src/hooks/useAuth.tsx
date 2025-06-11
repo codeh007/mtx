@@ -31,20 +31,21 @@ export const useIsAdmin = () => {
 };
 
 export const useLoginHandler = () => {
-  const nav = useNav()
+  const nav = useNav();
   const frontendConfig = useMtmaiV2((x) => x.frontendConfig);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const cookieKey = frontendConfig?.cookieAccessToken || "access_token";
-  
+
   const login = useMutation({
     ...userUpdateLoginMutation(),
     onSuccess: (data) => {
-      console.log("login success", data);
+      // console.log("login success", data);
       if (data.userToken) {
         setCookie(cookieKey, data.userToken);
         nav({
-          to: "/session",
+          to: "/",
         });
+        window.location.reload();
       }
     },
   });
@@ -81,8 +82,7 @@ export function useSessionLoader() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const computedCurrTenant = useMemo(() => {
     const findTenant = (tenantId: string) => {
-      return memberships?.find((m) => m.tenant?.metadata.id === tenantId)
-        ?.tenant;
+      return memberships?.find((m) => m.tenant?.metadata.id === tenantId)?.tenant;
     };
 
     // const currTenantId = searchParams.get("tenant") || undefined;
