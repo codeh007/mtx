@@ -61,21 +61,6 @@ import {
   postGet,
   postList,
   postCreate,
-  getAlbums,
-  createAlbum,
-  deleteAlbum,
-  getAlbum,
-  updateAlbum,
-  getAlbumPhotos,
-  addPhotosToAlbum,
-  removePhotoFromAlbum,
-  getPhotos,
-  uploadPhotos,
-  deletePhoto,
-  getPhoto,
-  updatePhoto,
-  getPhotoTags,
-  searchPhotos,
   artifactList,
   artifactGet,
   artifactSave,
@@ -91,6 +76,16 @@ import {
   botHeartbeat,
   pAccountCreate,
   pAccountList,
+  albumList,
+  albumCreate,
+  albumDelete,
+  albumGet,
+  albumUpdate,
+  photoList,
+  photoUpload,
+  photoDelete,
+  photoGet,
+  photoUpdate,
 } from "../sdk.gen";
 import {
   queryOptions,
@@ -210,33 +205,6 @@ import type {
   PostCreateData,
   PostCreateError,
   PostCreateResponse,
-  GetAlbumsData,
-  GetAlbumsResponse,
-  CreateAlbumData,
-  CreateAlbumResponse,
-  DeleteAlbumData,
-  DeleteAlbumResponse,
-  GetAlbumData,
-  UpdateAlbumData,
-  UpdateAlbumResponse,
-  GetAlbumPhotosData,
-  GetAlbumPhotosResponse,
-  AddPhotosToAlbumData,
-  AddPhotosToAlbumResponse,
-  RemovePhotoFromAlbumData,
-  RemovePhotoFromAlbumResponse,
-  GetPhotosData,
-  GetPhotosResponse,
-  UploadPhotosData,
-  UploadPhotosResponse,
-  DeletePhotoData,
-  DeletePhotoResponse,
-  GetPhotoData,
-  UpdatePhotoData,
-  UpdatePhotoResponse,
-  GetPhotoTagsData,
-  SearchPhotosData,
-  SearchPhotosResponse,
   ArtifactListData,
   ArtifactGetData,
   ArtifactSaveData,
@@ -259,6 +227,28 @@ import type {
   PAccountCreateData,
   PAccountCreateResponse,
   PAccountListData,
+  AlbumListData,
+  AlbumCreateData,
+  AlbumCreateError,
+  AlbumCreateResponse,
+  AlbumDeleteData,
+  AlbumDeleteError,
+  AlbumDeleteResponse,
+  AlbumGetData,
+  AlbumUpdateData,
+  AlbumUpdateError,
+  AlbumUpdateResponse,
+  PhotoListData,
+  PhotoUploadData,
+  PhotoUploadError,
+  PhotoUploadResponse,
+  PhotoDeleteData,
+  PhotoDeleteError,
+  PhotoDeleteResponse,
+  PhotoGetData,
+  PhotoUpdateData,
+  PhotoUpdateError,
+  PhotoUpdateResponse,
 } from "../types.gen";
 import { client as _heyApiClient } from "../client.gen";
 
@@ -1754,514 +1744,6 @@ export const postCreateMutation = (options?: Partial<Options<PostCreateData>>) =
   return mutationOptions;
 };
 
-export const getAlbumsQueryKey = (options: Options<GetAlbumsData>) =>
-  createQueryKey("getAlbums", options);
-
-export const getAlbumsOptions = (options: Options<GetAlbumsData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getAlbums({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getAlbumsQueryKey(options),
-  });
-};
-
-export const getAlbumsInfiniteQueryKey = (
-  options: Options<GetAlbumsData>,
-): QueryKey<Options<GetAlbumsData>> => createQueryKey("getAlbums", options, true);
-
-export const getAlbumsInfiniteOptions = (options: Options<GetAlbumsData>) => {
-  return infiniteQueryOptions<
-    GetAlbumsResponse,
-    DefaultError,
-    InfiniteData<GetAlbumsResponse>,
-    QueryKey<Options<GetAlbumsData>>,
-    number | Pick<QueryKey<Options<GetAlbumsData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<GetAlbumsData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                query: {
-                  page: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await getAlbums({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: getAlbumsInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const createAlbumQueryKey = (options: Options<CreateAlbumData>) =>
-  createQueryKey("createAlbum", options);
-
-export const createAlbumOptions = (options: Options<CreateAlbumData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await createAlbum({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: createAlbumQueryKey(options),
-  });
-};
-
-export const createAlbumMutation = (options?: Partial<Options<CreateAlbumData>>) => {
-  const mutationOptions: UseMutationOptions<
-    CreateAlbumResponse,
-    DefaultError,
-    Options<CreateAlbumData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await createAlbum({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const deleteAlbumMutation = (options?: Partial<Options<DeleteAlbumData>>) => {
-  const mutationOptions: UseMutationOptions<
-    DeleteAlbumResponse,
-    DefaultError,
-    Options<DeleteAlbumData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await deleteAlbum({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const getAlbumQueryKey = (options: Options<GetAlbumData>) =>
-  createQueryKey("getAlbum", options);
-
-export const getAlbumOptions = (options: Options<GetAlbumData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getAlbum({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getAlbumQueryKey(options),
-  });
-};
-
-export const updateAlbumMutation = (options?: Partial<Options<UpdateAlbumData>>) => {
-  const mutationOptions: UseMutationOptions<
-    UpdateAlbumResponse,
-    DefaultError,
-    Options<UpdateAlbumData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await updateAlbum({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const getAlbumPhotosQueryKey = (options: Options<GetAlbumPhotosData>) =>
-  createQueryKey("getAlbumPhotos", options);
-
-export const getAlbumPhotosOptions = (options: Options<GetAlbumPhotosData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getAlbumPhotos({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getAlbumPhotosQueryKey(options),
-  });
-};
-
-export const getAlbumPhotosInfiniteQueryKey = (
-  options: Options<GetAlbumPhotosData>,
-): QueryKey<Options<GetAlbumPhotosData>> => createQueryKey("getAlbumPhotos", options, true);
-
-export const getAlbumPhotosInfiniteOptions = (options: Options<GetAlbumPhotosData>) => {
-  return infiniteQueryOptions<
-    GetAlbumPhotosResponse,
-    DefaultError,
-    InfiniteData<GetAlbumPhotosResponse>,
-    QueryKey<Options<GetAlbumPhotosData>>,
-    number | Pick<QueryKey<Options<GetAlbumPhotosData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<GetAlbumPhotosData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                query: {
-                  page: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await getAlbumPhotos({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: getAlbumPhotosInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const addPhotosToAlbumQueryKey = (options: Options<AddPhotosToAlbumData>) =>
-  createQueryKey("addPhotosToAlbum", options);
-
-export const addPhotosToAlbumOptions = (options: Options<AddPhotosToAlbumData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await addPhotosToAlbum({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: addPhotosToAlbumQueryKey(options),
-  });
-};
-
-export const addPhotosToAlbumMutation = (options?: Partial<Options<AddPhotosToAlbumData>>) => {
-  const mutationOptions: UseMutationOptions<
-    AddPhotosToAlbumResponse,
-    DefaultError,
-    Options<AddPhotosToAlbumData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await addPhotosToAlbum({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const removePhotoFromAlbumMutation = (
-  options?: Partial<Options<RemovePhotoFromAlbumData>>,
-) => {
-  const mutationOptions: UseMutationOptions<
-    RemovePhotoFromAlbumResponse,
-    DefaultError,
-    Options<RemovePhotoFromAlbumData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await removePhotoFromAlbum({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const getPhotosQueryKey = (options: Options<GetPhotosData>) =>
-  createQueryKey("getPhotos", options);
-
-export const getPhotosOptions = (options: Options<GetPhotosData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getPhotos({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getPhotosQueryKey(options),
-  });
-};
-
-export const getPhotosInfiniteQueryKey = (
-  options: Options<GetPhotosData>,
-): QueryKey<Options<GetPhotosData>> => createQueryKey("getPhotos", options, true);
-
-export const getPhotosInfiniteOptions = (options: Options<GetPhotosData>) => {
-  return infiniteQueryOptions<
-    GetPhotosResponse,
-    DefaultError,
-    InfiniteData<GetPhotosResponse>,
-    QueryKey<Options<GetPhotosData>>,
-    number | Pick<QueryKey<Options<GetPhotosData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<GetPhotosData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                query: {
-                  page: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await getPhotos({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: getPhotosInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const uploadPhotosQueryKey = (options: Options<UploadPhotosData>) =>
-  createQueryKey("uploadPhotos", options);
-
-export const uploadPhotosOptions = (options: Options<UploadPhotosData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await uploadPhotos({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: uploadPhotosQueryKey(options),
-  });
-};
-
-export const uploadPhotosMutation = (options?: Partial<Options<UploadPhotosData>>) => {
-  const mutationOptions: UseMutationOptions<
-    UploadPhotosResponse,
-    DefaultError,
-    Options<UploadPhotosData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await uploadPhotos({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const deletePhotoMutation = (options?: Partial<Options<DeletePhotoData>>) => {
-  const mutationOptions: UseMutationOptions<
-    DeletePhotoResponse,
-    DefaultError,
-    Options<DeletePhotoData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await deletePhoto({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const getPhotoQueryKey = (options: Options<GetPhotoData>) =>
-  createQueryKey("getPhoto", options);
-
-export const getPhotoOptions = (options: Options<GetPhotoData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getPhoto({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getPhotoQueryKey(options),
-  });
-};
-
-export const updatePhotoMutation = (options?: Partial<Options<UpdatePhotoData>>) => {
-  const mutationOptions: UseMutationOptions<
-    UpdatePhotoResponse,
-    DefaultError,
-    Options<UpdatePhotoData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await updatePhoto({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const getPhotoTagsQueryKey = (options: Options<GetPhotoTagsData>) =>
-  createQueryKey("getPhotoTags", options);
-
-export const getPhotoTagsOptions = (options: Options<GetPhotoTagsData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await getPhotoTags({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: getPhotoTagsQueryKey(options),
-  });
-};
-
-export const searchPhotosQueryKey = (options: Options<SearchPhotosData>) =>
-  createQueryKey("searchPhotos", options);
-
-export const searchPhotosOptions = (options: Options<SearchPhotosData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await searchPhotos({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: searchPhotosQueryKey(options),
-  });
-};
-
-export const searchPhotosInfiniteQueryKey = (
-  options: Options<SearchPhotosData>,
-): QueryKey<Options<SearchPhotosData>> => createQueryKey("searchPhotos", options, true);
-
-export const searchPhotosInfiniteOptions = (options: Options<SearchPhotosData>) => {
-  return infiniteQueryOptions<
-    SearchPhotosResponse,
-    DefaultError,
-    InfiniteData<SearchPhotosResponse>,
-    QueryKey<Options<SearchPhotosData>>,
-    number | Pick<QueryKey<Options<SearchPhotosData>>[0], "body" | "headers" | "path" | "query">
-  >(
-    // @ts-ignore
-    {
-      queryFn: async ({ pageParam, queryKey, signal }) => {
-        // @ts-ignore
-        const page: Pick<
-          QueryKey<Options<SearchPhotosData>>[0],
-          "body" | "headers" | "path" | "query"
-        > =
-          typeof pageParam === "object"
-            ? pageParam
-            : {
-                body: {
-                  page: pageParam,
-                },
-              };
-        const params = createInfiniteParams(queryKey, page);
-        const { data } = await searchPhotos({
-          ...options,
-          ...params,
-          signal,
-          throwOnError: true,
-        });
-        return data;
-      },
-      queryKey: searchPhotosInfiniteQueryKey(options),
-    },
-  );
-};
-
-export const searchPhotosMutation = (options?: Partial<Options<SearchPhotosData>>) => {
-  const mutationOptions: UseMutationOptions<
-    SearchPhotosResponse,
-    DefaultError,
-    Options<SearchPhotosData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await searchPhotos({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
 export const artifactListQueryKey = (options: Options<ArtifactListData>) =>
   createQueryKey("artifactList", options);
 
@@ -2603,4 +2085,220 @@ export const pAccountListOptions = (options: Options<PAccountListData>) => {
     },
     queryKey: pAccountListQueryKey(options),
   });
+};
+
+export const albumListQueryKey = (options: Options<AlbumListData>) =>
+  createQueryKey("albumList", options);
+
+export const albumListOptions = (options: Options<AlbumListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await albumList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: albumListQueryKey(options),
+  });
+};
+
+export const albumCreateQueryKey = (options: Options<AlbumCreateData>) =>
+  createQueryKey("albumCreate", options);
+
+export const albumCreateOptions = (options: Options<AlbumCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await albumCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: albumCreateQueryKey(options),
+  });
+};
+
+export const albumCreateMutation = (options?: Partial<Options<AlbumCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    AlbumCreateResponse,
+    AlbumCreateError,
+    Options<AlbumCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await albumCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const albumDeleteMutation = (options?: Partial<Options<AlbumDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    AlbumDeleteResponse,
+    AlbumDeleteError,
+    Options<AlbumDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await albumDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const albumGetQueryKey = (options: Options<AlbumGetData>) =>
+  createQueryKey("albumGet", options);
+
+export const albumGetOptions = (options: Options<AlbumGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await albumGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: albumGetQueryKey(options),
+  });
+};
+
+export const albumUpdateMutation = (options?: Partial<Options<AlbumUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    AlbumUpdateResponse,
+    AlbumUpdateError,
+    Options<AlbumUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await albumUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const photoListQueryKey = (options: Options<PhotoListData>) =>
+  createQueryKey("photoList", options);
+
+export const photoListOptions = (options: Options<PhotoListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await photoList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: photoListQueryKey(options),
+  });
+};
+
+export const photoUploadQueryKey = (options: Options<PhotoUploadData>) =>
+  createQueryKey("photoUpload", options);
+
+export const photoUploadOptions = (options: Options<PhotoUploadData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await photoUpload({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: photoUploadQueryKey(options),
+  });
+};
+
+export const photoUploadMutation = (options?: Partial<Options<PhotoUploadData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PhotoUploadResponse,
+    PhotoUploadError,
+    Options<PhotoUploadData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await photoUpload({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const photoDeleteMutation = (options?: Partial<Options<PhotoDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PhotoDeleteResponse,
+    PhotoDeleteError,
+    Options<PhotoDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await photoDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const photoGetQueryKey = (options: Options<PhotoGetData>) =>
+  createQueryKey("photoGet", options);
+
+export const photoGetOptions = (options: Options<PhotoGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await photoGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: photoGetQueryKey(options),
+  });
+};
+
+export const photoUpdateMutation = (options?: Partial<Options<PhotoUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PhotoUpdateResponse,
+    PhotoUpdateError,
+    Options<PhotoUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await photoUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };

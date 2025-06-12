@@ -1271,87 +1271,73 @@ export const zLogLineList = z.object({
   rows: z.array(zLogLine).optional(),
 });
 
-export const zLogLineOrderByField = z.enum(["createdAt"]);
-
-export const zLogLineOrderByDirection = z.enum(["asc", "desc"]);
-
-export const zLogLineSearch = z.string();
-
-export const zLogLineLevelField = z.array(zLogLineLevel);
-
-export const zSnsIntegration = z.object({
-  metadata: zApiResourceMeta,
-  tenantId: z.string().uuid(),
-  topicArn: z.string(),
-  ingestUrl: z.string().optional(),
+export const zPAccountProperties = z.object({
+  username: z.string(),
+  password: z.string(),
+  email: z.string(),
+  enabled: z.boolean(),
 });
 
-export const zListSnsIntegrations = z.object({
+export const zPAccount = z
+  .object({
+    metadata: zApiResourceMeta,
+  })
+  .merge(zPAccountProperties);
+
+export const zPAccountList = z.object({
   pagination: zPaginationResponse,
-  rows: z.array(zSnsIntegration),
+  rows: z.array(zPAccount),
 });
 
-export const zSlackWebhook = z.object({
+export const zPAccountCreate = zPAccountProperties;
+
+export const zAlbum = z.object({
   metadata: zApiResourceMeta,
-  tenantId: z.string().uuid(),
-  teamName: z.string(),
-  teamId: z.string(),
-  channelName: z.string(),
-  channelId: z.string(),
+  name: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  coverPhotoId: z.string().uuid().optional(),
 });
 
-export const zListSlackWebhooks = z.object({
-  pagination: zPaginationResponse,
-  rows: z.array(zSlackWebhook),
-});
-
-export const zCreateSnsIntegrationRequest = z.object({
-  topicArn: z.string(),
-});
-
-export const zWorkflowMetrics = z.object({
-  groupKeyRunsCount: z.number().int().optional(),
-  groupKeyCount: z.number().int().optional(),
-});
-
-export const zWebhookWorker = z.object({
+export const zPhoto = z.object({
   metadata: zApiResourceMeta,
-  name: z.string(),
+  filename: z.string(),
+  albumId: z.string().uuid(),
   url: z.string(),
+  thumbnailUrl: z.string(),
+  description: z.string().max(500).optional(),
+  takenAt: z.string().datetime().optional(),
 });
 
-export const zWebhookWorkerRequestMethod = z.enum(["GET", "POST", "PUT"]);
-
-export const zWebhookWorkerRequest = z.object({
-  created_at: z.string().datetime(),
-  method: zWebhookWorkerRequestMethod,
-  statusCode: z.number().int(),
-});
-
-export const zWebhookWorkerRequestListResponse = z.object({
-  requests: z.array(zWebhookWorkerRequest).optional(),
-});
-
-export const zWebhookWorkerCreated = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  url: z.string(),
-  secret: z.string(),
-});
-
-export const zWebhookWorkerCreateRequest = z.object({
-  name: z.string(),
-  url: z.string(),
-  secret: z.string().min(32).optional(),
-});
-
-export const zWebhookWorkerCreateResponse = z.object({
-  worker: zWebhookWorkerCreated.optional(),
-});
-
-export const zWebhookWorkerListResponse = z.object({
+export const zAlbumList = z.object({
   pagination: zPaginationResponse.optional(),
-  rows: z.array(zWebhookWorker).optional(),
+  rows: z.array(zAlbum).optional(),
+});
+
+export const zPhotoList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zPhoto).optional(),
+});
+
+export const zCreateAlbumRequest = z.object({
+  name: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  coverPhotoId: z.string().uuid().optional(),
+});
+
+export const zUpdateAlbumRequest = z.object({
+  name: z.string().min(1).max(100).optional(),
+  description: z.string().max(500).optional(),
+  coverPhotoId: z.string().uuid().optional(),
+});
+
+export const zUploadPhotoRequest = z.object({
+  albumId: z.string().uuid(),
+  description: z.string().max(500).optional(),
+});
+
+export const zUpdatePhotoRequest = z.object({
+  description: z.string().max(500).optional(),
+  albumId: z.string().uuid().optional(),
 });
 
 export const zApiResourceMetaProperties = z.object({
@@ -2156,133 +2142,18 @@ export const zActionRegisterInstagram = z.object({
   arg1: z.string(),
 });
 
-export const zPAccountProperties = z.object({
-  username: z.string(),
-  password: z.string(),
-  email: z.string(),
-  enabled: z.boolean(),
+export const zSlackWebhook = z.object({
+  metadata: zApiResourceMeta,
+  tenantId: z.string().uuid(),
+  teamName: z.string(),
+  teamId: z.string(),
+  channelName: z.string(),
+  channelId: z.string(),
 });
 
-export const zPAccount = zApiResourceMetaProperties.merge(zPAccountProperties);
-
-export const zPAccountList = z.object({
+export const zListSlackWebhooks = z.object({
   pagination: zPaginationResponse,
-  rows: z.array(zPAccount),
-});
-
-export const zPAccountCreate = zPAccountProperties;
-
-export const zAlbum = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  description: z.string().optional(),
-  coverPhotoId: z.string().uuid().optional(),
-  coverPhotoUrl: z.string().url().optional(),
-  photosCount: z.number().int().optional().default(0),
-  isPrivate: z.boolean().optional().default(false),
-  ownerId: z.string().uuid(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  shareUrl: z.string().url().optional(),
-  shareExpiresAt: z.string().datetime().optional(),
-});
-
-export const zPhoto = z.object({
-  id: z.string().uuid(),
-  filename: z.string(),
-  url: z.string().url(),
-  thumbnailUrl: z.string().url().optional(),
-  size: z.number().int().optional(),
-  width: z.number().int().optional(),
-  height: z.number().int().optional(),
-  mimeType: z.string().optional(),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  metadata: z.object({}).optional(),
-  location: z
-    .object({
-      latitude: z.number().optional(),
-      longitude: z.number().optional(),
-      name: z.string().optional(),
-    })
-    .optional(),
-  takenAt: z.string().datetime().optional(),
-  ownerId: z.string().uuid(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-  albums: z
-    .array(
-      z.object({
-        id: z.string().uuid().optional(),
-        name: z.string().optional(),
-      }),
-    )
-    .optional(),
-  faceDetection: z
-    .array(
-      z.object({
-        x: z.number().int().optional(),
-        y: z.number().int().optional(),
-        width: z.number().int().optional(),
-        height: z.number().int().optional(),
-        personId: z.string().uuid().optional(),
-        personName: z.string().optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zAlbumList = z.array(zAlbum);
-
-export const zPhotoList = z.array(zPhoto);
-
-export const zCreateAlbumRequest = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  isPrivate: z.boolean().optional().default(false),
-});
-
-export const zUpdateAlbumRequest = z.object({
-  name: z.string().optional(),
-  description: z.string().optional(),
-  isPrivate: z.boolean().optional(),
-  coverPhotoId: z.string().uuid().optional(),
-});
-
-export const zUploadPhotoRequest = z.object({
-  photos: z.array(z.string()),
-  albumId: z.string().uuid().optional(),
-  metadata: z
-    .array(
-      z.object({
-        title: z.string().optional(),
-        description: z.string().optional(),
-        tags: z.array(z.string()).optional(),
-        location: z
-          .object({
-            latitude: z.number().optional(),
-            longitude: z.number().optional(),
-            name: z.string().optional(),
-          })
-          .optional(),
-        takenAt: z.string().datetime().optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zUpdatePhotoRequest = z.object({
-  filename: z.string().optional(),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  location: z
-    .object({
-      latitude: z.number().optional(),
-      longitude: z.number().optional(),
-      name: z.string().optional(),
-    })
-    .optional(),
-  takenAt: z.string().datetime().optional(),
+  rows: z.array(zSlackWebhook),
 });
 
 export const zMetadataGetResponse = zApiMeta;
@@ -2383,85 +2254,6 @@ export const zPostListResponse = zPostList;
 
 export const zPostCreateResponse = zPost;
 
-export const zGetAlbumsResponse = z.object({
-  data: z.array(zAlbum).optional(),
-  pagination: z
-    .object({
-      total: z.number().int().optional(),
-      page: z.number().int().optional(),
-      pageSize: z.number().int().optional(),
-    })
-    .optional(),
-});
-
-export const zCreateAlbumResponse = zAlbum;
-
-export const zDeleteAlbumResponse = z.void();
-
-export const zGetAlbumResponse = zAlbum;
-
-export const zUpdateAlbumResponse = zAlbum;
-
-export const zGetAlbumPhotosResponse = z.object({
-  data: z.array(zPhoto).optional(),
-  pagination: z
-    .object({
-      total: z.number().int().optional(),
-      page: z.number().int().optional(),
-      pageSize: z.number().int().optional(),
-    })
-    .optional(),
-});
-
-export const zAddPhotosToAlbumResponse = z.object({
-  addedPhotos: z.array(zPhoto).optional(),
-});
-
-export const zRemovePhotoFromAlbumResponse = z.void();
-
-export const zGetPhotosResponse = z.object({
-  data: z.array(zPhoto).optional(),
-  pagination: z
-    .object({
-      total: z.number().int().optional(),
-      page: z.number().int().optional(),
-      pageSize: z.number().int().optional(),
-    })
-    .optional(),
-});
-
-export const zUploadPhotosResponse = z.object({
-  uploadedPhotos: z.array(zPhoto).optional(),
-});
-
-export const zDeletePhotoResponse = z.void();
-
-export const zGetPhotoResponse = zPhoto;
-
-export const zUpdatePhotoResponse = zPhoto;
-
-export const zGetPhotoTagsResponse = z.object({
-  tags: z
-    .array(
-      z.object({
-        name: z.string().optional(),
-        count: z.number().int().optional(),
-      }),
-    )
-    .optional(),
-});
-
-export const zSearchPhotosResponse = z.object({
-  data: z.array(zPhoto).optional(),
-  pagination: z
-    .object({
-      total: z.number().int().optional(),
-      page: z.number().int().optional(),
-      pageSize: z.number().int().optional(),
-    })
-    .optional(),
-});
-
 export const zArtifactListResponse = zArtifactList;
 
 export const zArtifactGetResponse = zArtifact;
@@ -2491,3 +2283,23 @@ export const zBotHeartbeatResponse = zBotConfig;
 export const zPAccountCreateResponse = zPAccount;
 
 export const zPAccountListResponse = zPAccountList;
+
+export const zAlbumListResponse = zAlbumList;
+
+export const zAlbumCreateResponse = zAlbum;
+
+export const zAlbumDeleteResponse = z.void();
+
+export const zAlbumGetResponse = zAlbum;
+
+export const zAlbumUpdateResponse = zAlbum;
+
+export const zPhotoListResponse = zPhotoList;
+
+export const zPhotoUploadResponse = zPhoto;
+
+export const zPhotoDeleteResponse = z.void();
+
+export const zPhotoGetResponse = zPhoto;
+
+export const zPhotoUpdateResponse = zPhoto;

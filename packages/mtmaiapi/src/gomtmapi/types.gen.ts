@@ -1370,171 +1370,126 @@ export type LogLineList = {
   rows?: Array<LogLine>;
 };
 
-export type LogLineOrderByField = "createdAt";
-
-export const LogLineOrderByField = {
-  CREATED_AT: "createdAt",
-} as const;
-
-export type LogLineOrderByDirection = "asc" | "desc";
-
-export const LogLineOrderByDirection = {
-  ASC: "asc",
-  DESC: "desc",
-} as const;
-
-export type LogLineSearch = string;
-
-export type LogLineLevelField = Array<LogLineLevel>;
-
-export type SnsIntegration = {
-  metadata: ApiResourceMeta;
-  /**
-   * The unique identifier for the tenant that the SNS integration belongs to.
-   */
-  tenantId: string;
-  /**
-   * The Amazon Resource Name (ARN) of the SNS topic.
-   */
-  topicArn: string;
-  /**
-   * The URL to send SNS messages to.
-   */
-  ingestUrl?: string;
+export type PAccountProperties = {
+  username: string;
+  password: string;
+  email: string;
+  enabled: boolean;
 };
 
-export type ListSnsIntegrations = {
+export type PAccount = ApiResourceMetaProperties & PAccountProperties;
+
+export type PAccountList = {
   pagination: PaginationResponse;
-  rows: Array<SnsIntegration>;
+  rows: Array<PAccount>;
 };
 
-export type SlackWebhook = {
+export type PAccountCreate = PAccountProperties;
+
+export type Album = {
   metadata: ApiResourceMeta;
   /**
-   * The unique identifier for the tenant that the SNS integration belongs to.
-   */
-  tenantId: string;
-  /**
-   * The team name associated with this slack webhook.
-   */
-  teamName: string;
-  /**
-   * The team id associated with this slack webhook.
-   */
-  teamId: string;
-  /**
-   * The channel name associated with this slack webhook.
-   */
-  channelName: string;
-  /**
-   * The channel id associated with this slack webhook.
-   */
-  channelId: string;
-};
-
-export type ListSlackWebhooks = {
-  pagination: PaginationResponse;
-  rows: Array<SlackWebhook>;
-};
-
-export type CreateSnsIntegrationRequest = {
-  /**
-   * The Amazon Resource Name (ARN) of the SNS topic.
-   */
-  topicArn: string;
-};
-
-export type WorkflowMetrics = {
-  /**
-   * The number of runs for a specific group key (passed via filter)
-   */
-  groupKeyRunsCount?: number;
-  /**
-   * The total number of concurrency group keys.
-   */
-  groupKeyCount?: number;
-};
-
-export type WebhookWorker = {
-  metadata: ApiResourceMeta;
-  /**
-   * The name of the webhook worker.
+   * The name of the album
    */
   name: string;
   /**
-   * The webhook url.
+   * The description of the album
    */
-  url: string;
+  description?: string;
+  /**
+   * The ID of the cover photo for this album
+   */
+  coverPhotoId?: string;
 };
 
-export type WebhookWorkerRequestMethod = "GET" | "POST" | "PUT";
-
-export const WebhookWorkerRequestMethod = {
-  GET: "GET",
-  POST: "POST",
-  PUT: "PUT",
-} as const;
-
-export type WebhookWorkerRequest = {
-  /**
-   * The date and time the request was created.
-   */
-  created_at: string;
-  /**
-   * The HTTP method used for the request.
-   */
-  method: WebhookWorkerRequestMethod;
-  /**
-   * The HTTP status code of the response.
-   */
-  statusCode: number;
-};
-
-export type WebhookWorkerRequestListResponse = {
-  /**
-   * The list of webhook requests.
-   */
-  requests?: Array<WebhookWorkerRequest>;
-};
-
-export type WebhookWorkerCreated = {
+export type Photo = {
   metadata: ApiResourceMeta;
   /**
-   * The name of the webhook worker.
+   * The filename of the photo
    */
-  name: string;
+  filename: string;
   /**
-   * The webhook url.
+   * The ID of the album this photo belongs to
+   */
+  albumId: string;
+  /**
+   * The URL to access the photo
    */
   url: string;
   /**
-   * The secret key for validation.
+   * The URL to access the thumbnail of the photo
    */
-  secret: string;
+  thumbnailUrl: string;
+  /**
+   * The description of the photo
+   */
+  description?: string;
+  /**
+   * The date and time when the photo was taken
+   */
+  takenAt?: string;
 };
 
-export type WebhookWorkerCreateRequest = {
-  /**
-   * The name of the webhook worker.
-   */
-  name: string;
-  /**
-   * The webhook url.
-   */
-  url: string;
-  /**
-   * The secret key for validation. If not provided, a random secret will be generated.
-   */
-  secret?: string;
-};
-
-export type WebhookWorkerCreateResponse = {
-  worker?: WebhookWorkerCreated;
-};
-
-export type WebhookWorkerListResponse = {
+export type AlbumList = {
   pagination?: PaginationResponse;
-  rows?: Array<WebhookWorker>;
+  rows?: Array<Album>;
+};
+
+export type PhotoList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Photo>;
+};
+
+export type CreateAlbumRequest = {
+  /**
+   * The name of the album
+   */
+  name: string;
+  /**
+   * The description of the album
+   */
+  description?: string;
+  /**
+   * The ID of the cover photo for this album
+   */
+  coverPhotoId?: string;
+};
+
+export type UpdateAlbumRequest = {
+  /**
+   * The name of the album
+   */
+  name?: string;
+  /**
+   * The description of the album
+   */
+  description?: string;
+  /**
+   * The ID of the cover photo for this album
+   */
+  coverPhotoId?: string;
+};
+
+export type UploadPhotoRequest = {
+  /**
+   * The ID of the album this photo belongs to
+   */
+  albumId: string;
+  /**
+   * The description of the photo
+   */
+  description?: string;
+};
+
+export type UpdatePhotoRequest = {
+  /**
+   * The description of the photo
+   */
+  description?: string;
+  /**
+   * The ID of the album this photo belongs to
+   */
+  albumId?: string;
 };
 
 export type ApiResourceMetaProperties = {
@@ -2420,336 +2375,33 @@ export type ActionRegisterInstagram = {
   arg1: string;
 };
 
-export type PAccountProperties = {
-  username: string;
-  password: string;
-  email: string;
-  enabled: boolean;
+export type SlackWebhook = {
+  metadata: ApiResourceMeta;
+  /**
+   * The unique identifier for the tenant that the SNS integration belongs to.
+   */
+  tenantId: string;
+  /**
+   * The team name associated with this slack webhook.
+   */
+  teamName: string;
+  /**
+   * The team id associated with this slack webhook.
+   */
+  teamId: string;
+  /**
+   * The channel name associated with this slack webhook.
+   */
+  channelName: string;
+  /**
+   * The channel id associated with this slack webhook.
+   */
+  channelId: string;
 };
 
-export type PAccount = ApiResourceMetaProperties & PAccountProperties;
-
-export type PAccountList = {
+export type ListSlackWebhooks = {
   pagination: PaginationResponse;
-  rows: Array<PAccount>;
-};
-
-export type PAccountCreate = PAccountProperties;
-
-/**
- * Album object that represents a collection of photos
- */
-export type Album = {
-  /**
-   * Unique identifier for the album
-   */
-  id: string;
-  /**
-   * Name of the album
-   */
-  name: string;
-  /**
-   * Description of the album content
-   */
-  description?: string;
-  /**
-   * ID of the photo used as album cover
-   */
-  coverPhotoId?: string;
-  /**
-   * URL of the album cover photo
-   */
-  coverPhotoUrl?: string;
-  /**
-   * Number of photos in the album
-   */
-  photosCount?: number;
-  /**
-   * Whether the album is private or public
-   */
-  isPrivate?: boolean;
-  /**
-   * ID of the album owner
-   */
-  ownerId: string;
-  /**
-   * When the album was created
-   */
-  createdAt: string;
-  /**
-   * When the album was last updated
-   */
-  updatedAt: string;
-  /**
-   * URL for sharing the album (if shared)
-   */
-  shareUrl?: string;
-  /**
-   * When the share link expires (if applicable)
-   */
-  shareExpiresAt?: string;
-};
-
-/**
- * Photo object that represents an image file in the system
- */
-export type Photo = {
-  /**
-   * Unique identifier for the photo
-   */
-  id: string;
-  /**
-   * Name of the photo file
-   */
-  filename: string;
-  /**
-   * URL to access the full-sized photo
-   */
-  url: string;
-  /**
-   * URL to access the thumbnail version of the photo
-   */
-  thumbnailUrl?: string;
-  /**
-   * File size in bytes
-   */
-  size?: number;
-  /**
-   * Image width in pixels
-   */
-  width?: number;
-  /**
-   * Image height in pixels
-   */
-  height?: number;
-  /**
-   * MIME type of the file (e.g., image/jpeg, image/png)
-   */
-  mimeType?: string;
-  /**
-   * User-provided description of the photo
-   */
-  description?: string;
-  /**
-   * List of tags associated with the photo
-   */
-  tags?: Array<string>;
-  /**
-   * Photo metadata from EXIF or other sources
-   */
-  metadata?: {
-    [key: string]: unknown;
-  };
-  /**
-   * Geographic location where the photo was taken
-   */
-  location?: {
-    /**
-     * Latitude coordinate of where the photo was taken
-     */
-    latitude?: number;
-    /**
-     * Longitude coordinate of where the photo was taken
-     */
-    longitude?: number;
-    /**
-     * Human-readable location name
-     */
-    name?: string;
-  };
-  /**
-   * When the photo was taken (from EXIF data or user input)
-   */
-  takenAt?: string;
-  /**
-   * ID of the photo owner
-   */
-  ownerId: string;
-  /**
-   * When the photo was uploaded to the system
-   */
-  createdAt: string;
-  /**
-   * When the photo information was last updated
-   */
-  updatedAt: string;
-  /**
-   * List of albums this photo belongs to
-   */
-  albums?: Array<{
-    id?: string;
-    name?: string;
-  }>;
-  /**
-   * Face detection results if enabled
-   */
-  faceDetection?: Array<{
-    /**
-     * X coordinate of the face rectangle
-     */
-    x?: number;
-    /**
-     * Y coordinate of the face rectangle
-     */
-    y?: number;
-    /**
-     * Width of the face rectangle
-     */
-    width?: number;
-    /**
-     * Height of the face rectangle
-     */
-    height?: number;
-    /**
-     * ID of the identified person if recognized
-     */
-    personId?: string;
-    /**
-     * Name of the identified person if recognized
-     */
-    personName?: string;
-  }>;
-};
-
-/**
- * List of album objects
- */
-export type AlbumList = Array<Album>;
-
-/**
- * List of photo objects
- */
-export type PhotoList = Array<Photo>;
-
-/**
- * Request body for creating a new album
- */
-export type CreateAlbumRequest = {
-  /**
-   * Name of the album
-   */
-  name: string;
-  /**
-   * Description of the album content
-   */
-  description?: string;
-  /**
-   * Whether the album is private or public
-   */
-  isPrivate?: boolean;
-};
-
-/**
- * Request body for updating an existing album
- */
-export type UpdateAlbumRequest = {
-  /**
-   * Name of the album
-   */
-  name?: string;
-  /**
-   * Description of the album content
-   */
-  description?: string;
-  /**
-   * Whether the album is private or public
-   */
-  isPrivate?: boolean;
-  /**
-   * ID of the photo to use as album cover
-   */
-  coverPhotoId?: string;
-};
-
-/**
- * Request body for uploading photos
- */
-export type UploadPhotoRequest = {
-  /**
-   * Photo files to upload
-   */
-  photos: Array<Blob | File>;
-  /**
-   * Album ID to add photos to (optional)
-   */
-  albumId?: string;
-  /**
-   * Metadata for each uploaded photo, must match the order of the photos array
-   */
-  metadata?: Array<{
-    /**
-     * Photo title
-     */
-    title?: string;
-    /**
-     * Photo description
-     */
-    description?: string;
-    /**
-     * Photo tags
-     */
-    tags?: Array<string>;
-    /**
-     * Geographic location where the photo was taken
-     */
-    location?: {
-      /**
-       * Latitude coordinate of where the photo was taken
-       */
-      latitude?: number;
-      /**
-       * Longitude coordinate of where the photo was taken
-       */
-      longitude?: number;
-      /**
-       * Human-readable location name
-       */
-      name?: string;
-    };
-    /**
-     * When the photo was taken
-     */
-    takenAt?: string;
-  }>;
-};
-
-/**
- * Request body for updating photo information
- */
-export type UpdatePhotoRequest = {
-  /**
-   * Photo filename
-   */
-  filename?: string;
-  /**
-   * Photo description
-   */
-  description?: string;
-  /**
-   * Photo tags
-   */
-  tags?: Array<string>;
-  /**
-   * Geographic location where the photo was taken
-   */
-  location?: {
-    /**
-     * Latitude coordinate of where the photo was taken
-     */
-    latitude?: number;
-    /**
-     * Longitude coordinate of where the photo was taken
-     */
-    longitude?: number;
-    /**
-     * Human-readable location name
-     */
-    name?: string;
-  };
-  /**
-   * When the photo was taken
-   */
-  takenAt?: string;
+  rows: Array<SlackWebhook>;
 };
 
 export type ReadinessGetData = {
@@ -4551,799 +4203,6 @@ export type PostCreateResponses = {
 
 export type PostCreateResponse = PostCreateResponses[keyof PostCreateResponses];
 
-export type GetAlbumsData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * Page number for pagination
-     */
-    page?: number;
-    /**
-     * Number of items per page
-     */
-    pageSize?: number;
-    /**
-     * Field to sort by
-     */
-    sortBy?: "createdAt" | "updatedAt" | "name";
-    /**
-     * Sort direction
-     */
-    sortOrder?: "asc" | "desc";
-  };
-  url: "/api/v1/tenants/{tenant}/albums";
-};
-
-export type GetAlbumsErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type GetAlbumsResponses = {
-  /**
-   * Successfully retrieved album list
-   */
-  200: {
-    data?: Array<Album>;
-    pagination?: {
-      total?: number;
-      page?: number;
-      pageSize?: number;
-    };
-  };
-};
-
-export type GetAlbumsResponse = GetAlbumsResponses[keyof GetAlbumsResponses];
-
-export type CreateAlbumData = {
-  body: {
-    /**
-     * Album name
-     */
-    name: string;
-    /**
-     * Album description
-     */
-    description?: string;
-    /**
-     * Whether the album is private
-     */
-    isPrivate?: boolean;
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/albums";
-};
-
-export type CreateAlbumErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type CreateAlbumResponses = {
-  /**
-   * Album created successfully
-   */
-  201: Album;
-};
-
-export type CreateAlbumResponse = CreateAlbumResponses[keyof CreateAlbumResponses];
-
-export type DeleteAlbumData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-  };
-  query?: {
-    /**
-     * Whether to delete the photos in the album or just remove the association
-     */
-    deletePhotos?: boolean;
-  };
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}";
-};
-
-export type DeleteAlbumErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album not found
-   */
-  404: unknown;
-};
-
-export type DeleteAlbumResponses = {
-  /**
-   * Album deleted successfully
-   */
-  204: void;
-};
-
-export type DeleteAlbumResponse = DeleteAlbumResponses[keyof DeleteAlbumResponses];
-
-export type GetAlbumData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}";
-};
-
-export type GetAlbumErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album not found
-   */
-  404: unknown;
-};
-
-export type GetAlbumResponses = {
-  /**
-   * Successfully retrieved album details
-   */
-  200: Album;
-};
-
-export type GetAlbumResponse = GetAlbumResponses[keyof GetAlbumResponses];
-
-export type UpdateAlbumData = {
-  body: {
-    /**
-     * Album name
-     */
-    name?: string;
-    /**
-     * Album description
-     */
-    description?: string;
-    /**
-     * Whether the album is private
-     */
-    isPrivate?: boolean;
-    /**
-     * ID of the photo to use as album cover
-     */
-    coverPhotoId?: string;
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}";
-};
-
-export type UpdateAlbumErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album not found
-   */
-  404: unknown;
-};
-
-export type UpdateAlbumResponses = {
-  /**
-   * Album updated successfully
-   */
-  200: Album;
-};
-
-export type UpdateAlbumResponse = UpdateAlbumResponses[keyof UpdateAlbumResponses];
-
-export type GetAlbumPhotosData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-  };
-  query?: {
-    /**
-     * Page number for pagination
-     */
-    page?: number;
-    /**
-     * Number of items per page
-     */
-    pageSize?: number;
-    /**
-     * Field to sort by
-     */
-    sortBy?: "createdAt" | "takenAt" | "filename";
-    /**
-     * Sort direction
-     */
-    sortOrder?: "asc" | "desc";
-  };
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos";
-};
-
-export type GetAlbumPhotosErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album not found
-   */
-  404: unknown;
-};
-
-export type GetAlbumPhotosResponses = {
-  /**
-   * Successfully retrieved photos in the album
-   */
-  200: {
-    data?: Array<Photo>;
-    pagination?: {
-      total?: number;
-      page?: number;
-      pageSize?: number;
-    };
-  };
-};
-
-export type GetAlbumPhotosResponse = GetAlbumPhotosResponses[keyof GetAlbumPhotosResponses];
-
-export type AddPhotosToAlbumData = {
-  body: {
-    /**
-     * Photo files to upload
-     */
-    photos?: Array<Blob | File>;
-    /**
-     * Metadata for each uploaded photo, must match the order of the photos array
-     */
-    metadata?: Array<{
-      /**
-       * Photo title
-       */
-      title?: string;
-      /**
-       * Photo description
-       */
-      description?: string;
-      /**
-       * Photo location
-       */
-      location?: string;
-      /**
-       * Photo tags
-       */
-      tags?: Array<string>;
-    }>;
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos";
-};
-
-export type AddPhotosToAlbumErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album not found
-   */
-  404: unknown;
-};
-
-export type AddPhotosToAlbumResponses = {
-  /**
-   * Photos added to album successfully
-   */
-  201: {
-    addedPhotos?: Array<Photo>;
-  };
-};
-
-export type AddPhotosToAlbumResponse = AddPhotosToAlbumResponses[keyof AddPhotosToAlbumResponses];
-
-export type RemovePhotoFromAlbumData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Album ID
-     */
-    albumId: string;
-    /**
-     * Photo ID
-     */
-    photoId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos/{photoId}";
-};
-
-export type RemovePhotoFromAlbumErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Album or photo not found
-   */
-  404: unknown;
-};
-
-export type RemovePhotoFromAlbumResponses = {
-  /**
-   * Photo removed from album successfully
-   */
-  204: void;
-};
-
-export type RemovePhotoFromAlbumResponse =
-  RemovePhotoFromAlbumResponses[keyof RemovePhotoFromAlbumResponses];
-
-export type GetPhotosData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: {
-    /**
-     * Page number for pagination
-     */
-    page?: number;
-    /**
-     * Number of items per page
-     */
-    pageSize?: number;
-    /**
-     * Field to sort by
-     */
-    sortBy?: "createdAt" | "takenAt" | "filename";
-    /**
-     * Sort direction
-     */
-    sortOrder?: "asc" | "desc";
-    /**
-     * Filter by tags
-     */
-    tags?: Array<string>;
-    /**
-     * Start date (based on photo taken date)
-     */
-    startDate?: string;
-    /**
-     * End date (based on photo taken date)
-     */
-    endDate?: string;
-    /**
-     * Filter by album ID
-     */
-    albumId?: string;
-  };
-  url: "/api/v1/tenants/{tenant}/photos";
-};
-
-export type GetPhotosErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type GetPhotosResponses = {
-  /**
-   * Successfully retrieved photo list
-   */
-  200: {
-    data?: Array<Photo>;
-    pagination?: {
-      total?: number;
-      page?: number;
-      pageSize?: number;
-    };
-  };
-};
-
-export type GetPhotosResponse = GetPhotosResponses[keyof GetPhotosResponses];
-
-export type UploadPhotosData = {
-  body: {
-    /**
-     * Photo files to upload
-     */
-    photos?: Array<Blob | File>;
-    /**
-     * Album ID (optional, if you want to add directly to an album)
-     */
-    albumId?: string;
-    /**
-     * Metadata for each uploaded photo, must match the order of the photos array
-     */
-    metadata?: Array<{
-      /**
-       * Photo title
-       */
-      title?: string;
-      /**
-       * Photo description
-       */
-      description?: string;
-      /**
-       * Photo tags
-       */
-      tags?: Array<string>;
-      /**
-       * Photo location
-       */
-      location?: {
-        latitude?: number;
-        longitude?: number;
-        name?: string;
-      };
-      /**
-       * When the photo was taken
-       */
-      takenAt?: string;
-    }>;
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos";
-};
-
-export type UploadPhotosErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type UploadPhotosResponses = {
-  /**
-   * Photos uploaded successfully
-   */
-  201: {
-    uploadedPhotos?: Array<Photo>;
-  };
-};
-
-export type UploadPhotosResponse = UploadPhotosResponses[keyof UploadPhotosResponses];
-
-export type DeletePhotoData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Photo ID
-     */
-    photoId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos/{photoId}";
-};
-
-export type DeletePhotoErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Photo not found
-   */
-  404: unknown;
-};
-
-export type DeletePhotoResponses = {
-  /**
-   * Photo deleted successfully
-   */
-  204: void;
-};
-
-export type DeletePhotoResponse = DeletePhotoResponses[keyof DeletePhotoResponses];
-
-export type GetPhotoData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Photo ID
-     */
-    photoId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos/{photoId}";
-};
-
-export type GetPhotoErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Photo not found
-   */
-  404: unknown;
-};
-
-export type GetPhotoResponses = {
-  /**
-   * Successfully retrieved photo details
-   */
-  200: Photo;
-};
-
-export type GetPhotoResponse = GetPhotoResponses[keyof GetPhotoResponses];
-
-export type UpdatePhotoData = {
-  body: {
-    /**
-     * Photo filename
-     */
-    filename?: string;
-    /**
-     * Photo description
-     */
-    description?: string;
-    /**
-     * Photo tags
-     */
-    tags?: Array<string>;
-    /**
-     * Photo location
-     */
-    location?: {
-      latitude?: number;
-      longitude?: number;
-      name?: string;
-    };
-    /**
-     * When the photo was taken
-     */
-    takenAt?: string;
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-    /**
-     * Photo ID
-     */
-    photoId: string;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos/{photoId}";
-};
-
-export type UpdatePhotoErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-  /**
-   * Photo not found
-   */
-  404: unknown;
-};
-
-export type UpdatePhotoResponses = {
-  /**
-   * Photo information updated successfully
-   */
-  200: Photo;
-};
-
-export type UpdatePhotoResponse = UpdatePhotoResponses[keyof UpdatePhotoResponses];
-
-export type GetPhotoTagsData = {
-  body?: never;
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos/tags";
-};
-
-export type GetPhotoTagsErrors = {
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type GetPhotoTagsResponses = {
-  /**
-   * Successfully retrieved tag list
-   */
-  200: {
-    tags?: Array<{
-      name?: string;
-      count?: number;
-    }>;
-  };
-};
-
-export type GetPhotoTagsResponse = GetPhotoTagsResponses[keyof GetPhotoTagsResponses];
-
-export type SearchPhotosData = {
-  body: {
-    /**
-     * Search keywords
-     */
-    query?: string;
-    /**
-     * Filter by tags
-     */
-    tags?: Array<string>;
-    /**
-     * Start date (based on photo taken date)
-     */
-    startDate?: string;
-    /**
-     * End date (based on photo taken date)
-     */
-    endDate?: string;
-    /**
-     * Search by geographic location
-     */
-    location?: {
-      latitude?: number;
-      longitude?: number;
-      /**
-       * Search radius (in kilometers)
-       */
-      radius?: number;
-    };
-    /**
-     * Page number for pagination
-     */
-    page?: number;
-    /**
-     * Number of items per page
-     */
-    pageSize?: number;
-    /**
-     * Field to sort by
-     */
-    sortBy?: "relevance" | "createdAt" | "takenAt" | "filename";
-    /**
-     * Sort direction
-     */
-    sortOrder?: "asc" | "desc";
-  };
-  path: {
-    /**
-     * Tenant ID
-     */
-    tenant: TenantParameter;
-  };
-  query?: never;
-  url: "/api/v1/tenants/{tenant}/photos/search";
-};
-
-export type SearchPhotosErrors = {
-  /**
-   * Invalid request parameters
-   */
-  400: unknown;
-  /**
-   * Unauthorized
-   */
-  401: unknown;
-};
-
-export type SearchPhotosResponses = {
-  /**
-   * Search completed successfully
-   */
-  200: {
-    data?: Array<Photo>;
-    pagination?: {
-      total?: number;
-      page?: number;
-      pageSize?: number;
-    };
-  };
-};
-
-export type SearchPhotosResponse = SearchPhotosResponses[keyof SearchPhotosResponses];
-
 export type ArtifactListData = {
   body?: never;
   path: {
@@ -5744,6 +4603,411 @@ export type PAccountListResponses = {
 };
 
 export type PAccountListResponse = PAccountListResponses[keyof PAccountListResponses];
+
+export type AlbumListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums";
+};
+
+export type AlbumListErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type AlbumListError = AlbumListErrors[keyof AlbumListErrors];
+
+export type AlbumListResponses = {
+  200: AlbumList;
+};
+
+export type AlbumListResponse = AlbumListResponses[keyof AlbumListResponses];
+
+export type AlbumCreateData = {
+  body: CreateAlbumRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums";
+};
+
+export type AlbumCreateErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiError;
+};
+
+export type AlbumCreateError = AlbumCreateErrors[keyof AlbumCreateErrors];
+
+export type AlbumCreateResponses = {
+  200: Album;
+};
+
+export type AlbumCreateResponse = AlbumCreateResponses[keyof AlbumCreateResponses];
+
+export type AlbumDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}";
+};
+
+export type AlbumDeleteErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type AlbumDeleteError = AlbumDeleteErrors[keyof AlbumDeleteErrors];
+
+export type AlbumDeleteResponses = {
+  /**
+   * Album deleted successfully
+   */
+  204: void;
+};
+
+export type AlbumDeleteResponse = AlbumDeleteResponses[keyof AlbumDeleteResponses];
+
+export type AlbumGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}";
+};
+
+export type AlbumGetErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type AlbumGetError = AlbumGetErrors[keyof AlbumGetErrors];
+
+export type AlbumGetResponses = {
+  200: Album;
+};
+
+export type AlbumGetResponse = AlbumGetResponses[keyof AlbumGetResponses];
+
+export type AlbumUpdateData = {
+  body: UpdateAlbumRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}";
+};
+
+export type AlbumUpdateErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type AlbumUpdateError = AlbumUpdateErrors[keyof AlbumUpdateErrors];
+
+export type AlbumUpdateResponses = {
+  200: Album;
+};
+
+export type AlbumUpdateResponse = AlbumUpdateResponses[keyof AlbumUpdateResponses];
+
+export type PhotoListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}/photos";
+};
+
+export type PhotoListErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PhotoListError = PhotoListErrors[keyof PhotoListErrors];
+
+export type PhotoListResponses = {
+  200: PhotoList;
+};
+
+export type PhotoListResponse = PhotoListResponses[keyof PhotoListResponses];
+
+export type PhotoUploadData = {
+  body: {
+    /**
+     * The photo file to upload
+     */
+    photo: Blob | File;
+    /**
+     * The description of the photo
+     */
+    description?: string;
+  };
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}/photos";
+};
+
+export type PhotoUploadErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PhotoUploadError = PhotoUploadErrors[keyof PhotoUploadErrors];
+
+export type PhotoUploadResponses = {
+  200: Photo;
+};
+
+export type PhotoUploadResponse = PhotoUploadResponses[keyof PhotoUploadResponses];
+
+export type PhotoDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+    /**
+     * The photo id
+     */
+    photo: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}";
+};
+
+export type PhotoDeleteErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PhotoDeleteError = PhotoDeleteErrors[keyof PhotoDeleteErrors];
+
+export type PhotoDeleteResponses = {
+  /**
+   * Photo deleted successfully
+   */
+  204: void;
+};
+
+export type PhotoDeleteResponse = PhotoDeleteResponses[keyof PhotoDeleteResponses];
+
+export type PhotoGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+    /**
+     * The photo id
+     */
+    photo: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}";
+};
+
+export type PhotoGetErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PhotoGetError = PhotoGetErrors[keyof PhotoGetErrors];
+
+export type PhotoGetResponses = {
+  200: Photo;
+};
+
+export type PhotoGetResponse = PhotoGetResponses[keyof PhotoGetResponses];
+
+export type PhotoUpdateData = {
+  body: UpdatePhotoRequest;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The album id
+     */
+    album: string;
+    /**
+     * The photo id
+     */
+    photo: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}";
+};
+
+export type PhotoUpdateErrors = {
+  /**
+   * 请求错误
+   */
+  400: ApiErrors;
+  /**
+   * 权限不足
+   */
+  403: ApiErrors;
+  /**
+   * 资源不存在
+   */
+  404: ApiErrors;
+};
+
+export type PhotoUpdateError = PhotoUpdateErrors[keyof PhotoUpdateErrors];
+
+export type PhotoUpdateResponses = {
+  200: Photo;
+};
+
+export type PhotoUpdateResponse = PhotoUpdateResponses[keyof PhotoUpdateResponses];
 
 export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});

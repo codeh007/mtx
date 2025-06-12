@@ -2454,52 +2454,37 @@ export const LogLineListSchema = {
   },
 } as const;
 
-export const LogLineOrderByFieldSchema = {
-  type: "string",
-  enum: ["createdAt"],
-} as const;
-
-export const LogLineOrderByDirectionSchema = {
-  type: "string",
-  enum: ["asc", "desc"],
-} as const;
-
-export const LogLineSearchSchema = {
-  type: "string",
-} as const;
-
-export const LogLineLevelFieldSchema = {
-  type: "array",
-  items: {
-    $ref: "#/components/schemas/LogLineLevel",
-  },
-} as const;
-
-export const SNSIntegrationSchema = {
-  type: "object",
+export const PAccountPropertiesSchema = {
+  required: ["username", "password", "email", "enabled"],
   properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    tenantId: {
+    username: {
       type: "string",
-      format: "uuid",
-      description: "The unique identifier for the tenant that the SNS integration belongs to.",
     },
-    topicArn: {
+    password: {
       type: "string",
-      description: "The Amazon Resource Name (ARN) of the SNS topic.",
     },
-    ingestUrl: {
+    email: {
       type: "string",
-      description: "The URL to send SNS messages to.",
+    },
+    enabled: {
+      type: "boolean",
     },
   },
-  required: ["metadata", "tenantId", "topicArn"],
 } as const;
 
-export const ListSNSIntegrationsSchema = {
-  type: "object",
+export const PAccountSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/PAccountProperties",
+    },
+  ],
+} as const;
+
+export const PAccountListSchema = {
+  required: ["pagination", "rows"],
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
@@ -2507,208 +2492,181 @@ export const ListSNSIntegrationsSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/SNSIntegration",
+        $ref: "#/components/schemas/PAccount",
       },
     },
   },
-  required: ["pagination", "rows"],
 } as const;
 
-export const SlackWebhookSchema = {
-  type: "object",
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
+export const PAccountCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PAccountProperties",
     },
-    tenantId: {
-      type: "string",
-      format: "uuid",
-      description: "The unique identifier for the tenant that the SNS integration belongs to.",
-    },
-    teamName: {
-      type: "string",
-      description: "The team name associated with this slack webhook.",
-    },
-    teamId: {
-      type: "string",
-      description: "The team id associated with this slack webhook.",
-    },
-    channelName: {
-      type: "string",
-      description: "The channel name associated with this slack webhook.",
-    },
-    channelId: {
-      type: "string",
-      description: "The channel id associated with this slack webhook.",
-    },
-  },
-  required: ["metadata", "tenantId", "teamName", "teamId", "channelName", "channelId"],
+  ],
 } as const;
 
-export const ListSlackWebhooksSchema = {
-  type: "object",
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/SlackWebhook",
-      },
-    },
-  },
-  required: ["pagination", "rows"],
-} as const;
-
-export const CreateSNSIntegrationRequestSchema = {
-  properties: {
-    topicArn: {
-      type: "string",
-      description: "The Amazon Resource Name (ARN) of the SNS topic.",
-      "x-oapi-codegen-extra-tags": {
-        validate: "required,min=1,max=256",
-      },
-    },
-  },
-  required: ["topicArn"],
-  type: "object",
-} as const;
-
-export const WorkflowMetricsSchema = {
-  type: "object",
-  properties: {
-    groupKeyRunsCount: {
-      type: "integer",
-      description: "The number of runs for a specific group key (passed via filter)",
-    },
-    groupKeyCount: {
-      type: "integer",
-      description: "The total number of concurrency group keys.",
-    },
-  },
-} as const;
-
-export const WebhookWorkerSchema = {
+export const AlbumSchema = {
   properties: {
     metadata: {
       $ref: "#/components/schemas/APIResourceMeta",
     },
     name: {
       type: "string",
-      description: "The name of the webhook worker.",
+      description: "The name of the album",
+      minLength: 1,
+      maxLength: 100,
+    },
+    description: {
+      type: "string",
+      description: "The description of the album",
+      maxLength: 500,
+    },
+    coverPhotoId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the cover photo for this album",
+    },
+  },
+  required: ["metadata", "name"],
+} as const;
+
+export const PhotoSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    filename: {
+      type: "string",
+      description: "The filename of the photo",
+    },
+    albumId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the album this photo belongs to",
     },
     url: {
       type: "string",
-      description: "The webhook url.",
+      description: "The URL to access the photo",
     },
-  },
-  required: ["metadata", "name", "url"],
-  type: "object",
-} as const;
-
-export const WebhookWorkerRequestMethodSchema = {
-  enum: ["GET", "POST", "PUT"],
-} as const;
-
-export const WebhookWorkerRequestSchema = {
-  properties: {
-    created_at: {
+    thumbnailUrl: {
+      type: "string",
+      description: "The URL to access the thumbnail of the photo",
+    },
+    description: {
+      type: "string",
+      description: "The description of the photo",
+      maxLength: 500,
+    },
+    takenAt: {
       type: "string",
       format: "date-time",
-      description: "The date and time the request was created.",
-    },
-    method: {
-      $ref: "#/components/schemas/WebhookWorkerRequestMethod",
-      description: "The HTTP method used for the request.",
-    },
-    statusCode: {
-      type: "integer",
-      description: "The HTTP status code of the response.",
+      description: "The date and time when the photo was taken",
     },
   },
-  required: ["created_at", "method", "statusCode"],
-  type: "object",
+  required: ["metadata", "filename", "albumId", "url", "thumbnailUrl"],
 } as const;
 
-export const WebhookWorkerRequestListResponseSchema = {
-  properties: {
-    requests: {
-      type: "array",
-      items: {
-        $ref: "#/components/schemas/WebhookWorkerRequest",
-      },
-      description: "The list of webhook requests.",
-    },
-  },
-  type: "object",
-} as const;
-
-export const WebhookWorkerCreatedSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-      description: "The name of the webhook worker.",
-    },
-    url: {
-      type: "string",
-      description: "The webhook url.",
-    },
-    secret: {
-      type: "string",
-      description: "The secret key for validation.",
-    },
-  },
-  required: ["metadata", "name", "url", "secret"],
-  type: "object",
-} as const;
-
-export const WebhookWorkerCreateRequestSchema = {
-  properties: {
-    name: {
-      type: "string",
-      description: "The name of the webhook worker.",
-    },
-    url: {
-      type: "string",
-      description: "The webhook url.",
-    },
-    secret: {
-      type: "string",
-      description:
-        "The secret key for validation. If not provided, a random secret will be generated.",
-      minLength: 32,
-    },
-  },
-  required: ["name", "url"],
-  type: "object",
-} as const;
-
-export const WebhookWorkerCreateResponseSchema = {
-  properties: {
-    worker: {
-      $ref: "#/components/schemas/WebhookWorkerCreated",
-    },
-  },
-  type: "object",
-} as const;
-
-export const WebhookWorkerListResponseSchema = {
+export const AlbumListSchema = {
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
     },
     rows: {
       items: {
-        $ref: "#/components/schemas/WebhookWorker",
+        $ref: "#/components/schemas/Album",
       },
       type: "array",
     },
   },
-  type: "object",
+} as const;
+
+export const PhotoListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Photo",
+      },
+      type: "array",
+    },
+  },
+} as const;
+
+export const CreateAlbumRequestSchema = {
+  properties: {
+    name: {
+      type: "string",
+      description: "The name of the album",
+      minLength: 1,
+      maxLength: 100,
+    },
+    description: {
+      type: "string",
+      description: "The description of the album",
+      maxLength: 500,
+    },
+    coverPhotoId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the cover photo for this album",
+    },
+  },
+  required: ["name"],
+} as const;
+
+export const UpdateAlbumRequestSchema = {
+  properties: {
+    name: {
+      type: "string",
+      description: "The name of the album",
+      minLength: 1,
+      maxLength: 100,
+    },
+    description: {
+      type: "string",
+      description: "The description of the album",
+      maxLength: 500,
+    },
+    coverPhotoId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the cover photo for this album",
+    },
+  },
+} as const;
+
+export const UploadPhotoRequestSchema = {
+  properties: {
+    albumId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the album this photo belongs to",
+    },
+    description: {
+      type: "string",
+      description: "The description of the photo",
+      maxLength: 500,
+    },
+  },
+  required: ["albumId"],
+} as const;
+
+export const UpdatePhotoRequestSchema = {
+  properties: {
+    description: {
+      type: "string",
+      description: "The description of the photo",
+      maxLength: 500,
+    },
+    albumId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the album this photo belongs to",
+    },
+  },
 } as const;
 
 export const APIResourceMetaPropertiesSchema = {
@@ -4493,37 +4451,39 @@ export const ActionRegisterInstagramSchema = {
   },
 } as const;
 
-export const PAccountPropertiesSchema = {
-  required: ["username", "password", "email", "enabled"],
+export const SlackWebhookSchema = {
+  type: "object",
   properties: {
-    username: {
-      type: "string",
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
     },
-    password: {
+    tenantId: {
       type: "string",
+      format: "uuid",
+      description: "The unique identifier for the tenant that the SNS integration belongs to.",
     },
-    email: {
+    teamName: {
       type: "string",
+      description: "The team name associated with this slack webhook.",
     },
-    enabled: {
-      type: "boolean",
+    teamId: {
+      type: "string",
+      description: "The team id associated with this slack webhook.",
+    },
+    channelName: {
+      type: "string",
+      description: "The channel name associated with this slack webhook.",
+    },
+    channelId: {
+      type: "string",
+      description: "The channel id associated with this slack webhook.",
     },
   },
+  required: ["metadata", "tenantId", "teamName", "teamId", "channelName", "channelId"],
 } as const;
 
-export const PAccountSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/APIResourceMetaProperties",
-    },
-    {
-      $ref: "#/components/schemas/PAccountProperties",
-    },
-  ],
-} as const;
-
-export const PAccountListSchema = {
-  required: ["pagination", "rows"],
+export const ListSlackWebhooksSchema = {
+  type: "object",
   properties: {
     pagination: {
       $ref: "#/components/schemas/PaginationResponse",
@@ -4531,430 +4491,9 @@ export const PAccountListSchema = {
     rows: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/PAccount",
+        $ref: "#/components/schemas/SlackWebhook",
       },
     },
   },
-} as const;
-
-export const PAccountCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/PAccountProperties",
-    },
-  ],
-} as const;
-
-export const AlbumSchema = {
-  type: "object",
-  description: "Album object that represents a collection of photos",
-  required: ["id", "name", "createdAt", "updatedAt", "ownerId"],
-  properties: {
-    id: {
-      type: "string",
-      format: "uuid",
-      description: "Unique identifier for the album",
-    },
-    name: {
-      type: "string",
-      description: "Name of the album",
-    },
-    description: {
-      type: "string",
-      description: "Description of the album content",
-      nullable: true,
-    },
-    coverPhotoId: {
-      type: "string",
-      format: "uuid",
-      description: "ID of the photo used as album cover",
-      nullable: true,
-    },
-    coverPhotoUrl: {
-      type: "string",
-      format: "uri",
-      description: "URL of the album cover photo",
-      nullable: true,
-    },
-    photosCount: {
-      type: "integer",
-      description: "Number of photos in the album",
-      default: 0,
-    },
-    isPrivate: {
-      type: "boolean",
-      description: "Whether the album is private or public",
-      default: false,
-    },
-    ownerId: {
-      type: "string",
-      format: "uuid",
-      description: "ID of the album owner",
-    },
-    createdAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the album was created",
-    },
-    updatedAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the album was last updated",
-    },
-    shareUrl: {
-      type: "string",
-      format: "uri",
-      description: "URL for sharing the album (if shared)",
-      nullable: true,
-    },
-    shareExpiresAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the share link expires (if applicable)",
-      nullable: true,
-    },
-  },
-} as const;
-
-export const PhotoSchema = {
-  type: "object",
-  description: "Photo object that represents an image file in the system",
-  required: ["id", "filename", "url", "createdAt", "updatedAt", "ownerId"],
-  properties: {
-    id: {
-      type: "string",
-      format: "uuid",
-      description: "Unique identifier for the photo",
-    },
-    filename: {
-      type: "string",
-      description: "Name of the photo file",
-    },
-    url: {
-      type: "string",
-      format: "uri",
-      description: "URL to access the full-sized photo",
-    },
-    thumbnailUrl: {
-      type: "string",
-      format: "uri",
-      description: "URL to access the thumbnail version of the photo",
-      nullable: true,
-    },
-    size: {
-      type: "integer",
-      description: "File size in bytes",
-    },
-    width: {
-      type: "integer",
-      description: "Image width in pixels",
-      nullable: true,
-    },
-    height: {
-      type: "integer",
-      description: "Image height in pixels",
-      nullable: true,
-    },
-    mimeType: {
-      type: "string",
-      description: "MIME type of the file (e.g., image/jpeg, image/png)",
-    },
-    description: {
-      type: "string",
-      description: "User-provided description of the photo",
-      nullable: true,
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      description: "List of tags associated with the photo",
-      nullable: true,
-    },
-    metadata: {
-      type: "object",
-      additionalProperties: true,
-      description: "Photo metadata from EXIF or other sources",
-      nullable: true,
-    },
-    location: {
-      type: "object",
-      properties: {
-        latitude: {
-          type: "number",
-          format: "float",
-          description: "Latitude coordinate of where the photo was taken",
-        },
-        longitude: {
-          type: "number",
-          format: "float",
-          description: "Longitude coordinate of where the photo was taken",
-        },
-        name: {
-          type: "string",
-          description: "Human-readable location name",
-        },
-      },
-      description: "Geographic location where the photo was taken",
-      nullable: true,
-    },
-    takenAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the photo was taken (from EXIF data or user input)",
-      nullable: true,
-    },
-    ownerId: {
-      type: "string",
-      format: "uuid",
-      description: "ID of the photo owner",
-    },
-    createdAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the photo was uploaded to the system",
-    },
-    updatedAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the photo information was last updated",
-    },
-    albums: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          id: {
-            type: "string",
-            format: "uuid",
-          },
-          name: {
-            type: "string",
-          },
-        },
-      },
-      description: "List of albums this photo belongs to",
-      nullable: true,
-    },
-    faceDetection: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          x: {
-            type: "integer",
-            description: "X coordinate of the face rectangle",
-          },
-          y: {
-            type: "integer",
-            description: "Y coordinate of the face rectangle",
-          },
-          width: {
-            type: "integer",
-            description: "Width of the face rectangle",
-          },
-          height: {
-            type: "integer",
-            description: "Height of the face rectangle",
-          },
-          personId: {
-            type: "string",
-            format: "uuid",
-            nullable: true,
-            description: "ID of the identified person if recognized",
-          },
-          personName: {
-            type: "string",
-            nullable: true,
-            description: "Name of the identified person if recognized",
-          },
-        },
-      },
-      description: "Face detection results if enabled",
-      nullable: true,
-    },
-  },
-} as const;
-
-export const AlbumListSchema = {
-  type: "array",
-  description: "List of album objects",
-  items: {
-    $ref: "#/components/schemas/Album",
-  },
-} as const;
-
-export const PhotoListSchema = {
-  type: "array",
-  description: "List of photo objects",
-  items: {
-    $ref: "#/components/schemas/Photo",
-  },
-} as const;
-
-export const CreateAlbumRequestSchema = {
-  type: "object",
-  description: "Request body for creating a new album",
-  required: ["name"],
-  properties: {
-    name: {
-      type: "string",
-      description: "Name of the album",
-    },
-    description: {
-      type: "string",
-      description: "Description of the album content",
-      nullable: true,
-    },
-    isPrivate: {
-      type: "boolean",
-      description: "Whether the album is private or public",
-      default: false,
-    },
-  },
-} as const;
-
-export const UpdateAlbumRequestSchema = {
-  type: "object",
-  description: "Request body for updating an existing album",
-  properties: {
-    name: {
-      type: "string",
-      description: "Name of the album",
-    },
-    description: {
-      type: "string",
-      description: "Description of the album content",
-      nullable: true,
-    },
-    isPrivate: {
-      type: "boolean",
-      description: "Whether the album is private or public",
-    },
-    coverPhotoId: {
-      type: "string",
-      format: "uuid",
-      description: "ID of the photo to use as album cover",
-      nullable: true,
-    },
-  },
-} as const;
-
-export const UploadPhotoRequestSchema = {
-  type: "object",
-  description: "Request body for uploading photos",
-  required: ["photos"],
-  properties: {
-    photos: {
-      type: "array",
-      items: {
-        type: "string",
-        format: "binary",
-      },
-      description: "Photo files to upload",
-    },
-    albumId: {
-      type: "string",
-      format: "uuid",
-      description: "Album ID to add photos to (optional)",
-      nullable: true,
-    },
-    metadata: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          title: {
-            type: "string",
-            description: "Photo title",
-          },
-          description: {
-            type: "string",
-            description: "Photo description",
-          },
-          tags: {
-            type: "array",
-            items: {
-              type: "string",
-            },
-            description: "Photo tags",
-          },
-          location: {
-            type: "object",
-            properties: {
-              latitude: {
-                type: "number",
-                format: "float",
-                description: "Latitude coordinate of where the photo was taken",
-              },
-              longitude: {
-                type: "number",
-                format: "float",
-                description: "Longitude coordinate of where the photo was taken",
-              },
-              name: {
-                type: "string",
-                description: "Human-readable location name",
-              },
-            },
-            description: "Geographic location where the photo was taken",
-          },
-          takenAt: {
-            type: "string",
-            format: "date-time",
-            description: "When the photo was taken",
-          },
-        },
-      },
-      description: "Metadata for each uploaded photo, must match the order of the photos array",
-    },
-  },
-} as const;
-
-export const UpdatePhotoRequestSchema = {
-  type: "object",
-  description: "Request body for updating photo information",
-  properties: {
-    filename: {
-      type: "string",
-      description: "Photo filename",
-    },
-    description: {
-      type: "string",
-      description: "Photo description",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-      description: "Photo tags",
-    },
-    location: {
-      type: "object",
-      properties: {
-        latitude: {
-          type: "number",
-          format: "float",
-          description: "Latitude coordinate of where the photo was taken",
-        },
-        longitude: {
-          type: "number",
-          format: "float",
-          description: "Longitude coordinate of where the photo was taken",
-        },
-        name: {
-          type: "string",
-          description: "Human-readable location name",
-        },
-      },
-      description: "Geographic location where the photo was taken",
-    },
-    takenAt: {
-      type: "string",
-      format: "date-time",
-      description: "When the photo was taken",
-    },
-  },
+  required: ["pagination", "rows"],
 } as const;

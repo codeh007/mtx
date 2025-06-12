@@ -24,6 +24,7 @@
     // "rootDir": ".",
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./src/*"],
       "@mtmaiui/*": ["./src/*"]
       // mtmaiapi: path.resolve(__dirname, "../../packages/mtmaiapi/src"),
       // mtxuilib: path.resolve(__dirname, "../../packages/mtxuilib/src"),

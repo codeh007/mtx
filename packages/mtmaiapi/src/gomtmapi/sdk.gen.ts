@@ -161,36 +161,6 @@ import type {
   PostCreateData,
   PostCreateResponse,
   PostCreateError,
-  GetAlbumsData,
-  GetAlbumsResponse,
-  CreateAlbumData,
-  CreateAlbumResponse,
-  DeleteAlbumData,
-  DeleteAlbumResponse,
-  GetAlbumData,
-  GetAlbumResponse,
-  UpdateAlbumData,
-  UpdateAlbumResponse,
-  GetAlbumPhotosData,
-  GetAlbumPhotosResponse,
-  AddPhotosToAlbumData,
-  AddPhotosToAlbumResponse,
-  RemovePhotoFromAlbumData,
-  RemovePhotoFromAlbumResponse,
-  GetPhotosData,
-  GetPhotosResponse,
-  UploadPhotosData,
-  UploadPhotosResponse,
-  DeletePhotoData,
-  DeletePhotoResponse,
-  GetPhotoData,
-  GetPhotoResponse,
-  UpdatePhotoData,
-  UpdatePhotoResponse,
-  GetPhotoTagsData,
-  GetPhotoTagsResponse,
-  SearchPhotosData,
-  SearchPhotosResponse,
   ArtifactListData,
   ArtifactListResponse,
   ArtifactGetData,
@@ -233,6 +203,36 @@ import type {
   PAccountListData,
   PAccountListResponse,
   PAccountListError,
+  AlbumListData,
+  AlbumListResponse,
+  AlbumListError,
+  AlbumCreateData,
+  AlbumCreateResponse,
+  AlbumCreateError,
+  AlbumDeleteData,
+  AlbumDeleteResponse,
+  AlbumDeleteError,
+  AlbumGetData,
+  AlbumGetResponse,
+  AlbumGetError,
+  AlbumUpdateData,
+  AlbumUpdateResponse,
+  AlbumUpdateError,
+  PhotoListData,
+  PhotoListResponse,
+  PhotoListError,
+  PhotoUploadData,
+  PhotoUploadResponse,
+  PhotoUploadError,
+  PhotoDeleteData,
+  PhotoDeleteResponse,
+  PhotoDeleteError,
+  PhotoGetData,
+  PhotoGetResponse,
+  PhotoGetError,
+  PhotoUpdateData,
+  PhotoUpdateResponse,
+  PhotoUpdateError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -1686,396 +1686,6 @@ export const postCreate = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取所有相册
- * Get all albums for the current user with pagination support
- */
-export const getAlbums = <ThrowOnError extends boolean = false>(
-  options: Options<GetAlbumsData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetAlbumsResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums",
-    ...options,
-  });
-};
-
-/**
- * 创建新相册
- * Create a new album for the current user
- */
-export const createAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<CreateAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<CreateAlbumResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 删除相册
- * Delete a specific album and optionally its photos
- */
-export const deleteAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<DeleteAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<DeleteAlbumResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}",
-    ...options,
-  });
-};
-
-/**
- * 获取单个相册详情
- * Get detailed information for a specific album by ID
- */
-export const getAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<GetAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetAlbumResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}",
-    ...options,
-  });
-};
-
-/**
- * 更新相册信息
- * Update information for a specific album
- */
-export const updateAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<UpdateAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).put<UpdateAlbumResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取相册中的照片
- * Get all photos in a specific album with pagination support
- */
-export const getAlbumPhotos = <ThrowOnError extends boolean = false>(
-  options: Options<GetAlbumPhotosData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetAlbumPhotosResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos",
-    ...options,
-  });
-};
-
-/**
- * 向相册添加照片
- * Add photos to a specific album either by uploading new photos or associating existing ones
- */
-export const addPhotosToAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<AddPhotosToAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<AddPhotosToAlbumResponse, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos",
-    ...options,
-    headers: {
-      "Content-Type": null,
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 从相册中移除照片
- * Remove a specific photo from an album without deleting the photo itself
- */
-export const removePhotoFromAlbum = <ThrowOnError extends boolean = false>(
-  options: Options<RemovePhotoFromAlbumData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    RemovePhotoFromAlbumResponse,
-    unknown,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/albums/{albumId}/photos/{photoId}",
-    ...options,
-  });
-};
-
-/**
- * 获取所有照片
- * Get all photos for the current user with advanced filtering and pagination
- */
-export const getPhotos = <ThrowOnError extends boolean = false>(
-  options: Options<GetPhotosData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetPhotosResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos",
-    ...options,
-  });
-};
-
-/**
- * 上传新照片
- * Upload one or more new photos with optional metadata
- */
-export const uploadPhotos = <ThrowOnError extends boolean = false>(
-  options: Options<UploadPhotosData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<UploadPhotosResponse, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos",
-    ...options,
-    headers: {
-      "Content-Type": null,
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 删除照片
- * Delete a specific photo permanently
- */
-export const deletePhoto = <ThrowOnError extends boolean = false>(
-  options: Options<DeletePhotoData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<DeletePhotoResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos/{photoId}",
-    ...options,
-  });
-};
-
-/**
- * 获取单张照片详情
- * Get detailed information for a specific photo by ID
- */
-export const getPhoto = <ThrowOnError extends boolean = false>(
-  options: Options<GetPhotoData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetPhotoResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos/{photoId}",
-    ...options,
-  });
-};
-
-/**
- * 更新照片信息
- * Update information for a specific photo
- */
-export const updatePhoto = <ThrowOnError extends boolean = false>(
-  options: Options<UpdatePhotoData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).put<UpdatePhotoResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos/{photoId}",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
- * 获取所有照片标签
- * Get all photo tags in the system with usage count
- */
-export const getPhotoTags = <ThrowOnError extends boolean = false>(
-  options: Options<GetPhotoTagsData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<GetPhotoTagsResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos/tags",
-    ...options,
-  });
-};
-
-/**
- * 搜索照片
- * Search photos using various criteria including text search, tags, date range, and location
- */
-export const searchPhotos = <ThrowOnError extends boolean = false>(
-  options: Options<SearchPhotosData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).post<SearchPhotosResponse, unknown, ThrowOnError>({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/photos/search",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
-  });
-};
-
-/**
  * 获取租户下的artifacts列表
  * Get the artifacts for the tenant
  */
@@ -2385,4 +1995,271 @@ export const pAccountList = <ThrowOnError extends boolean = false>(
     url: "/api/v1/tenants/{tenant}/p_account/list",
     ...options,
   });
+};
+
+/**
+ * Get all albums for the tenant
+ */
+export const albumList = <ThrowOnError extends boolean = false>(
+  options: Options<AlbumListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<AlbumListResponse, AlbumListError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums",
+    ...options,
+  });
+};
+
+/**
+ * Create a new album
+ */
+export const albumCreate = <ThrowOnError extends boolean = false>(
+  options: Options<AlbumCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    AlbumCreateResponse,
+    AlbumCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete an album
+ */
+export const albumDelete = <ThrowOnError extends boolean = false>(
+  options: Options<AlbumDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    AlbumDeleteResponse,
+    AlbumDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}",
+    ...options,
+  });
+};
+
+/**
+ * Get a specific album
+ */
+export const albumGet = <ThrowOnError extends boolean = false>(
+  options: Options<AlbumGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<AlbumGetResponse, AlbumGetError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}",
+    ...options,
+  });
+};
+
+/**
+ * Update an album
+ */
+export const albumUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<AlbumUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<AlbumUpdateResponse, AlbumUpdateError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/albums/{album}",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+    },
+  );
+};
+
+/**
+ * Get photos for an album
+ */
+export const photoList = <ThrowOnError extends boolean = false>(
+  options: Options<PhotoListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PhotoListResponse, PhotoListError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}/photos",
+    ...options,
+  });
+};
+
+/**
+ * Upload photos to an album
+ */
+export const photoUpload = <ThrowOnError extends boolean = false>(
+  options: Options<PhotoUploadData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PhotoUploadResponse,
+    PhotoUploadError,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}/photos",
+    ...options,
+    headers: {
+      "Content-Type": null,
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete a photo
+ */
+export const photoDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PhotoDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    PhotoDeleteResponse,
+    PhotoDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}",
+    ...options,
+  });
+};
+
+/**
+ * Get a specific photo
+ */
+export const photoGet = <ThrowOnError extends boolean = false>(
+  options: Options<PhotoGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PhotoGetResponse, PhotoGetError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}",
+    ...options,
+  });
+};
+
+/**
+ * Update a photo
+ */
+export const photoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PhotoUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<PhotoUpdateResponse, PhotoUpdateError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+    },
+  );
 };
