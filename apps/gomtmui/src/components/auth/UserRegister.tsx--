@@ -1,0 +1,82 @@
+"use client";
+
+import React from "react";
+import { useMutation } from "@tanstack/react-query";
+import { userCreateMutation } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import { zUserRegisterRequest } from "mtmaiapi/gomtmapi/zod.gen";
+import { ZForm, useZodForm } from "mtxuilib/mt/form/ZodForm";
+import { Button } from "mtxuilib/ui/button";
+import { Input } from "mtxuilib/ui/input";
+import { useToast } from "mtxuilib/ui/use-toast";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+export function UserRegisterScreen() {
+	const router = useRouter();
+	const { toast } = useToast();
+
+	const form = useZodForm({
+		schema: zUserRegisterRequest,
+		defaultValues: {
+			name: "",
+			email: "",
+			password: "",
+		},
+	});
+
+	const registerMutation = useMutation({
+		...userCreateMutation(),
+		onSuccess: () => {
+			toast({
+				title: "注册成功",
+				description: "请登录",
+			});
+			router.push("/auth/login");
+		},
+		onError: (error: any) => {
+			toast({
+				title: "注册失败",
+				description: error?.message || "请稍后重试",
+				variant: "destructive",
+			});
+		},
+	});
+
+	const onSubmit = form.handleSubmit((values) => {
+		registerMutation.mutate({
+			body: values,
+		});
+	});
+
+	return (
+		<div className="mx-auto max-w-md w-full">
+			<div className="prose">注册新用户</div>
+			<ZForm form={form} className="space-y-2" onSubmit={onSubmit}>
+				<Input type="text" placeholder="姓名" {...form.register("name")} />
+				<Input type="email" placeholder="邮箱" {...form.register("email")} />
+				<Input
+					type="password"
+					placeholder="密码"
+					{...form.register("password")}
+				/>
+				<div className="flex items-center justify-between" />
+				<Button
+					type="submit"
+					className="w-full"
+					disabled={registerMutation.isPending}
+				>
+					{registerMutation.isPending ? "注册中..." : "注册"}
+				</Button>
+
+				<Button type="button" className="w-full" variant={"ghost"}>
+					已有账号？ <Link href={"/auth/login"}>登录</Link>
+				</Button>
+			</ZForm>
+			<footer className="py-3">
+				<div className="prose text-center">
+					© Mtm ltd. {new Date().getFullYear()}
+				</div>
+			</footer>
+		</div>
+	);
+}

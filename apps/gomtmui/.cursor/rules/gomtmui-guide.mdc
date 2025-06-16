@@ -1,0 +1,210 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+## 项目说明
+
+"gomtmui" 前端是"gomtm"后端对应的前端, 当前开发任务主要集中在 "/dash" 这个路径下, 对应的源码目录: "apps/gomtmui/src/app/(dash)/dash/"
+
+## 关键 url path
+
+- "/"
+  网站首页
+
+- /dash
+  管理后台, 需要用户登录后使用, 登录后的页面路径及模块跟 gomtm 后端 api 存在对应关系
+
+
+## 技术栈
+
+- **前端框架**
+  nextjs v 15 + react v19
+  虽然 nextjs 支持后端api 的开发, 但是所有后端 api 都应该在 gomtm api 中实现.
+
+- **包管理**: "bun"
+
+- **样式库**:
+  所有样式都使用 tailwindcss v4, 配置路径: "./src/styles/globals.css"
+
+- **lint**
+  使用 biomejs, 配置文件: "./biome.jsonc"
+
+- UI 组件
+  **shadcn**, 配置文件: "./components.json"
+  可以按需添加组件,使用命令:
+  ```bash
+  bunx --bun shadcn@latest add button
+  ```
+- 其他关键库:
+  - react-query
+
+- **zod** 表单验证库
+  当涉及到后端表单提交的情况, 应该优先使用后端 openapi 生成的对应的 zod 代码.
+
+## 部署
+
+- vercel
+
+## 前端编程指引
+
+- UI 设计移动端优先并且用 tailwindcss 的方式完成界面的自适应界面
+
+- 对于模块首页
+  例如 "/dash/post" 表示 post 模块的列表查询页面, 列出的 item 应该有"动作按钮或者 link" 指向 post页面 "/dash/post/$postId"
+
+- 后端的 openapi 已经通过 generate 的方式生成了基于 zod 库的代码, 可以用于前端的表单验证.
+
+- 如果缺少 shadcn 组件,例如 button, 可以执行命令: `echo '-y\n' | bunx --bun shadcn@latest add button` 进行安装
+
+- 修改了代码后,最终需要执行 (apps/gomtmui && bun run build ), 确定没有构建错误,如果有错误,应该进行修正,确保 build 成功是基本要求
+
+- "mtmaiapi/gomtmapi/@tanstack/react-query.gen", 之类的由 openapi 生成工具生成的代码,应避免编辑和更改,
+
+## 前端编程约束
+- 注释使用中文, 代码 日志,errors,ui 等,使用英文
+
+- 只在关键地方添加注释, 如果代码本身已经很好反应其功能,就不要使用注释
+
+- nextjs 前端代码,应优先使用 react-query 调用跟后端api的查询, 避免使用 fetch()
+
+## 几个关键的 hooks
+- tenant 相关
+```jsx
+import { useTenantId } from "@/hooks/useAuth";
+const tid = useTenantId()
+```
+
+
+```
+
+## 常用命令
+- **重新生成前端 "gomtmapi" 库**, 当 gomtmapi 跟后端api不一致时,尤为有用, 因为 可能后端更新了 api 的定义.
+```bash
+./gomtm gen_openapi_client
+```
+
+- **构建前端**
+`./gomtm build_gomtm_frontend`, 内部会运行前置和后置流程,执行"next build", 输出的日志可以排除错误很诊断代码问题有帮助
+
+## 前端按编程常见问题及解决方式
+- mtmaiapi 缺少某些导出函数时, 尝试重新生成 mtmaiapi, 后依然缺少某些导出变量, 则后可能后端的 openapi 定义确实不存在这些api.
+  此时的思考应该是回到后端的角度, 而不是强行实现前端的功能, 记住非常重要: "前端的功能完全由后端决定"
+
+- 如果确实对应的前端代码无法实现(因为后端没有提供对应的模块),则可以删除对应的源码文件. 记住"apps/gomtmui/src/app/(dash)/dash/" 下的所有文件,都是你可以自由发挥的地方,包括可以删除文件, 本次任务你看到的代码,实际上是你上一次任务执行的结果.
+
+
+## 表单相关
+- 表单 使用 zod 进行验证, 只有一种情况需要在前端编写 新的 zod schema, 就是当 后端 openapi 不存在对应的 component结构时.
+- 例子:
+```tsx
+//
+import { zPAccountCreate } from "mtmaiapi/gomtmapi/zod.gen";
+```
+
+## 关于 gomtmapi mutation
+- gomtm api 中create updte delete 等操作, 对应前端 react-query 中的 mutation 操作.
+
+- 当 mutation 调用后端出错,后端会返回类似这样的格式详细错误信息,应该在表单中正确的位置显示对应字段对应的description信息.
+```json
+{
+    "errors": [
+        {
+            "description": "Invalid password. Passwords must be at least 8 characters in length, contain an upper and lowercase letter, and contain at least one number.",
+            "field": "password"
+        }
+    ]
+}
+```
+
+**正确例子**
+```tsx
+...
+import { useToast } from "@/hooks/useToast";
+...
+
+const toast = useToast();
+//对于表单提交, 后台返回的 errors 信息包括了field 名称, 应该在表单对应字段显示错误信息
+const [errors, setErrors] = useState<ApiErrors | null>(null);
+
+const createAccountMutation = useMutation({
+    ...pAccountCreateMutation({ //使用生成的 mutation option 确保了类型正确
+        path: {
+            tenant: tid, //正确设置 paht 参数(跟 openapi 路径参数对应)
+        },
+    }),
+    onError: setErrors,
+    onSuccess: () => {
+        // 正确地想用户展示操作结果
+        toast({
+				title: "账号创建成功",
+				description: "其他描述",
+			});
+        router.push("/dash/p_account"); //如果有必要进行跳转
+    },
+
+});
+...
+    <Form {...form}>
+        <form
+            onSubmit={form.handleSubmit((data) => {
+                updateAccountMutation.mutate({
+                    path: {
+                        tenant: tid,
+                        accountId: accountId,
+                    },
+                    body: data,
+                });
+            })}
+            className="space-y-6"
+        >
+        ...
+            <Input {...form.register("password")}
+						id="password"
+						placeholder="请输入密码"
+						type="password"
+						disabled={registerMutation.isPending}
+					/>
+
+        ...</Form>
+        //表单级别的错误信息(须放到适合的位置)
+        {errors?.errors?.map((err) => (
+            <div key={err.field} className="text-sm text-red-500">
+                {err.description}
+            </div>
+        ))}
+        ...
+```
+**错误例子**
+```tsx
+const createAccountMutation = useMutation({
+    mutationFn: async (data: z.infer<typeof zPAccountCreate>) => { // 不应使用自定义 mutationFn 和 fetch , 而是使用 gomtmapi 本身已经提供的 mutation
+        const response = await fetch("some url");
+        ...
+    },
+});
+```
+
+## react-query 例子
+```tsx
+//当使用 react-query 实现查询, 代码由后端 openapi 生成
+import { pAccountGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+...
+    const tid = useTenantId();
+    const { data, isLoading, error, refetch } = useQuery({
+		...pAccountListOptions({
+			path: {
+				tenant: tid,
+			},
+            query:{
+                ...
+            }
+		}),
+		enabled: !!tid,
+	});
+    ...
+
+
+```
+
+
