@@ -1,11 +1,6 @@
 "use client";
 
-import type {
-  Attachment,
-  ChatRequestOptions,
-  CreateMessage,
-  Message,
-} from "ai";
+import type { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
 import type React from "react";
 
@@ -21,16 +16,13 @@ import {
 import { toast } from "sonner";
 import { useLocalStorage, useWindowSize } from "usehooks-ts";
 
-import { sanitizeUIMessages } from "../../../lib/utils";
+import { sanitizeUIMessages } from "mtxuilib/lib/utils";
 
-import {
-  ArrowUpIcon,
-  PaperclipIcon,
-  StopIcon,
-} from "mtxuilib/icons/aichatbot.icons";
+import { ArrowUpIcon, PaperclipIcon, StopIcon } from "mtxuilib/icons/aichatbot.icons";
 import { cn } from "mtxuilib/lib/utils";
 import { Button } from "mtxuilib/ui/button";
 import { Textarea } from "mtxuilib/ui/textarea";
+import { PreviewAttachment } from "@/aichatbot/preview-attachment";
 
 const suggestedActions = [
   {
@@ -96,10 +88,7 @@ export function MultimodalInput({
     }
   };
 
-  const [localStorageInput, setLocalStorageInput] = useLocalStorage(
-    "input",
-    "",
-  );
+  const [localStorageInput, setLocalStorageInput] = useLocalStorage("input", "");
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -139,14 +128,7 @@ export function MultimodalInput({
     if (width && width > 768) {
       textareaRef.current?.focus();
     }
-  }, [
-    attachments,
-    handleSubmit,
-    setAttachments,
-    setLocalStorageInput,
-    width,
-    chatId,
-  ]);
+  }, [attachments, handleSubmit, setAttachments, setLocalStorageInput, width, chatId]);
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
@@ -204,41 +186,37 @@ export function MultimodalInput({
 
   return (
     <div className="relative w-full flex flex-col gap-4">
-      {messages.length === 0 &&
-        attachments.length === 0 &&
-        uploadQueue.length === 0 && (
-          <div className="grid sm:grid-cols-2 gap-2 w-full">
-            {suggestedActions.map((suggestedAction, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.05 * index }}
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                key={index}
-                className={index > 1 ? "hidden sm:block" : "block"}
-              >
-                <Button
-                  variant="ghost"
-                  onClick={async () => {
-                    window.history.replaceState({}, "", `/chat/${chatId}`);
+      {messages.length === 0 && attachments.length === 0 && uploadQueue.length === 0 && (
+        <div className="grid sm:grid-cols-2 gap-2 w-full">
+          {suggestedActions.map((suggestedAction, index) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ delay: 0.05 * index }}
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              key={index}
+              className={index > 1 ? "hidden sm:block" : "block"}
+            >
+              <Button
+                variant="ghost"
+                onClick={async () => {
+                  window.history.replaceState({}, "", `/chat/${chatId}`);
 
-                    append({
-                      role: "user",
-                      content: suggestedAction.action,
-                    });
-                  }}
-                  className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
-                >
-                  <span className="font-medium">{suggestedAction.title}</span>
-                  <span className="text-muted-foreground">
-                    {suggestedAction.label}
-                  </span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                  append({
+                    role: "user",
+                    content: suggestedAction.action,
+                  });
+                }}
+                className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+              >
+                <span className="font-medium">{suggestedAction.title}</span>
+                <span className="text-muted-foreground">{suggestedAction.label}</span>
+              </Button>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       <input
         type="file"
