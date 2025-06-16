@@ -1,17 +1,12 @@
 "use client";
+import * as nodePath from "node:path";
 import type { WebContainer } from "@webcontainer/api";
 import { type MapStore, map } from "nanostores";
-import * as nodePath from "node:path";
-import type { BoltAction } from "../../types/actions";
-import { unreachable } from "../utils/unreachable.ts--";
+// import type { BoltAction } from "../../types/actions";
+// import { unreachable } from "../utils/unreachable.ts--";
 import type { ActionCallbackData } from "./message-parser";
 
-export type ActionStatus =
-  | "pending"
-  | "running"
-  | "complete"
-  | "aborted"
-  | "failed";
+export type ActionStatus = "pending" | "running" | "complete" | "aborted" | "failed";
 
 export type BaseActionState = BoltAction & {
   status: Exclude<ActionStatus, "failed">;
@@ -28,9 +23,7 @@ export type FailedActionState = BoltAction &
 
 export type ActionState = BaseActionState | FailedActionState;
 
-type BaseActionUpdate = Partial<
-  Pick<BaseActionState, "status" | "abort" | "executed">
->;
+type BaseActionUpdate = Partial<Pick<BaseActionState, "status" | "abort" | "executed">>;
 
 export type ActionStateUpdate =
   | BaseActionUpdate

@@ -1,14 +1,14 @@
 import { camelToDashCase } from "mtxuilib/lib/utils";
-import type {
-  ActionType,
-  BoltAction,
-  BoltActionData,
-  FileAction,
-  ShellAction,
-} from "../../types/actions";
-import type { BoltArtifactData } from "../../types/artifact.ts--";
+// import type {
+//   ActionType,
+//   BoltAction,
+//   BoltActionData,
+//   FileAction,
+//   ShellAction,
+// } from "../../types/actions";
+// import type { BoltArtifactData } from "../../types/artifact.ts--";
 
-import { unreachable } from "../utils/unreachable.ts--";
+// import { unreachable } from "../utils/unreachable.ts--";
 
 const ARTIFACT_TAG_OPEN = "<mtmai_response";
 const ARTIFACT_TAG_CLOSE = "</mtmai_response>";

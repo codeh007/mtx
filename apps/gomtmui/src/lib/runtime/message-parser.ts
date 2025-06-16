@@ -1,13 +1,13 @@
 import { camelToDashCase } from "mtxuilib/lib/utils";
-import type {
-  ActionType,
-  BoltAction,
-  BoltActionData,
-  FileAction,
-  ShellAction,
-} from "../../types/actions";
-import type { BoltArtifactData } from "../../types/artifact.ts--";
-import { unreachable } from "../utils/unreachable.ts--";
+// import type {
+//   ActionType,
+//   BoltAction,
+//   BoltActionData,
+//   FileAction,
+//   ShellAction,
+// } from "../../types/actions";
+// import type { BoltArtifactData } from "../../types/artifact.ts--";
+// import { unreachable } from "../utils/unreachable.ts--";
 
 const ARTIFACT_TAG_OPEN = "<boltArtifact";
 const ARTIFACT_TAG_CLOSE = "</boltArtifact>";
@@ -138,11 +138,7 @@ export class StreamingMessageParser {
             if (actionEndIndex !== -1) {
               state.insideAction = true;
 
-              state.currentAction = this.#parseActionTag(
-                input,
-                actionOpenIndex,
-                actionEndIndex,
-              );
+              state.currentAction = this.#parseActionTag(input, actionOpenIndex, actionEndIndex);
 
               this._options.callbacks?.onActionOpen?.({
                 artifactId: currentArtifact.id,
@@ -173,10 +169,7 @@ export class StreamingMessageParser {
         let j = i;
         let potentialTag = "";
 
-        while (
-          j < input.length &&
-          potentialTag.length < ARTIFACT_TAG_OPEN.length
-        ) {
+        while (j < input.length && potentialTag.length < ARTIFACT_TAG_OPEN.length) {
           potentialTag += input[j];
 
           if (potentialTag === ARTIFACT_TAG_OPEN) {
@@ -193,14 +186,8 @@ export class StreamingMessageParser {
             if (openTagEnd !== -1) {
               const artifactTag = input.slice(i, openTagEnd + 1);
 
-              const artifactTitle = this.#extractAttribute(
-                artifactTag,
-                "title",
-              ) as string;
-              const artifactId = this.#extractAttribute(
-                artifactTag,
-                "id",
-              ) as string;
+              const artifactTitle = this.#extractAttribute(artifactTag, "title") as string;
+              const artifactId = this.#extractAttribute(artifactTag, "id") as string;
 
               if (!artifactTitle) {
                 // logger.warn("Artifact title missing");
@@ -224,8 +211,7 @@ export class StreamingMessageParser {
                 ...currentArtifact,
               });
 
-              const artifactFactory =
-                this._options.artifactElement ?? createArtifactElement;
+              const artifactFactory = this._options.artifactElement ?? createArtifactElement;
 
               output += artifactFactory({ messageId });
 
@@ -269,11 +255,7 @@ export class StreamingMessageParser {
     this.#messages.clear();
   }
 
-  #parseActionTag(
-    input: string,
-    actionOpenIndex: number,
-    actionEndIndex: number,
-  ) {
+  #parseActionTag(input: string, actionOpenIndex: number, actionEndIndex: number) {
     const actionTag = input.slice(actionOpenIndex, actionEndIndex + 1);
 
     const actionType = this.#extractAttribute(actionTag, "type") as ActionType;
