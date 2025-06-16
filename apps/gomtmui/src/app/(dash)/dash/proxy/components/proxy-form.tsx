@@ -110,9 +110,13 @@ export function ProxyForm({ initialData }: ProxyFormProps) {
 
   const onSubmit = (values: ProxyFormValues) => {
     if (initialData) {
-      updateProxyMutation.mutate(values);
+      updateProxyMutation.mutate({
+        body: values,
+      });
     } else {
-      createProxyMutation.mutate(values);
+      createProxyMutation.mutate({
+        body: values,
+      });
     }
   };
 

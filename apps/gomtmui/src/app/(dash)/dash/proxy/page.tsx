@@ -11,6 +11,7 @@ import { formatDate } from "mtxuilib/lib/utils";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Separator } from "mtxuilib/ui/separator";
+import { DataTable } from "mtxuilib/data-table/data-table";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProxyActions } from "./components/proxy-actions";
@@ -34,6 +35,23 @@ export default function ProxyPage() {
     }),
     enabled: !!tid,
   });
+
+  // 分页状态管理
+  const pagination = {
+    pageIndex,
+    pageSize,
+  };
+
+  const setPagination = (updater: any) => {
+    if (typeof updater === "function") {
+      const newPagination = updater(pagination);
+      setPageIndex(newPagination.pageIndex);
+      setPageSize(newPagination.pageSize);
+    } else {
+      setPageIndex(updater.pageIndex);
+      setPageSize(updater.pageSize);
+    }
+  };
 
   const columns: ColumnDef<ProxyType>[] = [
     {
@@ -90,13 +108,35 @@ export default function ProxyPage() {
   return (
     <div className="flex-col">
       <div className="flex items-center justify-between">
-        {/* <Heading title="代理服务器" description="管理代理服务器" /> */}
+        <h1 className="text-2xl font-bold">代理服务器</h1>
         <Button onClick={() => router.push("/dash/proxy/new")}>
           <Plus className="mr-2 h-4 w-4" />
           添加代理
         </Button>
       </div>
       <Separator className="my-4" />
+
+      <DataTable
+        columns={columns}
+        data={data?.rows || []}
+        isLoading={isLoading}
+        error={error}
+        filters={[]}
+        pagination={pagination}
+        setPagination={setPagination}
+        pageCount={data?.pagination?.num_pages || 0}
+        onSetPageSize={(size) => setPageSize(size)}
+        getRowId={(row) => row.id}
+        emptyState={
+          <div className="text-center py-8">
+            <p className="text-muted-foreground mb-4">暂无代理服务器</p>
+            <Button onClick={() => router.push("/dash/proxy/new")}>
+              <Plus className="mr-2 h-4 w-4" />
+              添加第一个代理
+            </Button>
+          </div>
+        }
+      />
     </div>
   );
 }
