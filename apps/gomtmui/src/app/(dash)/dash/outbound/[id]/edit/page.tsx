@@ -75,23 +75,26 @@ export default function EditOutboundPage() {
       password: "",
       security: "",
       domain_resolver: "",
-      full_config: JSON.stringify(
-        {
-          type: "shadowsocks",
-          tag: "",
-          server: "",
-          server_port: 443,
-          method: "2022-blake3-aes-128-gcm",
-          password: "",
-        },
-        null,
-        2,
-      ),
+      full_config: {
+        type: "shadowsocks",
+        tag: "",
+        server: "",
+        server_port: 443,
+        method: "2022-blake3-aes-128-gcm",
+        password: "",
+      },
     },
     handleSubmit: (data) => {
+      // 确保 full_config 是对象格式
+      const submitData = {
+        ...data,
+        full_config: typeof data.full_config === 'string'
+          ? JSON.parse(data.full_config)
+          : data.full_config
+      };
       updateMutation.mutate({
         path: { id: outboundId },
-        body: data,
+        body: submitData,
       });
     },
   });
@@ -107,7 +110,7 @@ export default function EditOutboundPage() {
         password: outbound.password || "",
         security: outbound.security || "",
         domain_resolver: outbound.domain_resolver || "",
-        full_config: JSON.stringify(outbound.full_config || {}, null, 2),
+        full_config: outbound.full_config || {},
       });
     }
   }, [outbound, form.form]);
@@ -115,14 +118,14 @@ export default function EditOutboundPage() {
   // 当基本字段变更时，同步更新full_config
   const updateFullConfig = (formData) => {
     try {
-      const currentConfig = JSON.parse(form.form.getValues().full_config);
+      const currentConfig = form.form.getValues().full_config;
       const updatedConfig = {
         ...currentConfig,
         ...formData,
       };
-      form.form.setValue("full_config", JSON.stringify(updatedConfig, null, 2));
+      form.form.setValue("full_config", updatedConfig);
     } catch (e) {
-      console.error("解析配置失败", e);
+      console.error("更新配置失败", e);
     }
   };
 
@@ -283,7 +286,20 @@ export default function EditOutboundPage() {
                 <FormItem>
                   <FormLabel>完整配置</FormLabel>
                   <FormControl>
-                    <Textarea {...field} className="font-mono h-64" placeholder="完整的JSON配置" />
+                    <Textarea
+                      value={JSON.stringify(field.value, null, 2)}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          field.onChange(parsed);
+                        } catch (err) {
+                          // 如果解析失败，暂时保存字符串值
+                          field.onChange(e.target.value);
+                        }
+                      }}
+                      className="font-mono h-64"
+                      placeholder="完整的JSON配置"
+                    />
                   </FormControl>
                   <FormDescription>高级用户可以直接编辑完整的JSON配置</FormDescription>
                   <FormMessage />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Plus, Trash } from "lucide-react";
 import {
@@ -62,13 +62,16 @@ export default function OutboundsPage() {
         description: "已成功删除出站代理配置",
       });
       setDeleteDialogOpen(false);
-      queryClient.invalidateQueries({ queryKey: ["singbox", "outbounds"] });
+      setSelectedOutboundId(null);
+      setDeleteErrors(null);
+      queryClient.invalidateQueries({ queryKey: ["singbox", "getOutbounds"] });
     },
   });
 
   // 处理删除操作
   const handleDelete = (id: string) => {
     setSelectedOutboundId(id);
+    setDeleteErrors(null);
     setDeleteDialogOpen(true);
   };
 
@@ -80,6 +83,9 @@ export default function OutboundsPage() {
       });
     }
   };
+
+  // 获取要删除的出站代理名称
+  const selectedOutbound = data?.outbounds?.find(o => o.id === selectedOutboundId);
 
   if (isLoading) {
     return (
@@ -160,7 +166,9 @@ export default function OutboundsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>确认删除</DialogTitle>
-            <DialogDescription>您确定要删除这个出站代理配置吗？此操作无法撤销。</DialogDescription>
+            <DialogDescription>
+              您确定要删除出站代理配置 "{selectedOutbound?.tag}" 吗？此操作无法撤销。
+            </DialogDescription>
           </DialogHeader>
           {deleteErrors && (
             <div className="bg-red-50 p-3 rounded-md text-sm text-red-600">

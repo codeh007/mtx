@@ -1,17 +1,35 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { Edit, Loader2 } from "lucide-react";
-import { singboxGetOutboundOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Edit, Loader2, Trash } from "lucide-react";
+import {
+  singboxGetOutboundOptions,
+  singboxDeleteOutboundMutation
+} from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import type { ApiErrors } from "mtmaiapi/gomtmapi/types.gen";
 import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "mtxuilib/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "mtxuilib/ui/dialog";
+import { useToast } from "mtxuilib/ui/use-toast";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function OutboundDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
   const outboundId = params.id as string;
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteErrors, setDeleteErrors] = useState<ApiErrors | null>(null);
 
   // 获取出站代理详情
   const {
@@ -23,6 +41,39 @@ export default function OutboundDetailPage() {
       path: { id: outboundId },
     }),
   });
+
+  // 删除代理配置的mutation
+  const deleteMutation = useMutation({
+    ...singboxDeleteOutboundMutation(),
+    onError: (err) => {
+      setDeleteErrors(err);
+      toast({
+        title: "删除失败",
+        description: "无法删除出站代理配置",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "删除成功",
+        description: "已成功删除出站代理配置",
+      });
+      // 刷新列表数据
+      queryClient.invalidateQueries({ queryKey: ["singbox", "getOutbounds"] });
+      router.push("/dash/outbound");
+    },
+  });
+
+  const handleDelete = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    deleteMutation.mutate({
+      path: { id: outboundId },
+    });
+    setDeleteDialogOpen(false);
+  };
 
   if (isLoading) {
     return (
@@ -116,26 +167,60 @@ export default function OutboundDetailPage() {
         </Card>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
         <Button
           variant="outline"
           onClick={() => router.push("/dash/outbound/" + outboundId + "/edit")}
-          className="mr-2"
         >
           <Edit className="mr-2 h-4 w-4" />
           编辑
         </Button>
         <Button
           variant="destructive"
-          onClick={() => router.push(`/dash/outbound`)}
-          className="mr-2"
+          onClick={handleDelete}
+          disabled={deleteMutation.isPending}
         >
+          {deleteMutation.isPending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Trash className="mr-2 h-4 w-4" />
+          )}
           删除
         </Button>
         <Button variant="outline" onClick={() => router.push("/dash/outbound")}>
           返回列表
         </Button>
       </div>
+
+      {/* 删除确认对话框 */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>确认删除</DialogTitle>
+            <DialogDescription>
+              您确定要删除出站代理配置 "{outbound?.tag}" 吗？此操作无法撤销。
+            </DialogDescription>
+          </DialogHeader>
+          {deleteErrors?.errors?.map((err) => (
+            <div key={err.field} className="text-sm text-red-500">
+              {err.description}
+            </div>
+          ))}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)}>
+              取消
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={confirmDelete}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              确认删除
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
