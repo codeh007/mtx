@@ -10,7 +10,7 @@ import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { cn } from "mtxuilib/lib/utils";
 import { cookies } from "next/headers";
 import "../../../styles/globals.css";
-import DashHeader from "./Header";
+import { DashboardLayout } from "./components/DashboardLayout";
 export const runtime = "nodejs";
 // export const dynamic = "force-dynamic";
 
@@ -47,11 +47,10 @@ export default async function Layout(props: {
 				>
 					<MtSuspenseBoundary>
 						<UIProviders>
-							<div className="flex flex-col min-h-screen h-full w-full">
-								<DashHeader />
+							<DashboardLayout>
 								<MtSuspenseBoundary>{children}</MtSuspenseBoundary>
-								{/* <div id="gomtm-runtime-container" /> */}
-							</div>
+							</DashboardLayout>
+							{/* <div id="gomtm-runtime-container" /> */}
 						</UIProviders>
 					</MtSuspenseBoundary>
 				</MtmaiProvider>
