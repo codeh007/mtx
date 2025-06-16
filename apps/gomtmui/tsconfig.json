@@ -9,7 +9,7 @@
     "noEmit": true,
     // "jsx": "react-jsx",
     "jsx": "preserve", //react-jsx
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true, // Commented out for build compatibility
     "lib": [
       "DOM",
       "DOM.iterable",
