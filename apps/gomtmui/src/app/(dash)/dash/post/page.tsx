@@ -5,8 +5,8 @@ import { useToast } from "@/hooks/useToast";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { postListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import { DataTable } from "mtxuilib/data-table/data-table";
 import { Button } from "mtxuilib/ui/button";
-import { DataTable } from "mtxuilib/ui/data-table";
 import { useRouter } from "next/navigation";
 import { Columns } from "./columns";
 

@@ -2,10 +2,10 @@
 
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
-import { ApiErrors } from "mtmaiapi";
-import { postDeleteMutation, postGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
+import type { ApiErrors } from "mtmaiapi";
+import { postGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import { Button } from "mtxuilib/ui/button";
 import {
   Card,
@@ -35,26 +35,26 @@ export default function DeletePostPage() {
     }),
     enabled: !!tid && !!postId,
   });
-
-  const deletePostMutation = useMutation({
-    ...postDeleteMutation({
-      path: {
-        tenant: tid,
-        post: postId,
-      },
-    }),
-    onError: setErrors,
-    onSuccess: () => {
-      toast({
-        title: "文章删除成功",
-        description: "已成功删除文章",
-      });
-      router.push("/dash/post");
-    },
-  });
+  //TODO: 后端暂时不支持删除操作
+  //   const deletePostMutation = useMutation({
+  //     ...postdel({
+  //       path: {
+  //         tenant: tid,
+  //         post: postId,
+  //       },
+  //     }),
+  //     onError: setErrors,
+  //     onSuccess: () => {
+  //       toast({
+  //         title: "文章删除成功",
+  //         description: "已成功删除文章",
+  //       });
+  //       router.push("/dash/post");
+  //     },
+  //   });
 
   function handleDelete() {
-    deletePostMutation.mutate({});
+    // deletePostMutation.mutate({});
   }
 
   if (isLoading) {
@@ -83,7 +83,7 @@ export default function DeletePostPage() {
             </div>
             <div>
               <span className="font-semibold">创建时间：</span>
-              {new Date(post.metadata.created_at).toLocaleString()}
+              {new Date(post.metadata.createdAt).toLocaleString()}
             </div>
           </div>
 
@@ -100,9 +100,10 @@ export default function DeletePostPage() {
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={deletePostMutation.isPending}
+            // disabled={deletePostMutation.isPending}
           >
-            {deletePostMutation.isPending ? "删除中..." : "确认删除"}
+            {/* {deletePostMutation.isPending ? "删除中..." : "确认删除"} */}
+            确认删除
           </Button>
         </CardFooter>
       </Card>
