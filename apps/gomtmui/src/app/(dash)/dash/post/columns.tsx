@@ -5,6 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { zhCN } from "date-fns/locale";
 import { ArrowUpDown, MoreHorizontal, Pencil, Trash } from "lucide-react";
 import type { Post } from "mtmaiapi/gomtmapi/types.gen";
+import { Badge } from "mtxuilib/ui/badge";
 import { Button } from "mtxuilib/ui/button";
 import {
   DropdownMenu,
@@ -23,7 +24,32 @@ export const Columns: ColumnDef<Post>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div className="font-medium">{row.original.title}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium max-w-[200px] truncate" title={row.original.title}>
+        {row.original.title}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "slug",
+    header: "短链接",
+    cell: ({ row }) => (
+      <div className="text-sm text-muted-foreground max-w-[150px] truncate" title={row.original.slug}>
+        {row.original.slug}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "状态",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      return (
+        <Badge variant={status === "published" ? "default" : "secondary"}>
+          {status === "published" ? "已发布" : "草稿"}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "metadata.created_at",
