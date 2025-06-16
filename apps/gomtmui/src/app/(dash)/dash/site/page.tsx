@@ -12,6 +12,7 @@ import { Button } from "mtxuilib/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "mtxuilib/ui/card";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
+import { PageContainer } from "../components/PageContainer";
 import { columns } from "./components/site-columns";
 
 export default function SitePage() {
@@ -47,18 +48,16 @@ export default function SitePage() {
     })) || [];
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">站点管理</h2>
-          <p className="text-muted-foreground">管理您的站点配置</p>
-        </div>
+    <PageContainer
+      title="站点管理"
+      description="管理您的站点配置"
+      actions={
         <Button onClick={() => router.push("/dash/site/create")}>
           <PlusIcon className="mr-2 h-4 w-4" />
           创建站点
         </Button>
-      </div>
-
+      }
+    >
       <Card>
         <CardHeader>
           <CardTitle>站点列表</CardTitle>
@@ -76,6 +75,6 @@ export default function SitePage() {
           </Suspense>
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }
