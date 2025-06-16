@@ -17,25 +17,23 @@
     路径: `packages/mtmaiapi` 是 typescript opanapi 库, 用来对后端的api 进行调用.
     主要源码在 `packages/mtmaiapi/src/gomtmapi/`下
     主要有三种类型的库:
-    * `packages/mtmaiapi/src/gomtmapi/sdk.gen.ts` 是原生 api 调用函数
-    * `packages/mtmaiapi/src/gomtmapi/@tanstack/react-query.gen.ts` 是在 sdk.gen 基础上封装封装为 react-query
-    * `packages/mtmaiapi/src/gomtmapi/zod.gen.ts` 是以 api 对应的 zod schema库,可以用于表单验证
-    * `packages/mtmaiapi/openapi.yaml` 完整的 openapi 文档
-
-
+  * `packages/mtmaiapi/src/gomtmapi/sdk.gen.ts` 是原生 api 调用函数
+  * `packages/mtmaiapi/src/gomtmapi/@tanstack/react-query.gen.ts` 是在 sdk.gen 基础上封装封装为 react-query
+  * `packages/mtmaiapi/src/gomtmapi/zod.gen.ts` 是以 api 对应的 zod schema库,可以用于表单验证
+  * `packages/mtmaiapi/openapi.yaml` 完整的 openapi 文档
 
 ## 技术栈
 
-- `NEXTJS v15.3`
-- `react v19`
-- `openapi`
-- `react-query`
+* `NEXTJS v15.3`
+* `react v19`
+* `openapi`
+* `react-query`
 
 ### 包管理
-* 使用 **bun** workspace 的方式管理 npm包, 目前不完全支持 npm,如果使用npm, 如果当前环境确实不支持 bun, 应尝试安装,bun安装失败则使用 pnpm 替代
-    - 常用命令 `bun i` 安装依赖
-    - 启动开发服务器 `(cd apps/gomtmui && bun run dev)`
 
+* 使用 **bun** workspace 的方式管理 npm包, 目前不完全支持 npm,如果使用npm, 如果当前环境确实不支持 bun, 应尝试安装,bun安装失败则使用 pnpm 替代
+  * 常用命令 `bun i` 安装依赖
+  * 启动开发服务器 `(cd apps/gomtmui && bun run dev)`
 
 ### 常用工具安装
 
@@ -46,6 +44,7 @@
 ... 待补充
 
 ### 提出后端开发需求
+
 作为前端开发人员, 在实现相关功能的过程中, 会涉及到跟后端的配合, 例如 API 功能的增加,修改.
 当确实需要提出后端开发需求时, 前端的相关组件,应该显示相关的占位符, 例如,显示"xxx"功能暂未实现.
 如果相关功能必须等待后端开发人员完成才能继续的, 就暂时停止当前前端组件的相关更改,等到后端开发完成.
@@ -65,8 +64,12 @@
 
 ### 团队成员共同约束
 
-* 所有团队成员必须积极主动且正确地完成任务
+* 所有团队成员必须**积极**,**主动**,**尽最大的努力**正确地完成任务, 减少向用户询问和和寻求反馈.例如以下情况应该避免:
+  * "需要继续吗?"
+  * "你同意我这样做吗?"
+
 * 更改了代码之后,必须保证测试命令能够通过, 必须保证构建命令顺利无报错执行
+
 * 团队成员应该明白成员间合作的重要性, 应该明白自己的工作的结果对其他成员的影响, 并且明白如何高效而正确的完成任务.
   * 例如, 测试人员应该清楚高效的测试用例能减轻编码开发工程师的工作量和心智负担.
   * 开发工程师, 应该明白开发和更新代码,有可能导致需要更新测试用例.
