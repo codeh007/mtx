@@ -61,7 +61,7 @@ export function ProxyActions({ proxy, onSuccess }: ProxyActionsProps) {
   });
 
   const onDelete = () => {
-    deleteProxyMutation.mutate();
+    deleteProxyMutation.mutate({});
   };
 
   return (
