@@ -57,6 +57,11 @@ import {
   endpointList,
   endpointUpdate,
   mtworkerGetTasks,
+  proxyList,
+  proxyGet,
+  proxyCreate,
+  proxyUpdate,
+  proxyDelete,
   postListPublic,
   postGet,
   postList,
@@ -70,12 +75,24 @@ import {
   singboxSubscribe,
   singboxGeoipCnSrs,
   singboxGetOutbounds,
+  singboxCreateOutbound,
+  singboxDeleteOutbound,
+  singboxGetOutbound,
+  singboxUpdateOutbound,
   singboxImportOutbounds,
   botList,
   botGet,
   botHeartbeat,
+  platformList,
+  platformGet,
+  platformCreate,
+  platformUpdate,
+  platformDelete,
   pAccountCreate,
   pAccountList,
+  pAccountGet,
+  pAccountUpdate,
+  pAccountDelete,
   albumList,
   albumCreate,
   albumDelete,
@@ -92,7 +109,6 @@ import {
   type UseMutationOptions,
   infiniteQueryOptions,
   type InfiniteData,
-  type DefaultError,
 } from "@tanstack/react-query";
 import type {
   ReadinessGetData,
@@ -199,6 +215,19 @@ import type {
   EndpointUpdateError,
   EndpointUpdateResponse,
   MtworkerGetTasksData,
+  ProxyListData,
+  ProxyListError,
+  ProxyListResponse,
+  ProxyGetData,
+  ProxyCreateData,
+  ProxyCreateError,
+  ProxyCreateResponse,
+  ProxyUpdateData,
+  ProxyUpdateError,
+  ProxyUpdateResponse,
+  ProxyDeleteData,
+  ProxyDeleteError,
+  ProxyDeleteResponse,
   PostListPublicData,
   PostGetData,
   PostListData,
@@ -216,6 +245,16 @@ import type {
   SingboxSubscribeData,
   SingboxGeoipCnSrsData,
   SingboxGetOutboundsData,
+  SingboxCreateOutboundData,
+  SingboxCreateOutboundError,
+  SingboxCreateOutboundResponse,
+  SingboxDeleteOutboundData,
+  SingboxDeleteOutboundError,
+  SingboxDeleteOutboundResponse,
+  SingboxGetOutboundData,
+  SingboxUpdateOutboundData,
+  SingboxUpdateOutboundError,
+  SingboxUpdateOutboundResponse,
   SingboxImportOutboundsData,
   SingboxImportOutboundsError,
   SingboxImportOutboundsResponse,
@@ -224,9 +263,32 @@ import type {
   BotHeartbeatData,
   BotHeartbeatError,
   BotHeartbeatResponse,
+  PlatformListData,
+  PlatformListError,
+  PlatformListResponse,
+  PlatformGetData,
+  PlatformCreateData,
+  PlatformCreateError,
+  PlatformCreateResponse,
+  PlatformUpdateData,
+  PlatformUpdateError,
+  PlatformUpdateResponse,
+  PlatformDeleteData,
+  PlatformDeleteError,
+  PlatformDeleteResponse,
   PAccountCreateData,
+  PAccountCreateError,
   PAccountCreateResponse,
   PAccountListData,
+  PAccountListError,
+  PAccountListResponse,
+  PAccountGetData,
+  PAccountUpdateData,
+  PAccountUpdateError,
+  PAccountUpdateResponse,
+  PAccountDeleteData,
+  PAccountDeleteError,
+  PAccountDeleteResponse,
   AlbumListData,
   AlbumCreateData,
   AlbumCreateError,
@@ -1654,6 +1716,191 @@ export const mtworkerGetTasksOptions = (options?: Options<MtworkerGetTasksData>)
   });
 };
 
+export const proxyListQueryKey = (options: Options<ProxyListData>) =>
+  createQueryKey("proxyList", options);
+
+export const proxyListOptions = (options: Options<ProxyListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyListQueryKey(options),
+  });
+};
+
+export const proxyListInfiniteQueryKey = (
+  options: Options<ProxyListData>,
+): QueryKey<Options<ProxyListData>> => createQueryKey("proxyList", options, true);
+
+export const proxyListInfiniteOptions = (options: Options<ProxyListData>) => {
+  return infiniteQueryOptions<
+    ProxyListResponse,
+    ProxyListError,
+    InfiniteData<ProxyListResponse>,
+    QueryKey<Options<ProxyListData>>,
+    number | Pick<QueryKey<Options<ProxyListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<ProxyListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  offset: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await proxyList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: proxyListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const proxyGetQueryKey = (options: Options<ProxyGetData>) =>
+  createQueryKey("proxyGet", options);
+
+export const proxyGetOptions = (options: Options<ProxyGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyGetQueryKey(options),
+  });
+};
+
+export const proxyCreateQueryKey = (options: Options<ProxyCreateData>) =>
+  createQueryKey("proxyCreate", options);
+
+export const proxyCreateOptions = (options: Options<ProxyCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyCreateQueryKey(options),
+  });
+};
+
+export const proxyCreateMutation = (options?: Partial<Options<ProxyCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    ProxyCreateResponse,
+    ProxyCreateError,
+    Options<ProxyCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await proxyCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const proxyUpdateQueryKey = (options: Options<ProxyUpdateData>) =>
+  createQueryKey("proxyUpdate", options);
+
+export const proxyUpdateOptions = (options: Options<ProxyUpdateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyUpdate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyUpdateQueryKey(options),
+  });
+};
+
+export const proxyUpdateMutation = (options?: Partial<Options<ProxyUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    ProxyUpdateResponse,
+    ProxyUpdateError,
+    Options<ProxyUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await proxyUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const proxyDeleteQueryKey = (options: Options<ProxyDeleteData>) =>
+  createQueryKey("proxyDelete", options);
+
+export const proxyDeleteOptions = (options: Options<ProxyDeleteData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await proxyDelete({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: proxyDeleteQueryKey(options),
+  });
+};
+
+export const proxyDeleteMutation = (options?: Partial<Options<ProxyDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    ProxyDeleteResponse,
+    ProxyDeleteError,
+    Options<ProxyDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await proxyDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const postListPublicQueryKey = (options?: Options<PostListPublicData>) =>
   createQueryKey("postListPublic", options);
 
@@ -1924,6 +2171,102 @@ export const singboxGetOutboundsOptions = (options?: Options<SingboxGetOutbounds
   });
 };
 
+export const singboxCreateOutboundQueryKey = (options?: Options<SingboxCreateOutboundData>) =>
+  createQueryKey("singboxCreateOutbound", options);
+
+export const singboxCreateOutboundOptions = (options?: Options<SingboxCreateOutboundData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxCreateOutbound({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxCreateOutboundQueryKey(options),
+  });
+};
+
+export const singboxCreateOutboundMutation = (
+  options?: Partial<Options<SingboxCreateOutboundData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SingboxCreateOutboundResponse,
+    SingboxCreateOutboundError,
+    Options<SingboxCreateOutboundData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await singboxCreateOutbound({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const singboxDeleteOutboundMutation = (
+  options?: Partial<Options<SingboxDeleteOutboundData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SingboxDeleteOutboundResponse,
+    SingboxDeleteOutboundError,
+    Options<SingboxDeleteOutboundData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await singboxDeleteOutbound({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const singboxGetOutboundQueryKey = (options: Options<SingboxGetOutboundData>) =>
+  createQueryKey("singboxGetOutbound", options);
+
+export const singboxGetOutboundOptions = (options: Options<SingboxGetOutboundData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await singboxGetOutbound({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: singboxGetOutboundQueryKey(options),
+  });
+};
+
+export const singboxUpdateOutboundMutation = (
+  options?: Partial<Options<SingboxUpdateOutboundData>>,
+) => {
+  const mutationOptions: UseMutationOptions<
+    SingboxUpdateOutboundResponse,
+    SingboxUpdateOutboundError,
+    Options<SingboxUpdateOutboundData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await singboxUpdateOutbound({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const singboxImportOutboundsQueryKey = (options?: Options<SingboxImportOutboundsData>) =>
   createQueryKey("singboxImportOutbounds", options);
 
@@ -2033,6 +2376,155 @@ export const botHeartbeatMutation = (options?: Partial<Options<BotHeartbeatData>
   return mutationOptions;
 };
 
+export const platformListQueryKey = (options: Options<PlatformListData>) =>
+  createQueryKey("platformList", options);
+
+export const platformListOptions = (options: Options<PlatformListData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformList({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformListQueryKey(options),
+  });
+};
+
+export const platformListInfiniteQueryKey = (
+  options: Options<PlatformListData>,
+): QueryKey<Options<PlatformListData>> => createQueryKey("platformList", options, true);
+
+export const platformListInfiniteOptions = (options: Options<PlatformListData>) => {
+  return infiniteQueryOptions<
+    PlatformListResponse,
+    PlatformListError,
+    InfiniteData<PlatformListResponse>,
+    QueryKey<Options<PlatformListData>>,
+    number | Pick<QueryKey<Options<PlatformListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<PlatformListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await platformList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: platformListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const platformGetQueryKey = (options: Options<PlatformGetData>) =>
+  createQueryKey("platformGet", options);
+
+export const platformGetOptions = (options: Options<PlatformGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformGetQueryKey(options),
+  });
+};
+
+export const platformCreateQueryKey = (options: Options<PlatformCreateData>) =>
+  createQueryKey("platformCreate", options);
+
+export const platformCreateOptions = (options: Options<PlatformCreateData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await platformCreate({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: platformCreateQueryKey(options),
+  });
+};
+
+export const platformCreateMutation = (options?: Partial<Options<PlatformCreateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformCreateResponse,
+    PlatformCreateError,
+    Options<PlatformCreateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const platformUpdateMutation = (options?: Partial<Options<PlatformUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformUpdateResponse,
+    PlatformUpdateError,
+    Options<PlatformUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const platformDeleteMutation = (options?: Partial<Options<PlatformDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PlatformDeleteResponse,
+    PlatformDeleteError,
+    Options<PlatformDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await platformDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
 export const pAccountCreateQueryKey = (options: Options<PAccountCreateData>) =>
   createQueryKey("pAccountCreate", options);
 
@@ -2054,7 +2546,7 @@ export const pAccountCreateOptions = (options: Options<PAccountCreateData>) => {
 export const pAccountCreateMutation = (options?: Partial<Options<PAccountCreateData>>) => {
   const mutationOptions: UseMutationOptions<
     PAccountCreateResponse,
-    DefaultError,
+    PAccountCreateError,
     Options<PAccountCreateData>
   > = {
     mutationFn: async (localOptions) => {
@@ -2085,6 +2577,101 @@ export const pAccountListOptions = (options: Options<PAccountListData>) => {
     },
     queryKey: pAccountListQueryKey(options),
   });
+};
+
+export const pAccountListInfiniteQueryKey = (
+  options: Options<PAccountListData>,
+): QueryKey<Options<PAccountListData>> => createQueryKey("pAccountList", options, true);
+
+export const pAccountListInfiniteOptions = (options: Options<PAccountListData>) => {
+  return infiniteQueryOptions<
+    PAccountListResponse,
+    PAccountListError,
+    InfiniteData<PAccountListResponse>,
+    QueryKey<Options<PAccountListData>>,
+    number | Pick<QueryKey<Options<PAccountListData>>[0], "body" | "headers" | "path" | "query">
+  >(
+    // @ts-ignore
+    {
+      queryFn: async ({ pageParam, queryKey, signal }) => {
+        // @ts-ignore
+        const page: Pick<
+          QueryKey<Options<PAccountListData>>[0],
+          "body" | "headers" | "path" | "query"
+        > =
+          typeof pageParam === "object"
+            ? pageParam
+            : {
+                query: {
+                  page: pageParam,
+                },
+              };
+        const params = createInfiniteParams(queryKey, page);
+        const { data } = await pAccountList({
+          ...options,
+          ...params,
+          signal,
+          throwOnError: true,
+        });
+        return data;
+      },
+      queryKey: pAccountListInfiniteQueryKey(options),
+    },
+  );
+};
+
+export const pAccountGetQueryKey = (options: Options<PAccountGetData>) =>
+  createQueryKey("pAccountGet", options);
+
+export const pAccountGetOptions = (options: Options<PAccountGetData>) => {
+  return queryOptions({
+    queryFn: async ({ queryKey, signal }) => {
+      const { data } = await pAccountGet({
+        ...options,
+        ...queryKey[0],
+        signal,
+        throwOnError: true,
+      });
+      return data;
+    },
+    queryKey: pAccountGetQueryKey(options),
+  });
+};
+
+export const pAccountUpdateMutation = (options?: Partial<Options<PAccountUpdateData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PAccountUpdateResponse,
+    PAccountUpdateError,
+    Options<PAccountUpdateData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await pAccountUpdate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const pAccountDeleteMutation = (options?: Partial<Options<PAccountDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    PAccountDeleteResponse,
+    PAccountDeleteError,
+    Options<PAccountDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await pAccountDelete({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
 };
 
 export const albumListQueryKey = (options: Options<AlbumListData>) =>

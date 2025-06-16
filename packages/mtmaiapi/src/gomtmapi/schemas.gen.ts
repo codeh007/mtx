@@ -185,6 +185,22 @@ export const APIResourceMetaSchema = {
   required: ["id", "createdAt", "updatedAt"],
 } as const;
 
+export const APIResourceMetaPropertiesSchema = {
+  required: ["metadata"],
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+  },
+} as const;
+
+export const TenantParameterSchema = {
+  type: "string",
+  format: "uuid",
+  minLength: 36,
+  maxLength: 36,
+} as const;
+
 export const UserSchema = {
   properties: {
     metadata: {
@@ -2454,20 +2470,149 @@ export const LogLineListSchema = {
   },
 } as const;
 
-export const PAccountPropertiesSchema = {
-  required: ["username", "password", "email", "enabled"],
+export const PlatformPropertiesSchema = {
+  required: ["id", "name"],
   properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+      description: "UUID of the platform",
+    },
+    name: {
+      type: "string",
+      description: "Name of the platform",
+    },
+    url: {
+      type: "string",
+      description: "URL of the platform",
+    },
+    description: {
+      type: "string",
+      description: "Description of the platform",
+    },
+    loginUrl: {
+      type: "string",
+      description: "Login URL for the platform",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      description: "Tags for categorizing the platform",
+    },
+  },
+} as const;
+
+export const PlatformSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMetaProperties",
+    },
+    {
+      $ref: "#/components/schemas/PlatformProperties",
+    },
+  ],
+} as const;
+
+export const PlatformListSchema = {
+  required: ["pagination", "rows"],
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Platform",
+      },
+    },
+  },
+} as const;
+
+export const PlatformCreateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/PlatformProperties",
+    },
+  ],
+} as const;
+
+export const PlatformUpdateSchema = {
+  allOf: [
+    {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    {
+      $ref: "#/components/schemas/PlatformProperties",
+    },
+  ],
+} as const;
+
+export const PAccountPropertiesSchema = {
+  required: ["id", "username", "password", "email", "enabled", "platformId"],
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+      description: "UUID of the account",
+    },
     username: {
       type: "string",
+      description: "Username for the platform account",
     },
     password: {
       type: "string",
+      description: "Password for the platform account",
     },
     email: {
       type: "string",
+      format: "email",
+      description: "Email for the platform account",
     },
     enabled: {
       type: "boolean",
+      description: "Whether the account is enabled",
+    },
+    platformId: {
+      type: "string",
+      format: "uuid",
+      description: "UUID of the platform this account belongs to",
+    },
+    name: {
+      type: "string",
+      description: "Display name for the account",
+    },
+    description: {
+      type: "string",
+      description: "Description of the account",
+    },
+    type: {
+      type: "string",
+      description: "Type or category of the account",
+    },
+    token: {
+      type: "string",
+      description: "Authentication token if applicable",
+    },
+    otpSeed: {
+      type: "string",
+      description: "OTP seed for two-factor authentication",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      description: "Tags for categorizing the account",
+    },
+    comment: {
+      type: "string",
+      description: "Additional notes or comments about the account",
+    },
+    state: {
+      type: "object",
+      description: "Additional state data for the account",
     },
   },
 } as const;
@@ -2479,6 +2624,14 @@ export const PAccountSchema = {
     },
     {
       $ref: "#/components/schemas/PAccountProperties",
+    },
+    {
+      type: "object",
+      properties: {
+        platform: {
+          $ref: "#/components/schemas/Platform",
+        },
+      },
     },
   ],
 } as const;
@@ -2499,11 +2652,198 @@ export const PAccountListSchema = {
 } as const;
 
 export const PAccountCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/PAccountProperties",
+  required: ["username", "password", "email", "platformId"],
+  properties: {
+    username: {
+      type: "string",
+      description: "Username for the platform account",
     },
-  ],
+    password: {
+      type: "string",
+      description: "Password for the platform account",
+    },
+    email: {
+      type: "string",
+      format: "email",
+      description: "Email for the platform account",
+    },
+    enabled: {
+      type: "boolean",
+      default: true,
+      description: "Whether the account is enabled",
+    },
+    platformId: {
+      type: "string",
+      format: "uuid",
+      description: "UUID of the platform this account belongs to",
+    },
+    name: {
+      type: "string",
+      description: "Display name for the account",
+    },
+    comment: {
+      type: "string",
+      description: "Additional notes or comments about the account",
+    },
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+      description: "Tags for categorizing the account",
+    },
+  },
+} as const;
+
+export const ProxySchema = {
+  description: "A proxy server",
+  required: ["id", "name", "url", "type", "provider", "enabled"],
+  properties: {
+    id: {
+      type: "string",
+      format: "uuid",
+      description: "The unique identifier of the proxy",
+    },
+    name: {
+      type: "string",
+      description: "The name of the proxy",
+    },
+    description: {
+      type: "string",
+      description: "The description of the proxy",
+    },
+    url: {
+      type: "string",
+      description: "The URL of the proxy",
+    },
+    type: {
+      type: "string",
+      description: "The type of the proxy (e.g., HTTP, SOCKS5)",
+    },
+    provider: {
+      type: "string",
+      description: "The provider of the proxy",
+    },
+    countryCode: {
+      type: "string",
+      description: "The country code where the proxy is located",
+    },
+    port: {
+      type: "integer",
+      description: "The port number of the proxy",
+    },
+    lastUsedAt: {
+      type: "string",
+      format: "date-time",
+      description: "The last time the proxy was used",
+    },
+    enabled: {
+      type: "boolean",
+      description: "Whether the proxy is enabled",
+    },
+    createdAt: {
+      type: "string",
+      format: "date-time",
+      description: "The time the proxy was created",
+    },
+    updatedAt: {
+      type: "string",
+      format: "date-time",
+      description: "The last time the proxy was updated",
+    },
+  },
+} as const;
+
+export const ProxyCreateSchema = {
+  description: "Parameters for creating a proxy",
+  required: ["name", "url", "type"],
+  properties: {
+    name: {
+      type: "string",
+      description: "The name of the proxy",
+    },
+    description: {
+      type: "string",
+      description: "The description of the proxy",
+    },
+    url: {
+      type: "string",
+      description: "The URL of the proxy",
+    },
+    type: {
+      type: "string",
+      description: "The type of the proxy (e.g., HTTP, SOCKS5)",
+    },
+    provider: {
+      type: "string",
+      description: "The provider of the proxy",
+    },
+    countryCode: {
+      type: "string",
+      description: "The country code where the proxy is located",
+    },
+    port: {
+      type: "integer",
+      description: "The port number of the proxy",
+    },
+    enabled: {
+      type: "boolean",
+      description: "Whether the proxy is enabled",
+      default: true,
+    },
+  },
+} as const;
+
+export const ProxyUpdateSchema = {
+  description: "Parameters for updating a proxy",
+  properties: {
+    name: {
+      type: "string",
+      description: "The name of the proxy",
+    },
+    description: {
+      type: "string",
+      description: "The description of the proxy",
+    },
+    url: {
+      type: "string",
+      description: "The URL of the proxy",
+    },
+    type: {
+      type: "string",
+      description: "The type of the proxy (e.g., HTTP, SOCKS5)",
+    },
+    provider: {
+      type: "string",
+      description: "The provider of the proxy",
+    },
+    countryCode: {
+      type: "string",
+      description: "The country code where the proxy is located",
+    },
+    port: {
+      type: "integer",
+      description: "The port number of the proxy",
+    },
+    enabled: {
+      type: "boolean",
+      description: "Whether the proxy is enabled",
+    },
+  },
+} as const;
+
+export const ProxyListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/Proxy",
+      },
+    },
+  },
 } as const;
 
 export const AlbumSchema = {
@@ -2531,42 +2871,6 @@ export const AlbumSchema = {
   required: ["metadata", "name"],
 } as const;
 
-export const PhotoSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    filename: {
-      type: "string",
-      description: "The filename of the photo",
-    },
-    albumId: {
-      type: "string",
-      format: "uuid",
-      description: "The ID of the album this photo belongs to",
-    },
-    url: {
-      type: "string",
-      description: "The URL to access the photo",
-    },
-    thumbnailUrl: {
-      type: "string",
-      description: "The URL to access the thumbnail of the photo",
-    },
-    description: {
-      type: "string",
-      description: "The description of the photo",
-      maxLength: 500,
-    },
-    takenAt: {
-      type: "string",
-      format: "date-time",
-      description: "The date and time when the photo was taken",
-    },
-  },
-  required: ["metadata", "filename", "albumId", "url", "thumbnailUrl"],
-} as const;
-
 export const AlbumListSchema = {
   properties: {
     pagination: {
@@ -2575,20 +2879,6 @@ export const AlbumListSchema = {
     rows: {
       items: {
         $ref: "#/components/schemas/Album",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const PhotoListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Photo",
       },
       type: "array",
     },
@@ -2638,6 +2928,56 @@ export const UpdateAlbumRequestSchema = {
   },
 } as const;
 
+export const PhotoSchema = {
+  properties: {
+    metadata: {
+      $ref: "#/components/schemas/APIResourceMeta",
+    },
+    filename: {
+      type: "string",
+      description: "The filename of the photo",
+    },
+    albumId: {
+      type: "string",
+      format: "uuid",
+      description: "The ID of the album this photo belongs to",
+    },
+    url: {
+      type: "string",
+      description: "The URL to access the photo",
+    },
+    thumbnailUrl: {
+      type: "string",
+      description: "The URL to access the thumbnail of the photo",
+    },
+    description: {
+      type: "string",
+      description: "The description of the photo",
+      maxLength: 500,
+    },
+    takenAt: {
+      type: "string",
+      format: "date-time",
+      description: "The date and time when the photo was taken",
+    },
+  },
+  required: ["metadata", "filename", "albumId", "url", "thumbnailUrl"],
+} as const;
+
+export const PhotoListSchema = {
+  properties: {
+    pagination: {
+      $ref: "#/components/schemas/PaginationResponse",
+    },
+    rows: {
+      items: {
+        $ref: "#/components/schemas/Photo",
+      },
+      type: "array",
+    },
+  },
+} as const;
+
 export const UploadPhotoRequestSchema = {
   properties: {
     albumId: {
@@ -2669,15 +3009,6 @@ export const UpdatePhotoRequestSchema = {
   },
 } as const;
 
-export const APIResourceMetaPropertiesSchema = {
-  required: ["metadata"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-  },
-} as const;
-
 export const CommonResultSchema = {
   required: ["Success", "Message"],
   properties: {
@@ -2695,13 +3026,6 @@ export const CommonResultSchema = {
       ],
     },
   },
-} as const;
-
-export const TenantParameterSchema = {
-  type: "string",
-  format: "uuid",
-  minLength: 36,
-  maxLength: 36,
 } as const;
 
 export const FrontendConfigSchema = {
@@ -3469,80 +3793,6 @@ export const SocialLoginResultSchema = {
   },
 } as const;
 
-export const PlatformSchema = {
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    url: {
-      type: "string",
-    },
-    loginUrl: {
-      type: "string",
-    },
-    properties: {
-      type: "object",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-  required: ["metadata", "name", "url"],
-} as const;
-
-export const PlatformListSchema = {
-  properties: {
-    pagination: {
-      $ref: "#/components/schemas/PaginationResponse",
-    },
-    rows: {
-      items: {
-        $ref: "#/components/schemas/Platform",
-      },
-      type: "array",
-    },
-  },
-} as const;
-
-export const PlatformUpdateSchema = {
-  required: ["metadata", "name", "url"],
-  properties: {
-    metadata: {
-      $ref: "#/components/schemas/APIResourceMeta",
-    },
-    name: {
-      type: "string",
-    },
-    description: {
-      type: "string",
-    },
-    url: {
-      type: "string",
-    },
-    loginUrl: {
-      type: "string",
-    },
-    properties: {
-      type: "object",
-    },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-  },
-} as const;
-
 export const PlatformAccountPropertiesSchema = {
   required: ["username", "password", "platform"],
   properties: {
@@ -3587,14 +3837,6 @@ export const PlatformAccountPropertiesSchema = {
       type: "string",
     },
   },
-} as const;
-
-export const PlatformAccountCreateSchema = {
-  allOf: [
-    {
-      $ref: "#/components/schemas/PlatformAccountProperties",
-    },
-  ],
 } as const;
 
 export const PlatformAccountSchema = {
@@ -4361,31 +4603,111 @@ export const SbWorkerProfileSchema = {
 } as const;
 
 export const SbOutboundSchema = {
-  type: "object",
+  description: "Sing-box outbound configuration",
   properties: {
     id: {
       type: "string",
-    },
-    created_at: {
-      type: "string",
-    },
-    updated_at: {
-      type: "string",
+      format: "uuid",
+      description: "Unique identifier",
     },
     tag: {
       type: "string",
+      description: "Tag name for this outbound",
     },
     type: {
       type: "string",
+      description: "Type of outbound protocol",
     },
     server: {
       type: "string",
+      description: "Server address",
     },
     server_port: {
       type: "integer",
+      description: "Server port number",
     },
-    uuid: {
+    password: {
       type: "string",
+      description: "Authentication password",
+      nullable: true,
+    },
+    security: {
+      type: "string",
+      description: "Security protocol",
+      nullable: true,
+    },
+    domain_resolver: {
+      type: "string",
+      description: "Domain resolver configuration",
+      nullable: true,
+    },
+    full_config: {
+      type: "object",
+      description: "Complete configuration in JSON format",
+    },
+    created_at: {
+      type: "string",
+      format: "date-time",
+      description: "Creation timestamp",
+    },
+    updated_at: {
+      type: "string",
+      format: "date-time",
+      description: "Last update timestamp",
+    },
+  },
+} as const;
+
+export const SbOutboundListSchema = {
+  description: "List of sing-box outbounds",
+  properties: {
+    outbounds: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/SbOutbound",
+      },
+    },
+  },
+} as const;
+
+export const SbOutboundCreateSchema = {
+  description: "Create a new sing-box outbound",
+  required: ["tag", "type", "server", "server_port", "full_config"],
+  properties: {
+    tag: {
+      type: "string",
+      description: "Tag name for this outbound",
+    },
+    type: {
+      type: "string",
+      description: "Type of outbound protocol",
+    },
+    server: {
+      type: "string",
+      description: "Server address",
+    },
+    server_port: {
+      type: "integer",
+      description: "Server port number",
+    },
+    password: {
+      type: "string",
+      description: "Authentication password",
+      nullable: true,
+    },
+    security: {
+      type: "string",
+      description: "Security protocol",
+      nullable: true,
+    },
+    domain_resolver: {
+      type: "string",
+      description: "Domain resolver configuration",
+      nullable: true,
+    },
+    full_config: {
+      type: "object",
+      description: "Complete configuration in JSON format",
     },
   },
 } as const;

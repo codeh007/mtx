@@ -109,6 +109,12 @@ export type ApiResourceMeta = {
   updatedAt: string;
 };
 
+export type ApiResourceMetaProperties = {
+  metadata: ApiResourceMeta;
+};
+
+export type TenantParameter = string;
+
 export type User = {
   metadata: ApiResourceMeta;
   /**
@@ -1370,21 +1376,284 @@ export type LogLineList = {
   rows?: Array<LogLine>;
 };
 
-export type PAccountProperties = {
-  username: string;
-  password: string;
-  email: string;
-  enabled: boolean;
+export type PlatformProperties = {
+  /**
+   * UUID of the platform
+   */
+  id: string;
+  /**
+   * Name of the platform
+   */
+  name: string;
+  /**
+   * URL of the platform
+   */
+  url?: string;
+  /**
+   * Description of the platform
+   */
+  description?: string;
+  /**
+   * Login URL for the platform
+   */
+  loginUrl?: string;
+  /**
+   * Tags for categorizing the platform
+   */
+  tags?: Array<string>;
 };
 
-export type PAccount = ApiResourceMetaProperties & PAccountProperties;
+export type Platform = ApiResourceMetaProperties & PlatformProperties;
+
+export type PlatformList = {
+  pagination: PaginationResponse;
+  rows: Array<Platform>;
+};
+
+export type PlatformCreate = PlatformProperties;
+
+export type PlatformUpdate = ApiResourceMeta & PlatformProperties;
+
+export type PAccountProperties = {
+  /**
+   * UUID of the account
+   */
+  id: string;
+  /**
+   * Username for the platform account
+   */
+  username: string;
+  /**
+   * Password for the platform account
+   */
+  password: string;
+  /**
+   * Email for the platform account
+   */
+  email: string;
+  /**
+   * Whether the account is enabled
+   */
+  enabled: boolean;
+  /**
+   * UUID of the platform this account belongs to
+   */
+  platformId: string;
+  /**
+   * Display name for the account
+   */
+  name?: string;
+  /**
+   * Description of the account
+   */
+  description?: string;
+  /**
+   * Type or category of the account
+   */
+  type?: string;
+  /**
+   * Authentication token if applicable
+   */
+  token?: string;
+  /**
+   * OTP seed for two-factor authentication
+   */
+  otpSeed?: string;
+  /**
+   * Tags for categorizing the account
+   */
+  tags?: Array<string>;
+  /**
+   * Additional notes or comments about the account
+   */
+  comment?: string;
+  /**
+   * Additional state data for the account
+   */
+  state?: {
+    [key: string]: unknown;
+  };
+};
+
+export type PAccount = ApiResourceMetaProperties &
+  PAccountProperties & {
+    platform?: Platform;
+  };
 
 export type PAccountList = {
   pagination: PaginationResponse;
   rows: Array<PAccount>;
 };
 
-export type PAccountCreate = PAccountProperties;
+export type PAccountCreate = {
+  /**
+   * Username for the platform account
+   */
+  username: string;
+  /**
+   * Password for the platform account
+   */
+  password: string;
+  /**
+   * Email for the platform account
+   */
+  email: string;
+  /**
+   * Whether the account is enabled
+   */
+  enabled?: boolean;
+  /**
+   * UUID of the platform this account belongs to
+   */
+  platformId: string;
+  /**
+   * Display name for the account
+   */
+  name?: string;
+  /**
+   * Additional notes or comments about the account
+   */
+  comment?: string;
+  /**
+   * Tags for categorizing the account
+   */
+  tags?: Array<string>;
+};
+
+/**
+ * A proxy server
+ */
+export type Proxy = {
+  /**
+   * The unique identifier of the proxy
+   */
+  id: string;
+  /**
+   * The name of the proxy
+   */
+  name: string;
+  /**
+   * The description of the proxy
+   */
+  description?: string;
+  /**
+   * The URL of the proxy
+   */
+  url: string;
+  /**
+   * The type of the proxy (e.g., HTTP, SOCKS5)
+   */
+  type: string;
+  /**
+   * The provider of the proxy
+   */
+  provider: string;
+  /**
+   * The country code where the proxy is located
+   */
+  countryCode?: string;
+  /**
+   * The port number of the proxy
+   */
+  port?: number;
+  /**
+   * The last time the proxy was used
+   */
+  lastUsedAt?: string;
+  /**
+   * Whether the proxy is enabled
+   */
+  enabled: boolean;
+  /**
+   * The time the proxy was created
+   */
+  createdAt?: string;
+  /**
+   * The last time the proxy was updated
+   */
+  updatedAt?: string;
+};
+
+/**
+ * Parameters for creating a proxy
+ */
+export type ProxyCreate = {
+  /**
+   * The name of the proxy
+   */
+  name: string;
+  /**
+   * The description of the proxy
+   */
+  description?: string;
+  /**
+   * The URL of the proxy
+   */
+  url: string;
+  /**
+   * The type of the proxy (e.g., HTTP, SOCKS5)
+   */
+  type: string;
+  /**
+   * The provider of the proxy
+   */
+  provider?: string;
+  /**
+   * The country code where the proxy is located
+   */
+  countryCode?: string;
+  /**
+   * The port number of the proxy
+   */
+  port?: number;
+  /**
+   * Whether the proxy is enabled
+   */
+  enabled?: boolean;
+};
+
+/**
+ * Parameters for updating a proxy
+ */
+export type ProxyUpdate = {
+  /**
+   * The name of the proxy
+   */
+  name?: string;
+  /**
+   * The description of the proxy
+   */
+  description?: string;
+  /**
+   * The URL of the proxy
+   */
+  url?: string;
+  /**
+   * The type of the proxy (e.g., HTTP, SOCKS5)
+   */
+  type?: string;
+  /**
+   * The provider of the proxy
+   */
+  provider?: string;
+  /**
+   * The country code where the proxy is located
+   */
+  countryCode?: string;
+  /**
+   * The port number of the proxy
+   */
+  port?: number;
+  /**
+   * Whether the proxy is enabled
+   */
+  enabled?: boolean;
+};
+
+export type ProxyList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Proxy>;
+};
 
 export type Album = {
   metadata: ApiResourceMeta;
@@ -1392,6 +1661,41 @@ export type Album = {
    * The name of the album
    */
   name: string;
+  /**
+   * The description of the album
+   */
+  description?: string;
+  /**
+   * The ID of the cover photo for this album
+   */
+  coverPhotoId?: string;
+};
+
+export type AlbumList = {
+  pagination?: PaginationResponse;
+  rows?: Array<Album>;
+};
+
+export type CreateAlbumRequest = {
+  /**
+   * The name of the album
+   */
+  name: string;
+  /**
+   * The description of the album
+   */
+  description?: string;
+  /**
+   * The ID of the cover photo for this album
+   */
+  coverPhotoId?: string;
+};
+
+export type UpdateAlbumRequest = {
+  /**
+   * The name of the album
+   */
+  name?: string;
   /**
    * The description of the album
    */
@@ -1430,44 +1734,9 @@ export type Photo = {
   takenAt?: string;
 };
 
-export type AlbumList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Album>;
-};
-
 export type PhotoList = {
   pagination?: PaginationResponse;
   rows?: Array<Photo>;
-};
-
-export type CreateAlbumRequest = {
-  /**
-   * The name of the album
-   */
-  name: string;
-  /**
-   * The description of the album
-   */
-  description?: string;
-  /**
-   * The ID of the cover photo for this album
-   */
-  coverPhotoId?: string;
-};
-
-export type UpdateAlbumRequest = {
-  /**
-   * The name of the album
-   */
-  name?: string;
-  /**
-   * The description of the album
-   */
-  description?: string;
-  /**
-   * The ID of the cover photo for this album
-   */
-  coverPhotoId?: string;
 };
 
 export type UploadPhotoRequest = {
@@ -1492,17 +1761,11 @@ export type UpdatePhotoRequest = {
   albumId?: string;
 };
 
-export type ApiResourceMetaProperties = {
-  metadata: ApiResourceMeta;
-};
-
 export type CommonResult = {
   Success: boolean;
   Message: string;
   other?: ActionRegisterInstagram;
 };
-
-export type TenantParameter = string;
 
 export type FrontendConfig = {
   /**
@@ -1960,35 +2223,6 @@ export type SocialLoginResult = {
   success: boolean;
 };
 
-export type Platform = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
-  };
-  tags?: Array<string>;
-};
-
-export type PlatformList = {
-  pagination?: PaginationResponse;
-  rows?: Array<Platform>;
-};
-
-export type PlatformUpdate = {
-  metadata: ApiResourceMeta;
-  name: string;
-  description?: string;
-  url: string;
-  loginUrl?: string;
-  properties?: {
-    [key: string]: unknown;
-  };
-  tags?: Array<string>;
-};
-
 export type PlatformAccountProperties = {
   label?: string;
   description?: string;
@@ -2005,8 +2239,6 @@ export type PlatformAccountProperties = {
   };
   error?: string;
 };
-
-export type PlatformAccountCreate = PlatformAccountProperties;
 
 export type PlatformAccount = ApiResourceMetaProperties & PlatformAccountProperties;
 
@@ -2317,15 +2549,103 @@ export type SbWorkerProfile = {
   defaultProfileUrl: string;
 };
 
+/**
+ * Sing-box outbound configuration
+ */
 export type SbOutbound = {
+  /**
+   * Unique identifier
+   */
   id?: string;
-  created_at?: string;
-  updated_at?: string;
+  /**
+   * Tag name for this outbound
+   */
   tag?: string;
+  /**
+   * Type of outbound protocol
+   */
   type?: string;
+  /**
+   * Server address
+   */
   server?: string;
+  /**
+   * Server port number
+   */
   server_port?: number;
-  uuid?: string;
+  /**
+   * Authentication password
+   */
+  password?: string;
+  /**
+   * Security protocol
+   */
+  security?: string;
+  /**
+   * Domain resolver configuration
+   */
+  domain_resolver?: string;
+  /**
+   * Complete configuration in JSON format
+   */
+  full_config?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Creation timestamp
+   */
+  created_at?: string;
+  /**
+   * Last update timestamp
+   */
+  updated_at?: string;
+};
+
+/**
+ * List of sing-box outbounds
+ */
+export type SbOutboundList = {
+  outbounds?: Array<SbOutbound>;
+};
+
+/**
+ * Create a new sing-box outbound
+ */
+export type SbOutboundCreate = {
+  /**
+   * Tag name for this outbound
+   */
+  tag: string;
+  /**
+   * Type of outbound protocol
+   */
+  type: string;
+  /**
+   * Server address
+   */
+  server: string;
+  /**
+   * Server port number
+   */
+  server_port: number;
+  /**
+   * Authentication password
+   */
+  password?: string;
+  /**
+   * Security protocol
+   */
+  security?: string;
+  /**
+   * Domain resolver configuration
+   */
+  domain_resolver?: string;
+  /**
+   * Complete configuration in JSON format
+   */
+  full_config: {
+    [key: string]: unknown;
+  };
 };
 
 export type SbImportRequest = {
@@ -4058,6 +4378,253 @@ export type MtworkerGetTasksResponses = {
 
 export type MtworkerGetTasksResponse = MtworkerGetTasksResponses[keyof MtworkerGetTasksResponses];
 
+export type ProxyListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: {
+    /**
+     * Limit the number of results
+     */
+    limit?: number;
+    /**
+     * Offset the results
+     */
+    offset?: number;
+    /**
+     * Filter by enabled status
+     */
+    enabled?: boolean;
+    /**
+     * Filter by provider
+     */
+    provider?: string;
+    /**
+     * Filter by type
+     */
+    type?: string;
+    /**
+     * Filter by country code
+     */
+    countryCode?: string;
+    /**
+     * Filter by port number
+     */
+    port?: number;
+  };
+  url: "/api/v1/tenants/{tenant}/proxies";
+};
+
+export type ProxyListErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Server error
+   */
+  500: ApiErrors;
+};
+
+export type ProxyListError = ProxyListErrors[keyof ProxyListErrors];
+
+export type ProxyListResponses = {
+  /**
+   * Success
+   */
+  200: {
+    proxies?: Array<Proxy>;
+  };
+};
+
+export type ProxyListResponse = ProxyListResponses[keyof ProxyListResponses];
+
+export type ProxyGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The proxy id
+     */
+    proxyId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/proxies/{proxyId}";
+};
+
+export type ProxyGetErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+  /**
+   * Server error
+   */
+  500: ApiErrors;
+};
+
+export type ProxyGetError = ProxyGetErrors[keyof ProxyGetErrors];
+
+export type ProxyGetResponses = {
+  /**
+   * Success
+   */
+  200: Proxy;
+};
+
+export type ProxyGetResponse = ProxyGetResponses[keyof ProxyGetResponses];
+
+export type ProxyCreateData = {
+  body: ProxyCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/proxies/create";
+};
+
+export type ProxyCreateErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Server error
+   */
+  500: ApiErrors;
+};
+
+export type ProxyCreateError = ProxyCreateErrors[keyof ProxyCreateErrors];
+
+export type ProxyCreateResponses = {
+  /**
+   * Success
+   */
+  200: Proxy;
+};
+
+export type ProxyCreateResponse = ProxyCreateResponses[keyof ProxyCreateResponses];
+
+export type ProxyUpdateData = {
+  body: ProxyUpdate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The proxy id
+     */
+    proxyId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/proxies/{proxyId}/update";
+};
+
+export type ProxyUpdateErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+  /**
+   * Server error
+   */
+  500: ApiErrors;
+};
+
+export type ProxyUpdateError = ProxyUpdateErrors[keyof ProxyUpdateErrors];
+
+export type ProxyUpdateResponses = {
+  /**
+   * Success
+   */
+  200: Proxy;
+};
+
+export type ProxyUpdateResponse = ProxyUpdateResponses[keyof ProxyUpdateResponses];
+
+export type ProxyDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The proxy id
+     */
+    proxyId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/proxies/{proxyId}/delete";
+};
+
+export type ProxyDeleteErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Unauthorized
+   */
+  401: ApiErrors;
+  /**
+   * Not found
+   */
+  404: ApiErrors;
+  /**
+   * Server error
+   */
+  500: ApiErrors;
+};
+
+export type ProxyDeleteError = ProxyDeleteErrors[keyof ProxyDeleteErrors];
+
+export type ProxyDeleteResponses = {
+  /**
+   * Success
+   */
+  200: {
+    success?: boolean;
+  };
+};
+
+export type ProxyDeleteResponse = ProxyDeleteResponses[keyof ProxyDeleteResponses];
+
 export type PostListPublicData = {
   body?: never;
   path?: never;
@@ -4453,13 +5020,125 @@ export type SingboxGetOutboundsError = SingboxGetOutboundsErrors[keyof SingboxGe
 
 export type SingboxGetOutboundsResponses = {
   /**
-   * Successfully get the singbox outbound
+   * Successfully get outbounds
    */
-  200: SbOutbound;
+  200: {
+    outbounds?: Array<SbOutbound>;
+  };
 };
 
 export type SingboxGetOutboundsResponse =
   SingboxGetOutboundsResponses[keyof SingboxGetOutboundsResponses];
+
+export type SingboxCreateOutboundData = {
+  body?: SbOutboundCreate;
+  path?: never;
+  query?: never;
+  url: "/api/v1/singbox/outbounds";
+};
+
+export type SingboxCreateOutboundErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+};
+
+export type SingboxCreateOutboundError =
+  SingboxCreateOutboundErrors[keyof SingboxCreateOutboundErrors];
+
+export type SingboxCreateOutboundResponses = {
+  /**
+   * Successfully created outbound
+   */
+  200: SbOutbound;
+};
+
+export type SingboxCreateOutboundResponse =
+  SingboxCreateOutboundResponses[keyof SingboxCreateOutboundResponses];
+
+export type SingboxDeleteOutboundData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/outbounds/{id}";
+};
+
+export type SingboxDeleteOutboundErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxDeleteOutboundError =
+  SingboxDeleteOutboundErrors[keyof SingboxDeleteOutboundErrors];
+
+export type SingboxDeleteOutboundResponses = {
+  /**
+   * Successfully deleted the outbound
+   */
+  200: {
+    success?: boolean;
+  };
+};
+
+export type SingboxDeleteOutboundResponse =
+  SingboxDeleteOutboundResponses[keyof SingboxDeleteOutboundResponses];
+
+export type SingboxGetOutboundData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/outbounds/{id}";
+};
+
+export type SingboxGetOutboundErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxGetOutboundError = SingboxGetOutboundErrors[keyof SingboxGetOutboundErrors];
+
+export type SingboxGetOutboundResponses = {
+  /**
+   * Successfully get the outbound
+   */
+  200: SbOutbound;
+};
+
+export type SingboxGetOutboundResponse =
+  SingboxGetOutboundResponses[keyof SingboxGetOutboundResponses];
+
+export type SingboxUpdateOutboundData = {
+  body?: SbOutboundCreate;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/api/v1/singbox/outbounds/{id}";
+};
+
+export type SingboxUpdateOutboundErrors = {
+  400: ApiErrors;
+  403: ApiErrors;
+  404: ApiErrors;
+};
+
+export type SingboxUpdateOutboundError =
+  SingboxUpdateOutboundErrors[keyof SingboxUpdateOutboundErrors];
+
+export type SingboxUpdateOutboundResponses = {
+  /**
+   * Successfully updated the outbound
+   */
+  200: SbOutbound;
+};
+
+export type SingboxUpdateOutboundResponse =
+  SingboxUpdateOutboundResponses[keyof SingboxUpdateOutboundResponses];
 
 export type SingboxImportOutboundsData = {
   body?: SbImportRequest;
@@ -4560,6 +5239,158 @@ export type BotHeartbeatResponses = {
 
 export type BotHeartbeatResponse = BotHeartbeatResponses[keyof BotHeartbeatResponses];
 
+export type PlatformListData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: {
+    /**
+     * Page number
+     */
+    page?: number;
+    /**
+     * Items per page
+     */
+    limit?: number;
+  };
+  url: "/api/v1/tenants/{tenant}/platforms";
+};
+
+export type PlatformListErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PlatformListError = PlatformListErrors[keyof PlatformListErrors];
+
+export type PlatformListResponses = {
+  200: PlatformList;
+};
+
+export type PlatformListResponse = PlatformListResponses[keyof PlatformListResponses];
+
+export type PlatformGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The platform id
+     */
+    platformId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/platforms/{platformId}";
+};
+
+export type PlatformGetErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PlatformGetError = PlatformGetErrors[keyof PlatformGetErrors];
+
+export type PlatformGetResponses = {
+  200: Platform;
+};
+
+export type PlatformGetResponse = PlatformGetResponses[keyof PlatformGetResponses];
+
+export type PlatformCreateData = {
+  body?: PlatformCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/platforms/create";
+};
+
+export type PlatformCreateErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type PlatformCreateError = PlatformCreateErrors[keyof PlatformCreateErrors];
+
+export type PlatformCreateResponses = {
+  200: Platform;
+};
+
+export type PlatformCreateResponse = PlatformCreateResponses[keyof PlatformCreateResponses];
+
+export type PlatformUpdateData = {
+  body?: PlatformUpdate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The platform id
+     */
+    platformId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/platforms/{platformId}/update";
+};
+
+export type PlatformUpdateErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PlatformUpdateError = PlatformUpdateErrors[keyof PlatformUpdateErrors];
+
+export type PlatformUpdateResponses = {
+  200: Platform;
+};
+
+export type PlatformUpdateResponse = PlatformUpdateResponses[keyof PlatformUpdateResponses];
+
+export type PlatformDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The platform id
+     */
+    platformId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/platforms/{platformId}/delete";
+};
+
+export type PlatformDeleteErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PlatformDeleteError = PlatformDeleteErrors[keyof PlatformDeleteErrors];
+
+export type PlatformDeleteResponses = {
+  200: {
+    success?: boolean;
+  };
+};
+
+export type PlatformDeleteResponse = PlatformDeleteResponses[keyof PlatformDeleteResponses];
+
 export type PAccountCreateData = {
   body?: PAccountCreate;
   path: {
@@ -4571,6 +5402,13 @@ export type PAccountCreateData = {
   query?: never;
   url: "/api/v1/tenants/{tenant}/p_account/create";
 };
+
+export type PAccountCreateErrors = {
+  400: ApiErrors;
+  403: ApiError;
+};
+
+export type PAccountCreateError = PAccountCreateErrors[keyof PAccountCreateErrors];
 
 export type PAccountCreateResponses = {
   200: PAccount;
@@ -4586,7 +5424,16 @@ export type PAccountListData = {
      */
     tenant: string;
   };
-  query?: never;
+  query?: {
+    /**
+     * Page number
+     */
+    page?: number;
+    /**
+     * Items per page
+     */
+    limit?: number;
+  };
   url: "/api/v1/tenants/{tenant}/p_account/list";
 };
 
@@ -4603,6 +5450,98 @@ export type PAccountListResponses = {
 };
 
 export type PAccountListResponse = PAccountListResponses[keyof PAccountListResponses];
+
+export type PAccountGetData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: string;
+    /**
+     * The account id
+     */
+    accountId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/p_account/{accountId}";
+};
+
+export type PAccountGetErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PAccountGetError = PAccountGetErrors[keyof PAccountGetErrors];
+
+export type PAccountGetResponses = {
+  200: PAccount;
+};
+
+export type PAccountGetResponse = PAccountGetResponses[keyof PAccountGetResponses];
+
+export type PAccountUpdateData = {
+  body?: PAccountCreate;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The account id
+     */
+    accountId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/p_account/{accountId}/update";
+};
+
+export type PAccountUpdateErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PAccountUpdateError = PAccountUpdateErrors[keyof PAccountUpdateErrors];
+
+export type PAccountUpdateResponses = {
+  200: PAccount;
+};
+
+export type PAccountUpdateResponse = PAccountUpdateResponses[keyof PAccountUpdateResponses];
+
+export type PAccountDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The account id
+     */
+    accountId: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/p_account/{accountId}/delete";
+};
+
+export type PAccountDeleteErrors = {
+  400: ApiErrors;
+  403: ApiError;
+  404: ApiErrors;
+};
+
+export type PAccountDeleteError = PAccountDeleteErrors[keyof PAccountDeleteErrors];
+
+export type PAccountDeleteResponses = {
+  200: {
+    success: boolean;
+  };
+};
+
+export type PAccountDeleteResponse = PAccountDeleteResponses[keyof PAccountDeleteResponses];
 
 export type AlbumListData = {
   body?: never;

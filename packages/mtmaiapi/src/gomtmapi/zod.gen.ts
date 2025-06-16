@@ -72,6 +72,12 @@ export const zApiResourceMeta = z.object({
   updatedAt: z.string().datetime(),
 });
 
+export const zApiResourceMetaProperties = z.object({
+  metadata: zApiResourceMeta,
+});
+
+export const zTenantParameter = z.string().uuid().length(36);
+
 export const zUser = z.object({
   metadata: zApiResourceMeta,
   name: z.string().optional(),
@@ -1271,25 +1277,106 @@ export const zLogLineList = z.object({
   rows: z.array(zLogLine).optional(),
 });
 
-export const zPAccountProperties = z.object({
-  username: z.string(),
-  password: z.string(),
-  email: z.string(),
-  enabled: z.boolean(),
+export const zPlatformProperties = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  url: z.string().optional(),
+  description: z.string().optional(),
+  loginUrl: z.string().optional(),
+  tags: z.array(z.string()).optional(),
 });
 
-export const zPAccount = z
-  .object({
-    metadata: zApiResourceMeta,
-  })
-  .merge(zPAccountProperties);
+export const zPlatform = zApiResourceMetaProperties.merge(zPlatformProperties);
+
+export const zPlatformList = z.object({
+  pagination: zPaginationResponse,
+  rows: z.array(zPlatform),
+});
+
+export const zPlatformCreate = zPlatformProperties;
+
+export const zPlatformUpdate = zApiResourceMeta.merge(zPlatformProperties);
+
+export const zPAccountProperties = z.object({
+  id: z.string().uuid(),
+  username: z.string(),
+  password: z.string(),
+  email: z.string().email(),
+  enabled: z.boolean(),
+  platformId: z.string().uuid(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  type: z.string().optional(),
+  token: z.string().optional(),
+  otpSeed: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  comment: z.string().optional(),
+  state: z.object({}).optional(),
+});
+
+export const zPAccount = zApiResourceMetaProperties.merge(zPAccountProperties).merge(
+  z.object({
+    platform: zPlatform.optional(),
+  }),
+);
 
 export const zPAccountList = z.object({
   pagination: zPaginationResponse,
   rows: z.array(zPAccount),
 });
 
-export const zPAccountCreate = zPAccountProperties;
+export const zPAccountCreate = z.object({
+  username: z.string(),
+  password: z.string(),
+  email: z.string().email(),
+  enabled: z.boolean().optional().default(true),
+  platformId: z.string().uuid(),
+  name: z.string().optional(),
+  comment: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+});
+
+export const zProxy = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+  type: z.string(),
+  provider: z.string(),
+  countryCode: z.string().optional(),
+  port: z.number().int().optional(),
+  lastUsedAt: z.string().datetime().optional(),
+  enabled: z.boolean(),
+  createdAt: z.string().datetime().optional(),
+  updatedAt: z.string().datetime().optional(),
+});
+
+export const zProxyCreate = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  url: z.string(),
+  type: z.string(),
+  provider: z.string().optional(),
+  countryCode: z.string().optional(),
+  port: z.number().int().optional(),
+  enabled: z.boolean().optional().default(true),
+});
+
+export const zProxyUpdate = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  url: z.string().optional(),
+  type: z.string().optional(),
+  provider: z.string().optional(),
+  countryCode: z.string().optional(),
+  port: z.number().int().optional(),
+  enabled: z.boolean().optional(),
+});
+
+export const zProxyList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zProxy).optional(),
+});
 
 export const zAlbum = z.object({
   metadata: zApiResourceMeta,
@@ -1298,24 +1385,9 @@ export const zAlbum = z.object({
   coverPhotoId: z.string().uuid().optional(),
 });
 
-export const zPhoto = z.object({
-  metadata: zApiResourceMeta,
-  filename: z.string(),
-  albumId: z.string().uuid(),
-  url: z.string(),
-  thumbnailUrl: z.string(),
-  description: z.string().max(500).optional(),
-  takenAt: z.string().datetime().optional(),
-});
-
 export const zAlbumList = z.object({
   pagination: zPaginationResponse.optional(),
   rows: z.array(zAlbum).optional(),
-});
-
-export const zPhotoList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zPhoto).optional(),
 });
 
 export const zCreateAlbumRequest = z.object({
@@ -1330,6 +1402,21 @@ export const zUpdateAlbumRequest = z.object({
   coverPhotoId: z.string().uuid().optional(),
 });
 
+export const zPhoto = z.object({
+  metadata: zApiResourceMeta,
+  filename: z.string(),
+  albumId: z.string().uuid(),
+  url: z.string(),
+  thumbnailUrl: z.string(),
+  description: z.string().max(500).optional(),
+  takenAt: z.string().datetime().optional(),
+});
+
+export const zPhotoList = z.object({
+  pagination: zPaginationResponse.optional(),
+  rows: z.array(zPhoto).optional(),
+});
+
 export const zUploadPhotoRequest = z.object({
   albumId: z.string().uuid(),
   description: z.string().max(500).optional(),
@@ -1338,10 +1425,6 @@ export const zUploadPhotoRequest = z.object({
 export const zUpdatePhotoRequest = z.object({
   description: z.string().max(500).optional(),
   albumId: z.string().uuid().optional(),
-});
-
-export const zApiResourceMetaProperties = z.object({
-  metadata: zApiResourceMeta,
 });
 
 export const zCommonResult = z.object({
@@ -1353,8 +1436,6 @@ export const zCommonResult = z.object({
     })
     .optional(),
 });
-
-export const zTenantParameter = z.string().uuid().length(36);
 
 export const zFrontendConfig = z.object({
   cookieAccessToken: z.string(),
@@ -1779,31 +1860,6 @@ export const zSocialLoginResult = z.object({
   success: z.boolean(),
 });
 
-export const zPlatform = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string().optional(),
-  url: z.string(),
-  loginUrl: z.string().optional(),
-  properties: z.object({}).optional(),
-  tags: z.array(z.string()).optional(),
-});
-
-export const zPlatformList = z.object({
-  pagination: zPaginationResponse.optional(),
-  rows: z.array(zPlatform).optional(),
-});
-
-export const zPlatformUpdate = z.object({
-  metadata: zApiResourceMeta,
-  name: z.string(),
-  description: z.string().optional(),
-  url: z.string(),
-  loginUrl: z.string().optional(),
-  properties: z.object({}).optional(),
-  tags: z.array(z.string()).optional(),
-});
-
 export const zPlatformAccountProperties = z.object({
   label: z.string().optional(),
   description: z.string().optional(),
@@ -1818,8 +1874,6 @@ export const zPlatformAccountProperties = z.object({
   state: z.object({}).optional(),
   error: z.string().optional(),
 });
-
-export const zPlatformAccountCreate = zPlatformAccountProperties;
 
 export const zPlatformAccount = zApiResourceMetaProperties.merge(zPlatformAccountProperties);
 
@@ -2109,14 +2163,32 @@ export const zSbWorkerProfile = z.object({
 });
 
 export const zSbOutbound = z.object({
-  id: z.string().optional(),
-  created_at: z.string().optional(),
-  updated_at: z.string().optional(),
+  id: z.string().uuid().optional(),
   tag: z.string().optional(),
   type: z.string().optional(),
   server: z.string().optional(),
   server_port: z.number().int().optional(),
-  uuid: z.string().optional(),
+  password: z.string().optional(),
+  security: z.string().optional(),
+  domain_resolver: z.string().optional(),
+  full_config: z.object({}).optional(),
+  created_at: z.string().datetime().optional(),
+  updated_at: z.string().datetime().optional(),
+});
+
+export const zSbOutboundList = z.object({
+  outbounds: z.array(zSbOutbound).optional(),
+});
+
+export const zSbOutboundCreate = z.object({
+  tag: z.string(),
+  type: z.string(),
+  server: z.string(),
+  server_port: z.number().int(),
+  password: z.string().optional(),
+  security: z.string().optional(),
+  domain_resolver: z.string().optional(),
+  full_config: z.object({}),
 });
 
 export const zSbImportRequest = z.object({
@@ -2246,6 +2318,20 @@ export const zEndpointUpdateResponse = zEndpoint;
 
 export const zMtworkerGetTasksResponse = zMtWorkerTask;
 
+export const zProxyListResponse = z.object({
+  proxies: z.array(zProxy).optional(),
+});
+
+export const zProxyGetResponse = zProxy;
+
+export const zProxyCreateResponse = zProxy;
+
+export const zProxyUpdateResponse = zProxy;
+
+export const zProxyDeleteResponse = z.object({
+  success: z.boolean().optional(),
+});
+
 export const zPostListPublicResponse = zPostList;
 
 export const zPostGetResponse = zPost;
@@ -2270,7 +2356,19 @@ export const zSingboxSubscribeResponse = z.object({});
 
 export const zSingboxGeoipCnSrsResponse = z.string();
 
-export const zSingboxGetOutboundsResponse = zSbOutbound;
+export const zSingboxGetOutboundsResponse = z.object({
+  outbounds: z.array(zSbOutbound).optional(),
+});
+
+export const zSingboxCreateOutboundResponse = zSbOutbound;
+
+export const zSingboxDeleteOutboundResponse = z.object({
+  success: z.boolean().optional(),
+});
+
+export const zSingboxGetOutboundResponse = zSbOutbound;
+
+export const zSingboxUpdateOutboundResponse = zSbOutbound;
 
 export const zSingboxImportOutboundsResponse = zSbOutbound;
 
@@ -2280,9 +2378,29 @@ export const zBotGetResponse = zBot;
 
 export const zBotHeartbeatResponse = zBotConfig;
 
+export const zPlatformListResponse = zPlatformList;
+
+export const zPlatformGetResponse = zPlatform;
+
+export const zPlatformCreateResponse = zPlatform;
+
+export const zPlatformUpdateResponse = zPlatform;
+
+export const zPlatformDeleteResponse = z.object({
+  success: z.boolean().optional(),
+});
+
 export const zPAccountCreateResponse = zPAccount;
 
 export const zPAccountListResponse = zPAccountList;
+
+export const zPAccountGetResponse = zPAccount;
+
+export const zPAccountUpdateResponse = zPAccount;
+
+export const zPAccountDeleteResponse = z.object({
+  success: z.boolean(),
+});
 
 export const zAlbumListResponse = zAlbumList;
 

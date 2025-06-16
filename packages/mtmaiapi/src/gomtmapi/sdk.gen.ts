@@ -149,6 +149,21 @@ import type {
   EndpointUpdateError,
   MtworkerGetTasksData,
   MtworkerGetTasksResponse,
+  ProxyListData,
+  ProxyListResponse,
+  ProxyListError,
+  ProxyGetData,
+  ProxyGetResponse,
+  ProxyGetError,
+  ProxyCreateData,
+  ProxyCreateResponse,
+  ProxyCreateError,
+  ProxyUpdateData,
+  ProxyUpdateResponse,
+  ProxyUpdateError,
+  ProxyDeleteData,
+  ProxyDeleteResponse,
+  ProxyDeleteError,
   PostListPublicData,
   PostListPublicResponse,
   PostListPublicError,
@@ -186,6 +201,18 @@ import type {
   SingboxGetOutboundsData,
   SingboxGetOutboundsResponse,
   SingboxGetOutboundsError,
+  SingboxCreateOutboundData,
+  SingboxCreateOutboundResponse,
+  SingboxCreateOutboundError,
+  SingboxDeleteOutboundData,
+  SingboxDeleteOutboundResponse,
+  SingboxDeleteOutboundError,
+  SingboxGetOutboundData,
+  SingboxGetOutboundResponse,
+  SingboxGetOutboundError,
+  SingboxUpdateOutboundData,
+  SingboxUpdateOutboundResponse,
+  SingboxUpdateOutboundError,
   SingboxImportOutboundsData,
   SingboxImportOutboundsResponse,
   SingboxImportOutboundsError,
@@ -198,11 +225,36 @@ import type {
   BotHeartbeatData,
   BotHeartbeatResponse,
   BotHeartbeatError,
+  PlatformListData,
+  PlatformListResponse,
+  PlatformListError,
+  PlatformGetData,
+  PlatformGetResponse,
+  PlatformGetError,
+  PlatformCreateData,
+  PlatformCreateResponse,
+  PlatformCreateError,
+  PlatformUpdateData,
+  PlatformUpdateResponse,
+  PlatformUpdateError,
+  PlatformDeleteData,
+  PlatformDeleteResponse,
+  PlatformDeleteError,
   PAccountCreateData,
   PAccountCreateResponse,
+  PAccountCreateError,
   PAccountListData,
   PAccountListResponse,
   PAccountListError,
+  PAccountGetData,
+  PAccountGetResponse,
+  PAccountGetError,
+  PAccountUpdateData,
+  PAccountUpdateResponse,
+  PAccountUpdateError,
+  PAccountDeleteData,
+  PAccountDeleteResponse,
+  PAccountDeleteError,
   AlbumListData,
   AlbumListResponse,
   AlbumListError,
@@ -1597,6 +1649,141 @@ export const mtworkerGetTasks = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Get all proxies for the tenant
+ */
+export const proxyList = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ProxyListResponse, ProxyListError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/proxies",
+    ...options,
+  });
+};
+
+/**
+ * Get a proxy by ID
+ */
+export const proxyGet = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ProxyGetResponse, ProxyGetError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/proxies/{proxyId}",
+    ...options,
+  });
+};
+
+/**
+ * Create a new proxy
+ */
+export const proxyCreate = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ProxyCreateResponse,
+    ProxyCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/proxies/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Update a proxy
+ */
+export const proxyUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ProxyUpdateResponse,
+    ProxyUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/proxies/{proxyId}/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete a proxy
+ */
+export const proxyDelete = <ThrowOnError extends boolean = false>(
+  options: Options<ProxyDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ProxyDeleteResponse,
+    ProxyDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/proxies/{proxyId}/delete",
+    ...options,
+  });
+};
+
+/**
  * Get the posts for the site
  */
 export const postListPublic = <ThrowOnError extends boolean = false>(
@@ -1871,8 +2058,8 @@ export const singboxGeoipCnSrs = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * 获取sing-box outbound
- * 获取sing-box outbound
+ * 获取所有sing-box outbound
+ * 获取所有sing-box outbound配置
  */
 export const singboxGetOutbounds = <ThrowOnError extends boolean = false>(
   options?: Options<SingboxGetOutboundsData, ThrowOnError>,
@@ -1884,6 +2071,82 @@ export const singboxGetOutbounds = <ThrowOnError extends boolean = false>(
   >({
     url: "/api/v1/singbox/outbounds",
     ...options,
+  });
+};
+
+/**
+ * 创建sing-box outbound
+ * 创建新的sing-box outbound配置
+ */
+export const singboxCreateOutbound = <ThrowOnError extends boolean = false>(
+  options?: Options<SingboxCreateOutboundData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).post<
+    SingboxCreateOutboundResponse,
+    SingboxCreateOutboundError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/outbounds",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * 删除指定sing-box outbound
+ * 删除指定的sing-box outbound配置
+ */
+export const singboxDeleteOutbound = <ThrowOnError extends boolean = false>(
+  options: Options<SingboxDeleteOutboundData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    SingboxDeleteOutboundResponse,
+    SingboxDeleteOutboundError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/outbounds/{id}",
+    ...options,
+  });
+};
+
+/**
+ * 获取指定sing-box outbound
+ * 获取指定的sing-box outbound配置
+ */
+export const singboxGetOutbound = <ThrowOnError extends boolean = false>(
+  options: Options<SingboxGetOutboundData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    SingboxGetOutboundResponse,
+    SingboxGetOutboundError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/outbounds/{id}",
+    ...options,
+  });
+};
+
+/**
+ * 更新指定sing-box outbound
+ * 更新指定的sing-box outbound配置
+ */
+export const singboxUpdateOutbound = <ThrowOnError extends boolean = false>(
+  options: Options<SingboxUpdateOutboundData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    SingboxUpdateOutboundResponse,
+    SingboxUpdateOutboundError,
+    ThrowOnError
+  >({
+    url: "/api/v1/singbox/outbounds/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1954,13 +2217,161 @@ export const botHeartbeat = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Get the platforms for the tenant
+ */
+export const platformList = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformListData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    PlatformListResponse,
+    PlatformListError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/platforms",
+    ...options,
+  });
+};
+
+/**
+ * Get a specific platform
+ */
+export const platformGet = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PlatformGetResponse, PlatformGetError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/platforms/{platformId}",
+      ...options,
+    },
+  );
+};
+
+/**
+ * Create platform
+ * Create platform
+ */
+export const platformCreate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformCreateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    PlatformCreateResponse,
+    PlatformCreateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/platforms/create",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Update platform
+ * Update platform
+ */
+export const platformUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PlatformUpdateResponse,
+    PlatformUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/platforms/{platformId}/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete platform
+ * Delete platform
+ */
+export const platformDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PlatformDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    PlatformDeleteResponse,
+    PlatformDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/platforms/{platformId}/delete",
+    ...options,
+  });
+};
+
+/**
  * Create platform account
  * Create platform account.
  */
 export const pAccountCreate = <ThrowOnError extends boolean = false>(
   options: Options<PAccountCreateData, ThrowOnError>,
 ) => {
-  return (options.client ?? _heyApiClient).post<PAccountCreateResponse, unknown, ThrowOnError>({
+  return (options.client ?? _heyApiClient).post<
+    PAccountCreateResponse,
+    PAccountCreateError,
+    ThrowOnError
+  >({
     url: "/api/v1/tenants/{tenant}/p_account/create",
     ...options,
     headers: {
@@ -1993,6 +2404,91 @@ export const pAccountList = <ThrowOnError extends boolean = false>(
       },
     ],
     url: "/api/v1/tenants/{tenant}/p_account/list",
+    ...options,
+  });
+};
+
+/**
+ * Get a specific platform account
+ */
+export const pAccountGet = <ThrowOnError extends boolean = false>(
+  options: Options<PAccountGetData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<PAccountGetResponse, PAccountGetError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+        {
+          in: "cookie",
+          name: "hatchet",
+          type: "apiKey",
+        },
+      ],
+      url: "/api/v1/tenants/{tenant}/p_account/{accountId}",
+      ...options,
+    },
+  );
+};
+
+/**
+ * Update platform account
+ * Update platform account
+ */
+export const pAccountUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PAccountUpdateData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    PAccountUpdateResponse,
+    PAccountUpdateError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/p_account/{accountId}/update",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete platform account
+ * Delete platform account
+ */
+export const pAccountDelete = <ThrowOnError extends boolean = false>(
+  options: Options<PAccountDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    PAccountDeleteResponse,
+    PAccountDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/p_account/{accountId}/delete",
     ...options,
   });
 };
