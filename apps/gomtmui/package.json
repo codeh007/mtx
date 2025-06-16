@@ -45,6 +45,8 @@
     "a2a:cli": "bun run withEnv -- bun run src/lib/a2a/cli.ts",
     "agents:movie-agent": "bun run withEnv -- bun run src/agents/movie-agent/index.ts",
     "dev:browser": "bun src/browser.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
@@ -187,6 +189,8 @@
     "@modelcontextprotocol/inspector": "^0.10.2",
     "@next/bundle-analyzer": "^15.1.4",
     "@rollup/plugin-babel": "^6.0.4",
+    "@storybook/addon-actions": "^9.0.8",
+    "@storybook/addon-controls": "^9.0.8",
     "@storybook/nextjs": "^9.0.10",
     "@storybook/nextjs-vite": "^9.0.10",
     "@tailwindcss/forms": "^0.5.10",
