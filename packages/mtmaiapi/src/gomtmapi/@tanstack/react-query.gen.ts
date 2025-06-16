@@ -18,8 +18,6 @@ import {
   tenantResourcePolicyGet,
   alertEmailGroupDelete,
   alertEmailGroupUpdate,
-  slackWebhookList,
-  slackWebhookDelete,
   userGetCurrent,
   userUpdatePassword,
   userCreate,
@@ -135,10 +133,6 @@ import type {
   AlertEmailGroupUpdateData,
   AlertEmailGroupUpdateError,
   AlertEmailGroupUpdateResponse,
-  SlackWebhookListData,
-  SlackWebhookDeleteData,
-  SlackWebhookDeleteError,
-  SlackWebhookDeleteResponse,
   UserGetCurrentData,
   UserUpdatePasswordData,
   UserUpdatePasswordError,
@@ -688,42 +682,6 @@ export const alertEmailGroupUpdateMutation = (
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await alertEmailGroupUpdate({
-        ...options,
-        ...localOptions,
-        throwOnError: true,
-      });
-      return data;
-    },
-  };
-  return mutationOptions;
-};
-
-export const slackWebhookListQueryKey = (options: Options<SlackWebhookListData>) =>
-  createQueryKey("slackWebhookList", options);
-
-export const slackWebhookListOptions = (options: Options<SlackWebhookListData>) => {
-  return queryOptions({
-    queryFn: async ({ queryKey, signal }) => {
-      const { data } = await slackWebhookList({
-        ...options,
-        ...queryKey[0],
-        signal,
-        throwOnError: true,
-      });
-      return data;
-    },
-    queryKey: slackWebhookListQueryKey(options),
-  });
-};
-
-export const slackWebhookDeleteMutation = (options?: Partial<Options<SlackWebhookDeleteData>>) => {
-  const mutationOptions: UseMutationOptions<
-    SlackWebhookDeleteResponse,
-    SlackWebhookDeleteError,
-    Options<SlackWebhookDeleteData>
-  > = {
-    mutationFn: async (localOptions) => {
-      const { data } = await slackWebhookDelete({
         ...options,
         ...localOptions,
         throwOnError: true,

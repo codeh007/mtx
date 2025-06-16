@@ -39,12 +39,6 @@ import type {
   AlertEmailGroupUpdateData,
   AlertEmailGroupUpdateResponse,
   AlertEmailGroupUpdateError,
-  SlackWebhookListData,
-  SlackWebhookListResponse,
-  SlackWebhookListError,
-  SlackWebhookDeleteData,
-  SlackWebhookDeleteResponse,
-  SlackWebhookDeleteError,
   UserGetCurrentData,
   UserGetCurrentResponse,
   UserGetCurrentError,
@@ -634,62 +628,6 @@ export const alertEmailGroupUpdate = <ThrowOnError extends boolean = false>(
       "Content-Type": "application/json",
       ...options?.headers,
     },
-  });
-};
-
-/**
- * List Slack integrations
- * List Slack webhooks
- */
-export const slackWebhookList = <ThrowOnError extends boolean = false>(
-  options: Options<SlackWebhookListData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).get<
-    SlackWebhookListResponse,
-    SlackWebhookListError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/tenants/{tenant}/slack",
-    ...options,
-  });
-};
-
-/**
- * Delete Slack webhook
- * Delete Slack webhook
- */
-export const slackWebhookDelete = <ThrowOnError extends boolean = false>(
-  options: Options<SlackWebhookDeleteData, ThrowOnError>,
-) => {
-  return (options.client ?? _heyApiClient).delete<
-    SlackWebhookDeleteResponse,
-    SlackWebhookDeleteError,
-    ThrowOnError
-  >({
-    security: [
-      {
-        scheme: "bearer",
-        type: "http",
-      },
-      {
-        in: "cookie",
-        name: "hatchet",
-        type: "apiKey",
-      },
-    ],
-    url: "/api/v1/slack/{slack}",
-    ...options,
   });
 };
 

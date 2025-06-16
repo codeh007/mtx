@@ -1,235 +1,6239 @@
-package: gen
-output: ./api/v1/server/oas/gen/openapi.gen.go
-generate:
-  models: true
-  echo-server: true
-  strict-server: true
-  embedded-spec: true
-output-options:
-  user-templates:
-    "strict/strict-interface.tmpl": >-
-      {{range .}}
-          {{$opid := .OperationId -}}
-          type {{$opid | ucFirst}}RequestObject struct {
-              {{range .PathParams -}}
-                  {{.GoName | ucFirst}} {{.TypeDef}} {{.JsonTag}}
-              {{end -}}
-              {{if .RequiresParamObject -}}
-                  Params {{$opid}}Params
-              {{end -}}
-              {{if .HasMaskedRequestContentTypes -}}
-                  ContentType string
-              {{end -}}
-              {{$multipleBodies := gt (len .Bodies) 1 -}}
-              {{range .Bodies -}}
-                  {{if $multipleBodies}}{{.NameTag}}{{end}}Body {{if eq .NameTag "Multipart"}}*multipart.Reader{{else if ne .NameTag ""}}*{{$opid}}{{.NameTag}}RequestBody{{else}}io.Reader{{end}}
-              {{end -}}
-          }
-
-          type {{$opid | ucFirst}}ResponseObject interface {
-              Visit{{$opid}}Response(w http.ResponseWriter) error
-          }
-
-          {{range .Responses}}
-              {{$statusCode := .StatusCode -}}
-              {{$hasHeaders := ne 0 (len .Headers) -}}
-              {{$fixedStatusCode := .HasFixedStatusCode -}}
-              {{$isRef := .IsRef -}}
-              {{$ref := .Ref  | ucFirstWithPkgName -}}
-              {{$headers := .Headers -}}
-
-              {{if (and $hasHeaders (not $isRef)) -}}
-                  type {{$opid}}{{$statusCode}}ResponseHeaders struct {
-                      {{range .Headers -}}
-                          {{.GoName}} {{.Schema.TypeDecl}}
-                      {{end -}}
-                  }
-              {{end}}
-
-              {{range .Contents}}
-                  {{$receiverTypeName := printf "%s%s%s%s" $opid $statusCode .NameTagOrContentType "Response"}}
-                  {{if and $fixedStatusCode $isRef -}}
-                      type {{$receiverTypeName}} struct{ {{$ref}}{{.NameTagOrContentType}}Response }
-                  {{else if and (not $hasHeaders) ($fixedStatusCode) (.IsSupported) -}}
-                      type {{$receiverTypeName}} {{if eq .NameTag "Multipart"}}func(writer *multipart.Writer)error{{else if .IsSupported}}{{if .Schema.IsRef}}={{end}} {{.Schema.TypeDecl}}{{else}}io.Reader{{end}}
-                  {{else -}}
-                      type {{$receiverTypeName}} struct {
-                          Body {{if eq .NameTag "Multipart"}}func(writer *multipart.Writer)error{{else if .IsSupported}}{{.Schema.TypeDecl}}{{else}}io.Reader{{end}}
-                          {{if $hasHeaders -}}
-                              Headers {{if $isRef}}{{$ref}}{{else}}{{$opid}}{{$statusCode}}{{end}}ResponseHeaders
-                          {{end -}}
-
-                          {{if not $fixedStatusCode -}}
-                              StatusCode int
-                          {{end -}}
-
-                          {{if not .HasFixedContentType -}}
-                              ContentType string
-                          {{end -}}
-
-                          {{if not .IsSupported -}}
-                              ContentLength int64
-                          {{end -}}
-                      }
-                  {{end}}
-
-                  func (response {{$receiverTypeName}}) Visit{{$opid}}Response(w http.ResponseWriter) error {
-                      {{range $headers -}}
-                          w.Header().Set("{{.Name}}", fmt.Sprint(response.Headers.{{.GoName}}))
-                      {{end -}}
-                      {{if eq .NameTag "Multipart" -}}
-                          writer := multipart.NewWriter(w)
-                      {{end -}}
-                      w.Header().Set("Content-Type", {{if eq .NameTag "Multipart"}}writer.FormDataContentType(){{else if .HasFixedContentType }}"{{.ContentType}}"{{else}}response.ContentType{{end}})
-                      {{if not .IsSupported -}}
-                          if response.ContentLength != 0 {
-                              w.Header().Set("Content-Length", fmt.Sprint(response.ContentLength))
-                          }
-                      {{end -}}
-                      w.WriteHeader({{if $fixedStatusCode}}{{$statusCode}}{{else}}response.StatusCode{{end}})
-                      {{$hasBodyVar := or ($hasHeaders) (not $fixedStatusCode) (not .IsSupported)}}
-                      {{if eq .NameTag "JSON" -}}
-                          return json.NewEncoder(w).Encode({{if $hasBodyVar}}response.Body{{else}}response{{end}})
-                      {{else if eq .NameTag "Text" -}}
-                          _, err := w.Write([]byte({{if $hasBodyVar}}response.Body{{else}}response{{end}}))
-                          return err
-                      {{else if eq .NameTag "Formdata" -}}
-                          if form, err := runtime.MarshalForm({{if $hasBodyVar}}response.Body{{else}}response{{end}}, nil); err != nil {
-                              return err
-                          } else {
-                              _, err := w.Write([]byte(form.Encode()))
-                              return err
-                          }
-                      {{else if eq .NameTag "Multipart" -}}
-                          defer writer.Close()
-                          return {{if $hasBodyVar}}response.Body{{else}}response{{end}}(writer);
-                      {{else -}}
-                          if closer, ok := response.Body.(io.ReadCloser); ok {
-                              defer closer.Close()
-                          }
-                          _, err := io.Copy(w, response.Body)
-                          return err
-                      {{end}}{{/* if eq .NameTag "JSON" */ -}}
-                  }
-              {{end}}
-
-              {{if eq 0 (len .Contents) -}}
-                  {{if and $fixedStatusCode $isRef -}}
-                      type {{$opid}}{{$statusCode}}Response = {{$ref}}Response
-                  {{else -}}
-                      type {{$opid}}{{$statusCode}}Response struct {
-                          {{if $hasHeaders -}}
-                              Headers {{if $isRef}}{{$ref}}{{else}}{{$opid}}{{$statusCode}}{{end}}ResponseHeaders
-                          {{end}}
-                          {{if not $fixedStatusCode -}}
-                              StatusCode int
-                          {{end -}}
-                      }
-                  {{end -}}
-                  func (response {{$opid}}{{$statusCode}}Response) Visit{{$opid}}Response(w http.ResponseWriter) error {
-                      {{range $headers -}}
-                          w.Header().Set("{{.Name}}", fmt.Sprint(response.Headers.{{.GoName}}))
-                      {{end -}}
-                      w.WriteHeader({{if $fixedStatusCode}}{{$statusCode}}{{else}}response.StatusCode{{end}})
-                      return nil
-                  }
-              {{end}}
-          {{end}}
-      {{end}}
-
-      type StrictServerInterface interface {
-        {{range .}}
-        {{$opid := .OperationId -}}
-        {{$opid}}(ctx echo.Context, request {{$opid | ucFirst}}RequestObject) ({{$opid | ucFirst}}ResponseObject, error)
-        {{end}}
-      }
-    "strict/strict-echo.tmpl": >-
-      type StrictHandlerFunc func(ctx echo.Context, args interface{}) (interface{}, error)
-
-      type StrictMiddlewareFunc func(f StrictHandlerFunc, operationID string) StrictHandlerFunc
-
-      func NewStrictHandler(ssi StrictServerInterface, middlewares []StrictMiddlewareFunc) ServerInterface {
-          return &strictHandler{ssi: ssi, middlewares: middlewares}
-      }
-
-      type strictHandler struct {
-          ssi StrictServerInterface
-          middlewares []StrictMiddlewareFunc
-      }
-
-      {{range .}}
-          {{$opid := .OperationId}}
-          // {{$opid}} operation middleware
-          func (sh *strictHandler) {{.OperationId}}(ctx echo.Context{{genParamArgs .PathParams}}{{if .RequiresParamObject}}, params {{.OperationId}}Params{{end}}) error {
-              var request {{$opid | ucFirst}}RequestObject
-
-              {{range .PathParams -}}
-                  {{$varName := .GoVariableName -}}
-                  request.{{$varName | ucFirst}} = {{$varName}}
-              {{end -}}
-
-              {{if .RequiresParamObject -}}
-                  request.Params = params
-              {{end -}}
-
-              {{ if .HasMaskedRequestContentTypes -}}
-                  request.ContentType = ctx.Request().Header.Get("Content-Type")
-              {{end -}}
-
-              {{$multipleBodies := gt (len .Bodies) 1 -}}
-              {{range .Bodies -}}
-                  {{if $multipleBodies}}if strings.HasPrefix(ctx.Request().Header.Get("Content-Type"), "{{.ContentType}}") { {{end}}
-                      {{if eq .NameTag "JSON" -}}
-                          var body {{$opid}}{{.NameTag}}RequestBody
-                          if err := ctx.Bind(&body); err != nil {
-                              return err
-                          }
-                          request.{{if $multipleBodies}}{{.NameTag}}{{end}}Body = &body
-                      {{else if eq .NameTag "Formdata" -}}
-                          if form, err := ctx.FormParams(); err == nil {
-                              var body {{$opid}}{{.NameTag}}RequestBody
-                              if err := runtime.BindForm(&body, form, nil, nil); err != nil {
-                                  return err
-                              }
-                              request.{{if $multipleBodies}}{{.NameTag}}{{end}}Body = &body
-                          } else {
-                              return err
-                          }
-                      {{else if eq .NameTag "Multipart" -}}
-                          if reader, err := ctx.Request().MultipartReader(); err != nil {
-                              return err
-                          } else {
-                              request.{{if $multipleBodies}}{{.NameTag}}{{end}}Body = reader
-                          }
-                      {{else if eq .NameTag "Text" -}}
-                          data, err := io.ReadAll(ctx.Request().Body)
-                          if err != nil {
-                              return err
-                          }
-                          body := {{$opid}}{{.NameTag}}RequestBody(data)
-                          request.{{if $multipleBodies}}{{.NameTag}}{{end}}Body = &body
-                      {{else -}}
-                          request.{{if $multipleBodies}}{{.NameTag}}{{end}}Body = ctx.Request().Body
-                      {{end}}{{/* if eq .NameTag "JSON" */ -}}
-                  {{if $multipleBodies}}}{{end}}
-              {{end}}{{/* range .Bodies */}}
-
-              handler := func(ctx echo.Context, request interface{}) (interface{}, error){
-                  return sh.ssi.{{.OperationId}}(ctx, request.({{$opid | ucFirst}}RequestObject))
-              }
-              for _, middleware := range sh.middlewares {
-                  handler = middleware(handler, "{{.OperationId}}")
-              }
-
-              response, err := handler(ctx, request)
-
-              if err != nil {
-                  return err
-              } else if validResponse, ok := response.({{$opid | ucFirst}}ResponseObject); ok {
-                  return validResponse.Visit{{$opid}}Response(ctx.Response())
-              } else if response != nil {
-                  return fmt.Errorf("Unexpected response type: %T", response)
-              }
-              return nil
-          }
-      {{end}}
+openapi: 3.1.0
+servers:
+  - url: ''
+info:
+  version: 1.0.0
+  title: Gomtm API
+  description: The Gomtm API
+security:
+  - bearerAuth: []
+  - cookieAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: hatchet
+  schemas:
+    APIMeta:
+      type: object
+      properties:
+        auth:
+          $ref: '#/components/schemas/APIMetaAuth'
+        pylonAppId:
+          type: string
+          description: the Pylon app ID for usepylon.com chat support
+          example: 12345678-1234-1234-1234-123456789012
+        posthog:
+          $ref: '#/components/schemas/APIMetaPosthog'
+        allowSignup:
+          type: boolean
+          description: whether or not users can sign up for this instance
+          example: true
+        allowInvites:
+          type: boolean
+          description: whether or not users can invite other users to this instance
+          example: true
+        allowCreateTenant:
+          type: boolean
+          description: whether or not users can create new tenants
+          example: true
+        allowChangePassword:
+          type: boolean
+          description: whether or not users can change their password
+          example: true
+    APIMetaAuth:
+      type: object
+      properties:
+        schemes:
+          items:
+            type: string
+          type: array
+          description: the supported types of authentication
+          example:
+            - basic
+            - google
+    APIMetaPosthog:
+      type: object
+      properties:
+        apiKey:
+          type: string
+          description: the PostHog API key
+          example: phk_1234567890abcdef
+        apiHost:
+          type: string
+          description: the PostHog API host
+          example: 'https://posthog.example.com'
+    ListAPIMetaIntegration:
+      type: array
+      items:
+        $ref: '#/components/schemas/APIMetaIntegration'
+    APIMetaIntegration:
+      type: object
+      properties:
+        name:
+          type: string
+          description: the name of the integration
+          example: github
+        enabled:
+          type: boolean
+          description: whether this integration is enabled on the instance
+      required:
+        - name
+        - enabled
+    APIErrors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIError'
+      required:
+        - errors
+    APIError:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: a custom Hatchet error code
+          format: uint64
+          example: 1400
+        field:
+          type: string
+          description: 'the field that this error is associated with, if applicable'
+          example: name
+        description:
+          type: string
+          description: a description for this error
+          example: A descriptive error message
+        docs_link:
+          type: string
+          description: 'a link to the documentation for this error, if it exists'
+          example: github.com/hatchet-dev/hatchet
+      required:
+        - description
+    PaginationResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: the current page
+          format: int64
+          example: 2
+        next_page:
+          type: integer
+          description: the next page
+          format: int64
+          example: 3
+        num_pages:
+          type: integer
+          description: the total number of pages for listing
+          format: int64
+          example: 10
+      example:
+        next_page: 3
+        num_pages: 10
+        current_page: 2
+    APIResourceMeta:
+      properties:
+        id:
+          type: string
+          description: 'the id of this resource, in UUID format'
+          example: bb214807-246e-43a5-a25d-41761d1cff9e
+          minLength: 0
+          maxLength: 36
+        createdAt:
+          type: string
+          description: the time that this resource was created
+          format: date-time
+          example: '2022-12-13T15:06:48.888358-05:00'
+        updatedAt:
+          type: string
+          description: the time that this resource was last updated
+          format: date-time
+          example: '2022-12-13T15:06:48.888358-05:00'
+      required:
+        - id
+        - createdAt
+        - updatedAt
+    APIResourceMetaProperties:
+      required:
+        - metadata
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+    TenantParameter:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+    User:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        name:
+          type: string
+          description: The display name of the user.
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+        emailVerified:
+          type: boolean
+          description: Whether the user has verified their email address.
+        hasPassword:
+          type: boolean
+          description: Whether the user has a password set.
+        emailHash:
+          type: string
+          description: A hash of the user's email address for use with Pylon Support Chat
+        userToken:
+          type: string
+          description: The user's token for use with Pylon Support Chat
+      required:
+        - metadata
+        - email
+        - emailVerified
+        - userToken
+      type: object
+    UserTenantPublic:
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+        name:
+          type: string
+          description: The display name of the user.
+      required:
+        - email
+      type: object
+    UserLoginRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,email'
+        password:
+          type: string
+          description: The password of the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,password'
+      required:
+        - email
+        - password
+      type: object
+    UserChangePasswordRequest:
+      properties:
+        password:
+          type: string
+          description: The password of the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,password'
+        newPassword:
+          type: string
+          description: The new password for the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,password'
+      required:
+        - password
+        - newPassword
+      type: object
+    UserRegisterRequest:
+      properties:
+        name:
+          type: string
+          description: The name of the user.
+        email:
+          type: string
+          format: email
+          description: The email address of the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,email'
+        password:
+          type: string
+          description: The password of the user.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,password'
+      required:
+        - name
+        - email
+        - password
+      type: object
+    UserTenantMembershipsList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/TenantMember'
+          type: array
+          x-go-name: Rows
+    Tenant:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        name:
+          type: string
+          description: The name of the tenant.
+        slug:
+          type: string
+          description: The slug of the tenant.
+        analyticsOptOut:
+          type: boolean
+          description: Whether the tenant has opted out of analytics.
+        alertMemberEmails:
+          type: boolean
+          description: Whether to alert tenant members.
+      required:
+        - metadata
+        - name
+        - slug
+    TenantMember:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        user:
+          $ref: '#/components/schemas/UserTenantPublic'
+          description: The user associated with this tenant member.
+        role:
+          $ref: '#/components/schemas/TenantMemberRole'
+          description: The role of the user in the tenant.
+        tenant:
+          $ref: '#/components/schemas/Tenant'
+          description: The tenant associated with this tenant member.
+      required:
+        - metadata
+        - user
+        - role
+      type: object
+    TenantMemberList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/TenantMember'
+          type: array
+          x-go-name: Rows
+    TenantMemberRole:
+      enum:
+        - OWNER
+        - ADMIN
+        - MEMBER
+      type: string
+    TenantResource:
+      enum:
+        - WORKER
+        - WORKER_SLOT
+        - EVENT
+        - WORKFLOW_RUN
+        - TASK_RUN
+        - CRON
+        - SCHEDULE
+      type: string
+    TenantResourceLimit:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        resource:
+          $ref: '#/components/schemas/TenantResource'
+          description: The resource associated with this limit.
+        limitValue:
+          type: integer
+          description: The limit associated with this limit.
+        alarmValue:
+          type: integer
+          description: The alarm value associated with this limit to warn of approaching limit value.
+        value:
+          type: integer
+          description: The current value associated with this limit.
+        window:
+          type: string
+          description: 'The meter window for the limit. (i.e. 1 day, 1 week, 1 month)'
+        lastRefill:
+          type: string
+          description: The last time the limit was refilled.
+          format: date-time
+      required:
+        - metadata
+        - tenantId
+        - resource
+        - limitValue
+        - value
+      type: object
+    TenantResourcePolicy:
+      properties:
+        limits:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantResourceLimit'
+          description: A list of resource limits for the tenant.
+      required:
+        - limits
+      type: object
+    CreateTenantInviteRequest:
+      properties:
+        email:
+          type: string
+          description: The email of the user to invite.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,email'
+        role:
+          $ref: '#/components/schemas/TenantMemberRole'
+          description: The role of the user in the tenant.
+          x-oapi-codegen-extra-tags:
+            validate: required
+      required:
+        - email
+        - role
+      type: object
+    UpdateTenantInviteRequest:
+      properties:
+        role:
+          $ref: '#/components/schemas/TenantMemberRole'
+          description: The role of the user in the tenant.
+          x-oapi-codegen-extra-tags:
+            validate: required
+      required:
+        - role
+      type: object
+    TenantAlertingSettings:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        alertMemberEmails:
+          type: boolean
+          description: Whether to alert tenant members.
+        enableWorkflowRunFailureAlerts:
+          type: boolean
+          description: Whether to send alerts when workflow runs fail.
+        enableExpiringTokenAlerts:
+          type: boolean
+          description: Whether to enable alerts when tokens are approaching expiration.
+        enableTenantResourceLimitAlerts:
+          type: boolean
+          description: Whether to enable alerts when tenant resources are approaching limits.
+        maxAlertingFrequency:
+          type: string
+          description: The max frequency at which to alert.
+        lastAlertedAt:
+          type: string
+          description: The last time an alert was sent.
+          format: date-time
+      required:
+        - metadata
+        - maxAlertingFrequency
+      type: object
+    TenantAlertEmailGroup:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        emails:
+          type: array
+          items:
+            type: string
+          description: A list of emails for users
+      required:
+        - metadata
+        - emails
+      type: object
+    TenantAlertEmailGroupList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/TenantAlertEmailGroup'
+          type: array
+          x-go-name: Rows
+    CreateTenantAlertEmailGroupRequest:
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+          description: A list of emails for users
+          x-oapi-codegen-extra-tags:
+            validate: 'required,dive,email'
+      required:
+        - emails
+      type: object
+    UpdateTenantAlertEmailGroupRequest:
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+          description: A list of emails for users
+          x-oapi-codegen-extra-tags:
+            validate: 'required,dive,email'
+      required:
+        - emails
+      type: object
+    TenantInvite:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        email:
+          type: string
+          description: The email of the user to invite.
+        role:
+          $ref: '#/components/schemas/TenantMemberRole'
+          description: The role of the user in the tenant.
+        tenantId:
+          type: string
+          description: The tenant id associated with this tenant invite.
+        tenantName:
+          type: string
+          description: The tenant name for the tenant.
+        expires:
+          type: string
+          description: The time that this invite expires.
+          format: date-time
+      required:
+        - metadata
+        - email
+        - role
+        - expires
+        - tenantId
+      type: object
+    TenantInviteList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/TenantInvite'
+          type: array
+          x-go-name: Rows
+    QueueMetrics:
+      type: object
+      properties:
+        numQueued:
+          type: integer
+          description: The number of items in the queue.
+        numRunning:
+          type: integer
+          description: The number of items running.
+        numPending:
+          type: integer
+          description: The number of items pending.
+      required:
+        - numQueued
+        - numRunning
+        - numPending
+    TenantQueueMetrics:
+      properties:
+        total:
+          $ref: '#/components/schemas/QueueMetrics'
+          description: The total queue metrics.
+        workflow:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/QueueMetrics'
+        queues:
+          type: object
+          additionalProperties:
+            type: integer
+    TenantStepRunQueueMetrics:
+      properties:
+        queues:
+          type: object
+    AcceptInviteRequest:
+      properties:
+        invite:
+          type: string
+          example: bb214807-246e-43a5-a25d-41761d1cff9e
+          minLength: 36
+          maxLength: 36
+          x-oapi-codegen-extra-tags:
+            validate: 'required,uuid'
+      required:
+        - invite
+      type: object
+    RejectInviteRequest:
+      properties:
+        invite:
+          type: string
+          example: bb214807-246e-43a5-a25d-41761d1cff9e
+          minLength: 36
+          maxLength: 36
+          x-oapi-codegen-extra-tags:
+            validate: 'required,uuid'
+      required:
+        - invite
+      type: object
+    TenantList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Tenant'
+          type: array
+          x-go-name: Rows
+    CreateTenantRequest:
+      properties:
+        name:
+          type: string
+          description: The name of the tenant.
+          x-oapi-codegen-extra-tags:
+            validate: required
+        slug:
+          type: string
+          description: The slug of the tenant.
+          x-oapi-codegen-extra-tags:
+            validate: 'required,hatchetName'
+      required:
+        - name
+        - slug
+      type: object
+    UpdateTenantRequest:
+      properties:
+        name:
+          type: string
+          description: The name of the tenant.
+        analyticsOptOut:
+          type: boolean
+          description: Whether the tenant has opted out of analytics.
+        alertMemberEmails:
+          type: boolean
+          description: Whether to alert tenant members.
+        enableWorkflowRunFailureAlerts:
+          type: boolean
+          description: Whether to send alerts when workflow runs fail.
+        enableExpiringTokenAlerts:
+          type: boolean
+          description: Whether to enable alerts when tokens are approaching expiration.
+        enableTenantResourceLimitAlerts:
+          type: boolean
+          description: Whether to enable alerts when tenant resources are approaching limits.
+        maxAlertingFrequency:
+          type: string
+          description: The max frequency at which to alert.
+          x-oapi-codegen-extra-tags:
+            validate: 'omitnil,duration'
+        version:
+          description: The version of the tenant.
+          enum:
+            - V0
+            - V1
+          type: string
+      type: object
+    APIToken:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        name:
+          type: string
+          description: The name of the API token.
+          maxLength: 255
+        expiresAt:
+          type: string
+          format: date-time
+          description: When the API token expires.
+      required:
+        - metadata
+        - name
+        - expiresAt
+    CreateAPITokenRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: A name for the API token.
+          maxLength: 255
+        expiresIn:
+          type: string
+          description: The duration for which the token is valid.
+          x-oapi-codegen-extra-tags:
+            validate: 'omitnil,duration'
+      required:
+        - name
+    CreateAPITokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: The API token.
+      required:
+        - token
+    ListAPITokensResponse:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/APIToken'
+          type: array
+    LogLine:
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation date of the log line.
+        message:
+          type: string
+          description: The log message.
+        metadata:
+          type: object
+          description: The log metadata.
+      required:
+        - createdAt
+        - message
+        - metadata
+    LogLineLevel:
+      type: string
+      enum:
+        - DEBUG
+        - INFO
+        - WARN
+        - ERROR
+    LogLineList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/LogLine'
+          type: array
+    PlatformProperties:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the platform
+        name:
+          type: string
+          description: Name of the platform
+        url:
+          type: string
+          description: URL of the platform
+        description:
+          type: string
+          description: Description of the platform
+        loginUrl:
+          type: string
+          description: Login URL for the platform
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags for categorizing the platform
+    Platform:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/PlatformProperties'
+    PlatformList:
+      required:
+        - pagination
+        - rows
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Platform'
+    PlatformCreate:
+      allOf:
+        - $ref: '#/components/schemas/PlatformProperties'
+    PlatformUpdate:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMeta'
+        - $ref: '#/components/schemas/PlatformProperties'
+    PAccountProperties:
+      required:
+        - id
+        - username
+        - password
+        - email
+        - enabled
+        - platformId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: UUID of the account
+        username:
+          type: string
+          description: Username for the platform account
+        password:
+          type: string
+          description: Password for the platform account
+        email:
+          type: string
+          format: email
+          description: Email for the platform account
+        enabled:
+          type: boolean
+          description: Whether the account is enabled
+        platformId:
+          type: string
+          format: uuid
+          description: UUID of the platform this account belongs to
+        name:
+          type: string
+          description: Display name for the account
+        description:
+          type: string
+          description: Description of the account
+        type:
+          type: string
+          description: Type or category of the account
+        token:
+          type: string
+          description: Authentication token if applicable
+        otpSeed:
+          type: string
+          description: OTP seed for two-factor authentication
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags for categorizing the account
+        comment:
+          type: string
+          description: Additional notes or comments about the account
+        state:
+          type: object
+          description: Additional state data for the account
+    PAccount:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/PAccountProperties'
+        - type: object
+          properties:
+            platform:
+              $ref: '#/components/schemas/Platform'
+    PAccountList:
+      required:
+        - pagination
+        - rows
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/PAccount'
+    PAccountCreate:
+      required:
+        - username
+        - password
+        - email
+        - platformId
+      properties:
+        username:
+          type: string
+          description: Username for the platform account
+        password:
+          type: string
+          description: Password for the platform account
+        email:
+          type: string
+          format: email
+          description: Email for the platform account
+        enabled:
+          type: boolean
+          default: true
+          description: Whether the account is enabled
+        platformId:
+          type: string
+          format: uuid
+          description: UUID of the platform this account belongs to
+        name:
+          type: string
+          description: Display name for the account
+        comment:
+          type: string
+          description: Additional notes or comments about the account
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags for categorizing the account
+    Proxy:
+      description: A proxy server
+      required:
+        - id
+        - name
+        - url
+        - type
+        - provider
+        - enabled
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier of the proxy
+        name:
+          type: string
+          description: The name of the proxy
+        description:
+          type: string
+          description: The description of the proxy
+        url:
+          type: string
+          description: The URL of the proxy
+        type:
+          type: string
+          description: 'The type of the proxy (e.g., HTTP, SOCKS5)'
+        provider:
+          type: string
+          description: The provider of the proxy
+        countryCode:
+          type: string
+          description: The country code where the proxy is located
+        port:
+          type: integer
+          description: The port number of the proxy
+        lastUsedAt:
+          type: string
+          format: date-time
+          description: The last time the proxy was used
+        enabled:
+          type: boolean
+          description: Whether the proxy is enabled
+        createdAt:
+          type: string
+          format: date-time
+          description: The time the proxy was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last time the proxy was updated
+    ProxyCreate:
+      description: Parameters for creating a proxy
+      required:
+        - name
+        - url
+        - type
+      properties:
+        name:
+          type: string
+          description: The name of the proxy
+        description:
+          type: string
+          description: The description of the proxy
+        url:
+          type: string
+          description: The URL of the proxy
+        type:
+          type: string
+          description: 'The type of the proxy (e.g., HTTP, SOCKS5)'
+        provider:
+          type: string
+          description: The provider of the proxy
+        countryCode:
+          type: string
+          description: The country code where the proxy is located
+        port:
+          type: integer
+          description: The port number of the proxy
+        enabled:
+          type: boolean
+          description: Whether the proxy is enabled
+          default: true
+    ProxyUpdate:
+      description: Parameters for updating a proxy
+      properties:
+        name:
+          type: string
+          description: The name of the proxy
+        description:
+          type: string
+          description: The description of the proxy
+        url:
+          type: string
+          description: The URL of the proxy
+        type:
+          type: string
+          description: 'The type of the proxy (e.g., HTTP, SOCKS5)'
+        provider:
+          type: string
+          description: The provider of the proxy
+        countryCode:
+          type: string
+          description: The country code where the proxy is located
+        port:
+          type: integer
+          description: The port number of the proxy
+        enabled:
+          type: boolean
+          description: Whether the proxy is enabled
+    ProxyList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Proxy'
+    Album:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        name:
+          type: string
+          description: The name of the album
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          description: The description of the album
+          maxLength: 500
+        coverPhotoId:
+          type: string
+          format: uuid
+          description: The ID of the cover photo for this album
+      required:
+        - metadata
+        - name
+    AlbumList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Album'
+          type: array
+    CreateAlbumRequest:
+      properties:
+        name:
+          type: string
+          description: The name of the album
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          description: The description of the album
+          maxLength: 500
+        coverPhotoId:
+          type: string
+          format: uuid
+          description: The ID of the cover photo for this album
+      required:
+        - name
+    UpdateAlbumRequest:
+      properties:
+        name:
+          type: string
+          description: The name of the album
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          description: The description of the album
+          maxLength: 500
+        coverPhotoId:
+          type: string
+          format: uuid
+          description: The ID of the cover photo for this album
+    Photo:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        filename:
+          type: string
+          description: The filename of the photo
+        albumId:
+          type: string
+          format: uuid
+          description: The ID of the album this photo belongs to
+        url:
+          type: string
+          description: The URL to access the photo
+        thumbnailUrl:
+          type: string
+          description: The URL to access the thumbnail of the photo
+        description:
+          type: string
+          description: The description of the photo
+          maxLength: 500
+        takenAt:
+          type: string
+          format: date-time
+          description: The date and time when the photo was taken
+      required:
+        - metadata
+        - filename
+        - albumId
+        - url
+        - thumbnailUrl
+    PhotoList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Photo'
+          type: array
+    UploadPhotoRequest:
+      properties:
+        albumId:
+          type: string
+          format: uuid
+          description: The ID of the album this photo belongs to
+        description:
+          type: string
+          description: The description of the photo
+          maxLength: 500
+      required:
+        - albumId
+    UpdatePhotoRequest:
+      properties:
+        description:
+          type: string
+          description: The description of the photo
+          maxLength: 500
+        albumId:
+          type: string
+          format: uuid
+          description: The ID of the album this photo belongs to
+    CommonResult:
+      required:
+        - Success
+        - Message
+      properties:
+        Success:
+          type: boolean
+        Message:
+          type: string
+        other:
+          anyOf:
+            - $ref: '#/components/schemas/ActionRegisterInstagram'
+    FrontendConfig:
+      properties:
+        cookieAccessToken:
+          type: string
+          description: Cookie access token
+        dashPath:
+          type: string
+          description: Dashboard path
+        hotKeyDebug:
+          type: string
+          description: Hot key debug
+        defaultTenantAccessToken:
+          type: string
+          description: 实验性质，默认租户的access token
+      required:
+        - cookieAccessToken
+        - dashPath
+        - hotKeyDebug
+        - defaultTenantAccessToken
+    SiderbarConfig:
+      properties:
+        logo:
+          type: string
+          description: logo
+        sideritems:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashSidebarItem'
+        other:
+          oneOf:
+            - $ref: '#/components/schemas/FlowNames'
+            - $ref: '#/components/schemas/AgentEventType'
+            - $ref: '#/components/schemas/PlatformAccountList'
+            - $ref: '#/components/schemas/Content'
+            - $ref: '#/components/schemas/Part'
+            - $ref: '#/components/schemas/AdkSessionList'
+            - $ref: '#/components/schemas/AgentRunnerInput'
+            - $ref: '#/components/schemas/AgentRunnerOutput'
+    DashSidebarItem:
+      properties:
+        title:
+          type: string
+          description: 名称
+        url:
+          type: string
+          description: url 例如/login
+        icon:
+          type: string
+          description: 图标
+        defaultExpanded:
+          type: boolean
+          description: 默认展开
+        adminOnly:
+          type: boolean
+          description: 只允许超级管理员查看
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashSidebarItemLeaf'
+      required:
+        - title
+        - url
+    DashSidebarItemLeaf:
+      properties:
+        title:
+          type: string
+          description: 名称
+        url:
+          type: string
+          description: url 例如/login
+        icon:
+          type: string
+          description: 图标
+        adminOnly:
+          type: boolean
+          description: 只允许超级管理员查看
+      required:
+        - title
+        - url
+    Model:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/ModelProperties'
+    ModelFamily:
+      type: string
+      enum:
+        - r1
+        - openai
+        - unknown
+    ModelTypes:
+      type: string
+      enum:
+        - OpenAIChatCompletionClient
+        - AzureOpenAIChatCompletionClient
+    ModelProperties:
+      required:
+        - name
+        - family
+        - provider
+        - vendor
+        - vision
+        - functionCalling
+        - jsonOutput
+        - apiKey
+        - apiBase
+        - model
+      properties:
+        name:
+          type: string
+        model:
+          type: string
+        provider:
+          type: string
+        apiKey:
+          type: string
+        apiBase:
+          type: string
+        vendor:
+          type: string
+        description:
+          type: string
+        family:
+          type: string
+        vision:
+          type: boolean
+        functionCalling:
+          type: boolean
+        jsonOutput:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    ModelList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Model'
+    FormField:
+      required:
+        - type
+        - name
+      properties:
+        type:
+          type: string
+          enum:
+            - text
+            - number
+            - boolean
+            - array
+            - object
+          default: text
+        name:
+          type: string
+        default_value:
+          type: string
+        label:
+          type: string
+        description:
+          type: string
+        required:
+          type: boolean
+        min:
+          type: number
+        max:
+          type: number
+        placeholder:
+          type: string
+    SchemaForm:
+      required:
+        - title
+        - fields
+      properties:
+        form_type:
+          type: string
+          enum:
+            - schema
+            - custom
+          default: schema
+        form_name:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        layout:
+          type: string
+          enum:
+            - vertical
+            - horizontal
+          default: vertical
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormField'
+    ModelRunProperties:
+      properties:
+        llmMessages:
+          type: object
+          additionalProperties:
+            type: string
+        llmResponse:
+          type: object
+          additionalProperties:
+            type: string
+    ModelRun:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/ModelRunProperties'
+    ModelRunList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelRun'
+    ModelRunUpsert:
+      anyOf:
+        - $ref: '#/components/schemas/ModelRunProperties'
+    SiteProperties:
+      required:
+        - id
+        - tenant_id
+        - title
+        - description
+        - automation_enabled
+        - state
+        - enabled
+      properties:
+        id:
+          type: string
+          description: 站点ID
+        tenant_id:
+          type: string
+          description: 租户ID
+        updated_at:
+          type: string
+          description: 更新时间
+        created_at:
+          type: string
+          description: 创建时间
+        enabled:
+          type: boolean
+          description: 是否启用
+        title:
+          type: string
+          description: site 标题
+        description:
+          type: string
+          description: site 描述
+        automation_enabled:
+          type: boolean
+          description: 是否启用自动化
+        state:
+          type: object
+          description: 站点状态
+          properties:
+            status:
+              type: string
+              description: 站点状态
+    Site:
+      allOf:
+        - $ref: '#/components/schemas/SiteProperties'
+    SiteList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Site'
+          type: array
+          x-go-name: Rows
+    CreateSiteRequest:
+      properties:
+        title:
+          type: string
+          description: site 标题
+        description:
+          type: string
+          description: site 描述
+        host:
+          type: string
+          description: 入站域名(指定绑定入站域名)
+      required:
+        - title
+        - description
+    CreateSiteResponse:
+      $ref: '#/components/schemas/Site'
+    UpdateSiteRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: site 标题
+    SiteHostProperties:
+      required:
+        - id
+        - host
+      properties:
+        id:
+          type: string
+          description: site-host id
+        title:
+          type: string
+          description: site-host 标题
+        description:
+          type: string
+          description: site-host 描述
+        host:
+          type: string
+          description: 绑定域名
+    SiteHost:
+      allOf:
+        - $ref: '#/components/schemas/SiteHostProperties'
+    SiteHostList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/SiteHost'
+          type: array
+          x-go-name: Rows
+    CreateSiteHostRequest:
+      $ref: '#/components/schemas/SiteHostProperties'
+    UpdateSiteHostRequest:
+      $ref: '#/components/schemas/SiteHost'
+    UpdateEndpointRequest:
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        token:
+          type: string
+    Endpoint:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        name:
+          type: string
+        url:
+          type: string
+        token:
+          type: string
+        type:
+          type: string
+      required:
+        - metadata
+        - name
+        - url
+        - token
+        - type
+    EndpointList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Endpoint'
+          type: array
+    MtWorkerProperties:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    MtWorkerTask:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    AgentEventType:
+      type: string
+      enum:
+        - ThoughtEvent
+        - TextMessage
+        - PlatformAccountFlowInput
+        - ChatMessageInput
+        - SocialAddFollowersInput
+        - SocialLoginInput
+        - TenantInitInput
+        - AskUserFunctionCallInput
+        - StartNewChatInput
+    FlowNames:
+      type: string
+      enum:
+        - sys
+        - tenant
+        - assistant
+        - ag
+        - browser
+        - resource
+        - instagram
+        - social
+        - team
+        - adk
+    AgentRunnerInput:
+      properties:
+        content:
+          type: string
+    AgentRunnerOutput:
+      properties:
+        content:
+          type: string
+    AgentProperties:
+      required:
+        - name
+        - description
+        - provider
+        - config
+        - teamId
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        provider:
+          type: string
+        config:
+          type: object
+        teamId:
+          type: string
+    Agent:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/AgentProperties'
+    AgentList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+    AgentTopicTypes:
+      type: string
+      enum:
+        - user
+        - human
+        - instagram
+        - browser
+        - socioety
+        - code
+        - router
+        - research
+        - writer
+        - tenant
+        - closure
+        - response
+    BrowserTask:
+      description: 浏览器(browser use)任务
+      required:
+        - content
+      properties:
+        content:
+          type: string
+    BrowserOpenTask:
+      description: '打开浏览器备用,一般用于调试目的Open a browser and navigate to a URL.'
+      required:
+        - url
+      properties:
+        url:
+          type: string
+    BrowserConfig:
+      description: 浏览器配置(未完成)
+      properties:
+        persistent:
+          type: boolean
+    ScheduledItem:
+      required:
+        - id
+        - type
+        - trigger
+        - nextTrigger
+        - description
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+            - cron
+            - scheduled
+            - delayed
+        trigger:
+          type: string
+        nextTrigger:
+          type: string
+        description:
+          type: string
+    AdkSessionState:
+      properties:
+        type:
+          type: string
+          enum:
+            - RootAgentState
+    ToolTypes:
+      type: string
+      enum:
+        - code_executor
+        - social_login
+    CodeExecutionInput:
+      required:
+        - code
+      properties:
+        code:
+          type: string
+          description: The contents of the Python code block that should be executed
+    CodeExecutionResult:
+      required:
+        - output
+        - success
+      properties:
+        output:
+          type: string
+          description: The result of the code execution
+        success:
+          type: boolean
+          description: Whether the code execution was successful
+    SocialLoginResult:
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Whether the social login was successful
+    PlatformAccountProperties:
+      required:
+        - username
+        - password
+        - platform
+      properties:
+        label:
+          type: string
+        description:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+        type:
+          type: string
+        platform:
+          type: string
+        enabled:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        state:
+          type: object
+          additionalProperties: true
+        error:
+          type: string
+    PlatformAccount:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/PlatformAccountProperties'
+    PlatformAccountList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/PlatformAccount'
+          type: array
+    PlatformAccountUpsert:
+      allOf:
+        - $ref: '#/components/schemas/PlatformAccountProperties'
+    AdkEventProperties:
+      required:
+        - id
+        - app_name
+        - user_id
+        - session_id
+        - invocation_id
+        - author
+        - timestamp
+        - content
+        - actions
+      properties:
+        id:
+          type: string
+        app_name:
+          type: string
+        user_id:
+          type: string
+        session_id:
+          type: string
+        invocation_id:
+          type: string
+        author:
+          type: string
+        branch:
+          type: string
+        timestamp:
+          type: string
+        content:
+          $ref: '#/components/schemas/Content'
+        actions:
+          type: object
+    AdkEventList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/AdkEvent'
+          type: array
+          x-go-name: Rows
+    AdkEvent:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/AdkEventProperties'
+    AdkEventUpsert:
+      allOf:
+        - $ref: '#/components/schemas/AdkEventProperties'
+    AdkEventOrderByField:
+      type: string
+      enum:
+        - createdAt
+    AdkAppProperties:
+      required:
+        - id
+        - app_name
+        - user_id
+        - session_id
+        - invocation_id
+        - author
+        - branch
+        - timestamp
+        - content
+        - actions
+      properties:
+        id:
+          type: string
+        app_name:
+          type: string
+        user_id:
+          type: string
+        session_id:
+          type: string
+        invocation_id:
+          type: string
+        author:
+          type: string
+        branch:
+          type: string
+        timestamp:
+          type: string
+        content:
+          type: object
+        actions:
+          type: object
+    AdkAppList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/AdkApp'
+          type: array
+          x-go-name: Rows
+    AdkApp:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/AdkAppProperties'
+    AdkAppUpsert:
+      allOf:
+        - $ref: '#/components/schemas/AdkAppProperties'
+    AdkAppTypes:
+      type: string
+      enum:
+        - root
+        - instagram_agent
+        - assistant
+        - open_deep_research
+    AdkSessionProperties:
+      required:
+        - id
+        - app_name
+        - user_id
+        - state
+        - create_time
+        - update_time
+      properties:
+        id:
+          type: string
+        app_name:
+          type: string
+        user_id:
+          type: string
+        state:
+          $ref: '#/components/schemas/AdkSessionState'
+        title:
+          type: string
+        create_time:
+          type: string
+        update_time:
+          type: string
+    AdkSession:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/AdkSessionProperties'
+    AdkSessionList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/AdkSession'
+          type: array
+          x-go-name: Rows
+    AdkSessionUpsert:
+      allOf:
+        - $ref: '#/components/schemas/AdkSessionProperties'
+    AdkUserStateProperties:
+      required:
+        - id
+        - app_name
+        - user_id
+        - session_id
+        - invocation_id
+        - author
+        - branch
+        - timestamp
+        - content
+        - actions
+      properties:
+        id:
+          type: string
+        app_name:
+          type: string
+        user_id:
+          type: string
+        session_id:
+          type: string
+        invocation_id:
+          type: string
+        author:
+          type: string
+        branch:
+          type: string
+        timestamp:
+          type: string
+        content:
+          type: object
+        actions:
+          type: object
+    AdkUserState:
+      allOf:
+        - $ref: '#/components/schemas/APIResourceMetaProperties'
+        - $ref: '#/components/schemas/AdkUserStateProperties'
+    AdkUserStateList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/AdkUserState'
+          type: array
+          x-go-name: Rows
+    AdkUserStateUpsert:
+      allOf:
+        - $ref: '#/components/schemas/AdkUserStateProperties'
+    Content:
+      properties:
+        role:
+          type: string
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Part'
+    UserContent:
+      required:
+        - role
+        - parts
+      properties:
+        role:
+          type: string
+          enum:
+            - user
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Part'
+    ModelContent:
+      required:
+        - role
+        - parts
+      properties:
+        role:
+          type: string
+          enum:
+            - model
+        parts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Part'
+    Part:
+      properties:
+        text:
+          type: string
+          description: Optional. Text part (can be code)..
+        video_metadata:
+          type: object
+          description: Metadata for a given video..
+        thought:
+          type: boolean
+          description: Indicates if the part is thought from the model..
+        code_execution_result:
+          type: object
+        executable_code:
+          type: string
+          description: Optional. Executable code..
+        file_data:
+          type: object
+          description: Optional. File data..
+        function_call:
+          type: object
+          additionalProperties: true
+        function_response:
+          type: object
+          additionalProperties: true
+        inline_data:
+          type: object
+          description: Optional. Inlined bytes data..
+    FunctionResponse:
+      required:
+        - name
+        - response
+      properties:
+        id:
+          type: string
+          default: ''
+          description: The id of the function call this response is for. Populated by the client to match the corresponding function call `id`.
+        name:
+          type: string
+          description: 'The name of the function to call. Matches [FunctionDeclaration.name] and [FunctionCall.name].'
+        response:
+          type: object
+          additionalProperties: true
+          description: 'Required. The function response in JSON object format. Use "output" key to specify function output and "error" key to specify error details (if any). If "output" and "error" keys are not specified, then whole "response" is treated as function output.'
+    Artifact:
+      required:
+        - id
+        - created_at
+        - updated_at
+        - tenant_id
+        - user_id
+        - version
+        - session_id
+        - app_name
+        - filename
+        - type
+        - content
+      properties:
+        id:
+          type: string
+          description: The artifact id.
+          format: uuid
+          minLength: 36
+          maxLength: 36
+        created_at:
+          type: string
+          description: The artifact created at.
+          format: date-time
+        updated_at:
+          type: string
+          description: The artifact updated at.
+        tenant_id:
+          type: string
+          description: The artifact tenant id.
+          format: uuid
+          minLength: 36
+          maxLength: 36
+        user_id:
+          type: string
+        version:
+          type: integer
+        session_id:
+          type: string
+        app_name:
+          type: string
+        filename:
+          type: string
+        mime_type:
+          type: string
+        content:
+          type: string
+          description: The artifact content.
+          format: binary
+    ArtifactList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Artifact'
+          type: array
+          x-go-name: Rows
+    SaveArtifactRequest:
+      required:
+        - app_name
+        - user_id
+      properties:
+        app_name:
+          type: string
+        user_id:
+          type: string
+        session_id:
+          type: string
+        filename:
+          type: string
+        content:
+          type: string
+    Post:
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        title:
+          type: string
+        content:
+          type: string
+          description: The tenant associated with this tenant blog
+      required:
+        - metadata
+        - title
+        - content
+    PostList:
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Post'
+          type: array
+    CreatePostRequest:
+      properties:
+        siteId:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        content:
+          type: string
+          description: The tenant associated with this tenant blog.
+          minLength: 50
+          maxLength: 10240
+        slug:
+          type: string
+          description: The slug of the post
+          minLength: 3
+          maxLength: 200
+        authorId:
+          type: string
+          format: uuid
+          minLength: 36
+          maxLength: 36
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+      required:
+        - siteId
+        - title
+        - content
+        - slug
+    Sandbox:
+      required:
+        - id
+        - type
+        - url
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        url:
+          type: string
+    Bot:
+      required:
+        - id
+        - created_at
+        - updated_at
+        - name
+        - description
+        - config
+      properties:
+        id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+        description:
+          type: string
+        config:
+          $ref: '#/components/schemas/BotConfig'
+    BotList:
+      required:
+        - pagination
+        - rows
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          items:
+            $ref: '#/components/schemas/Bot'
+          type: array
+    BotConfig:
+      required:
+        - public_server
+        - private_server
+        - frontend_url
+        - local_http_server_enabled
+        - local_http_server_port
+        - adb_server_enabled
+        - hatchet_token
+      properties:
+        public_server:
+          type: string
+        private_server:
+          type: string
+        frontend_url:
+          type: string
+        local_http_server_enabled:
+          type: boolean
+        local_http_server_port:
+          type: integer
+        adb_server_enabled:
+          type: boolean
+        adb_server_port:
+          type: integer
+          default: 5555
+        hatchet_token:
+          type: string
+    BotLocalState:
+      required:
+        - bot_id
+        - device_type
+        - host_name
+      properties:
+        bot_id:
+          type: string
+        device_type:
+          type: string
+          enum:
+            - unknown
+            - android
+            - ios
+            - web
+        host_name:
+          type: string
+    SbWorkerProfile:
+      required:
+        - frontendUrl
+        - isDebug
+        - autoStart
+        - defaultProfileName
+        - defaultProfileUrl
+        - defaultProfileType
+      properties:
+        frontendUrl:
+          type: string
+        isDebug:
+          type: boolean
+        autoStart:
+          type: boolean
+        defaultProfileName:
+          type: string
+        defaultProfileUrl:
+          type: string
+    SbOutbound:
+      description: Sing-box outbound configuration
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        tag:
+          type: string
+          description: Tag name for this outbound
+        type:
+          type: string
+          description: Type of outbound protocol
+        server:
+          type: string
+          description: Server address
+        server_port:
+          type: integer
+          description: Server port number
+        password:
+          type: string
+          description: Authentication password
+          nullable: true
+        security:
+          type: string
+          description: Security protocol
+          nullable: true
+        domain_resolver:
+          type: string
+          description: Domain resolver configuration
+          nullable: true
+        full_config:
+          type: object
+          description: Complete configuration in JSON format
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+    SbOutboundList:
+      description: List of sing-box outbounds
+      properties:
+        outbounds:
+          type: array
+          items:
+            $ref: '#/components/schemas/SbOutbound'
+    SbOutboundCreate:
+      description: Create a new sing-box outbound
+      required:
+        - tag
+        - type
+        - server
+        - server_port
+        - full_config
+      properties:
+        tag:
+          type: string
+          description: Tag name for this outbound
+        type:
+          type: string
+          description: Type of outbound protocol
+        server:
+          type: string
+          description: Server address
+        server_port:
+          type: integer
+          description: Server port number
+        password:
+          type: string
+          description: Authentication password
+          nullable: true
+        security:
+          type: string
+          description: Security protocol
+          nullable: true
+        domain_resolver:
+          type: string
+          description: Domain resolver configuration
+          nullable: true
+        full_config:
+          type: object
+          description: Complete configuration in JSON format
+    SbImportRequest:
+      required:
+        - url
+      properties:
+        url:
+          type: string
+    MobileHello:
+      type: object
+      properties:
+        message:
+          type: string
+    Event:
+      required:
+        - key
+        - additionalMetadata
+      properties:
+        key:
+          type: string
+          description: The key for the event.
+        input:
+          type: object
+          description: The input for the event.
+        additionalMetadata:
+          type: object
+          description: Additional metadata for the event.
+    PushEventResponse:
+      type: object
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+          description: Whether the workflow was triggered successfully
+        error:
+          type: object
+          description: The error message if the workflow was not triggered successfully
+    ActionRegisterInstagram:
+      description: (临时演示)注册Instagram账号
+      required:
+        - arg1
+      properties:
+        arg1:
+          type: string
+    SlackWebhook:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/APIResourceMeta'
+        tenantId:
+          type: string
+          format: uuid
+          description: The unique identifier for the tenant that the SNS integration belongs to.
+        teamName:
+          type: string
+          description: The team name associated with this slack webhook.
+        teamId:
+          type: string
+          description: The team id associated with this slack webhook.
+        channelName:
+          type: string
+          description: The channel name associated with this slack webhook.
+        channelId:
+          type: string
+          description: The channel id associated with this slack webhook.
+      required:
+        - metadata
+        - tenantId
+        - teamName
+        - teamId
+        - channelName
+        - channelId
+    ListSlackWebhooks:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/SlackWebhook'
+      required:
+        - pagination
+        - rows
+paths:
+  /api/ready:
+    get:
+      description: Gets the readiness status
+      operationId: 'readiness:get'
+      responses:
+        '200':
+          description: Healthy
+        '500':
+          description: Not ready to accept traffic
+      security: []
+      summary: Get readiness
+      tags:
+        - Healthcheck
+  /api/live:
+    get:
+      description: Gets the liveness status
+      operationId: 'liveness:get'
+      responses:
+        '200':
+          description: Healthy
+        '500':
+          description: Not liveness
+      security: []
+      summary: Get liveness
+      tags:
+        - Healthcheck
+  /api/v1/meta:
+    get:
+      description: Gets metadata for the Hatchet instance
+      operationId: 'metadata:get'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIMeta'
+          description: Successfully retrieved the metadata
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+      security: []
+      x-security-optional: true
+      summary: Get metadata
+      tags:
+        - Metadata
+  /api/v1/meta/integrations:
+    get:
+      description: List all integrations
+      operationId: 'metadata:list:integrations'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAPIMetaIntegration'
+          description: Successfully retrieved the list of integrations
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+      summary: List integrations
+      tags:
+        - Metadata
+  /api/v1/users/login:
+    post:
+      description: Logs in a user.
+      operationId: 'user:update:login'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully logged in
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Unauthorized
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Method not allowed
+      security: []
+      summary: Login user
+      tags:
+        - User
+  /api/v1/users/google/start:
+    get:
+      description: Starts the OAuth flow
+      operationId: 'user:update:google-oauth-start'
+      responses:
+        '302':
+          description: Successfully started the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security: []
+      summary: Start OAuth flow
+      tags:
+        - User
+  /api/v1/users/google/callback:
+    get:
+      description: Completes the OAuth flow
+      operationId: 'user:update:google-oauth-callback'
+      responses:
+        '302':
+          description: Successfully completed the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security: []
+      summary: Complete OAuth flow
+      tags:
+        - User
+  /api/v1/users/github/start:
+    get:
+      description: Starts the OAuth flow
+      operationId: 'user:update:github-oauth-start'
+      responses:
+        '302':
+          description: Successfully started the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security: []
+      summary: Start OAuth flow
+      tags:
+        - User
+  /api/v1/users/github/callback:
+    get:
+      description: Completes the OAuth flow
+      operationId: 'user:update:github-oauth-callback'
+      responses:
+        '302':
+          description: Successfully completed the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security: []
+      summary: Complete OAuth flow
+      tags:
+        - User
+  '/api/v1/tenants/{tenant}/slack/start':
+    get:
+      x-resources:
+        - tenant
+      description: Starts the OAuth flow
+      operationId: 'user:update:slack-oauth-start'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '302':
+          description: Successfully started the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security:
+        - cookieAuth: []
+      summary: Start OAuth flow
+      tags:
+        - User
+  /api/v1/users/slack/callback:
+    get:
+      description: Completes the OAuth flow
+      operationId: 'user:update:slack-oauth-callback'
+      responses:
+        '302':
+          description: Successfully completed the OAuth flow
+          headers:
+            location:
+              schema:
+                type: string
+      security:
+        - cookieAuth: []
+      summary: Complete OAuth flow
+      tags:
+        - User
+  '/api/v1/tenants/{tenant}/alerting-email-groups':
+    post:
+      x-resources:
+        - tenant
+      description: Creates a new tenant alert email group
+      operationId: 'alert-email-group:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenantAlertEmailGroupRequest'
+        description: The tenant alert email group to create
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantAlertEmailGroup'
+          description: Successfully created the tenant alert email group
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Create tenant alert email group
+      tags:
+        - Tenant
+    get:
+      x-resources:
+        - tenant
+      description: Gets a list of tenant alert email groups
+      operationId: 'alert-email-group:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantAlertEmailGroupList'
+          description: Successfully retrieved the tenant alert email groups
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: List tenant alert email groups
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/resource-policy':
+    get:
+      x-resources:
+        - tenant
+      description: Gets the resource policy for a tenant
+      operationId: 'tenant-resource-policy:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantResourcePolicy'
+          description: Successfully retrieved the tenant resource policy
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Create tenant alert email group
+      tags:
+        - Tenant
+  '/api/v1/alerting-email-groups/{alert-email-group}':
+    patch:
+      x-resources:
+        - tenant
+        - alert-email-group
+      description: Updates a tenant alert email group
+      operationId: 'alert-email-group:update'
+      parameters:
+        - description: The tenant alert email group id
+          in: path
+          name: alert-email-group
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTenantAlertEmailGroupRequest'
+        description: The tenant alert email group to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantAlertEmailGroup'
+          description: Successfully updated the tenant alert email group
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Update tenant alert email group
+      tags:
+        - Tenant
+    delete:
+      x-resources:
+        - tenant
+        - alert-email-group
+      description: Deletes a tenant alert email group
+      operationId: 'alert-email-group:delete'
+      parameters:
+        - description: The tenant alert email group id
+          in: path
+          name: alert-email-group
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '204':
+          description: Successfully deleted the tenant alert email group
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Delete tenant alert email group
+      tags:
+        - Tenant
+  /api/v1/users/current:
+    get:
+      description: Gets the current user
+      operationId: 'user:get:current'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully retrieved the user
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Unauthorized
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Method not allowed
+      security:
+        - cookieAuth: []
+      summary: Get current user
+      tags:
+        - User
+  /api/v1/users/password:
+    post:
+      description: Update a user password.
+      operationId: 'user:update:password'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserChangePasswordRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully changed password
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Unauthorized
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Method not allowed
+      security:
+        - cookieAuth: []
+      summary: Change user password
+      tags:
+        - User
+  /api/v1/users/register:
+    post:
+      description: Registers a user.
+      operationId: 'user:create'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully registered the user
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Unauthorized
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Method not allowed
+      security: []
+      summary: Register user
+      tags:
+        - User
+  /api/v1/users/logout:
+    post:
+      description: Logs out a user.
+      operationId: 'user:update:logout'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully logged out
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Unauthorized
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Method not allowed
+      security:
+        - cookieAuth: []
+      summary: Logout user
+      tags:
+        - User
+  /api/v1/users/memberships:
+    get:
+      description: Lists all tenant memberships for the current user
+      operationId: 'tenant-memberships:list'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTenantMembershipsList'
+          description: Successfully listed the tenant memberships
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+      security:
+        - cookieAuth: []
+      summary: List tenant memberships
+      tags:
+        - User
+  /api/v1/users/invites:
+    get:
+      description: Lists all tenant invites for the current user
+      operationId: 'user:list:tenant-invites'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInviteList'
+          description: Successfully listed the tenant invites
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+      security:
+        - cookieAuth: []
+      summary: List tenant invites
+      tags:
+        - Tenant
+  /api/v1/users/invites/accept:
+    post:
+      description: Accepts a tenant invite
+      operationId: 'tenant-invite:accept'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcceptInviteRequest'
+      responses:
+        '200':
+          description: Successfully accepted the tenant invite
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Accept tenant invite
+      tags:
+        - Tenant
+  /api/v1/users/invites/reject:
+    post:
+      description: Rejects a tenant invite
+      operationId: 'tenant-invite:reject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectInviteRequest'
+      responses:
+        '200':
+          description: Successfully rejected the tenant invite
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Reject tenant invite
+      tags:
+        - Tenant
+  /api/v1/tenants:
+    post:
+      x-resources: []
+      description: Creates a new tenant
+      operationId: 'tenant:create'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenantRequest'
+        description: The tenant to create
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+          description: Successfully created the tenant
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Create tenant
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}':
+    patch:
+      x-resources:
+        - tenant
+      description: Update an existing tenant
+      operationId: 'tenant:update'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTenantRequest'
+        description: The tenant properties to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+          description: Successfully created the tenant
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Update tenant
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/alerting/settings':
+    get:
+      x-resources:
+        - tenant
+      description: Gets the alerting settings for a tenant
+      operationId: 'tenant-alerting-settings:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantAlertingSettings'
+          description: Successfully retrieved the tenant alerting settings
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Get tenant alerting settings
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/invites':
+    post:
+      x-resources:
+        - tenant
+      description: Creates a new tenant invite
+      operationId: 'tenant-invite:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTenantInviteRequest'
+        description: The tenant invite to create
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInvite'
+          description: Successfully created the tenant invite
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Create tenant invite
+      tags:
+        - Tenant
+    get:
+      x-resources:
+        - tenant
+      description: Gets a list of tenant invites
+      operationId: 'tenant-invite:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInviteList'
+          description: Successfully retrieved the tenant invites
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: List tenant invites
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/invites/{tenant-invite}':
+    patch:
+      x-resources:
+        - tenant
+        - tenant-invite
+      description: Updates a tenant invite
+      operationId: 'tenant-invite:update'
+      summary: Update invite
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The tenant invite id
+          in: path
+          name: tenant-invite
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTenantInviteRequest'
+        description: The tenant invite to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInvite'
+          description: Successfully updated the tenant invite
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+    delete:
+      x-resources:
+        - tenant
+        - tenant-invite
+      description: Deletes a tenant invite
+      operationId: 'tenant-invite:delete'
+      summary: Delete invite
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The tenant invite id
+          in: path
+          name: tenant-invite
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantInvite'
+          description: Successfully deleted the tenant invite
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+  '/api/v1/tenants/{tenant}/api-tokens':
+    post:
+      x-resources:
+        - tenant
+      description: Create an API token for a tenant
+      operationId: 'api-token:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAPITokenRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAPITokenResponse'
+          description: Successfully retrieved the workflows
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+      summary: Create API Token
+      tags:
+        - API Token
+    get:
+      x-resources:
+        - tenant
+      description: List API tokens for a tenant
+      operationId: 'api-token:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAPITokensResponse'
+          description: Successfully retrieved the workflows
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+      summary: List API Tokens
+      tags:
+        - API Token
+  '/api/v1/api-tokens/{api-token}':
+    post:
+      x-resources:
+        - tenant
+        - api-token
+      description: Revoke an API token for a tenant
+      operationId: 'api-token:update:revoke'
+      parameters:
+        - description: The API token
+          in: path
+          name: api-token
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '204':
+          description: Successfully revoked the token
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+      summary: Revoke API Token
+      tags:
+        - API Token
+  '/api/v1/tenants/{tenant}/members':
+    get:
+      x-resources:
+        - tenant
+      description: Gets a list of tenant members
+      operationId: 'tenant-member:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMemberList'
+          description: Successfully retrieved the tenant members
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: List tenant members
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/members/{member}':
+    delete:
+      x-resources:
+        - tenant
+      description: Delete a member from a tenant
+      operationId: 'tenant-member:delete'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The tenant member id
+          in: path
+          name: member
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '204':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMember'
+          description: Successfully deleted the tenant members
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+      summary: Delete a tenant member
+      tags:
+        - Tenant
+  '/api/v1/monitoring/{tenant}/probe':
+    post:
+      x-resources:
+        - tenant
+      description: Triggers a workflow to check the status of the instance
+      summary: Detailed Health Probe For the Instance
+      operationId: 'monitoring:post:runProbe'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          description: Successfully executed the probe.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not authorized to perform this action
+  /api/v1/version:
+    get:
+      description: Get the version of the server
+      summary: We return the version for the currently running server
+      operationId: 'info:get:version'
+      security: []
+      x-security-optional: true
+      responses:
+        '200':
+          description: The version of the server
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - version
+                properties:
+                  version:
+                    type: string
+                    example: 1.0.0
+  /api/v1/event/push:
+    post:
+      operationId: 'event:push'
+      summary: 发送事件（触发工作流）
+      security: []
+      tags:
+        - Event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushEventResponse'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/sites':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site
+      description: Get the sites for the tenant
+      operationId: 'site:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+    post:
+      x-resources:
+        - tenant
+      tags:
+        - site
+      description: create site
+      operationId: 'site:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSiteRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/tenants/{tenant}/sites/{site}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site
+      description: Get the site for the tenant
+      operationId: 'site:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The site id
+          in: path
+          name: site
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+    patch:
+      x-resources:
+        - tenant
+      description: Update an existing site
+      operationId: 'site:update'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The site id
+          in: path
+          name: site
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSiteRequest'
+        description: The tenant properties to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+          description: Successfully created the tenant
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Update tenant
+      tags:
+        - Tenant
+  '/api/v1/tenants/{tenant}/sites/byHost/{host}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site
+      description: 前端根据域名获取site公开数据
+      operationId: 'site:getByHost'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: host name
+          in: path
+          name: host
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 255
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+  '/api/v1/tenants/{tenant}/sites/{site}/site-hosts':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site-host
+      description: Get the site-hosts for the tenant
+      operationId: 'site-host:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The number to skip
+          in: query
+          name: offset
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - description: The host name
+          in: query
+          name: host
+          required: false
+          schema:
+            type: string
+        - description: The site id
+          in: path
+          name: site
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteHostList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+    post:
+      x-resources:
+        - tenant
+      tags:
+        - site-host
+      description: create site-host
+      operationId: 'site-host:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The site id
+          in: path
+          name: site
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteHostProperties'
+        description: 创建agentnode
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteHost'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/tenants/{tenant}/sites/{site}/site-hosts/{host}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site-host
+      description: Get the site-host for the tenant
+      operationId: 'site-host:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The site id
+          in: path
+          name: site
+          required: true
+          schema:
+            type: string
+        - description: The site-host id
+          in: path
+          name: host
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteHost'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+    patch:
+      x-resources:
+        - tenant
+      description: Update an existing site-host
+      operationId: 'site-host:update'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The site id
+          in: path
+          name: site
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - description: The site-host id
+          in: path
+          name: host
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteHost'
+        description: The tenant properties to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteHost'
+          description: Successfully created the tenant
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Update tenant
+      tags:
+        - Tenant
+  /api/v1/frontend/config:
+    get:
+      operationId: 'frontend:getConfig'
+      tags:
+        - frontend
+      responses:
+        '200':
+          description: frontend core config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrontendConfig'
+      security: []
+      x-security-optional: true
+  /api/v1/frontend/siderbar:
+    get:
+      operationId: 'frontend:getSiderbar'
+      tags:
+        - frontend
+      responses:
+        '200':
+          description: frontend siderbar config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiderbarConfig'
+      security: []
+      x-security-optional: true
+  /api/v1/endpoint:
+    get:
+      tags:
+        - endpoint
+      operationId: 'endpoint:list'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndpointList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Not found
+    patch:
+      tags:
+        - endpoint
+      description: Update an endpoint
+      operationId: 'endpoint:update'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEndpointRequest'
+        description: The tenant properties to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Endpoint'
+          description: Successfully created the tenant
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+      summary: Update endpoint
+  /api/v1/mtworker/tasks:
+    get:
+      summary: 获取mtworker任务
+      description: 获取mtworker任务
+      tags:
+        - mtworker
+      operationId: 'mtworker:getTasks'
+      responses:
+        '200':
+          description: 获取mtworker任务成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtWorkerTask'
+  '/api/v1/tenants/{tenant}/proxies':
+    get:
+      tags:
+        - proxy
+      description: Get all proxies for the tenant
+      operationId: 'proxy:list'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: Limit the number of results
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 100
+        - description: Offset the results
+          in: query
+          name: offset
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - description: Filter by enabled status
+          in: query
+          name: enabled
+          required: false
+          schema:
+            type: boolean
+        - description: Filter by provider
+          in: query
+          name: provider
+          required: false
+          schema:
+            type: string
+        - description: Filter by type
+          in: query
+          name: type
+          required: false
+          schema:
+            type: string
+        - description: Filter by country code
+          in: query
+          name: countryCode
+          required: false
+          schema:
+            type: string
+        - description: Filter by port number
+          in: query
+          name: port
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  proxies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Proxy'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/proxies/{proxyId}':
+    get:
+      tags:
+        - proxy
+      description: Get a proxy by ID
+      operationId: 'proxy:get'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The proxy id
+          in: path
+          name: proxyId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proxy'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/proxies/create':
+    post:
+      tags:
+        - proxy
+      description: Create a new proxy
+      operationId: 'proxy:create'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proxy'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/proxies/{proxyId}/update':
+    post:
+      tags:
+        - proxy
+      description: Update a proxy
+      operationId: 'proxy:update'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The proxy id
+          in: path
+          name: proxyId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProxyUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proxy'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/proxies/{proxyId}/delete':
+    post:
+      tags:
+        - proxy
+      description: Delete a proxy
+      operationId: 'proxy:delete'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The proxy id
+          in: path
+          name: proxyId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  /api/v1/posts/public:
+    get:
+      tags:
+        - posts
+      description: Get the posts for the site
+      operationId: 'post:listPublic'
+      parameters:
+        - description: The site id
+          in: query
+          name: siteId
+          required: false
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+      security: []
+      x-security-optional: true
+  '/api/v1/tenants/{tenant}/posts/{post}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - site
+      description: Get the post for the tenant
+      operationId: 'post:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The post id
+          in: path
+          name: post
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+  '/api/v1/tenants/{tenant}/posts':
+    get:
+      tags:
+        - posts
+      description: Get the posts for the site
+      operationId: 'post:list'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The site id
+          in: query
+          name: siteId
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    post:
+      x-resources:
+        - tenant
+      tags:
+        - post
+      description: create post
+      operationId: 'post:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/tenants/{tenant}/artifacts':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - artifact
+      description: Get the artifacts for the tenant
+      operationId: 'artifact:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArtifactList'
+          description: Successfully retrieved the tenant artifacts list
+      summary: 获取租户下的artifacts列表
+  '/api/v1/tenants/{tenant}/artifacts/{artifact}':
+    get:
+      x-resources:
+        - tenant
+      description: Get a blog post by id
+      operationId: 'artifact:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The artifact id
+          in: path
+          name: artifact
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artifact'
+          description: Successfully retrieved the step run
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: The step run was not found
+      summary: Get step run
+      tags:
+        - artifact
+    post:
+      x-resources:
+        - tenant
+      description: Update an existing artifact
+      operationId: 'artifact:save'
+      summary: Update artifact
+      tags:
+        - artifact
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The artifact id
+          in: path
+          name: artifact
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveArtifactRequest'
+        description: The artifact properties to update
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artifact'
+          description: Successfully created the artifact
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: A malformed or bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  /api/v1/sb:
+    get:
+      summary: 获取沙盒
+      description: 获取沙盒
+      operationId: 'sandbox:get'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sandbox'
+  '/api/v1/scripts/scripts/{name}':
+    get:
+      summary: Get a script by name
+      description: Get a script by name
+      tags:
+        - script
+      operationId: scriptsByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A script
+          content:
+            application/json:
+              schema:
+                type: string
+        '404':
+          description: Script not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  '/api/v1/singbox/workerProfile/{profileType}/{profile}':
+    get:
+      summary: 获取sing-box worker profile
+      description: 获取sing-box worker profile
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:getWorkerProfile'
+      parameters:
+        - name: profileType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: profile
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully get the singbox srs file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SbWorkerProfile'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/singbox/subscribe/{group}/{profile}':
+    get:
+      summary: 获取sing-box订阅
+      description: 获取sing-box订阅
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:subscribe'
+      parameters:
+        - name: group
+          in: path
+          required: false
+          schema:
+            type: string
+        - name: profile
+          in: path
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully get the firerpa config
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/singbox/srs/{file}':
+    get:
+      summary: 获取sing-box geoip-cn.srs文件
+      description: 获取sing-box geoip-cn.srs文件
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:geoipCnSrs'
+      parameters:
+        - name: file
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully get the singbox srs file
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  /api/v1/singbox/outbounds:
+    get:
+      summary: 获取所有sing-box outbound
+      description: 获取所有sing-box outbound配置
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:getOutbounds'
+      responses:
+        '200':
+          description: Successfully get outbounds
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  outbounds:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SbOutbound'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+    post:
+      summary: 创建sing-box outbound
+      description: 创建新的sing-box outbound配置
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:createOutbound'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SbOutboundCreate'
+      responses:
+        '200':
+          description: Successfully created outbound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SbOutbound'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/singbox/outbounds/{id}':
+    get:
+      summary: 获取指定sing-box outbound
+      description: 获取指定的sing-box outbound配置
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:getOutbound'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully get the outbound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SbOutbound'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+    put:
+      summary: 更新指定sing-box outbound
+      description: 更新指定的sing-box outbound配置
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:updateOutbound'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SbOutboundCreate'
+      responses:
+        '200':
+          description: Successfully updated the outbound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SbOutbound'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+    delete:
+      summary: 删除指定sing-box outbound
+      description: 删除指定的sing-box outbound配置
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:deleteOutbound'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully deleted the outbound
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  /api/v1/singbox/import:
+    post:
+      summary: 导入sing-box outbound
+      description: 导入sing-box outbound
+      security: []
+      tags:
+        - sing-box
+      operationId: 'singbox:importOutbounds'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SbImportRequest'
+      responses:
+        '200':
+          description: Successfully import the singbox outbound
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SbOutbound'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  /api/v1/bot/list:
+    get:
+      description: Get bot list for a tenant.
+      operationId: 'bot:list'
+      security: []
+      tags:
+        - Bot
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BotList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/bot/{bot}':
+    get:
+      description: Get bot by id.
+      operationId: 'bot:get'
+      security: []
+      tags:
+        - Bot
+      parameters:
+        - name: bot
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: autoCreate
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bot'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+  /api/v1/bot/heartbeat:
+    post:
+      description: Heartbeat for bot.
+      operationId: 'bot:heartbeat'
+      summary: Heartbeat
+      security: []
+      tags:
+        - Bot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BotLocalState'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BotConfig'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/tenants/{tenant}/platforms':
+    get:
+      tags:
+        - platform
+      description: Get the platforms for the tenant
+      operationId: 'platform:list'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: Page number
+          in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: Items per page
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/platforms/{platformId}':
+    get:
+      tags:
+        - platform
+      description: Get a specific platform
+      operationId: 'platform:get'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The platform id
+          in: path
+          name: platformId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Platform'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/platforms/create':
+    post:
+      x-resources:
+        - tenant
+      description: Create platform
+      operationId: 'platform:create'
+      summary: Create platform
+      tags:
+        - platform
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Platform'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+  '/api/v1/tenants/{tenant}/platforms/{platformId}/update':
+    put:
+      x-resources:
+        - tenant
+      description: Update platform
+      operationId: 'platform:update'
+      summary: Update platform
+      tags:
+        - platform
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The platform id
+          in: path
+          name: platformId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Platform'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/platforms/{platformId}/delete':
+    delete:
+      x-resources:
+        - tenant
+      description: Delete platform
+      operationId: 'platform:delete'
+      summary: Delete platform
+      tags:
+        - platform
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The platform id
+          in: path
+          name: platformId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/p_account/create':
+    post:
+      x-resources:
+        - tenant
+      description: Create platform account.
+      operationId: 'p_account:create'
+      summary: Create platform account
+      security: []
+      tags:
+        - p_account
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PAccountCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PAccount'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+  '/api/v1/tenants/{tenant}/p_account/list':
+    get:
+      tags:
+        - p_account
+      description: Get the p_account for the tenant
+      operationId: 'p_account:list'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: Page number
+          in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - description: Items per page
+          in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PAccountList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/p_account/{accountId}':
+    get:
+      tags:
+        - p_account
+      description: Get a specific platform account
+      operationId: 'p_account:get'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The account id
+          in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PAccount'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/p_account/{accountId}/update':
+    put:
+      x-resources:
+        - tenant
+      description: Update platform account
+      operationId: 'p_account:update'
+      summary: Update platform account
+      tags:
+        - p_account
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The account id
+          in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PAccountCreate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PAccount'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/p_account/{accountId}/delete':
+    delete:
+      x-resources:
+        - tenant
+      description: Delete platform account
+      operationId: 'p_account:delete'
+      summary: Delete platform account
+      tags:
+        - p_account
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            $ref: '#/components/schemas/TenantParameter'
+        - description: The account id
+          in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                properties:
+                  success:
+                    type: boolean
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+  '/api/v1/tenants/{tenant}/albums':
+    get:
+      tags:
+        - albums
+      description: Get all albums for the tenant
+      operationId: 'album:list'
+      x-resources:
+        - tenant
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    post:
+      x-resources:
+        - tenant
+      tags:
+        - albums
+      description: Create a new album
+      operationId: 'album:create'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAlbumRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+          description: Forbidden
+  '/api/v1/tenants/{tenant}/albums/{album}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - albums
+      description: Get a specific album
+      operationId: 'album:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    put:
+      x-resources:
+        - tenant
+      tags:
+        - albums
+      description: Update an album
+      operationId: 'album:update'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAlbumRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Album'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    delete:
+      x-resources:
+        - tenant
+      tags:
+        - albums
+      description: Delete an album
+      operationId: 'album:delete'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '204':
+          description: Album deleted successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+  '/api/v1/tenants/{tenant}/albums/{album}/photos':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - photos
+      description: Get photos for an album
+      operationId: 'photo:list'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotoList'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    post:
+      x-resources:
+        - tenant
+      tags:
+        - photos
+      description: Upload photos to an album
+      operationId: 'photo:upload'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: The photo file to upload
+                description:
+                  type: string
+                  description: The description of the photo
+                  maxLength: 500
+              required:
+                - photo
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+  '/api/v1/tenants/{tenant}/albums/{album}/photos/{photo}':
+    get:
+      x-resources:
+        - tenant
+      tags:
+        - photos
+      description: Get a specific photo
+      operationId: 'photo:get'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The photo id
+          in: path
+          name: photo
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    put:
+      x-resources:
+        - tenant
+      tags:
+        - photos
+      description: Update a photo
+      operationId: 'photo:update'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The photo id
+          in: path
+          name: photo
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePhotoRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
+    delete:
+      x-resources:
+        - tenant
+      tags:
+        - photos
+      description: Delete a photo
+      operationId: 'photo:delete'
+      parameters:
+        - description: The tenant id
+          in: path
+          name: tenant
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The album id
+          in: path
+          name: album
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+        - description: The photo id
+          in: path
+          name: photo
+          required: true
+          schema:
+            type: string
+            format: uuid
+            minLength: 36
+            maxLength: 36
+      responses:
+        '204':
+          description: Photo deleted successfully
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 请求错误
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 权限不足
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrors'
+          description: 资源不存在
