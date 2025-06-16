@@ -54,14 +54,14 @@ export const Columns: ColumnDef<Post>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => router.push(`/dash/post/${post.metadata.id}`)}>
               <Pencil className="mr-2 h-4 w-4" />
-              编辑
+              编辑（开发中）
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => router.push(`/dash/post/${post.metadata.id}/delete`)}
               className="text-red-600"
             >
               <Trash className="mr-2 h-4 w-4" />
-              删除
+              删除（开发中）
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

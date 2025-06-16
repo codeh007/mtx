@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "mtxuilib/ui/card";
+import { Alert, AlertDescription } from "mtxuilib/ui/alert";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -35,26 +36,13 @@ export default function DeletePostPage() {
     }),
     enabled: !!tid && !!postId,
   });
-  //TODO: 后端暂时不支持删除操作
-  //   const deletePostMutation = useMutation({
-  //     ...postdel({
-  //       path: {
-  //         tenant: tid,
-  //         post: postId,
-  //       },
-  //     }),
-  //     onError: setErrors,
-  //     onSuccess: () => {
-  //       toast({
-  //         title: "文章删除成功",
-  //         description: "已成功删除文章",
-  //       });
-  //       router.push("/dash/post");
-  //     },
-  //   });
-
+  // TODO: 后端暂时不支持删除操作，需要实现 postDeleteMutation API
   function handleDelete() {
-    // deletePostMutation.mutate({});
+    toast({
+      title: "功能暂未开放",
+      description: "文章删除功能正在开发中，请稍后再试",
+      variant: "destructive",
+    });
   }
 
   if (isLoading) {
@@ -67,6 +55,13 @@ export default function DeletePostPage() {
 
   return (
     <div className="p-6 max-w-md mx-auto">
+      <Alert className="mb-6">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          删除功能正在开发中，暂时无法删除文章。
+        </AlertDescription>
+      </Alert>
+
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center text-red-600">
@@ -95,15 +90,14 @@ export default function DeletePostPage() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline" onClick={() => router.push("/dash/post")}>
-            取消
+            返回列表
           </Button>
           <Button
             variant="destructive"
             onClick={handleDelete}
-            // disabled={deletePostMutation.isPending}
+            disabled
           >
-            {/* {deletePostMutation.isPending ? "删除中..." : "确认删除"} */}
-            确认删除
+            确认删除（开发中）
           </Button>
         </CardFooter>
       </Card>
