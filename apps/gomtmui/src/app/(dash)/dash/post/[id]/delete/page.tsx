@@ -2,7 +2,7 @@
 
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle } from "lucide-react";
 import type { ApiErrors } from "mtmaiapi";
 import { postGetOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
@@ -18,11 +18,33 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
+// 自定义删除 mutation，因为 OpenAPI 文档中没有定义 DELETE 接口
+const createPostDeleteMutation = (tid: string, postId: string) => {
+  return {
+    mutationFn: async () => {
+      const response = await fetch(`/api/v1/tenants/${tid}/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "删除失败");
+      }
+
+      return response.json();
+    },
+  };
+};
+
 export default function DeletePostPage() {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
   const tid = useTenantId();
+  const queryClient = useQueryClient();
   const [errors, setErrors] = useState<ApiErrors | null>(null);
   const postId = params.id as string;
 
@@ -35,26 +57,31 @@ export default function DeletePostPage() {
     }),
     enabled: !!tid && !!postId,
   });
-  //TODO: 后端暂时不支持删除操作
-  //   const deletePostMutation = useMutation({
-  //     ...postdel({
-  //       path: {
-  //         tenant: tid,
-  //         post: postId,
-  //       },
-  //     }),
-  //     onError: setErrors,
-  //     onSuccess: () => {
-  //       toast({
-  //         title: "文章删除成功",
-  //         description: "已成功删除文章",
-  //       });
-  //       router.push("/dash/post");
-  //     },
-  //   });
+
+  const deletePostMutation = useMutation({
+    ...createPostDeleteMutation(tid, postId),
+    onError: (error: Error) => {
+      setErrors({ errors: [{ field: "general", description: error.message }] });
+      toast({
+        title: "删除失败",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      // 刷新缓存
+      queryClient.invalidateQueries({ queryKey: ["postList"] });
+
+      toast({
+        title: "文章删除成功",
+        description: "已成功删除文章",
+      });
+      router.push("/dash/post");
+    },
+  });
 
   function handleDelete() {
-    // deletePostMutation.mutate({});
+    deletePostMutation.mutate();
   }
 
   if (isLoading) {
@@ -83,7 +110,7 @@ export default function DeletePostPage() {
             </div>
             <div>
               <span className="font-semibold">创建时间：</span>
-              {new Date(post.metadata.createdAt).toLocaleString()}
+              {new Date(post.metadata.created_at).toLocaleString()}
             </div>
           </div>
 
@@ -100,10 +127,9 @@ export default function DeletePostPage() {
           <Button
             variant="destructive"
             onClick={handleDelete}
-            // disabled={deletePostMutation.isPending}
+            disabled={deletePostMutation.isPending}
           >
-            {/* {deletePostMutation.isPending ? "删除中..." : "确认删除"} */}
-            确认删除
+            {deletePostMutation.isPending ? "删除中..." : "确认删除"}
           </Button>
         </CardFooter>
       </Card>

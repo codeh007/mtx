@@ -3,10 +3,10 @@
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   postGetOptions,
-  // postUpdateMutation,
+  siteListOptions,
 } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { ApiErrors } from "mtmaiapi/gomtmapi/types.gen";
 import { Button } from "mtxuilib/ui/button";
@@ -23,16 +23,39 @@ const updatePostSchema = z.object({
   title: z.string().min(3).max(200),
   content: z.string().min(50).max(10240),
   slug: z.string().min(3).max(200),
-  status: z.string(),
+  status: z.enum(["draft", "published"]),
 });
 
 type UpdatePostData = z.infer<typeof updatePostSchema>;
+
+// 自定义更新 mutation，因为 OpenAPI 文档中没有定义 PATCH 接口
+const createPostUpdateMutation = (tid: string, postId: string) => {
+  return {
+    mutationFn: async (data: UpdatePostData) => {
+      const response = await fetch(`/api/v1/tenants/${tid}/posts/${postId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "更新失败");
+      }
+
+      return response.json();
+    },
+  };
+};
 
 export default function EditPostPage() {
   const router = useRouter();
   const params = useParams();
   const { toast } = useToast();
   const tid = useTenantId();
+  const queryClient = useQueryClient();
   const [errors, setErrors] = useState<ApiErrors | null>(null);
   const postId = params.id as string;
 
@@ -46,13 +69,25 @@ export default function EditPostPage() {
     enabled: !!tid && !!postId,
   });
 
+  // 获取站点列表
+  const { data: siteData } = useQuery({
+    ...siteListOptions({
+      path: {
+        tenant: tid,
+      },
+    }),
+    enabled: !!tid,
+  });
+
+  const sites = siteData?.rows || [];
+
   const form = useForm<UpdatePostData>({
     resolver: zodResolver(updatePostSchema),
     defaultValues: {
       title: "",
       content: "",
       slug: "",
-      status: "",
+      status: "draft",
     },
   });
 
@@ -62,20 +97,26 @@ export default function EditPostPage() {
         title: post.title || "",
         content: post.content || "",
         slug: post.slug || "",
-        status: post.status || "DRAFT",
+        status: post.status || "draft",
       });
     }
   }, [post, form]);
 
   const updatePostMutation = useMutation({
-    ...postUpdateMutation({
-      path: {
-        tenant: tid,
-        post: postId,
-      },
-    }),
-    onError: setErrors,
+    ...createPostUpdateMutation(tid, postId),
+    onError: (error: Error) => {
+      setErrors({ errors: [{ field: "general", description: error.message }] });
+      toast({
+        title: "更新失败",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
     onSuccess: () => {
+      // 刷新缓存
+      queryClient.invalidateQueries({ queryKey: ["postList"] });
+      queryClient.invalidateQueries({ queryKey: ["postGet"] });
+
       toast({
         title: "文章更新成功",
         description: "已成功更新文章内容",
@@ -85,9 +126,7 @@ export default function EditPostPage() {
   });
 
   function onSubmit(data: UpdatePostData) {
-    updatePostMutation.mutate({
-      body: data,
-    });
+    updatePostMutation.mutate(data);
   }
 
   if (isLoading) {
@@ -159,8 +198,8 @@ export default function EditPostPage() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="DRAFT">草稿</SelectItem>
-                    <SelectItem value="PUBLISHED">已发布</SelectItem>
+                    <SelectItem value="draft">草稿</SelectItem>
+                    <SelectItem value="published">已发布</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

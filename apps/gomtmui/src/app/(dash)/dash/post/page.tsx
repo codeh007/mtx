@@ -2,7 +2,7 @@
 
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { postListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import { DataTable } from "mtxuilib/data-table/data-table";
@@ -14,6 +14,7 @@ export default function PostPage() {
   const router = useRouter();
   const { toast } = useToast();
   const tid = useTenantId();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch } = useQuery({
     ...postListOptions({
@@ -26,6 +27,11 @@ export default function PostPage() {
 
   const posts = data?.rows || [];
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ["postList"] });
+    refetch();
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -36,7 +42,7 @@ export default function PostPage() {
         </Button>
       </div>
 
-      <DataTable columns={Columns} data={posts} isLoading={isLoading} onRefresh={() => refetch()} />
+      <DataTable columns={Columns} data={posts} isLoading={isLoading} onRefresh={handleRefresh} />
     </div>
   );
 }

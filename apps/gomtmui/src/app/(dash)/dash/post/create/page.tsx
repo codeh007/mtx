@@ -3,7 +3,7 @@
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postCreateMutation, siteListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { ApiErrors } from "mtmaiapi/gomtmapi/types.gen";
 import { zCreatePostRequest } from "mtmaiapi/gomtmapi/zod.gen";
@@ -20,6 +20,7 @@ export default function CreatePostPage() {
   const router = useRouter();
   const { toast } = useToast();
   const tid = useTenantId();
+  const queryClient = useQueryClient();
   const [errors, setErrors] = useState<ApiErrors | null>(null);
 
   // 获取站点列表
@@ -41,7 +42,7 @@ export default function CreatePostPage() {
       content: "",
       slug: "",
       siteId: "",
-      status: "DRAFT",
+      status: "draft",
     },
   });
 
@@ -53,6 +54,9 @@ export default function CreatePostPage() {
     }),
     onError: setErrors,
     onSuccess: () => {
+      // 刷新缓存
+      queryClient.invalidateQueries({ queryKey: ["postList"] });
+
       toast({
         title: "文章创建成功",
         description: "已成功创建新文章",
@@ -153,8 +157,8 @@ export default function CreatePostPage() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="DRAFT">草稿</SelectItem>
-                    <SelectItem value="PUBLISHED">已发布</SelectItem>
+                    <SelectItem value="draft">草稿</SelectItem>
+                    <SelectItem value="published">已发布</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
