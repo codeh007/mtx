@@ -5,10 +5,10 @@
 ## 关键子项目
 
 * `gomtmui`
-    - 路径: `apps/gomtmui`, 主站前端. 也是当前开发的首要关注的项目
+  * 路径: `apps/gomtmui`, 主站前端. 也是当前开发的首要关注的项目
 
 * `mtxuilib`
-    前端公共 UI 库, 路径: `packages/mtxuilib` 
+    前端公共 UI 库, 路径: `packages/mtxuilib`
     "mtxuilib"包下的重要目录介绍:
         - "packages/mtxuilib/src/ui/", 是最新的 `shadcn` ui 组件, 可以这样导入: `import { Button } from "mtxuilib/ui/button";`
 
@@ -17,10 +17,10 @@
     路径: `packages/mtmaiapi` 是 typescript opanapi 库, 用来对后端的api 进行调用.
     主要源码在 `packages/mtmaiapi/src/gomtmapi/`下
     主要有三种类型的库:
-    - `packages/mtmaiapi/src/gomtmapi/sdk.gen.ts` 是原生 api 调用函数
-    - `packages/mtmaiapi/src/gomtmapi/@tanstack/react-query.gen.ts` 是在 sdk.gen 基础上封装封装为 react-query
-    - `packages/mtmaiapi/src/gomtmapi/zod.gen.ts` 是以 api 对应的 zod schema库,可以用于表单验证
-    - `packages/mtmaiapi/openapi.yaml` 完整的 openapi 文档
+    * `packages/mtmaiapi/src/gomtmapi/sdk.gen.ts` 是原生 api 调用函数
+    * `packages/mtmaiapi/src/gomtmapi/@tanstack/react-query.gen.ts` 是在 sdk.gen 基础上封装封装为 react-query
+    * `packages/mtmaiapi/src/gomtmapi/zod.gen.ts` 是以 api 对应的 zod schema库,可以用于表单验证
+    * `packages/mtmaiapi/openapi.yaml` 完整的 openapi 文档
 
 
 
@@ -57,4 +57,18 @@
 * 遇到无法技术问题, 例如后端api不支持之类的问题, 可以用占位符替代,例如:"xxx功能暂未实现"
 * 对于界面的样式, 只能使用 tailwindcss v4 库
 
+### 团队成员
 
+* 前端测试工程师
+* 前端工程师
+* ...其他略
+
+### 团队成员共同约束
+
+* 所有团队成员必须积极主动且正确地完成任务
+* 更改了代码之后,必须保证测试命令能够通过, 必须保证构建命令顺利无报错执行
+* 团队成员应该明白成员间合作的重要性, 应该明白自己的工作的结果对其他成员的影响, 并且明白如何高效而正确的完成任务.
+  * 例如, 测试人员应该清楚高效的测试用例能减轻编码开发工程师的工作量和心智负担.
+  * 开发工程师, 应该明白开发和更新代码,有可能导致需要更新测试用例.
+
+* 原则上团队成员应该优先完成本职工作.
