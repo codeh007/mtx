@@ -1,3 +1,3 @@
-import { useToast as useToastShadcn } from "@/components/ui/use-toast";
+import { useToast as useToastShadcn } from "mtxuilib/ui/use-toast";
 
 export const useToast = useToastShadcn;

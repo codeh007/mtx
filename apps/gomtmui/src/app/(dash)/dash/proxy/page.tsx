@@ -1,11 +1,10 @@
 "use client";
 
-import { DataTable } from "@/components/data-table";
 import { useTenantId } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/useToast";
 import { useQuery } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Heading, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { proxyListOptions } from "mtmaiapi/gomtmapi/@tanstack/react-query.gen";
 import type { Proxy as ProxyType } from "mtmaiapi/gomtmapi/types.gen";
 import { formatDate } from "mtxuilib/lib/utils";
@@ -57,7 +56,7 @@ export default function ProxyPage() {
       accessorKey: "enabled",
       header: "状态",
       cell: ({ row }) => (
-        <Badge variant={row.original.enabled ? "success" : "destructive"}>
+        <Badge variant={row.original.enabled ? "successful" : "failed"}>
           {row.original.enabled ? "启用" : "禁用"}
         </Badge>
       ),
@@ -72,7 +71,7 @@ export default function ProxyPage() {
     {
       accessorKey: "createdAt",
       header: "创建时间",
-      cell: ({ row }) => <div>{formatDate(row.original.createdAt)}</div>,
+      cell: ({ row }) => <div>{formatDate(row.original.createdAt || 0)}</div>,
     },
     {
       id: "actions",
@@ -91,23 +90,13 @@ export default function ProxyPage() {
   return (
     <div className="flex-col">
       <div className="flex items-center justify-between">
-        <Heading title="代理服务器" description="管理代理服务器" />
+        {/* <Heading title="代理服务器" description="管理代理服务器" /> */}
         <Button onClick={() => router.push("/dash/proxy/new")}>
           <Plus className="mr-2 h-4 w-4" />
           添加代理
         </Button>
       </div>
       <Separator className="my-4" />
-      <DataTable
-        columns={columns}
-        data={data?.proxies || []}
-        isLoading={isLoading}
-        pageCount={Math.ceil((data?.proxies?.length || 0) / pageSize)}
-        pageIndex={pageIndex}
-        pageSize={pageSize}
-        onPageIndexChange={setPageIndex}
-        onPageSizeChange={setPageSize}
-      />
     </div>
   );
 }

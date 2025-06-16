@@ -1,9 +1,9 @@
+// import useClickOutside from "mtxuilib/hooks/useClickOutside";
 import { X } from "@phosphor-icons/react";
 import { cn } from "mtxuilib/lib/utils";
-import { useEffect, useRef } from "react";
-import useClickOutside from "../../hooks/useClickOutside";
-import { Button } from "../button/Button";
-import { Card } from "../card/Card";
+import { Button } from "mtxuilib/ui/button";
+import { Card } from "mtxuilib/ui/card";
+import { useEffect } from "react";
 
 type ModalProps = {
   className?: string;
@@ -20,9 +20,7 @@ export const Modal = ({
   isOpen,
   onClose,
 }: ModalProps) => {
-  const modalRef = clickOutsideToClose
-    ? useClickOutside(onClose)
-    : useRef<HTMLDivElement>(null);
+  // const modalRef = clickOutsideToClose ? useClickOutside(onClose) : useRef<HTMLDivElement>(null);
 
   // Stop site overflow when modal is open
   useEffect(() => {
