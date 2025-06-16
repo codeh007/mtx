@@ -25,6 +25,9 @@
     "build_vite_dev": "vite build --config vite.config.dev.js",
     "build:types": "vite build --types",
     "serve": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:watch": "vitest --watch",
     "db:gen": "drizzle-kit generate",
     "db:migrate": "bun run withEnv && bun run src/db/migrate.ts",
     "db:push": "bun run withEnv -- drizzle-kit push",
@@ -187,6 +190,9 @@
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.0.7",
     "@tanstack/router-cli": "^1.116.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/bun": "^1.1.6",
     "@types/cors": "^2.8.17",
     "@types/diff": "^5.2.1",
@@ -208,6 +214,7 @@
     "dotenv-cli": "^7.4.2",
     "drizzle-kit": "^0.30.1",
     "eventsource-parser": "^0.1.0",
+    "jsdom": "^26.1.0",
     "playwright": "1.49.1",
     "postcss": "^8.5.3",
     "postcss-preset-env": "^10.1.4",
@@ -230,7 +237,8 @@
     "typescript": "^5.7",
     "unist-util-visit": "^4.1.2",
     "vite": "^6.2.5",
-    "vite-plugin-ssr": "^0.4.142"
+    "vite-plugin-ssr": "^0.4.142",
+    "vitest": "^3.2.3"
   },
   "other": {
     "agents": "^0.0.60",
