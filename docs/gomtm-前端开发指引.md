@@ -37,6 +37,14 @@
 
 ### 常用工具安装
 
+* gomtm 后端测试工具
+
+  * [安装] `sudo npm i -g gomtm-cli`
+
+  * [使用] `gomtm --help`
+  
+  * [启动本地测试服务器] `gomtm -L`, 将在本地环境自动测试用途的 gomtm api server, 使用内嵌的postgresql 数据库,每次启动,都是全新初始化的数据, 对于前端测试来说,是非常有用的工具.
+
 * `bun`, 方式1: `npm i -g bun` , 方式2: `curl -fsSL https://bun.sh/install | bash`
 
 ### openapi
