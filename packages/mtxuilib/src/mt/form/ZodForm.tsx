@@ -27,25 +27,25 @@ import { ConformDeleteBtn } from "./deleteConform";
 export type UseZodForm<TInput extends FieldValues> = UseFormReturn<TInput> & {
   id: string;
 };
+// export function useZodForm<TSchema extends z.ZodType>(
+//   props: Omit<UseFormProps<TSchema["_input"]>, "resolver"> & {
+//     schema?: TSchema;
+//   },
+// ) {
+//   const resolver = zodResolver(props.schema || z.any(), undefined, {
+//     raw: true,
+//   });
+//   const formId = useId();
+//   const form = useForm<TSchema["_input"]>({
+//     ...props,
+//     resolver: resolver,
+//   }) as UseZodForm<TSchema["_input"]>;
+
+//   form.id = formId;
+//   return form;
+// }
+
 export function useZodForm<TSchema extends z.ZodType>(
-  props: Omit<UseFormProps<TSchema["_input"]>, "resolver"> & {
-    schema?: TSchema;
-  },
-) {
-  const resolver = zodResolver(props.schema || z.any(), undefined, {
-    raw: true,
-  });
-  const formId = useId();
-  const form = useForm<TSchema["_input"]>({
-    ...props,
-    resolver: resolver,
-  }) as UseZodForm<TSchema["_input"]>;
-
-  form.id = formId;
-  return form;
-}
-
-export function useZodFormV2<TSchema extends z.ZodType>(
   props: Omit<UseFormProps<TSchema["_input"]>, "resolver"> & {
     schema?: TSchema;
     handleSubmit: SubmitHandler<TSchema["_input"]>;
@@ -117,7 +117,7 @@ export const ZFormToolbar = forwardRef<
     /**
      * Optionally specify a form to submit instead of the closest form context.
      */
-    form?: UseZodForm<any>;
+    form?: UseZodForm<FieldValues>;
     submitText?: string;
     enableCancelConform?: boolean;
     enableDeleteButton?: boolean;
