@@ -5,21 +5,17 @@ package handler
 ***************************************************************/
 
 import (
-	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/codeh007/gomtm/mtm/server"
 )
 
-var serverApp *server.MtmBaseApp
+var httpHandler http.Handler
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	if serverApp == nil {
-		serverApp = server.NewMtmBaseApp(&server.MtmAppOptions{})
-		if err := serverApp.SetupBase(context.Background()); err != nil {
-			panic(fmt.Errorf("serverApp.SetupBase error: %w", err))
-		}
+	if httpHandler == nil {
+		httpHandler = server.NewVercelApiHttpHandler()
 	}
-	serverApp.ServeHTTP(w, r)
+	//
+	httpHandler.ServeHTTP(w, r)
 }
