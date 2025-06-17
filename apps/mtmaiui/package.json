@@ -202,7 +202,7 @@
     "shadcn": "^2.3.0",
     "shiki": "^1.9.1",
     "socket.io-client": "^4.8.1",
-    "tailwind-merge": "^3.0.2",
+    "tailwind-merge": "^3.3.1",
     "tailwind-scrollbar": "^3.1.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^4.1.5",

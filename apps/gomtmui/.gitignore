@@ -1,9 +1,16 @@
+
+
+
 .dev.vars
 .dev.vars.local
 wrangler.jsonc
 .wrangler
 *.env
 .env.*
+
+# testing
+playwright-report/
+test-results/
 
 # Logs
 logs
