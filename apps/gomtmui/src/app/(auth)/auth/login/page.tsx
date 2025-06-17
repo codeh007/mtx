@@ -64,7 +64,7 @@ export default function LoginPage() {
 				<div className="grid gap-2">
 					<Label htmlFor="email">邮箱</Label>
 					<Input
-						{...form.form.register("email")}
+						{...form.register("email")}
 						id="email"
 						placeholder="name@example.com"
 						type="email"
@@ -77,7 +77,7 @@ export default function LoginPage() {
 				<div className="grid gap-2">
 					<Label htmlFor="password">密码</Label>
 					<Input
-						{...form.form.register("password")}
+						{...form.register("password")}
 						id="password"
 						placeholder="请输入密码"
 						type="password"
