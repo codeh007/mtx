@@ -9,7 +9,8 @@ tests/integration/
 ├── README.md           # 本文档
 ├── home.spec.ts        # 首页功能测试
 ├── navigation.spec.ts  # 导航功能测试
-└── layout.spec.ts      # 布局和响应式测试
+├── layout.spec.ts      # 布局和响应式测试
+└── auth-login.spec.ts  # 用户后台登录页测试
 ```
 
 ## 运行测试
@@ -74,6 +75,18 @@ bun run test:integration --project=chromium
 - ✅ 页面滚动
 - ✅ z-index层级
 - ✅ 语义化HTML
+
+### 4. 用户后台登录页测试 (auth-login.spec.ts)
+- ✅ 登录页面正确加载
+- ✅ 核心元素显示验证
+- ✅ 登录表单元素验证
+- ✅ 表单交互测试
+- ✅ 页面布局结构验证
+- ✅ 移动端响应式测试
+- ✅ 键盘导航支持
+- ✅ 返回首页链接验证
+- ✅ 登录页面截图测试
+- ✅ 移动端截图测试
 
 ## 浏览器支持
 
