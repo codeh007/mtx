@@ -110,6 +110,9 @@ import type {
   SiteCreateData,
   SiteCreateResponse,
   SiteCreateError,
+  SiteDeleteData,
+  SiteDeleteResponse,
+  SiteDeleteError,
   SiteGetData,
   SiteGetResponse,
   SiteGetError,
@@ -1292,6 +1295,34 @@ export const siteCreate = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Delete site
+ * Delete a site
+ */
+export const siteDelete = <ThrowOnError extends boolean = false>(
+  options: Options<SiteDeleteData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    SiteDeleteResponse,
+    SiteDeleteError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+      {
+        in: "cookie",
+        name: "hatchet",
+        type: "apiKey",
+      },
+    ],
+    url: "/api/v1/tenants/{tenant}/sites/{site}",
+    ...options,
+  });
+};
+
+/**
  * Get the site for the tenant
  */
 export const siteGet = <ThrowOnError extends boolean = false>(
@@ -1315,7 +1346,7 @@ export const siteGet = <ThrowOnError extends boolean = false>(
 };
 
 /**
- * Update tenant
+ * Update site
  * Update an existing site
  */
 export const siteUpdate = <ThrowOnError extends boolean = false>(

@@ -3080,6 +3080,48 @@ export type SiteCreateResponses = {
 
 export type SiteCreateResponse = SiteCreateResponses[keyof SiteCreateResponses];
 
+export type SiteDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * The tenant id
+     */
+    tenant: TenantParameter;
+    /**
+     * The site id
+     */
+    site: string;
+  };
+  query?: never;
+  url: "/api/v1/tenants/{tenant}/sites/{site}";
+};
+
+export type SiteDeleteErrors = {
+  /**
+   * Bad request
+   */
+  400: ApiErrors;
+  /**
+   * Forbidden
+   */
+  403: ApiErrors;
+  /**
+   * Site not found
+   */
+  404: ApiErrors;
+};
+
+export type SiteDeleteError = SiteDeleteErrors[keyof SiteDeleteErrors];
+
+export type SiteDeleteResponses = {
+  /**
+   * Site deleted successfully
+   */
+  204: void;
+};
+
+export type SiteDeleteResponse = SiteDeleteResponses[keyof SiteDeleteResponses];
+
 export type SiteGetData = {
   body?: never;
   path: {

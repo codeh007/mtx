@@ -43,6 +43,7 @@ import {
   eventPush,
   siteList,
   siteCreate,
+  siteDelete,
   siteGet,
   siteUpdate,
   siteGetByHost,
@@ -187,6 +188,9 @@ import type {
   SiteCreateData,
   SiteCreateError,
   SiteCreateResponse,
+  SiteDeleteData,
+  SiteDeleteError,
+  SiteDeleteResponse,
   SiteGetData,
   SiteUpdateData,
   SiteUpdateError,
@@ -1355,6 +1359,24 @@ export const siteCreateMutation = (options?: Partial<Options<SiteCreateData>>) =
   > = {
     mutationFn: async (localOptions) => {
       const { data } = await siteCreate({
+        ...options,
+        ...localOptions,
+        throwOnError: true,
+      });
+      return data;
+    },
+  };
+  return mutationOptions;
+};
+
+export const siteDeleteMutation = (options?: Partial<Options<SiteDeleteData>>) => {
+  const mutationOptions: UseMutationOptions<
+    SiteDeleteResponse,
+    SiteDeleteError,
+    Options<SiteDeleteData>
+  > = {
+    mutationFn: async (localOptions) => {
+      const { data } = await siteDelete({
         ...options,
         ...localOptions,
         throwOnError: true,

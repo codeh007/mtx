@@ -1319,6 +1319,8 @@ export const zSiteListResponse = zSiteList;
 
 export const zSiteCreateResponse = zSite;
 
+export const zSiteDeleteResponse = z.void();
+
 export const zSiteGetResponse = zSite;
 
 export const zSiteUpdateResponse = zSite;
