@@ -1,7 +1,7 @@
 import "@xterm/xterm/css/xterm.css";
 import { frontendGetConfig, initMtiaiClient } from "mtmaiapi";
-import { MtmaiuiLoaderScript } from "mtmaiui/components/MtmaiuiLoader";
-import { MtmaiProvider } from "mtmaiui/stores/StoreProvider";
+// import { MtmaiuiLoaderScript } from "mtmaiui/components/MtmaiuiLoader";
+import { MtmaiProvider } from "mtmaiui/stores/MtmaiProvider";
 import { UIProviders } from "mtmaiui/stores/UIProviders";
 import { ThemeHeaderScript } from "mtxuilib/components/themes/ThemeProvider";
 import { fontSans } from "mtxuilib/fonts";
@@ -54,21 +54,29 @@ export default async function Layout(props: {
 }) {
   const { children } = props;
   const hostName = (await headers()).get("host");
-  initMtiaiClient();
-  const frontendConfigResponse = await frontendGetConfig({});
-  const backendUrl = process.env.MTMAI_BACKEND;
+  const backendUrl = process.env.MTMAI_BACKEND || "http://localhost:3000";
+  initMtiaiClient({ baseUrl: backendUrl });
+  
+  let frontendConfigResponse;
   let accessToken: string | undefined = undefined;
-  if (frontendConfigResponse.data?.cookieAccessToken) {
-    accessToken = (await cookies()).get(
-      frontendConfigResponse.data?.cookieAccessToken,
-    )?.value;
+  
+  try {
+    frontendConfigResponse = await frontendGetConfig({});
+    if (frontendConfigResponse.data?.cookieAccessToken) {
+      accessToken = (await cookies()).get(
+        frontendConfigResponse.data?.cookieAccessToken,
+      )?.value;
+    }
+  } catch (error) {
+    console.warn("Failed to get frontend config:", error);
+    frontendConfigResponse = { data: null };
   }
 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeHeaderScript />
-        <MtmaiuiLoaderScript uiUrl={process.env.MTMAIUI_URL} />
+        {/* <MtmaiuiLoaderScript uiUrl={process.env.MTMAIUI_URL} /> */}
       </head>
       <body
         className={cn(

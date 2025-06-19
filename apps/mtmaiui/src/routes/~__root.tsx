@@ -1,5 +1,5 @@
 "use client";
-import { useTenantId } from "@mtmaiui/hooks/useAuth";
+import { useTenantId } from "../hooks/useAuth";
 import type { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { UserFAB } from "../components/UserFAB";
