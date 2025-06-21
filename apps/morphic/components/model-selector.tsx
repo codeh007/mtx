@@ -1,72 +1,75 @@
-'use client'
+"use client";
 
-import { Model } from '@/lib/types/models'
-import { getCookie, setCookie } from '@/lib/utils/cookies'
-import { isReasoningModel } from '@/lib/utils/registry'
-import { Check, ChevronsUpDown, Lightbulb } from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { createModelId } from '../lib/utils'
-import { Button } from './ui/button'
+import type { Model } from "@/lib/types/models";
+import { createModelId } from "@/lib/utils";
+import { getCookie, setCookie } from "@/lib/utils/cookies";
+import { isReasoningModel } from "@/lib/utils/registry";
+import { Check, ChevronsUpDown, Lightbulb } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
-} from './ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+  CommandList,
+} from "./ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 function groupModelsByProvider(models: Model[]) {
   return models
-    .filter(model => model.enabled)
-    .reduce((groups, model) => {
-      const provider = model.provider
-      if (!groups[provider]) {
-        groups[provider] = []
-      }
-      groups[provider].push(model)
-      return groups
-    }, {} as Record<string, Model[]>)
+    .filter((model) => model.enabled)
+    .reduce(
+      (groups, model) => {
+        const provider = model.provider;
+        if (!groups[provider]) {
+          groups[provider] = [];
+        }
+        groups[provider].push(model);
+        return groups;
+      },
+      {} as Record<string, Model[]>,
+    );
 }
 
 interface ModelSelectorProps {
-  models: Model[]
+  models: Model[];
 }
 
 export function ModelSelector({ models }: ModelSelectorProps) {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState('')
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
-    const savedModel = getCookie('selectedModel')
+    const savedModel = getCookie("selectedModel");
     if (savedModel) {
       try {
-        const model = JSON.parse(savedModel) as Model
-        setValue(createModelId(model))
+        const model = JSON.parse(savedModel) as Model;
+        setValue(createModelId(model));
       } catch (e) {
-        console.error('Failed to parse saved model:', e)
+        console.error("Failed to parse saved model:", e);
       }
     }
-  }, [])
+  }, []);
 
   const handleModelSelect = (id: string) => {
-    const newValue = id === value ? '' : id
-    setValue(newValue)
-    
-    const selectedModel = models.find(model => createModelId(model) === newValue)
-    if (selectedModel) {
-      setCookie('selectedModel', JSON.stringify(selectedModel))
-    } else {
-      setCookie('selectedModel', '')
-    }
-    
-    setOpen(false)
-  }
+    const newValue = id === value ? "" : id;
+    setValue(newValue);
 
-  const selectedModel = models.find(model => createModelId(model) === value)
-  const groupedModels = groupModelsByProvider(models)
+    const selectedModel = models.find((model) => createModelId(model) === newValue);
+    if (selectedModel) {
+      setCookie("selectedModel", JSON.stringify(selectedModel));
+    } else {
+      setCookie("selectedModel", "");
+    }
+
+    setOpen(false);
+  };
+
+  const selectedModel = models.find((model) => createModelId(model) === value);
+  const groupedModels = groupModelsByProvider(models);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -92,7 +95,7 @@ export function ModelSelector({ models }: ModelSelectorProps) {
               )}
             </div>
           ) : (
-            'Select model'
+            "Select model"
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -104,8 +107,8 @@ export function ModelSelector({ models }: ModelSelectorProps) {
             <CommandEmpty>No model found.</CommandEmpty>
             {Object.entries(groupedModels).map(([provider, models]) => (
               <CommandGroup key={provider} heading={provider}>
-                {models.map(model => {
-                  const modelId = createModelId(model)
+                {models.map((model) => {
+                  const modelId = createModelId(model);
                   return (
                     <CommandItem
                       key={modelId}
@@ -121,17 +124,13 @@ export function ModelSelector({ models }: ModelSelectorProps) {
                           height={18}
                           className="bg-white rounded-full border"
                         />
-                        <span className="text-xs font-medium">
-                          {model.name}
-                        </span>
+                        <span className="text-xs font-medium">{model.name}</span>
                       </div>
                       <Check
-                        className={`h-4 w-4 ${
-                          value === modelId ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`h-4 w-4 ${value === modelId ? "opacity-100" : "opacity-0"}`}
                       />
                     </CommandItem>
-                  )
+                  );
                 })}
               </CommandGroup>
             ))}
@@ -139,5 +138,5 @@ export function ModelSelector({ models }: ModelSelectorProps) {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
