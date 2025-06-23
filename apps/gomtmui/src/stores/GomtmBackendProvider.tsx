@@ -3,12 +3,11 @@
 import { getAppConfig } from "@/lib/config";
 import { cookies } from "next/headers";
 import { MtmaiProvider } from "./MtmaiProvider";
-import { MtSuspenseBoundary } from "mtxuilib/components/MtSuspenseBoundary";
 import { UIProviders } from "./UIProviders";
 
 /**
  * 运行在 nextjs 后端,用于初始化后端的必要状态
- *
+ * 特别是对于SSR 的情况下 cookies 的初始化
  *
  */
 
@@ -25,7 +24,7 @@ export const GomtmBackendProvider = async ({
 			config={config}
 		>
 			<UIProviders>
-				<MtSuspenseBoundary>{children}</MtSuspenseBoundary>
+				{children}
 			</UIProviders>
 		</MtmaiProvider>
 	);
